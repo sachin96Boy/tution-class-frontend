@@ -20,7 +20,7 @@ function SideBar() {
           bg={"#E6F1FF"}
           rounded="2xl"
           border="20px"
-          ml={10}
+          ml={8}
         >
           <Flex align={"center"} justify="center" gap={2} mx={8} my={2}>
             <Box
@@ -208,6 +208,7 @@ function SideBar() {
               align={"center"}
               justify="center"
               color="white"
+              mt={"80"}
               _hover={{
                 color: "#F4BB4E",
                 cursor: "pointer",
