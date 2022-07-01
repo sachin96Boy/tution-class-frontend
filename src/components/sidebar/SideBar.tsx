@@ -5,6 +5,7 @@ import { GiBookshelf } from "react-icons/gi";
 import { BsHeadset } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 function SideBar() {
   const [dashboard, setDashboard] = useState(false);
@@ -12,6 +13,8 @@ function SideBar() {
   const [support, setSupport] = useState(false);
   const [myAccount, setMyAccount] = useState(false);
   const [logOut, setLogout] = useState(false);
+  const navigate = useNavigate();
+
   return (
     <Box bg={"white"} h="calc(100vh-100px)">
       <Flex direction={"column"} justifyContent="space-between" gap={5}>
@@ -91,11 +94,11 @@ function SideBar() {
                   setSupport(false);
                   setMyAccount(false);
                   setLogout(false);
+                  navigate("/");
                 }}
               >
                 <MdDashboard />
                 <Text
-                  color={"white"}
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
@@ -126,11 +129,11 @@ function SideBar() {
                   setSupport(false);
                   setMyAccount(false);
                   setLogout(false);
+                  navigate("/myCourses");
                 }}
               >
                 <GiBookshelf />
                 <Text
-                  color={"white"}
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
@@ -161,11 +164,11 @@ function SideBar() {
                   setMyCourse(false);
                   setMyAccount(false);
                   setLogout(false);
+                  navigate("/support");
                 }}
               >
                 <BsHeadset />
                 <Text
-                  color={"white"}
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
@@ -196,11 +199,11 @@ function SideBar() {
                   setMyCourse(false);
                   setSupport(false);
                   setLogout(false);
+                  navigate("/myaccount");
                 }}
               >
                 <FaUser />
                 <Text
-                  color={"white"}
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
@@ -238,7 +241,6 @@ function SideBar() {
               >
                 <FiLogOut />
                 <Text
-                  color={"white"}
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
