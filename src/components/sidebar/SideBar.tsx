@@ -1,4 +1,4 @@
-import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
+import { Avatar, Box, Flex, Spacer, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { MdDashboard } from "react-icons/md";
 import { GiBookshelf } from "react-icons/gi";
@@ -14,13 +14,13 @@ function SideBar() {
   const [logOut, setLogout] = useState(false);
   return (
     <Box bg={"white"} h="calc(100vh-100px)">
-      <Flex direction={"column"} gap={5}>
+      <Flex direction={"column"} justifyContent="space-between" gap={5}>
         <Box
           className="profileViwer"
           bg={"#E6F1FF"}
           rounded="2xl"
           border="20px"
-          ml={8}
+          ml={4}
         >
           <Flex align={"center"} justify="center" gap={2} mx={8} my={2}>
             <Box
@@ -58,184 +58,190 @@ function SideBar() {
           className="menu-section"
           borderTopRightRadius={"75px"}
           bg="linear-gradient(94.5deg, #313C6A 0.53%, #205EAA 99.79%)"
-          h={"full"}
+          h={'80vh'}
         >
           <Flex
             align={"start"}
             gap={5}
-            justify="center"
+            justify="space-between"
             flexDirection={"column"}
-            ml={16}
+            ml={10}
             my={5}
           >
-            <Flex
-              align={"center"}
-              justify="center"
-              color="white"
-              _hover={{
-                color: "#F4BB4E",
-                cursor: "pointer",
-                fontcolor: "#F4BB4E",
-              }}
-              bg={
-                dashboard
-                  ? "linear-gradient(90deg, #0776FF 0%, #225498 100%)"
-                  : ""
-              }
-              onClick={() => {
-                setDashboard(!dashboard);
-                setMyCourse(false);
-                setSupport(false);
-                setMyAccount(false);
-                setLogout(false);
-              }}
-            >
-              <MdDashboard />
-              <Text
-                color={"white"}
-                ml={2}
-                fontFamily={"body"}
-                fontSize="18px"
-                fontWeight={"600"}
-                _hover={{ color: "#F4BB4E" }}
+            <Flex direction={"column"} justify="center" align={"start"} gap={5}>
+              <Flex
+                align={"center"}
+                justify="center"
+                color="white"
+                _hover={{
+                  color: "#F4BB4E",
+                  cursor: "pointer",
+                  fontcolor: "#F4BB4E",
+                }}
+                bg={
+                  dashboard
+                    ? "linear-gradient(90deg, #0776FF 0%, #225498 100%)"
+                    : ""
+                }
+                onClick={() => {
+                  setDashboard(!dashboard);
+                  setMyCourse(false);
+                  setSupport(false);
+                  setMyAccount(false);
+                  setLogout(false);
+                }}
               >
-                Dashboard
-              </Text>
+                <MdDashboard />
+                <Text
+                  color={"white"}
+                  ml={2}
+                  fontFamily={"body"}
+                  fontSize="18px"
+                  fontWeight={"600"}
+                  _hover={{ color: "#F4BB4E" }}
+                >
+                  Dashboard
+                </Text>
+              </Flex>
+              <Flex
+                align={"center"}
+                justify="center"
+                color="white"
+                _hover={{
+                  color: "#F4BB4E",
+                  cursor: "pointer",
+                  fontcolor: "#F4BB4E",
+                }}
+                bg={
+                  mycourse
+                    ? "linear-gradient(90deg, #0776FF 0%, #225498 100%)"
+                    : ""
+                }
+                onClick={() => {
+                  setMyCourse(!mycourse);
+                  setDashboard(false);
+                  setSupport(false);
+                  setMyAccount(false);
+                  setLogout(false);
+                }}
+              >
+                <GiBookshelf />
+                <Text
+                  color={"white"}
+                  ml={2}
+                  fontFamily={"body"}
+                  fontSize="18px"
+                  fontWeight={"600"}
+                  _hover={{ color: "#F4BB4E" }}
+                >
+                  My Courses
+                </Text>
+              </Flex>
+              <Flex
+                align={"center"}
+                justify="center"
+                color="white"
+                _hover={{
+                  color: "#F4BB4E",
+                  cursor: "pointer",
+                  fontcolor: "#F4BB4E",
+                }}
+                bg={
+                  support
+                    ? "linear-gradient(90deg, #0776FF 0%, #225498 100%)"
+                    : ""
+                }
+                onClick={() => {
+                  setSupport(!support);
+                  setDashboard(false);
+                  setMyCourse(false);
+                  setMyAccount(false);
+                  setLogout(false);
+                }}
+              >
+                <BsHeadset />
+                <Text
+                  color={"white"}
+                  ml={2}
+                  fontFamily={"body"}
+                  fontSize="18px"
+                  fontWeight={"600"}
+                  _hover={{ color: "#F4BB4E" }}
+                >
+                  Support
+                </Text>
+              </Flex>
+              <Flex
+                align={"center"}
+                justify="center"
+                color="white"
+                _hover={{
+                  color: "#F4BB4E",
+                  cursor: "pointer",
+                  fontcolor: "#F4BB4E",
+                }}
+                bg={
+                  myAccount
+                    ? "linear-gradient(90deg, #0776FF 0%, #225498 100%)"
+                    : ""
+                }
+                onClick={() => {
+                  setMyAccount(!myAccount);
+                  setDashboard(false);
+                  setMyCourse(false);
+                  setSupport(false);
+                  setLogout(false);
+                }}
+              >
+                <FaUser />
+                <Text
+                  color={"white"}
+                  ml={2}
+                  fontFamily={"body"}
+                  fontSize="18px"
+                  fontWeight={"600"}
+                  _hover={{ color: "#F4BB4E" }}
+                >
+                  My Account
+                </Text>
+              </Flex>
             </Flex>
-            <Flex
-              align={"center"}
-              justify="center"
-              color="white"
-              _hover={{
-                color: "#F4BB4E",
-                cursor: "pointer",
-                fontcolor: "#F4BB4E",
-              }}
-              bg={
-                mycourse
-                  ? "linear-gradient(90deg, #0776FF 0%, #225498 100%)"
-                  : ""
-              }
-              onClick={() => {
-                setMyCourse(!mycourse);
-                setDashboard(false);
-                setSupport(false);
-                setMyAccount(false);
-                setLogout(false);
-              }}
-            >
-              <GiBookshelf />
-              <Text
-                color={"white"}
-                ml={2}
-                fontFamily={"body"}
-                fontSize="18px"
-                fontWeight={"600"}
-                _hover={{ color: "#F4BB4E" }}
+            <Spacer />
+            <Flex direction={"column"} justify="center" align={"start"} mt='72'>
+              <Flex
+                align={"center"}
+                justify="center"
+                color="white"
+                _hover={{
+                  color: "#F4BB4E",
+                  cursor: "pointer",
+                  fontcolor: "#F4BB4E",
+                }}
+                bg={
+                  logOut
+                    ? "linear-gradient(90deg, #0776FF 0%, #225498 100%)"
+                    : ""
+                }
+                onClick={() => {
+                  setLogout(!logOut);
+                  setDashboard(false);
+                  setMyCourse(false);
+                  setSupport(false);
+                  setMyAccount(false);
+                }}
               >
-                My Courses
-              </Text>
-            </Flex>
-            <Flex
-              align={"center"}
-              justify="center"
-              color="white"
-              _hover={{
-                color: "#F4BB4E",
-                cursor: "pointer",
-                fontcolor: "#F4BB4E",
-              }}
-              bg={
-                support
-                  ? "linear-gradient(90deg, #0776FF 0%, #225498 100%)"
-                  : ""
-              }
-              onClick={() => {
-                setSupport(!support);
-                setDashboard(false);
-                setMyCourse(false);
-                setMyAccount(false);
-                setLogout(false);
-              }}
-            >
-              <BsHeadset />
-              <Text
-                color={"white"}
-                ml={2}
-                fontFamily={"body"}
-                fontSize="18px"
-                fontWeight={"600"}
-                _hover={{ color: "#F4BB4E" }}
-              >
-                Support
-              </Text>
-            </Flex>
-            <Flex
-              align={"center"}
-              justify="center"
-              color="white"
-              _hover={{
-                color: "#F4BB4E",
-                cursor: "pointer",
-                fontcolor: "#F4BB4E",
-              }}
-              bg={
-                myAccount
-                  ? "linear-gradient(90deg, #0776FF 0%, #225498 100%)"
-                  : ""
-              }
-              onClick={() => {
-                setMyAccount(!myAccount);
-                setDashboard(false);
-                setMyCourse(false);
-                setSupport(false);
-                setLogout(false);
-              }}
-            >
-              <FaUser />
-              <Text
-                color={"white"}
-                ml={2}
-                fontFamily={"body"}
-                fontSize="18px"
-                fontWeight={"600"}
-                _hover={{ color: "#F4BB4E" }}
-              >
-                My Account
-              </Text>
-            </Flex>
-            <Flex
-              align={"center"}
-              justify="center"
-              color="white"
-              mt={"80"}
-              _hover={{
-                color: "#F4BB4E",
-                cursor: "pointer",
-                fontcolor: "#F4BB4E",
-              }}
-              bg={
-                logOut ? "linear-gradient(90deg, #0776FF 0%, #225498 100%)" : ""
-              }
-              onClick={() => {
-                setLogout(!logOut);
-                setDashboard(false);
-                setMyCourse(false);
-                setSupport(false);
-                setMyAccount(false);
-              }}
-            >
-              <FiLogOut />
-              <Text
-                color={"white"}
-                ml={2}
-                fontFamily={"body"}
-                fontSize="18px"
-                fontWeight={"600"}
-                _hover={{ color: "#F4BB4E" }}
-              >
-                Logout
-              </Text>
+                <FiLogOut />
+                <Text
+                  color={"white"}
+                  ml={2}
+                  fontFamily={"body"}
+                  fontSize="18px"
+                  fontWeight={"600"}
+                  _hover={{ color: "#F4BB4E" }}
+                >
+                  Logout
+                </Text>
+              </Flex>
             </Flex>
           </Flex>
         </Box>

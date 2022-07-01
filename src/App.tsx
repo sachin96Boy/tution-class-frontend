@@ -3,6 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/header/Header";
 import SideBar from "./components/sidebar/SideBar";
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
@@ -33,6 +34,8 @@ function App() {
           >
             <Routes>
               {/* add different routes that need to be loade for different pages */}
+              <Route path="/" element={<HomePage />} />
+              <Route path="/homepage" element={<HomePage />} />
             </Routes>
           </Box>
         </Box>
