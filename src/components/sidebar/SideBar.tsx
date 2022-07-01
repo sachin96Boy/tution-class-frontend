@@ -58,7 +58,7 @@ function SideBar() {
           className="menu-section"
           borderTopRightRadius={"75px"}
           bg="linear-gradient(94.5deg, #313C6A 0.53%, #205EAA 99.79%)"
-          h={'80vh'}
+          h={"80vh"}
         >
           <Flex
             align={"start"}
@@ -211,7 +211,7 @@ function SideBar() {
               </Flex>
             </Flex>
             <Spacer />
-            <Flex direction={"column"} justify="center" align={"start"} mt='20'>
+            <Flex direction={"column"} justify="center" align={"start"} mt="20">
               <Flex
                 align={"center"}
                 justify="center"
@@ -238,7 +238,6 @@ function SideBar() {
                 <FiLogOut />
                 <Text
                   color={"white"}
-                  
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
