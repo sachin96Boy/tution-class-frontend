@@ -124,8 +124,14 @@ function HomePage() {
           w={"830px"}
           mx={2}
         >
-          Sipsa Web අඩඩිය භාවිත කරන ආකාරය හා ඒ් ආශිත තොරතුරු දැනගැනීම සදහා
-          Support පිටුවට පිවිසෙන්න
+          <Text as={"span"} fontFamily="body">
+            Sipsa Web
+          </Text>{" "}
+          අඩඩිය භාවිත කරන ආකාරය හා ඒ් ආශිත තොරතුරු දැනගැනීම සදහා{" "}
+          <Text as={"span"} fontFamily="body">
+            Support
+          </Text>{" "}
+          පිටුවට පිවිසෙන්න
         </Text>
         <Button
           _hover={{
