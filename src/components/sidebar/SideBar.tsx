@@ -65,7 +65,7 @@ function SideBar() {
             gap={5}
             justify="space-between"
             flexDirection={"column"}
-            ml={10}
+            ml={8}
             my={5}
           >
             <Flex direction={"column"} justify="center" align={"start"} gap={5}>
@@ -78,6 +78,7 @@ function SideBar() {
                   cursor: "pointer",
                   fontcolor: "#F4BB4E",
                 }}
+                p={5}
                 bg={
                   dashboard
                     ? "linear-gradient(90deg, #0776FF 0%, #225498 100%)"
@@ -107,6 +108,7 @@ function SideBar() {
                 align={"center"}
                 justify="center"
                 color="white"
+                p={5}
                 _hover={{
                   color: "#F4BB4E",
                   cursor: "pointer",
@@ -140,6 +142,7 @@ function SideBar() {
               <Flex
                 align={"center"}
                 justify="center"
+                p={5}
                 color="white"
                 _hover={{
                   color: "#F4BB4E",
@@ -174,6 +177,7 @@ function SideBar() {
               <Flex
                 align={"center"}
                 justify="center"
+                p={5}
                 color="white"
                 _hover={{
                   color: "#F4BB4E",
@@ -207,10 +211,11 @@ function SideBar() {
               </Flex>
             </Flex>
             <Spacer />
-            <Flex direction={"column"} justify="center" align={"start"} mt='72'>
+            <Flex direction={"column"} justify="center" align={"start"} mt='20'>
               <Flex
                 align={"center"}
                 justify="center"
+                p={5}
                 color="white"
                 _hover={{
                   color: "#F4BB4E",
@@ -233,6 +238,7 @@ function SideBar() {
                 <FiLogOut />
                 <Text
                   color={"white"}
+                  
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
