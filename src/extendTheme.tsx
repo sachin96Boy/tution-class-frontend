@@ -8,7 +8,7 @@ const customTheme = extendTheme(
     fonts: {
       body: "Roboto, system-ui, sans-serif",
       heading: "Roboto, system-ui, sans-serif",
-      sinhala: "Noto Sans Sinhala, sans-serif",
+      fantasy: "Noto Sans Sinhala, sans-serif",
     },
   },
   theme

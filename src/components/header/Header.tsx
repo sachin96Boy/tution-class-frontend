@@ -28,8 +28,9 @@ function Header() {
               background:
                 "linear-gradient(193deg, rgba(244,187,78,1) 0%, rgba(160,109,58,1) 100%)",
             }}
+            boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
           >
-            <Text fontFamily={"body"} color="white">
+            <Text fontFamily={"body"} fontSize="21px" color="white">
               Teacher List
             </Text>
           </Button>

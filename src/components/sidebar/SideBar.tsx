@@ -79,6 +79,7 @@ function SideBar() {
                   fontcolor: "#F4BB4E",
                 }}
                 p={5}
+                borderRadius={"12px"}
                 bg={
                   dashboard
                     ? "linear-gradient(90deg, #0776FF 0%, #225498 100%)"
@@ -108,6 +109,7 @@ function SideBar() {
                 align={"center"}
                 justify="center"
                 color="white"
+                borderRadius={"12px"}
                 p={5}
                 _hover={{
                   color: "#F4BB4E",
@@ -144,6 +146,7 @@ function SideBar() {
                 justify="center"
                 p={5}
                 color="white"
+                borderRadius={"12px"}
                 _hover={{
                   color: "#F4BB4E",
                   cursor: "pointer",
@@ -179,6 +182,7 @@ function SideBar() {
                 justify="center"
                 p={5}
                 color="white"
+                borderRadius={"12px"}
                 _hover={{
                   color: "#F4BB4E",
                   cursor: "pointer",
@@ -217,6 +221,7 @@ function SideBar() {
                 justify="center"
                 p={5}
                 color="white"
+                borderRadius={"12px"}
                 _hover={{
                   color: "#F4BB4E",
                   cursor: "pointer",
