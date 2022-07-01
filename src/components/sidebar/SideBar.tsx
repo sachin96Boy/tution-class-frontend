@@ -100,7 +100,6 @@ function SideBar() {
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
-                  _hover={{ color: "#F4BB4E" }}
                 >
                   Dashboard
                 </Text>
@@ -136,7 +135,6 @@ function SideBar() {
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
-                  _hover={{ color: "#F4BB4E" }}
                 >
                   My Courses
                 </Text>
@@ -172,7 +170,6 @@ function SideBar() {
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
-                  _hover={{ color: "#F4BB4E" }}
                 >
                   Support
                 </Text>
@@ -208,7 +205,6 @@ function SideBar() {
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
-                  _hover={{ color: "#F4BB4E" }}
                 >
                   My Account
                 </Text>
@@ -247,7 +243,6 @@ function SideBar() {
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
-                  _hover={{ color: "#F4BB4E" }}
                 >
                   Logout
                 </Text>
