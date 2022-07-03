@@ -26,8 +26,8 @@ const bannerList: Array<string> = [
 
 function HomePage() {
   return (
-    <Box>
-      <Flex mx={10} gap={20} align={"center"} justify="space-between">
+    <Box w={"full"}>
+      <Flex mx={10} align={"center"} justify="space-between">
         <Flex
           bg={"#E6F1FF"}
           align={"center"}
@@ -87,6 +87,7 @@ function HomePage() {
         </Text>
         <Grid
           flexDir={"row"}
+          alignItems={"center"}
           gap={10}
           px={5}
           rounded="10px"
@@ -145,7 +146,7 @@ function HomePage() {
           </Text>
         </Button>
       </Flex>
-      <Box my={3} visibility="hidden">
+      <Box my={2} visibility="hidden">
         Dont show this
       </Box>
     </Box>
