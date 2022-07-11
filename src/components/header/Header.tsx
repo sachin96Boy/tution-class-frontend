@@ -23,11 +23,8 @@ function Header() {
         <Box className="Teacher-List">
           <Button
             border={"10px"}
-            bg="linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"
-            _hover={{
-              background:
-                "linear-gradient(193deg, rgba(244,187,78,1) 0%, rgba(160,109,58,1) 100%)",
-            }}
+            bgGradient="linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"
+            colorScheme={'yellow'}
             boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
           >
             <Text fontFamily={"body"} fontSize="21px" color="white" fontWeight={'400'}>

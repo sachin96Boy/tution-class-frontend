@@ -135,11 +135,8 @@ function HomePage() {
           පිටුවට පිවිසෙන්න
         </Text>
         <Button
-          _hover={{
-            background:
-              "linear-gradient(193deg, rgba(244,187,78,1) 0%, rgba(160,109,58,1) 100%)",
-          }}
-          bg={" linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"}
+          colorScheme={'yellow'}
+          bgGradient={" linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"}
         >
           <Text color={"white"} fontSize="21px">
             Support Page

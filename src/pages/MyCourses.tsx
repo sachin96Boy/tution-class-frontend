@@ -12,7 +12,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Form, Formik, FormikHelpers } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import CourseCard, {
   CourseCardProps,
 } from "../components/mycourse/courseard/CourseCard";
@@ -24,6 +24,10 @@ interface Values {
 }
 
 function MyCourses() {
+  const [teacherName, setTeacherName] = useState("");
+  const [subjectName, setSubjectName] = useState("");
+  const [year, setYear] = useState("");
+
   const courseArray: Array<CourseCardProps> = [
     {
       courseId: "1",
@@ -95,9 +99,19 @@ function MyCourses() {
     year: "",
   };
   const onSubmit = (values: Values, action: FormikHelpers<Values>) => {
-    console.log(values);
-    console.log(action);
+    setSubjectName(values.subjectName);
+    setTeacherName(values.teacherName);
+    setYear(values.year);
+    action.setSubmitting(false);
+    action.resetForm();
   };
+
+  const handleClearFilter = () => {
+    setSubjectName("");
+    setTeacherName("");
+    setYear("");
+  };
+
   return (
     <Box mx={10} w="full">
       <Heading as={"h2"}>Course List</Heading>
@@ -175,9 +189,14 @@ function MyCourses() {
                   </Button>
                 </ButtonGroup>
                 <Button
+                  type="submit"
                   mt={7}
                   w={"full"}
-                  bg={"linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"}
+                  isLoading={formik.isSubmitting}
+                  bgGradient={
+                    "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
+                  }
+                  colorScheme={"blue"}
                   rounded="10px"
                   boxShadow={"0px 5px 20px rgba(32, 92, 166, 0.5)"}
                   color={"white"}
@@ -190,6 +209,24 @@ function MyCourses() {
                     Apply Filters
                   </Text>
                 </Button>
+                <Button
+                  type="button"
+                  mt={7}
+                  w={"full"}
+                  colorScheme="red"
+                  rounded="10px"
+                  boxShadow={"0px 5px 20px rgba(32, 92, 166, 0.5)"}
+                  color={"white"}
+                  onClick={handleClearFilter}
+                >
+                  <Text
+                    fontFamily={"body"}
+                    fontSize="14pxx"
+                    fontWeight={"bold"}
+                  >
+                    Clear Filters
+                  </Text>
+                </Button>
               </Flex>
             </Form>
           )}
@@ -197,20 +234,42 @@ function MyCourses() {
       </Box>
       <Box className="course-list" my={10}>
         <Grid templateColumns="repeat(3, 1fr)">
-          {courseArray.map((course, index) => (
-            <GridItem key={index}>
-              <CourseCard
-                courseId={course.courseId}
-                grade={course.grade}
-                subject={course.subject}
-                subjectName={course.subjectName}
-                teacherName={course.teacherName}
-                description={course.description}
-                year={course.year}
-                courseImg={course.courseImg}
-              />
-            </GridItem>
-          ))}
+          {courseArray
+            .filter((courseElement: CourseCardProps) => {
+              if (
+                courseElement.teacherName
+                  .toLowerCase()
+                  .includes(teacherName.toLowerCase()) &&
+                courseElement.subjectName
+                  .toLowerCase()
+                  .includes(subjectName.toLowerCase()) &&
+                courseElement.year.toLowerCase().includes(year.toLowerCase())
+              ) {
+                return courseElement;
+              } else if (
+                teacherName === "" &&
+                subjectName === "" &&
+                year === ""
+              ) {
+                return courseElement;
+              } else {
+                return null;
+              }
+            })
+            .map((course, index) => (
+              <GridItem key={index}>
+                <CourseCard
+                  courseId={course.courseId}
+                  grade={course.grade}
+                  subject={course.subject}
+                  subjectName={course.subjectName}
+                  teacherName={course.teacherName}
+                  description={course.description}
+                  year={course.year}
+                  courseImg={course.courseImg}
+                />
+              </GridItem>
+            ))}
         </Grid>
       </Box>
     </Box>
