@@ -26,10 +26,10 @@ function CourseCard({
   const navigate = useNavigate();
   return (
     <Box
-    my={5}
+      my={5}
       p={5}
-      maxH='166px'
-      maxW={'366px'}
+      maxH="166px"
+      maxW={"366px"}
       bg="#E6F1FF"
       rounded={"16px"}
       cursor={"pointer"}
@@ -41,7 +41,7 @@ function CourseCard({
           objectFit={"cover"}
           src={courseImg}
           alt={subject}
-          rounded='12px'
+          rounded="12px"
         />
         <Box ml={3}>
           <Flex flexDirection={"column"} align="start" gap={1}>
