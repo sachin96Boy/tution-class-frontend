@@ -26,7 +26,7 @@ function CourseCard({
   const navigate = useNavigate();
   return (
     <Box
-      m={5}
+    my={5}
       p={5}
       maxH='166px'
       maxW={'366px'}
@@ -44,7 +44,7 @@ function CourseCard({
           rounded='12px'
         />
         <Box ml={3}>
-          <Flex flexDirection={"column"} align="start" gap={2}>
+          <Flex flexDirection={"column"} align="start" gap={1}>
             <Button
               bg={" linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"}
               color="white"
