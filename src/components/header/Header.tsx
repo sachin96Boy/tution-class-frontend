@@ -30,8 +30,8 @@ function Header() {
             }}
             boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
           >
-            <Text fontFamily={"body"} fontSize="21px" color="white">
-              Teacher List
+            <Text fontFamily={"body"} fontSize="21px" color="white" fontWeight={'400'}>
+              Teachers List
             </Text>
           </Button>
         </Box>
