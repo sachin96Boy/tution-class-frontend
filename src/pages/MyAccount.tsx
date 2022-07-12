@@ -82,7 +82,7 @@ function MyAccount() {
     event: React.ChangeEvent<HTMLInputElement>,
     formik: FormikHelpers<FormValues>
   ) => {
-    console.log(event.target.files);
+
     const fileUploaded = event.target.files;
     formik.setFieldValue("profileImage", fileUploaded);
   };
