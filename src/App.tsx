@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/header/Header";
 import SideBar from "./components/sidebar/SideBar";
 import HomePage from "./pages/HomePage";
+import MyAccount from "./pages/MyAccount";
 import MyCourses from "./pages/MyCourses";
 import Signin from "./pages/Signin";
 
@@ -39,6 +40,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/signIn" element={<Signin />} />
               <Route path="/myCourses" element={<MyCourses />} />
+              <Route path="/myAccount" element={<MyAccount />} />
             </Routes>
           </Box>
         </Box>

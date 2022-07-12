@@ -93,7 +93,7 @@ function MyCourses() {
       year: "2021",
     },
   ];
-  const initialValues = {
+  const initialValues:Values = {
     teacherName: "",
     subjectName: "",
     year: "",

@@ -199,7 +199,7 @@ function SideBar() {
                   setMyCourse(false);
                   setSupport(false);
                   setLogout(false);
-                  navigate("/myaccount");
+                  navigate("/myAccount");
                 }}
               >
                 <FaUser />
