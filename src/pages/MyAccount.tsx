@@ -102,6 +102,7 @@ function MyAccount() {
               p={"24px"}
               rounded={"12px"}
               bg={"gray.50"}
+              my={5}
             >
               <Flex align={"center"} justify="center">
                 <Box
