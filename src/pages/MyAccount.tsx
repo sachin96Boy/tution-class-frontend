@@ -9,7 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import * as yup from "yup";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikConfig, FormikHelpers } from "formik";
 import { MdVerifiedUser } from "react-icons/md";
 import { BsShieldFillExclamation } from "react-icons/bs";
 import { TbCameraPlus } from "react-icons/tb";
@@ -80,7 +80,7 @@ function MyAccount() {
 
   const profilehandleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    formik: any
+    formik: FormikHelpers<FormValues>
   ) => {
     console.log(event.target.files);
     const fileUploaded = event.target.files;
