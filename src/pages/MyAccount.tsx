@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Avatar,
   Box,
@@ -36,7 +36,15 @@ interface FormValues {
   profileImage: File | any;
 }
 
+interface NicValues {
+  frontNic: File | any;
+  backNic: File | any;
+  selfieNic: File | any;
+}
+
 function MyAccount() {
+  const [preview, setPreview] = useState<any>();
+  const [selectedFile, setSelectedFile] = useState<any>();
   const hiddenInputRef = useRef<HTMLInputElement>(null);
 
   const initialValues: FormValues = {
@@ -55,7 +63,16 @@ function MyAccount() {
     mobileNumber2: "",
     profileImage: "",
   };
+  const initialValues2: NicValues = {
+    frontNic: "",
+    backNic: "",
+    selfieNic: "",
+  };
   const onSubmit = (values: FormValues, actions: any) => {
+    console.log(values);
+    actions.setSubmitting(false);
+  };
+  const onSubmit2 = (values: NicValues, actions: any) => {
     console.log(values);
     actions.setSubmitting(false);
   };
@@ -77,6 +94,12 @@ function MyAccount() {
     profileImage: yup.mixed().required("Profile Image is required"),
   });
 
+  const validationSchema2 = yup.object({
+    frontNic: yup.mixed().required("Front NIC is required"),
+    backNic: yup.mixed().required("Back NIC is required"),
+    selfieNic: yup.mixed().required("Selfie NIC is required"),
+  });
+
   const onClick = () => {
     if (hiddenInputRef && hiddenInputRef.current) {
       hiddenInputRef.current.click();
@@ -87,13 +110,33 @@ function MyAccount() {
     event: React.ChangeEvent<HTMLInputElement>,
     formik: FormikHelpers<FormValues>
   ) => {
-    const fileUploaded = event.target.files;
+    if (!event.target.files || event.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+    const fileUploaded = event.target.files[0];
     formik.setFieldValue("profileImage", fileUploaded);
+    setSelectedFile(fileUploaded);
   };
+
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
+    }
+    // create the preview
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
 
   return (
     <Box mx={10}>
-      <Heading as={"h2"}>MY ACCOUNT</Heading>
+      <Heading as={"h2"} fontSize="36px">
+        MY ACCOUNT
+      </Heading>
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
@@ -101,13 +144,13 @@ function MyAccount() {
       >
         {(formik) => (
           <Form autoComplete="off">
-            <Box
+            <Flex
               className="profileBanner"
               p={"24px"}
               rounded={"12px"}
               bg={"gray.50"}
               my={5}
-              maxW="600px"
+              maxW={"550px"}
             >
               <Flex align={"center"} justify="center">
                 <Box
@@ -125,12 +168,13 @@ function MyAccount() {
                       }
                       type={"file"}
                       onBlur={formik.handleBlur}
-                      value={formik.values.profileImage}
                       hidden
                     />
                     <Avatar
                       boxSize={"20"}
                       _hover={{ cursor: "pointer" }}
+                      src={selectedFile ? preview : undefined}
+                      objectFit={"cover"}
                       icon={
                         <TbCameraPlus
                           size={"28"}
@@ -197,9 +241,11 @@ function MyAccount() {
               <FormErrorMessage>
                 <ErrorMessage name="profileImage" />
               </FormErrorMessage>
-            </Box>
+            </Flex>
             <Box className="details-of-form">
-              <Heading as={"h3"}>PROFILE</Heading>
+              <Heading as={"h5"} fontSize="25px">
+                PROFILE
+              </Heading>
               <Flex align={"center"} justify="center" gap={5}>
                 <Flex align={"center"} justify="center" gap={5}>
                   <Flex
@@ -608,8 +654,16 @@ function MyAccount() {
                 </Flex>
               </Flex>
             </Box>
+            <Divider border={"2px"} color="#B6D7FF" my={5} />
           </Form>
         )}
+      </Formik>
+      <Formik
+        initialValues={initialValues2}
+        onSubmit={onSubmit2}
+        validationSchema={validationSchema2}
+      >
+        {(formik) => <Form></Form>}
       </Formik>
     </Box>
   );

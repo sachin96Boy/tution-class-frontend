@@ -46,9 +46,10 @@ function CourseCard({
         <Box ml={3}>
           <Flex flexDirection={"column"} align="start" gap={1}>
             <Button
-              bg={" linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"}
+              bgGradient={" linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"}
               color="white"
               rounded={"10px"}
+              colorScheme="yellow"
               w="112px"
               h={"26px"}
             >
