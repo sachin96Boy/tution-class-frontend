@@ -772,6 +772,37 @@ function MyAccount() {
           </Form>
         )}
       </Formik>
+      <Flex my={2}>
+        <Heading as={"h5"} fontSize="24px" mr={5}>
+          NIC VERIFICATION
+        </Heading>
+        <Flex gap={5}>
+          <Flex align={"center"} gap={1}>
+            {" "}
+            <MdVerifiedUser style={{ color: "#2ECC71" }} />
+            <Text
+              fontFamily={"body"}
+              color="#2ECC71"
+              fontSize="18px"
+              fontWeight={"500"}
+            >
+              Verified
+            </Text>
+          </Flex>
+          <Flex align={"center"} gap={1}>
+            {" "}
+            <BsShieldFillExclamation style={{ color: "#F1C40F" }} />
+            <Text
+              fontFamily={"body"}
+              color="#F1C40F"
+              fontSize="18px"
+              fontWeight={"500"}
+            >
+              Verification Pending
+            </Text>
+          </Flex>
+        </Flex>
+      </Flex>
       <Formik
         initialValues={initialValues2}
         onSubmit={onSubmit2}
@@ -923,9 +954,9 @@ function MyAccount() {
                 width={"full"}
                 isDisabled={
                   formik2.isSubmitting ||
-                  (formik2.values.frontNic === "" ||
-                    formik2.values.backNic === "" ||
-                    formik2.values.selfieNic === "")
+                  formik2.values.frontNic === "" ||
+                  formik2.values.backNic === "" ||
+                  formik2.values.selfieNic === ""
                 }
                 border={"10px"}
                 colorScheme="blue"
