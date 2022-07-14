@@ -190,6 +190,7 @@ function NicVerification() {
                 w="250px"
                 h={"200px"}
                 my={5}
+                rounded="16px"
                 onClick={onClickNic}
               >
                 <Center zIndex="2">
@@ -237,6 +238,7 @@ function NicVerification() {
                 h={"200px"}
                 my={5}
                 onClick={onClickNicBack}
+                rounded="16px"
               >
                 <Center zIndex="2">
                   <BsCameraFill
@@ -282,6 +284,7 @@ function NicVerification() {
                 w="250px"
                 h={"200px"}
                 my={5}
+                rounded="16px"
                 onClick={onClickNicSelfie}
               >
                 <Center zIndex="2">
