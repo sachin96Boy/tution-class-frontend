@@ -227,7 +227,7 @@ function MyAccount() {
                 <ErrorMessage name="profileImage" />
               </FormErrorMessage>
             </Flex>
-            <Box className="details-of-form">
+            <Flex flexDirection={"column"} gap={4} className="details-of-form">
               <Heading as={"h5"} fontSize="25px">
                 PROFILE
               </Heading>
@@ -638,7 +638,7 @@ function MyAccount() {
                   </Button>
                 </Flex>
               </Flex>
-            </Box>
+            </Flex>
             <Divider border={"2px"} color="#B6D7FF" my={5} />
           </Form>
         )}
