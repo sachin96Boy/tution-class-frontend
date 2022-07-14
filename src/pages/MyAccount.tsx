@@ -676,6 +676,10 @@ function MyAccount() {
       </Flex>
       {/* nic verification */}
       <NicVerification />
+      <Divider border={"2px"} color="#B6D7FF" my={5} />
+      <Heading as={"h5"} fontSize="24px" mr={5}>
+        PAYMENT HISTORY
+      </Heading>
     </Box>
   );
 }
