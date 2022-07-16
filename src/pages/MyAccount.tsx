@@ -11,7 +11,13 @@ import {
   FormLabel,
   Heading,
   Input,
+  Table,
+  TableCaption,
+  TableContainer,
   Text,
+  Th,
+  Thead,
+  Tr,
 } from "@chakra-ui/react";
 import * as yup from "yup";
 import { ErrorMessage, Form, Formik, FormikHelpers } from "formik";
@@ -514,7 +520,7 @@ function MyAccount() {
                   <Divider
                     orientation="vertical"
                     border={"2px"}
-                    color="#B6D7FF"
+                    bg="#B6D7FF"
                     mx={5}
                   />
                 </Center>
@@ -639,7 +645,7 @@ function MyAccount() {
                 </Flex>
               </Flex>
             </Flex>
-            <Divider border={"2px"} color="#B6D7FF" my={5} />
+            <Divider border={"2px"} bg="#B6D7FF" my={5} />
           </Form>
         )}
       </Formik>
@@ -676,10 +682,70 @@ function MyAccount() {
       </Flex>
       {/* nic verification */}
       <NicVerification />
-      <Divider border={"2px"} color="#B6D7FF" my={5} />
-      <Heading as={"h5"} fontSize="24px" mr={5}>
+      <Divider border={"2px"} bg="#B6D7FF" my={5} />
+      <Heading as={"h5"} fontSize="24px" mr={5} my={3}>
         PAYMENT HISTORY
       </Heading>
+      {/* table displaying payment info based on users courses */}
+      <TableContainer roundedTopLeft="10px" roundedTopRight="10px">
+        <Table variant={"simple"}>
+          <TableCaption>Payment History</TableCaption>
+          <Thead bg={"#E6F1FF"}>
+            <Tr>
+              <Th>
+                <Text
+                  fontFamily={"body"}
+                  fontSize="12px"
+                  fontWeight={"600"}
+                  color="#636363"
+                >
+                  #
+                </Text>
+              </Th>
+              <Th>
+                <Text
+                  fontFamily={"body"}
+                  fontSize="12px"
+                  fontWeight={"600"}
+                  color="#636363"
+                >
+                  Billed To
+                </Text>
+              </Th>
+              <Th>
+                <Text
+                  fontFamily={"body"}
+                  fontSize="12px"
+                  fontWeight={"600"}
+                  color="#636363"
+                >
+                  Date
+                </Text>
+              </Th>
+              <Th>
+                <Text
+                  fontFamily={"body"}
+                  fontSize="12px"
+                  fontWeight={"600"}
+                  color="#636363"
+                >
+                  Amount
+                </Text>
+              </Th>
+              <Th>
+                <Text
+                  fontFamily={"body"}
+                  fontSize="12px"
+                  fontWeight={"600"}
+                  color="#636363"
+                >
+                  Action
+                </Text>
+              </Th>
+            </Tr>
+          </Thead>
+        </Table>
+      </TableContainer>
     </Box>
   );
 }
