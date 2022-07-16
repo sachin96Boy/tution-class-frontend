@@ -37,8 +37,8 @@ function App() {
           >
             <Routes>
               {/* add different routes that need to be loade for different pages */}
-              <Route path="/" element={<HomePage />} />
-              <Route path="/signIn" element={<Signin />} />
+              <Route path="/" element={<Signin />} />
+              <Route path="/dashboard" element={<HomePage />} />
               <Route path="/myCourses" element={<MyCourses />} />
               <Route path="/myAccount" element={<MyAccount />} />
             </Routes>

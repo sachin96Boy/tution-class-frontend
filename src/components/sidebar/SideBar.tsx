@@ -5,7 +5,7 @@ import { GiBookshelf } from "react-icons/gi";
 import { BsHeadset } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function SideBar() {
   const [dashboard, setDashboard] = useState(false);
@@ -14,9 +14,14 @@ function SideBar() {
   const [myAccount, setMyAccount] = useState(false);
   const [logOut, setLogout] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
-    <Box bg={"white"} h="calc(100vh-100px)">
+    <Box
+      bg={"white"}
+      h="calc(100vh-100px)"
+      display={location.pathname === "/" ? "none" : "block"}
+    >
       <Flex direction={"column"} justifyContent="space-between" gap={5}>
         <Box
           className="profileViwer"
@@ -94,7 +99,7 @@ function SideBar() {
                   setSupport(false);
                   setMyAccount(false);
                   setLogout(false);
-                  navigate("/");
+                  navigate("/dashboard");
                 }}
               >
                 <MdDashboard />
@@ -237,6 +242,7 @@ function SideBar() {
                   setMyCourse(false);
                   setSupport(false);
                   setMyAccount(false);
+                  navigate("/");
                 }}
               >
                 <FiLogOut />

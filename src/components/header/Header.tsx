@@ -1,8 +1,10 @@
 import { Box, Button, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
+import { useLocation } from "react-router-dom";
 import Header_Logo from "../../assets/header/logos/Sipsa_logo.png";
 
 function Header() {
+  const location = useLocation();
   return (
     <Box
       backgroundColor={"white"}
@@ -10,6 +12,7 @@ function Header() {
       position={"sticky"}
       w="full"
       h={"100px"}
+      display={location.pathname === "/" ? "none" : "block"}
     >
       <Flex align={"center"} justify="space-between" mx={10}>
         <Box className="class-logo">
