@@ -2,6 +2,7 @@ import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import signinBg from "../assets/signin/bg-signin.jpg";
 import SipsaLogo from "../assets/signin/Sipsa_logo.png";
 import React from "react";
+import Signinform from "../components/formcontrol/Signinform";
 
 function Signin() {
   return (
@@ -34,6 +35,7 @@ function Signin() {
           By logging into Sipsa Institute, you agree to our Terms of use and
           Privacy Policy.
         </Text>
+        <Signinform />
       </Flex>
     </Flex>
   );
