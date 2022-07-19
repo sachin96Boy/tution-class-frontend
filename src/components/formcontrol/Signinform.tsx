@@ -79,7 +79,7 @@ function Signinform() {
                 onBlur={formik.handleBlur}
                 borderColor="#636363"
                 border={"1px"}
-                placeholder="email Address"
+                placeholder="Email"
                 rounded={"10px"}
               />
               <FormErrorMessage>
@@ -107,7 +107,7 @@ function Signinform() {
                   onBlur={formik.handleBlur}
                   borderColor="#636363"
                   border={"1px"}
-                  placeholder="Enter password"
+                  placeholder="Password"
                   rounded={"10px"}
                 />
                 <InputRightElement>
@@ -152,7 +152,6 @@ function Signinform() {
               color="#215DA7"
               fontSize={"12px"}
               fontWeight="700"
-              my={-1}
             >
               <Link to={"/forgotPassword"}>Forget password?</Link>
             </Text>
