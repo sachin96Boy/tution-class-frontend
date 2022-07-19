@@ -6,7 +6,7 @@ import Signinform from "../components/formcontrol/Signinform";
 
 function Signin() {
   return (
-    <Flex align={"center"} w="full">
+    <Flex align={"center"} w="full" >
       <Image
         src={signinBg}
         w="50vw"
@@ -23,18 +23,23 @@ function Signin() {
           fontSize="22px"
           fontWeight={"600"}
           color="#215DA7"
+          my={1}
         >
           Good to see You Again!
         </Text>
-        <Text
-          fontFamily={"body"}
-          fontSize="15px"
-          fontWeight={"600"}
-          color="#636363"
-        >
-          By logging into Sipsa Institute, you agree to our Terms of use and
-          Privacy Policy.
-        </Text>
+        <Flex w={"300px"} align='center'>
+          <Text
+            fontFamily={"body"}
+            fontSize="15px"
+            fontWeight={"600"}
+            color="#636363"
+            align={'center'}
+            my={2}
+          >
+            By logging into Sipsa Institute, you agree to our Terms of use and
+            Privacy Policy.
+          </Text>
+        </Flex>
         <Signinform />
       </Flex>
     </Flex>
