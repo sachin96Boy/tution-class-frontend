@@ -17,6 +17,7 @@
     "@types/react-dom": "^18.0.4",
     "@types/yup": "^0.29.14",
     "chakra-ui-steps": "^1.7.3",
+    "firebase": "^9.9.0",
     "formik": "^2.2.9",
     "framer-motion": "^6.3.3",
     "react": "^18.1.0",
