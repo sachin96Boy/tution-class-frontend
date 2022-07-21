@@ -20,7 +20,7 @@ function SideBar() {
     <Box
       bg={"white"}
       h="calc(100vh-100px)"
-      display={location.pathname === "/" ? "none" : "block"}
+      display={location.pathname === "/"|| location.pathname === "/signup" ? "none" : "block"}
     >
       <Flex direction={"column"} justifyContent="space-between" gap={5}>
         <Box

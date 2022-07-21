@@ -8,7 +8,9 @@ import MyAccount from "./pages/MyAccount";
 import MyCourses from "./pages/MyCourses";
 import Signin from "./pages/Signin";
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
+import Signup from "./pages/Signup";
 
 function App() {
   const firebaseConfig = {
@@ -24,9 +26,13 @@ function App() {
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
+  const auth = getAuth(app);
   console.log(analytics);
+  console.log(auth);
+
   return (
     <Router>
+      <Box id="recaptcha-container"></Box>
       <Box
         className="PageBody"
         overflow={"hidden"}
@@ -54,6 +60,7 @@ function App() {
             <Routes>
               {/* add different routes that need to be loade for different pages */}
               <Route path="/" element={<Signin />} />
+              <Route path="/signup" element={<Signup />} />
               <Route path="/dashboard" element={<HomePage />} />
               <Route path="/myCourses" element={<MyCourses />} />
               <Route path="/myAccount" element={<MyAccount />} />

@@ -12,7 +12,7 @@ function Header() {
       position={"sticky"}
       w="full"
       h={"100px"}
-      display={location.pathname === "/" ? "none" : "block"}
+      display={location.pathname === "/" || location.pathname === "/signup" ? "none" : "block"}
     >
       <Flex align={"center"} justify="space-between" mx={10}>
         <Box className="class-logo">
