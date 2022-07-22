@@ -5,7 +5,7 @@ import RegisterForm from "../components/formcontrol/RegisterForm";
 
 function Signup() {
   return (
-    <Flex flexDirection={"column"} align="center" m="10">
+    <Flex flexDirection={"column"} align="center" w="full" m="10">
       <Center>
         <Image
           src={Sipsalogo}
@@ -14,7 +14,7 @@ function Signup() {
           alt="Sipsa Institute"
         />
       </Center>
-      <Flex align={'center'}>
+      <Flex align={"center"} justify="center" my={"20"}>
         <RegisterForm />
       </Flex>
     </Flex>
