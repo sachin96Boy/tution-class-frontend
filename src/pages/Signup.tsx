@@ -1,7 +1,8 @@
-import { Center, Flex, Image } from "@chakra-ui/react";
+import { Center, Flex, Image, Text } from "@chakra-ui/react";
 import Sipsalogo from "../assets/signin/Sipsa_logo.png";
 import React from "react";
 import RegisterForm from "../components/formcontrol/RegisterForm";
+import { Link } from "react-router-dom";
 
 function Signup() {
   return (
@@ -16,6 +17,14 @@ function Signup() {
       </Center>
       <Flex align={"center"} justify="center" my={"20"}>
         <RegisterForm />
+      </Flex>
+      <Flex flexDir={"column"} align="center" justify={"center"}>
+        <Text fontSize="12px" fontWeight={"600"} color="#636363">
+          Already A User?{" "}
+          <Text as={"span"} mx={3} color="blue">
+            <Link to={"/"}>LogIn</Link>
+          </Text>
+        </Text>
       </Flex>
     </Flex>
   );

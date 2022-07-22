@@ -69,8 +69,8 @@ function RegisterForm() {
   };
 
   return (
-    <Flex flexDir={"column"} align="center" justify={'center'} gap={10}>
-      <Flex>
+    <Flex flexDir={"column"} align="center" justify={"center"} gap={10}>
+      <Flex w={"full"}>
         <Steps colorScheme="blue" activeStep={activeStep}>
           {steps.map(({ label, description }, index) => (
             <Step label={label} key={label} description={description} />
@@ -261,7 +261,7 @@ function RegisterForm() {
                       color="white"
                       fontWeight={"400"}
                     >
-                      Login
+                      Register
                     </Text>
                   </Button>
                 </>
