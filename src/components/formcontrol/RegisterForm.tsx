@@ -42,7 +42,7 @@ function RegisterForm() {
   return (
     <Flex flexDir={"column"} align="center">
       <Flex>
-        <Steps colorScheme="telegram" activeStep={activeStep}>
+        <Steps colorScheme="blue" activeStep={activeStep}>
           {steps.map(({ label, description }, index) => (
             <Step label={label} key={label} description={description} />
           ))}
