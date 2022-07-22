@@ -8,12 +8,14 @@ function Signup() {
   return (
     <Flex flexDirection={"column"} align="center" w="full" m="10">
       <Center>
-        <Image
-          src={Sipsalogo}
-          boxSize="36"
-          objectFit={"contain"}
-          alt="Sipsa Institute"
-        />
+        <Link to={"/"}>
+          <Image
+            src={Sipsalogo}
+            boxSize="36"
+            objectFit={"contain"}
+            alt="Sipsa Institute"
+          />
+        </Link>
       </Center>
       <Flex align={"center"} justify="center" my={"20"}>
         <RegisterForm />
