@@ -98,7 +98,7 @@ function MyCourses() {
     subjectName: "",
     year: "",
   };
-  const onSubmit = (values: Values, action: FormikHelpers<Values>) => {
+  const onSubmit:any = (values: Values, action: FormikHelpers<Values>) => {
     setSubjectName(values.subjectName);
     setTeacherName(values.teacherName);
     setYear(values.year);
