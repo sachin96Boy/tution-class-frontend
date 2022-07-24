@@ -34,7 +34,6 @@ function LessonlementCard({
           rounded={"12px"}
           src={imgSrc}
           alt={lessonName}
-          w={"23p8x"}
           h={"109px"}
         />
         <Flex align={"center"} justify={"center"}>
@@ -50,7 +49,7 @@ function LessonlementCard({
               h={"20px"}
             >
               <Text fontFamily={"body"} fontWeight="400" fontSize={"12px"}>
-                {grade}
+                Grade {grade}
               </Text>
             </Button>
             <Heading
