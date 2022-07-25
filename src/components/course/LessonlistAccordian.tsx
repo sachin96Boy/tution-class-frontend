@@ -106,11 +106,26 @@ function LessonlistAccordian() {
   return (
     <Box>
       {lessonList.map((lessonContent, index) => (
-        <Accordion key={index} defaultIndex={[0]} allowToggle>
+        <Accordion key={index} my={2} allowMultiple>
           <AccordionItem>
             <Heading>
-              <AccordionButton>
-                {lessonContent.month} {lessonContent.year}
+              <AccordionButton
+                h={"61.76px"}
+                color="white"
+                fontFamily={"body"}
+                fontWeight="500"
+                fontSize={"24px"}
+                rounded="10px"
+                bgGradient={
+                  "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
+                }
+                _hover={{
+                  bg: "#2B2D4E",
+                }}
+              >
+                <Box flex="1" textAlign="left">
+                  {lessonContent.month} {lessonContent.year}
+                </Box>
                 <AccordionIcon />
               </AccordionButton>
             </Heading>

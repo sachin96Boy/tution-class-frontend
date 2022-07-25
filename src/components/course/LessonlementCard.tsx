@@ -34,9 +34,10 @@ function LessonlementCard({
           rounded={"12px"}
           src={imgSrc}
           alt={lessonName}
+          w={"238px"}
           h={"109px"}
         />
-        <Flex align={"center"} justify={"center"}>
+        <Flex align={"center"} justify={"start"} my={1}>
           <Box gap={2}>
             <Button
               bgGradient={
