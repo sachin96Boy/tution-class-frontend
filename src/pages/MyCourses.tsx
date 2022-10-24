@@ -203,7 +203,7 @@ function MyCourses() {
                 >
                   <Text
                     fontFamily={"body"}
-                    fontSize="14pxx"
+                    fontSize="14px"
                     fontWeight={"bold"}
                   >
                     Apply Filters
@@ -233,7 +233,7 @@ function MyCourses() {
         </Formik>
       </Box>
       <Box className="course-list" my={10}>
-        <Grid templateColumns="repeat(3, 1fr)">
+        <Grid templateColumns="repeat(3, 1fr)" gap={3}>
           {courseArray
             .filter((courseElement: CourseCardProps) => {
               if (

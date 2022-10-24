@@ -29,7 +29,7 @@ function CourseCard({
       my={5}
       p={5}
       maxH="166px"
-      maxW={"366px"}
+      maxW={"full"}
       bg="#E6F1FF"
       rounded={"16px"}
       cursor={"pointer"}
