@@ -214,7 +214,7 @@ function NicVerification() {
                   fontWeight={"600"}
                   fontFamily="body"
                 >
-                  Backof the NIC
+                  Back of the NIC
                 </Text>
               </FormLabel>
               <Input
