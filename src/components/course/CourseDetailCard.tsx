@@ -23,7 +23,7 @@ function CourseDetailCard({
   subcription,
 }: CourseDetailsProps) {
   return (
-    <Box  p={4} maxH={"204px"} bg="#E6F1FF" rounded={"16px"}>
+    <Box  p={4} maxH={"204px"} bg="#E6F1FF" rounded={"16px"} w='full'>
       <Flex align={"center"} justify="start">
         <Image
           boxSize={"44"}

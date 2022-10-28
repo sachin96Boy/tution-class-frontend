@@ -27,7 +27,7 @@ function LessonlementCard({
   imgSrc,
 }: LessonEementCardProps) {
   return (
-    <Box my={2} p={4} maxH={"230px"} bg="#FFFFFF" rounded={"16px"}>
+    <Box my={2} p={4} maxH={"230px"} bg="#FFFFFF" rounded={"16px"} w='full'>
       <Flex flexDir={"column"} align="center">
         <Image
           objectFit={"cover"}

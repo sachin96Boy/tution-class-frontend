@@ -1,46 +1,77 @@
-# Getting Started with Create React App
+## Sipsa Institute Tution Class WepApp 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### This is a simple web app for tution class management.
 
-## Available Scripts
 
-In the project directory, you can run:
+### Features
 
-### `npm start`
+- Student Management
+- Teacher Management
+- Class Management
+- Subject Management
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Installation
 
-### `npm test`
+- Clone the repository
+- Run 'npm install' to install all the dependencies
+- Run 'npm start' to start the server
+- Run 'npm run build' to build the project
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Technologies
 
-### `npm run build`
+- React
+- Redux
+- React Router
+- Chakra UI
+- axios for api calls
+- formik for form handling
+- yup for form validation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Screenshots
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![Screenshot (1)](https://user-images.githubusercontent.com/56402450/126041000-1b5b1b1a-5b1a-4b0e-8b0c-8c1c1b5b8b1a.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![Screenshot (2)](https://user-images.githubusercontent.com/56402450/126041001-1b5b1b1a-5b1a-4b0e-8b0c-8c1c1b5b8b1a.png)
 
-### `npm run eject`
+![Screenshot (3)](https://user-images.githubusercontent.com/56402450/126041002-1b5b1b1a-5b1a-4b0e-8b0c-8c1c1b5b8b1a.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![Screenshot (4)](https://user-images.githubusercontent.com/56402450/126041003-1b5b1b1a-5b1a-4b0e-8b0c-8c1c1b5b8b1a.png)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![Screenshot (5)](https://user-images.githubusercontent.com/56402450/126041004-1b5b1b1a-5b1a-4b0e-8b0c-8c1c1b5b8b1a.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### License
 
-## Learn More
+MIT
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Author
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- [Sachin Supunthaka]
+
+### Contact
+
+- [Twitter](https://twitter.com/SACHINSUPUNTHAK)
+- [Email](mailto: sachinsupunthaka96@gmail.com)
+
+### Support
+
+For support, email
+
+### Acknowledgements
+
+- [Sachin Supunthaka]
+
+### Project Status
+
+This project is currently in development. Users can add, edit, delete and view students, teachers, classes and subjects. Users can also view the student list of a class and the teacher list of a subject.
+
+### Future Scope
+
+- Add a payment system
+- Add a timetable
+- Add a notice board
+- Add a chat system
+- Add a report system
+
+

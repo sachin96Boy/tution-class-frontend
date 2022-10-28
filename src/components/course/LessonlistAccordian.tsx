@@ -106,7 +106,7 @@ function LessonlistAccordian() {
   return (
     <Box>
       {lessonList.map((lessonContent, index) => (
-        <Accordion key={index} my={2} allowMultiple>
+        <Accordion key={index} my={2} allowMultiple w={'full'}>
           <AccordionItem>
             <Heading>
               <AccordionButton

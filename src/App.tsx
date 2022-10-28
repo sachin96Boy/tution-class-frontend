@@ -12,6 +12,7 @@ import { getAuth } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 import Signup from "./pages/Signup";
 import CourseDetails from "./pages/CourseDetails";
+import TeacherList from "./pages/TeacherList";
 
 function App() {
   const firebaseConfig = {
@@ -63,8 +64,12 @@ function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/dashboard" element={<HomePage />} />
               <Route path="/myCourses" element={<MyCourses />} />
-              <Route path="/course/:year/:courseId" element={<CourseDetails />} />
+              <Route
+                path="/course/:year/:courseId"
+                element={<CourseDetails />}
+              />
               <Route path="/myAccount" element={<MyAccount />} />
+              <Route path="/teacherList" element={<TeacherList />} />
             </Routes>
           </Box>
         </Box>

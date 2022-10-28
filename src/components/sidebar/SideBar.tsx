@@ -22,7 +22,7 @@ function SideBar() {
       h="calc(100vh-100px)"
       display={location.pathname === "/"|| location.pathname === "/signup" ? "none" : "block"}
     >
-      <Flex direction={"column"} justifyContent="space-between" gap={5}>
+      <Flex direction={"column"} align='start' justifyContent="space-between" gap={5}>
         <Box
           className="profileViwer"
           bg={"#E6F1FF"}
@@ -66,7 +66,9 @@ function SideBar() {
           className="menu-section"
           borderTopRightRadius={"75px"}
           bg="linear-gradient(94.5deg, #313C6A 0.53%, #205EAA 99.79%)"
-          h={"80vh"}
+          w={"100%"}
+          h={"100vh"}
+          
         >
           <Flex
             align={"start"}
@@ -219,7 +221,7 @@ function SideBar() {
               </Flex>
             </Flex>
             <Spacer />
-            <Flex direction={"column"} justify="center" align={"start"} mt="20">
+            <Flex direction={"column"} justify="center" align={"start"} >
               <Flex
                 align={"center"}
                 justify="center"

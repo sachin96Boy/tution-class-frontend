@@ -187,7 +187,7 @@ function NicVerification() {
                 justify="center"
                 position="relative"
                 bg={previewNic ? undefined : "#E6F1FF"}
-                w="250px"
+                w="full"
                 h={"200px"}
                 my={5}
                 rounded="16px"
@@ -214,7 +214,7 @@ function NicVerification() {
                   fontWeight={"600"}
                   fontFamily="body"
                 >
-                  Backof the NIC
+                  Back of the NIC
                 </Text>
               </FormLabel>
               <Input
@@ -234,7 +234,7 @@ function NicVerification() {
                 justify="center"
                 position="relative"
                 bg={previewNicBack ? undefined : "#E6F1FF"}
-                w="250px"
+                w="full"
                 h={"200px"}
                 my={5}
                 onClick={onClickNicBack}
@@ -281,7 +281,7 @@ function NicVerification() {
                 justify="center"
                 position="relative"
                 bg={previewNicSelfie ? undefined : "#E6F1FF"}
-                w="250px"
+                w="full"
                 h={"200px"}
                 my={5}
                 rounded="16px"
