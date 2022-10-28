@@ -30,15 +30,15 @@
 
 ### Screenshots
 
-![Screenshot (1)](https://user-images.githubusercontent.com/56402450/126041000-1b5b1b1a-5b1a-4b0e-8b0c-8c1c1b5b8b1a.png)
+![Screenshot (1)](https://github.com/sachin96Boy/tution-class-frontend/blob/main/src/assets/images/preview/Login-page.png)
 
-![Screenshot (2)](https://user-images.githubusercontent.com/56402450/126041001-1b5b1b1a-5b1a-4b0e-8b0c-8c1c1b5b8b1a.png)
+![Screenshot (2)](https://github.com/sachin96Boy/tution-class-frontend/blob/main/src/assets/images/preview/Signup-page.png)
 
-![Screenshot (3)](https://user-images.githubusercontent.com/56402450/126041002-1b5b1b1a-5b1a-4b0e-8b0c-8c1c1b5b8b1a.png)
+![Screenshot (3)](https://github.com/sachin96Boy/tution-class-frontend/blob/main/src/assets/images/preview/dashboard-page.png)
 
-![Screenshot (4)](https://user-images.githubusercontent.com/56402450/126041003-1b5b1b1a-5b1a-4b0e-8b0c-8c1c1b5b8b1a.png)
+![Screenshot (4)](https://github.com/sachin96Boy/tution-class-frontend/blob/main/src/assets/images/preview/my-coursepage.png)
 
-![Screenshot (5)](https://user-images.githubusercontent.com/56402450/126041004-1b5b1b1a-5b1a-4b0e-8b0c-8c1c1b5b8b1a.png)
+![Screenshot (5)](https://github.com/sachin96Boy/tution-class-frontend/blob/main/src/assets/images/preview/my-profilepage.png)
 
 
 ### License
@@ -52,7 +52,7 @@ MIT
 ### Contact
 
 - [Twitter](https://twitter.com/SACHINSUPUNTHAK)
-- [Email](mailto: sachinsupunthaka96@gmail.com)
+- [Email](mailTo:sachinsupunthaka96@gmail.com)
 
 ### Support
 
