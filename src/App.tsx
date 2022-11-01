@@ -7,29 +7,19 @@ import HomePage from "./pages/HomePage";
 import MyAccount from "./pages/MyAccount";
 import MyCourses from "./pages/MyCourses";
 import Signin from "./pages/Signin";
-import { initializeApp } from "firebase/app";
+import firebaseApp from "./firebase/firebase"; 
 import { getAuth } from "firebase/auth";
-import { getAnalytics } from "firebase/analytics";
+// import { getAnalytics } from "firebase/analytics";
 import Signup from "./pages/Signup";
 import CourseDetails from "./pages/CourseDetails";
 import TeacherList from "./pages/TeacherList";
 
 function App() {
-  const firebaseConfig = {
-    apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
-    authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
-    projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
-    storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
-    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGINGSENDERID,
-    appId: process.env.REACT_APP_FIREBASE_APPID,
-    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENTID,
-  };
+
 
   // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  const auth = getAuth(app);
-  console.log(analytics);
+  // const analytics = getAnalytics(firebaseApp);
+  const auth = getAuth(firebaseApp);
   console.log(auth);
 
   return (
