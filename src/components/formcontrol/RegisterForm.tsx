@@ -121,7 +121,6 @@ function RegisterForm() {
     actions.resetForm();
     setVerifyOTP(false);
     setShowOTP(false);
-
   };
 
   const handleThis = (e: any) => {
@@ -298,8 +297,8 @@ function RegisterForm() {
                     >
                       Send OTP
                     </Button>
-                    <Box id="recaptcha-container" />
                   </Flex>
+                  <Box id="recaptcha-container" />
                   {showOTP && (
                     <Flex align={"center"} justify="center">
                       <FormControl>
@@ -406,7 +405,7 @@ function RegisterForm() {
                       "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
                     }
                     boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
-                    onClick={()=>formik.handleSubmit()}
+                    onClick={() => formik.handleSubmit()}
                     isLoading={formik.isSubmitting}
                   >
                     <Text
