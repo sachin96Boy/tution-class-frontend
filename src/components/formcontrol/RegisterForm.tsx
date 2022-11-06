@@ -81,7 +81,6 @@ function RegisterForm() {
   });
   const onSubmit = async (values: RegisterFormProops, actions: any) => {
     const user = auth.currentUser;
-    console.log("user", user);
     if (user) {
       // update profile of the user
       await updateProfile(user, {
@@ -120,6 +119,8 @@ function RegisterForm() {
     }
     actions.setSubmitting(false);
     actions.resetForm();
+    setVerifyOTP(false);
+    setShowOTP(false);
 
   };
 
@@ -446,7 +447,7 @@ function RegisterForm() {
           <Button
             size="sm"
             onClick={nextStep}
-            disabled={!showOTP && !verifyOTP && activeStep === 1 ? true : false}
+            disabled={!verifyOTP && activeStep === 1 ? true : false}
           >
             {activeStep === steps.length - 1 ? "Finish" : "Next"}
           </Button>
