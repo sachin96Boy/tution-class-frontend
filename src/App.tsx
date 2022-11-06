@@ -7,21 +7,11 @@ import HomePage from "./pages/HomePage";
 import MyAccount from "./pages/MyAccount";
 import MyCourses from "./pages/MyCourses";
 import Signin from "./pages/Signin";
-import firebaseApp from "./firebase/firebase"; 
-import { getAuth } from "firebase/auth";
-// import { getAnalytics } from "firebase/analytics";
 import Signup from "./pages/Signup";
 import CourseDetails from "./pages/CourseDetails";
 import TeacherList from "./pages/TeacherList";
 
 function App() {
-
-
-  // Initialize Firebase
-  // const analytics = getAnalytics(firebaseApp);
-  const auth = getAuth(firebaseApp);
-  console.log(auth);
-
   return (
     <Router>
       <Box
