@@ -82,6 +82,7 @@ function RegisterForm() {
       .then((response: AxiosResponse) => {
         console.log(response);
         actions.setSubmitting(false);
+        actions.resetForm();
         setVerifyOTP(false);
         setShowOTP(false);
       })
@@ -96,7 +97,7 @@ function RegisterForm() {
 
   const handleSendOTP = async (mobile: string) => {
     await axios
-      .post(`http://127.0.0.1:5000/auth/send-verification-token`, {
+      .post(`/auth/send-verification-token`, {
         phoneNumber: mobile,
       },{
         headers: {
