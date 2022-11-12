@@ -14,8 +14,9 @@ import {
 import { ErrorMessage, Form, Formik } from "formik";
 import React, { useRef } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import axios from "axios";
 
 interface SigninformProps {
   email: string;
@@ -23,6 +24,7 @@ interface SigninformProps {
 }
 
 function Signinform() {
+  const navigate = useNavigate();
   const { isOpen, onToggle } = useDisclosure();
   const inputRef = useRef<HTMLInputElement>(null);
   const onClickReveal = () => {
@@ -46,7 +48,21 @@ function Signinform() {
     password: Yup.string().required("Password is required"),
   });
 
-  const onSubmit = (values: SigninformProps, actions: any) => {
+  const onSubmit = async (values: SigninformProps, actions: any) => {
+    await axios
+      .post(`/auth/login`, {
+        email: values.email,
+        password: values.password,
+      })
+      .then((res) => {
+        if(res.data.user){
+          localStorage.setItem("user", JSON.stringify(res.data.user));
+          navigate("/dashboard");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     console.log(values);
     actions.setSubmitting(false);
   };

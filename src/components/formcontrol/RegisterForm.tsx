@@ -21,16 +21,8 @@ import React, { useRef, useState } from "react";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
 import * as Yup from "yup";
 import { HiEye, HiEyeOff } from "react-icons/hi";
-import firebaseApp from "../../firebase/firebase";
-import {
-  getAuth,
-  RecaptchaVerifier,
-  sendEmailVerification,
-  signInWithPhoneNumber,
-  updateEmail,
-  updatePassword,
-  updateProfile,
-} from "firebase/auth";
+import axios from "axios";
+import { AxiosResponse, AxiosError } from "axios";
 
 interface RegisterFormProops {
   fullName: string;
@@ -41,7 +33,6 @@ interface RegisterFormProops {
 }
 
 function RegisterForm() {
-  const auth = getAuth(firebaseApp);
   const [showOTP, setShowOTP] = useState<boolean>(false);
   const [verifyOTP, setVerifyOTP] = useState<boolean>(false);
   const { isOpen, onToggle } = useDisclosure();
@@ -80,108 +71,56 @@ function RegisterForm() {
       .min(8, "Password must be at least 6 characters"),
   });
   const onSubmit = async (values: RegisterFormProops, actions: any) => {
-    const user = auth.currentUser;
-    if (user) {
-      // update profile of the user
-      await updateProfile(user, {
-        displayName: values.fullName,
+    await axios
+      .post("auth/register", {
+        values: values,
       })
-        .then(() => {
-          console.log("Profile Updated");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      // update email of the user
-      await updateEmail(user, values.email)
-        .then(() => {
-          console.log("Email Updated");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      // update password of the user
-      await updatePassword(user, values.password)
-        .then(() => {
-          console.log("Password Updated");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      // send verification email to the user
-      await sendEmailVerification(user)
-        .then(() => {
-          console.log("Verification Email Sent");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-    actions.setSubmitting(false);
-    actions.resetForm();
-    setVerifyOTP(false);
-    setShowOTP(false);
+      .then((response: AxiosResponse) => {
+        console.log(response);
+        actions.setSubmitting(false);
+        setVerifyOTP(false);
+        setShowOTP(false);
+      })
+      .catch((error: AxiosError) => {
+        console.log(error);
+      });
   };
 
   const handleThis = (e: any) => {
     e.preventDefault();
   };
 
-  const handleSendOTP = (mobile: string) => {
-    (window as any).recaptchaVerifier = new RecaptchaVerifier(
-      "recaptcha-container",
-      {
-        size: "normal",
-        callback: (response: any) => {
-          // reCAPTCHA solved, allow signInWithPhoneNumber.
-          console.log(response);
-          handleSignIn(mobile);
-        },
-        "expired-callback": () => {
-          // Response expired. Ask user to solve reCAPTCHA again.
-          // ...
-        },
-      },
-      auth
-    );
-    handleSignIn(mobile);
-  };
-
-  const handleSignIn = (number: string) => {
-    const phoneNumber = `+94${number}`;
-    const appVerifier = (window as any).recaptchaVerifier;
-
-    signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-      .then((confirmationResult) => {
-        console.log(confirmationResult);
-        (window as any).confirmationResult = confirmationResult;
-        setShowOTP(true);
-        appVerifier.clear();
-        // SMS sent. Prompt user to type the code from the message, then sign the
-        // user in with confirmationResult.confirm(code).
+  const handleSendOTP = async (mobile: string) => {
+    await axios
+      .post(`/auth/send-verification-token`, {
+        phoneNumber: mobile,
       })
-      .catch((error) => {
-        console.log(error);
-        (window as any).grecaptcha.reset((window as any).recaptchaWidgetId);
-        // Error; SMS not sent
-        // ...
+      .then((res: AxiosResponse) => {
+        console.log(res);
+        setShowOTP(true);
+      })
+      .catch((err: AxiosError) => {
+        console.log(err);
+        setShowOTP(false);
       });
   };
 
-  const handleVerifyOTP = (otpNumber: string) => {
-    (window as any).confirmationResult
-      .confirm(otpNumber)
-      .then((result: any) => {
-        // User signed in successfully.
-        const user = result.user;
-        console.log(user);
-        setVerifyOTP(true);
-        // ...
+  const handleVerifyOTP = async (mobile: string, otpNumber: string) => {
+    await axios
+      .post(`/auth/check-verification-token`, {
+        phoneNumber: mobile,
+        token: otpNumber,
       })
-      .catch((error: any) => {
-        // User couldn't sign in (bad verification code?)
-        // ...
-        console.log(error);
+      .then((res: AxiosResponse) => {
+        if (res.data.status === "approved") {
+          setVerifyOTP(true);
+        } else {
+          setVerifyOTP(false);
+        }
+      })
+      .catch((err: AxiosError) => {
+        console.log(err);
+        setVerifyOTP(false);
       });
   };
 
@@ -330,7 +269,12 @@ function RegisterForm() {
                       <Button
                         ml={10}
                         mt={6}
-                        onClick={() => handleVerifyOTP(formik.values.otpNumber)}
+                        onClick={() =>
+                          handleVerifyOTP(
+                            formik.values.mobile,
+                            formik.values.otpNumber
+                          )
+                        }
                       >
                         Verify OTP
                       </Button>
