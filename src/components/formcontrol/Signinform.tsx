@@ -41,7 +41,7 @@ function Signinform() {
     password: "",
   };
 
-  const validationSchema = Yup.object().shape({
+  const validationSchema = Yup.object({
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
@@ -76,7 +76,7 @@ function Signinform() {
       {(formik) => (
         <Form autoComplete="off">
           <VStack spacing={4}>
-            <FormControl isInvalid={formik.touched.email}>
+            <FormControl>
               <FormLabel htmlFor="email">
                 <Text
                   color={"#636363"}
@@ -102,7 +102,7 @@ function Signinform() {
                 <ErrorMessage name="email" />
               </FormErrorMessage>
             </FormControl>
-            <FormControl isInvalid={formik.touched.password}>
+            <FormControl>
               <FormLabel htmlFor="password">
                 <Text
                   color={"#636363"}
