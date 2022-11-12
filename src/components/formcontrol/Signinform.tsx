@@ -53,6 +53,10 @@ function Signinform() {
       .post(`/auth/login`, {
         email: values.email,
         password: values.password,
+      },{
+        headers: {
+          "Content-Type": "application/json",          
+        }
       })
       .then((res) => {
         if(res.data.user){

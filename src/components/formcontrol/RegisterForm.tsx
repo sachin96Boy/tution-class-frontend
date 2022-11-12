@@ -72,8 +72,12 @@ function RegisterForm() {
   });
   const onSubmit = async (values: RegisterFormProops, actions: any) => {
     await axios
-      .post("auth/register", {
+      .post("/auth/register", {
         values: values,
+      },{
+        headers: {
+          "Content-Type": "application/json",          
+        }
       })
       .then((response: AxiosResponse) => {
         console.log(response);
@@ -92,8 +96,12 @@ function RegisterForm() {
 
   const handleSendOTP = async (mobile: string) => {
     await axios
-      .post(`/auth/send-verification-token`, {
+      .post(`http://127.0.0.1:5000/auth/send-verification-token`, {
         phoneNumber: mobile,
+      },{
+        headers: {
+          "Content-Type": "application/json",          
+        }
       })
       .then((res: AxiosResponse) => {
         console.log(res);
@@ -110,6 +118,10 @@ function RegisterForm() {
       .post(`/auth/check-verification-token`, {
         phoneNumber: mobile,
         token: otpNumber,
+      },{
+        headers: {
+          "Content-Type": "application/json",          
+        }
       })
       .then((res: AxiosResponse) => {
         if (res.data.status === "approved") {
