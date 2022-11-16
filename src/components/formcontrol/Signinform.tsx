@@ -17,6 +17,7 @@ import { HiEye, HiEyeOff } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import axios from "axios";
+import useToastResponse from "../toast/ToastResponse";
 
 interface SigninformProps {
   email: string;
@@ -24,6 +25,7 @@ interface SigninformProps {
 }
 
 function Signinform() {
+  const [state, newToast] = useToastResponse();
   const navigate = useNavigate();
   const { isOpen, onToggle } = useDisclosure();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -50,16 +52,24 @@ function Signinform() {
 
   const onSubmit = async (values: SigninformProps, actions: any) => {
     await axios
-      .post(`/auth/login`, {
-        email: values.email,
-        password: values.password,
-      },{
-        headers: {
-          "Content-Type": "application/json",          
+      .post(
+        `/auth/login`,
+        {
+          email: values.email,
+          password: values.password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      })
+      )
       .then((res) => {
-        if(res.data.user){
+        newToast({
+          status: res.data.status,
+          message: res.data.message,
+        })
+        if (res.data.user) {
           localStorage.setItem("user", JSON.stringify(res.data.user));
           navigate("/dashboard");
         }
@@ -67,7 +77,6 @@ function Signinform() {
       .catch((err) => {
         console.log(err);
       });
-    console.log(values);
     actions.setSubmitting(false);
   };
 
