@@ -23,6 +23,7 @@ import * as Yup from "yup";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import axios from "axios";
 import { AxiosResponse, AxiosError } from "axios";
+import useToastResponse from "../toast/ToastResponse";
 
 interface RegisterFormProops {
   fullName: string;
@@ -33,6 +34,8 @@ interface RegisterFormProops {
 }
 
 function RegisterForm() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [state, newToast] = useToastResponse();
   const [showOTP, setShowOTP] = useState<boolean>(false);
   const [verifyOTP, setVerifyOTP] = useState<boolean>(false);
   const { isOpen, onToggle } = useDisclosure();
@@ -72,22 +75,29 @@ function RegisterForm() {
   });
   const onSubmit = async (values: RegisterFormProops, actions: any) => {
     await axios
-      .post("/auth/register", {
-        values: values,
-      },{
-        headers: {
-          "Content-Type": "application/json",          
+      .post(
+        "/auth/register",
+        {
+          values: values,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      })
+      )
       .then((response: AxiosResponse) => {
-        console.log(response);
+        newToast({
+          status: response.data.status,
+          message: response.data.message,
+        });
         actions.setSubmitting(false);
         actions.resetForm();
         setVerifyOTP(false);
         setShowOTP(false);
       })
       .catch((error: AxiosError) => {
-        console.log(error);
+        alert(error);
       });
   };
 
@@ -97,42 +107,68 @@ function RegisterForm() {
 
   const handleSendOTP = async (mobile: string) => {
     await axios
-      .post(`/auth/send-verification-token`, {
-        phoneNumber: mobile,
-      },{
-        headers: {
-          "Content-Type": "application/json",          
+      .post(
+        `/auth/send-verification-token`,
+        {
+          phoneNumber: mobile,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res: AxiosResponse) => {
+        if (res.data.status === "pending") {
+          newToast({
+            status: "success",
+            message: "OTP sent, Please check your mobile",
+          });
+          setShowOTP(true);
+        } else {
+          newToast({
+            status: "error",
+            message: "something went wrong",
+          });
         }
       })
-      .then((res: AxiosResponse) => {
-        console.log(res);
-        setShowOTP(true);
-      })
       .catch((err: AxiosError) => {
-        console.log(err);
+        alert(err);
         setShowOTP(false);
       });
   };
 
   const handleVerifyOTP = async (mobile: string, otpNumber: string) => {
     await axios
-      .post(`/auth/check-verification-token`, {
-        phoneNumber: mobile,
-        token: otpNumber,
-      },{
-        headers: {
-          "Content-Type": "application/json",          
+      .post(
+        `/auth/check-verification-token`,
+        {
+          phoneNumber: mobile,
+          token: otpNumber,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      })
+      )
       .then((res: AxiosResponse) => {
         if (res.data.status === "approved") {
+          newToast({
+            status: "success",
+            message: "OTP verified, Please proceed",
+          });
           setVerifyOTP(true);
         } else {
+          newToast({
+            status: "error",
+            message: "something went wrong",
+          })
           setVerifyOTP(false);
         }
       })
       .catch((err: AxiosError) => {
-        console.log(err);
+        alert(err);
         setVerifyOTP(false);
       });
   };
