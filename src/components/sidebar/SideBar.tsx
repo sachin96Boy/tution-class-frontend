@@ -244,6 +244,7 @@ function SideBar() {
                   setMyCourse(false);
                   setSupport(false);
                   setMyAccount(false);
+                  localStorage.removeItem("user");
                   navigate("/");
                 }}
               >
