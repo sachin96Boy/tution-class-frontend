@@ -93,12 +93,12 @@ function MyCourses() {
       year: "2021",
     },
   ];
-  const initialValues:Values = {
+  const initialValues: Values = {
     teacherName: "",
     subjectName: "",
     year: "",
   };
-  const onSubmit:any = (values: Values, action: FormikHelpers<Values>) => {
+  const onSubmit: any = (values: Values, action: FormikHelpers<Values>) => {
     setSubjectName(values.subjectName);
     setTeacherName(values.teacherName);
     setYear(values.year);
@@ -119,33 +119,40 @@ function MyCourses() {
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
           {(formik) => (
             <Form autoComplete="off">
-              <Flex align={"center"} justify="space-between" gap={10}>
-                <FormControl>
-                  <FormLabel htmlFor="teacherName">Teacher Name</FormLabel>
-                  <Input
-                    id="teacherName"
-                    type={"text"}
-                    value={formik.values.teacherName}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    placeholder="Select Teacher"
-                    borderColor={"#B6D7FF"}
-                    border="1px"
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel htmlFor="subjectName">Subject Name</FormLabel>
-                  <Input
-                    id="subjectName"
-                    type={"text"}
-                    value={formik.values.subjectName}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    placeholder="Select Subject"
-                    borderColor={"#B6D7FF"}
-                    border="1px"
-                  />
-                </FormControl>
+              <Flex
+                align={"center"}
+                flexDirection={["column", "column", "row"]}
+                justify="space-between"
+                gap={[5, 5, 10]}
+              >
+                <Flex flexDirection={["column","column","column","row"]} gap={2}>
+                  <FormControl>
+                    <FormLabel htmlFor="teacherName">Teacher Name</FormLabel>
+                    <Input
+                      id="teacherName"
+                      type={"text"}
+                      value={formik.values.teacherName}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      placeholder="Select Teacher"
+                      borderColor={"#B6D7FF"}
+                      border="1px"
+                    />
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel htmlFor="subjectName">Subject Name</FormLabel>
+                    <Input
+                      id="subjectName"
+                      type={"text"}
+                      value={formik.values.subjectName}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      placeholder="Select Subject"
+                      borderColor={"#B6D7FF"}
+                      border="1px"
+                    />
+                  </FormControl>
+                </Flex>
                 <ButtonGroup mt={7} variant={"outline"} isAttached>
                   <Button
                     color={"#CDCDCD"}
@@ -188,52 +195,65 @@ function MyCourses() {
                     2024
                   </Button>
                 </ButtonGroup>
-                <Button
-                  type="submit"
-                  mt={7}
-                  w={"full"}
-                  isLoading={formik.isSubmitting}
-                  bgGradient={
-                    "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
-                  }
-                  colorScheme={"blue"}
-                  rounded="10px"
-                  boxShadow={"0px 5px 20px rgba(32, 92, 166, 0.5)"}
-                  color={"white"}
+                <Flex
+                  flexDirection={["column", "column", "column", "row"]}
+                  gap={2}
                 >
-                  <Text
-                    fontFamily={"body"}
-                    fontSize="14px"
-                    fontWeight={"bold"}
+                  <Button
+                    type="submit"
+                    mt={7}
+                    w={"full"}
+                    isLoading={formik.isSubmitting}
+                    bgGradient={
+                      "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
+                    }
+                    colorScheme={"blue"}
+                    rounded="10px"
+                    boxShadow={"0px 5px 20px rgba(32, 92, 166, 0.5)"}
+                    color={"white"}
                   >
-                    Apply Filters
-                  </Text>
-                </Button>
-                <Button
-                  type="button"
-                  mt={7}
-                  w={"full"}
-                  colorScheme="red"
-                  rounded="10px"
-                  boxShadow={"0px 5px 20px rgba(32, 92, 166, 0.5)"}
-                  color={"white"}
-                  onClick={handleClearFilter}
-                >
-                  <Text
-                    fontFamily={"body"}
-                    fontSize="14pxx"
-                    fontWeight={"bold"}
+                    <Text
+                      fontFamily={"body"}
+                      fontSize="14px"
+                      fontWeight={"bold"}
+                    >
+                      Apply Filters
+                    </Text>
+                  </Button>
+                  <Button
+                    type="button"
+                    mt={7}
+                    w={"full"}
+                    colorScheme="red"
+                    rounded="10px"
+                    boxShadow={"0px 5px 20px rgba(32, 92, 166, 0.5)"}
+                    color={"white"}
+                    onClick={handleClearFilter}
                   >
-                    Clear Filters
-                  </Text>
-                </Button>
+                    <Text
+                      fontFamily={"body"}
+                      fontSize="14pxx"
+                      fontWeight={"bold"}
+                    >
+                      Clear Filters
+                    </Text>
+                  </Button>
+                </Flex>
               </Flex>
             </Form>
           )}
         </Formik>
       </Box>
       <Box className="course-list" my={10}>
-        <Grid templateColumns="repeat(3, 1fr)" gap={3}>
+        <Grid
+          templateColumns={[
+            "repeat(1, 1fr)",
+            "repeat(1, 1fr)",
+            "repeat(2, 1fr)",
+            "repeat(3, 1fr)",
+          ]}
+          gap={3}
+        >
           {courseArray
             .filter((courseElement: CourseCardProps) => {
               if (

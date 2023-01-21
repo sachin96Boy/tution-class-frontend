@@ -13,7 +13,7 @@ function DashBoard() {
   return (
     <Box
     className="PageBody"
-    overflow={"auto"}
+    overflow={"hidden"}
     display="flex"
     flexDirection={"column"}
     w="full"
