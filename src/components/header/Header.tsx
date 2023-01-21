@@ -1,10 +1,9 @@
 import { Box, Button, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header_Logo from "../../assets/header/logos/Sipsa_logo.png";
 
 function Header() {
-  const location = useLocation();
   const navigate = useNavigate();
   return (
     <Box
@@ -13,13 +12,9 @@ function Header() {
       position={"sticky"}
       w="full"
       h={"100px"}
-      display={
-        location.pathname === "/" || location.pathname === "/signup"
-          ? "none"
-          : "block"
-      }
+      display={"block"}
     >
-      <Flex align={"center"} justify="space-between" mx={10}>
+      <Flex  align={"center"} justify="space-between" mx={10}>
         <Box className="class-logo">
           <Link to={"/dashboard"}>
             <Image
@@ -36,7 +31,7 @@ function Header() {
             bgGradient="linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"
             colorScheme={"yellow"}
             boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
-            onClick={() => navigate("/teacherList")}
+            onClick={() => navigate("/dashboard/teacherList")}
           >
             <Text
               fontFamily={"body"}

@@ -5,7 +5,7 @@ import { GiBookshelf } from "react-icons/gi";
 import { BsHeadset } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function SideBar() {
   const [dashboard, setDashboard] = useState(false);
@@ -14,15 +14,16 @@ function SideBar() {
   const [myAccount, setMyAccount] = useState(false);
   const [logOut, setLogout] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
+
 
   return (
     <Box
       bg={"white"}
+      as="div"
       h="calc(100vh-100px)"
-      display={location.pathname === "/"|| location.pathname === "/signup" ? "none" : "block"}
+      display={"block"}
     >
-      <Flex direction={"column"} align='start' justifyContent="space-between" gap={5}>
+      <Flex  direction={"column"} align='start' justifyContent="space-between" gap={5}>
         <Box
           className="profileViwer"
           bg={"#E6F1FF"}
@@ -136,7 +137,7 @@ function SideBar() {
                   setSupport(false);
                   setMyAccount(false);
                   setLogout(false);
-                  navigate("/myCourses");
+                  navigate("/dashboard/myCourses");
                 }}
               >
                 <GiBookshelf />
@@ -171,7 +172,7 @@ function SideBar() {
                   setMyCourse(false);
                   setMyAccount(false);
                   setLogout(false);
-                  navigate("/support");
+                  navigate("/dashboard/support");
                 }}
               >
                 <BsHeadset />
@@ -206,7 +207,7 @@ function SideBar() {
                   setMyCourse(false);
                   setSupport(false);
                   setLogout(false);
-                  navigate("/myAccount");
+                  navigate("/dashboard/myAccount");
                 }}
               >
                 <FaUser />
