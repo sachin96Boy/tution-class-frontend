@@ -29,9 +29,10 @@ function Signin() {
   },[newToast])
 
   return (
-    <Flex align={"center"} w="full">
+    <Flex flexDirection={['column','column','row']} align={"center"} w="full">
       <Image
         src={signinBg}
+        display={['none','none','flex']}
         w="50%"
         h={"full"}
         objectFit="cover"

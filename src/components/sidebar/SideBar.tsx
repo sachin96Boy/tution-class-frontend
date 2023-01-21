@@ -21,7 +21,7 @@ function SideBar() {
       bg={"white"}
       as="div"
       h="calc(100vh-100px)"
-      display={"block"}
+      display={["none","none","block"]}
     >
       <Flex  direction={"column"} align='start' justifyContent="space-between" gap={5}>
         <Box

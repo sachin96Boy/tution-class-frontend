@@ -27,7 +27,7 @@ const bannerList: Array<string> = [
 function HomePage() {
   return (
     <Box w={"full"}>
-      <Flex flexDirection={['column','column','column','row']} gap={2} mx={10} align={"center"} justify="space-between">
+      <Flex flexDirection={['column','column','row']} gap={2} mx={10} align={"center"} justify="space-between">
         <Flex
           bg={"#E6F1FF"}
           align={"center"}
@@ -50,7 +50,7 @@ function HomePage() {
           <Text
             fontFamily={"fantasy"}
             fontWeight={"400"}
-            fontSize="80px"
+            fontSize={["52","52","80px"]}
             bgGradient={
               "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
             }
@@ -113,7 +113,7 @@ function HomePage() {
         my={5}
         mx={10}
         p={3}
-        flexDirection={['column','column','column','row']}
+        flexDirection={['column','column','row']}
         align={"center"}
         justify="space-between"
         bg="#E6F1FF"
@@ -122,9 +122,9 @@ function HomePage() {
         <Text
           color={"#585858"}
           fontFamily="fantasy"
-          fontSize={"18px"}
+          fontSize={["14px","14px","18px"]}
           fontWeight="bold"
-          mx={2}
+          m={2}
         >
           <Text as={"span"} fontFamily="body">
             Sipsa Web
