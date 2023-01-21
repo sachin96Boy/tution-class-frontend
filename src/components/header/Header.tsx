@@ -39,6 +39,7 @@ function Header() {
         align={"center"}
         justify={"space-between"}
         display={["flex", "flex", "none"]}
+        position="relative"
       >
         <Icon
           as={GiHamburgerMenu}
@@ -99,7 +100,12 @@ function Header() {
   if (show) {
     headerNav = (
       <>
-        <Flex m="5" align={"center"} justify={"space-between"}>
+        <Flex
+          m="5"
+          align={"center"}
+          justify={"space-between"}
+          position="relative"
+        >
           <Icon
             as={AiOutlineClose}
             boxSize="25"
@@ -116,7 +122,7 @@ function Header() {
             >
               <Text
                 fontFamily={"body"}
-                fontSize={["16px","16px","21px"]}
+                fontSize={["16px", "16px", "21px"]}
                 color="white"
                 fontWeight={"400"}
               >
@@ -130,6 +136,7 @@ function Header() {
           align="center"
           justifyContent="space-between"
           gap={5}
+          overflowY="auto"
         >
           <Box
             className="profileViwer"
