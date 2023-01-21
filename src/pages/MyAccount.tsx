@@ -124,8 +124,8 @@ function MyAccount() {
   }, [selectedFile]);
 
   return (
-    <Box mx={10}>
-      <Heading as={"h2"} fontSize="36px">
+    <Box mx={10} w="full">
+      <Heading as={"h2"} fontSize={["26px","26px","36px"]}>
         MY ACCOUNT
       </Heading>
       <Formik
@@ -137,13 +137,17 @@ function MyAccount() {
           <Form autoComplete="off">
             <Flex
               className="profileBanner"
-              p={"24px"}
+              p={["2", "2", "24px"]}
               rounded={"12px"}
               bg={"gray.50"}
               my={5}
-              maxW={"550px"}
+              maxW={["full", "full", "550px"]}
             >
-              <Flex align={"center"} justify="center">
+              <Flex
+                align={"center"}
+                justify="center"
+                flexDirection={["column", "column", "row"]}
+              >
                 <Box
                   className="Avater-box"
                   rounded={"full"}
@@ -237,8 +241,18 @@ function MyAccount() {
               <Heading as={"h5"} fontSize="25px">
                 PROFILE
               </Heading>
-              <Flex align={"center"} justify="center" gap={5}>
-                <Flex align={"center"} justify="center" gap={5}>
+              <Flex
+                flexDirection={["column", "column", "row"]}
+                align={"center"}
+                justify="center"
+                gap={5}
+              >
+                <Flex
+                  flexDirection={["column", "column", "row"]}
+                  align={"center"}
+                  justify="center"
+                  gap={5}
+                >
                   <Flex
                     flexDirection={"column"}
                     align={"center"}
@@ -516,7 +530,7 @@ function MyAccount() {
                     </FormControl>
                   </Flex>
                 </Flex>
-                <Center height="350px">
+                <Center display={["none", "none", "block"]} height="350px">
                   <Divider
                     orientation="vertical"
                     border={"2px"}
@@ -524,7 +538,7 @@ function MyAccount() {
                     mx={5}
                   />
                 </Center>
-                <Flex flexDirection={"column"} gap={5} ml={5}>
+                <Flex flexDirection={"column"} gap={5} ml={[0,0,5]}>
                   <FormControl isInvalid={formik.touched.barcode}>
                     <FormLabel htmlFor="barcode">
                       <Text
@@ -649,7 +663,7 @@ function MyAccount() {
           </Form>
         )}
       </Formik>
-      <Flex my={2}>
+      <Flex my={2} flexDirection={["column", "column", "row"]}>
         <Heading as={"h5"} fontSize="24px" mr={5}>
           NIC VERIFICATION
         </Heading>
