@@ -43,7 +43,9 @@ function SideBar() {
               </Box>
             </Box>
 
-            <Flex direction={"column"}>
+            <Flex direction={"column"} display={[
+              'none','none','none','block'
+            ]}>
               <Text
                 fontFamily={"body"}
                 color="#215DA7"
@@ -105,12 +107,13 @@ function SideBar() {
                   navigate("/dashboard");
                 }}
               >
-                <MdDashboard />
+                <MdDashboard size={"28px"}/>
                 <Text
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
+                  display={['none','none','none','block']}
                 >
                   Dashboard
                 </Text>
@@ -140,12 +143,13 @@ function SideBar() {
                   navigate("/dashboard/myCourses");
                 }}
               >
-                <GiBookshelf />
+                <GiBookshelf size={"28px"}/>
                 <Text
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
+                  display={['none','none','none','block']}
                 >
                   My Courses
                 </Text>
@@ -175,12 +179,13 @@ function SideBar() {
                   navigate("/dashboard/support");
                 }}
               >
-                <BsHeadset />
+                <BsHeadset size={"28px"}/>
                 <Text
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
+                  display={['none','none','none','block']}
                 >
                   Support
                 </Text>
@@ -210,12 +215,13 @@ function SideBar() {
                   navigate("/dashboard/myAccount");
                 }}
               >
-                <FaUser />
+                <FaUser size={"28px"}/>
                 <Text
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
+                  display={['none','none','none','block']}
                 >
                   My Account
                 </Text>
@@ -249,12 +255,13 @@ function SideBar() {
                   navigate("/");
                 }}
               >
-                <FiLogOut />
+                <FiLogOut size={"28px"}/>
                 <Text
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
+                  display={['none','none','none','block']}
                 >
                   Logout
                 </Text>
