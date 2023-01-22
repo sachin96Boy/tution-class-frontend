@@ -123,7 +123,7 @@ function HomePage() {
         my={5}
         mx={10}
         p={3}
-        flexDirection={["column", "column", "row"]}
+        flexDirection={["column", "column","column", "row"]}
         align={"center"}
         justify="space-between"
         bg="#E6F1FF"
