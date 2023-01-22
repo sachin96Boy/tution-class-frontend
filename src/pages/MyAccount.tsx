@@ -124,8 +124,8 @@ function MyAccount() {
   }, [selectedFile]);
 
   return (
-    <Box mx={10} w="full">
-      <Heading as={"h2"} fontSize={["26px","26px","36px"]}>
+    <Box mx={[5, 5, 10]} w="full">
+      <Heading as={"h2"} fontSize={["26px", "26px", "36px"]}>
         MY ACCOUNT
       </Heading>
       <Formik
@@ -184,14 +184,14 @@ function MyAccount() {
                 <Flex
                   ml={5}
                   flexDirection={"column"}
-                  align="start"
+                  align={["center", "start"]}
                   justify={"center"}
                 >
                   <Heading
                     as={"h3"}
                     color="#215DA7"
                     fontWeight={"700"}
-                    fontSize="36px"
+                    fontSize={["24px", "24px", "24px", "36px"]}
                     fontFamily={"body"}
                   >
                     Hashan{" "}
@@ -199,7 +199,7 @@ function MyAccount() {
                       as={"span"}
                       color="#636363"
                       fontWeight={"500"}
-                      fontSize="36px"
+                      fontSize={["24px", "24px", "24px", "36px"]}
                       fontFamily={"body"}
                     >
                       Maduranga
@@ -212,7 +212,7 @@ function MyAccount() {
                       <Text
                         fontFamily={"body"}
                         color="#2ECC71"
-                        fontSize="18px"
+                        fontSize={["16px", "18px"]}
                         fontWeight={"500"}
                       >
                         Verified
@@ -224,7 +224,7 @@ function MyAccount() {
                       <Text
                         fontFamily={"body"}
                         color="#F1C40F"
-                        fontSize="18px"
+                        fontSize={["16px", "18px"]}
                         fontWeight={"500"}
                       >
                         Verification Pending
@@ -538,7 +538,11 @@ function MyAccount() {
                     mx={5}
                   />
                 </Center>
-                <Flex flexDirection={"column"} gap={5} ml={[0,0,5]}>
+                <Flex
+                  flexDirection={"column"}
+                  gap={5}
+                  ml={[0, 0, 5]}
+                >
                   <FormControl isInvalid={formik.touched.barcode}>
                     <FormLabel htmlFor="barcode">
                       <Text
@@ -565,7 +569,7 @@ function MyAccount() {
                       <ErrorMessage name="barcode" />
                     </FormErrorMessage>
                   </FormControl>
-                  <Box>
+                  <Box w={["50vw","50vw","50vw","full"]}>
                     <Text
                       fontFamily={"body"}
                       color="#636363"
@@ -674,7 +678,7 @@ function MyAccount() {
             <Text
               fontFamily={"body"}
               color="#2ECC71"
-              fontSize="18px"
+              fontSize={["16px", "18px"]}
               fontWeight={"500"}
             >
               Verified
@@ -686,7 +690,7 @@ function MyAccount() {
             <Text
               fontFamily={"body"}
               color="#F1C40F"
-              fontSize="18px"
+              fontSize={["16px", "18px"]}
               fontWeight={"500"}
             >
               Verification Pending
