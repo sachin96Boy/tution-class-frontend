@@ -57,7 +57,7 @@ function LessonlementCard({
               as={"h3"}
               color="#000000"
               fontFamily={"body"}
-              fontSize={"24px"}
+              fontSize={["16px","16px","24px"]}
               fontWeight="600"
             >
               {lessonName}

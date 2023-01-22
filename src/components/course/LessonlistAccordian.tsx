@@ -136,6 +136,7 @@ function LessonlistAccordian() {
                 align={"center"}
                 justify="space-evenly"
                 gap={1}
+                flexDirection={["column","column","row"]}
               >
                 {lessonContent.content.map((lesson, index) => (
                   <LessonlementCard
