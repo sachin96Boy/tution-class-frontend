@@ -5,7 +5,7 @@ import { GiBookshelf } from "react-icons/gi";
 import { BsHeadset } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function SideBar() {
   const [dashboard, setDashboard] = useState(false);
@@ -14,15 +14,16 @@ function SideBar() {
   const [myAccount, setMyAccount] = useState(false);
   const [logOut, setLogout] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
+
 
   return (
     <Box
       bg={"white"}
+      as="div"
       h="calc(100vh-100px)"
-      display={location.pathname === "/"|| location.pathname === "/signup" ? "none" : "block"}
+      display={["none","none","block"]}
     >
-      <Flex direction={"column"} align='start' justifyContent="space-between" gap={5}>
+      <Flex  direction={"column"} align='start' justifyContent="space-between" gap={5}>
         <Box
           className="profileViwer"
           bg={"#E6F1FF"}
@@ -42,7 +43,9 @@ function SideBar() {
               </Box>
             </Box>
 
-            <Flex direction={"column"}>
+            <Flex direction={"column"} display={[
+              'none','none','none','block'
+            ]}>
               <Text
                 fontFamily={"body"}
                 color="#215DA7"
@@ -104,12 +107,13 @@ function SideBar() {
                   navigate("/dashboard");
                 }}
               >
-                <MdDashboard />
+                <MdDashboard size={"28px"}/>
                 <Text
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
+                  display={['none','none','none','block']}
                 >
                   Dashboard
                 </Text>
@@ -136,15 +140,16 @@ function SideBar() {
                   setSupport(false);
                   setMyAccount(false);
                   setLogout(false);
-                  navigate("/myCourses");
+                  navigate("/dashboard/myCourses");
                 }}
               >
-                <GiBookshelf />
+                <GiBookshelf size={"28px"}/>
                 <Text
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
+                  display={['none','none','none','block']}
                 >
                   My Courses
                 </Text>
@@ -171,15 +176,16 @@ function SideBar() {
                   setMyCourse(false);
                   setMyAccount(false);
                   setLogout(false);
-                  navigate("/support");
+                  navigate("/dashboard/support");
                 }}
               >
-                <BsHeadset />
+                <BsHeadset size={"28px"}/>
                 <Text
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
+                  display={['none','none','none','block']}
                 >
                   Support
                 </Text>
@@ -206,15 +212,16 @@ function SideBar() {
                   setMyCourse(false);
                   setSupport(false);
                   setLogout(false);
-                  navigate("/myAccount");
+                  navigate("/dashboard/myAccount");
                 }}
               >
-                <FaUser />
+                <FaUser size={"28px"}/>
                 <Text
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
+                  display={['none','none','none','block']}
                 >
                   My Account
                 </Text>
@@ -244,15 +251,17 @@ function SideBar() {
                   setMyCourse(false);
                   setSupport(false);
                   setMyAccount(false);
+                  localStorage.removeItem("user");
                   navigate("/");
                 }}
               >
-                <FiLogOut />
+                <FiLogOut size={"28px"}/>
                 <Text
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
+                  display={['none','none','none','block']}
                 >
                   Logout
                 </Text>

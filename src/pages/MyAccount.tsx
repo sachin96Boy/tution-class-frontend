@@ -124,8 +124,8 @@ function MyAccount() {
   }, [selectedFile]);
 
   return (
-    <Box mx={10}>
-      <Heading as={"h2"} fontSize="36px">
+    <Box mx={[5, 5, 10]} w="full">
+      <Heading as={"h2"} fontSize={["26px", "26px", "36px"]}>
         MY ACCOUNT
       </Heading>
       <Formik
@@ -137,13 +137,17 @@ function MyAccount() {
           <Form autoComplete="off">
             <Flex
               className="profileBanner"
-              p={"24px"}
+              p={["2", "2", "24px"]}
               rounded={"12px"}
               bg={"gray.50"}
               my={5}
-              maxW={"550px"}
+              maxW={["full", "full", "550px"]}
             >
-              <Flex align={"center"} justify="center">
+              <Flex
+                align={"center"}
+                justify="center"
+                flexDirection={["column", "column", "row"]}
+              >
                 <Box
                   className="Avater-box"
                   rounded={"full"}
@@ -180,14 +184,14 @@ function MyAccount() {
                 <Flex
                   ml={5}
                   flexDirection={"column"}
-                  align="start"
+                  align={["center", "start"]}
                   justify={"center"}
                 >
                   <Heading
                     as={"h3"}
                     color="#215DA7"
                     fontWeight={"700"}
-                    fontSize="36px"
+                    fontSize={["24px", "24px", "24px", "36px"]}
                     fontFamily={"body"}
                   >
                     Hashan{" "}
@@ -195,7 +199,7 @@ function MyAccount() {
                       as={"span"}
                       color="#636363"
                       fontWeight={"500"}
-                      fontSize="36px"
+                      fontSize={["24px", "24px", "24px", "36px"]}
                       fontFamily={"body"}
                     >
                       Maduranga
@@ -208,7 +212,7 @@ function MyAccount() {
                       <Text
                         fontFamily={"body"}
                         color="#2ECC71"
-                        fontSize="18px"
+                        fontSize={["16px", "18px"]}
                         fontWeight={"500"}
                       >
                         Verified
@@ -220,7 +224,7 @@ function MyAccount() {
                       <Text
                         fontFamily={"body"}
                         color="#F1C40F"
-                        fontSize="18px"
+                        fontSize={["16px", "18px"]}
                         fontWeight={"500"}
                       >
                         Verification Pending
@@ -237,8 +241,18 @@ function MyAccount() {
               <Heading as={"h5"} fontSize="25px">
                 PROFILE
               </Heading>
-              <Flex align={"center"} justify="center" gap={5}>
-                <Flex align={"center"} justify="center" gap={5}>
+              <Flex
+                flexDirection={["column", "column", "row"]}
+                align={"center"}
+                justify="center"
+                gap={5}
+              >
+                <Flex
+                  flexDirection={["column", "column", "row"]}
+                  align={"center"}
+                  justify="center"
+                  gap={5}
+                >
                   <Flex
                     flexDirection={"column"}
                     align={"center"}
@@ -516,7 +530,7 @@ function MyAccount() {
                     </FormControl>
                   </Flex>
                 </Flex>
-                <Center height="350px">
+                <Center display={["none", "none", "block"]} height="350px">
                   <Divider
                     orientation="vertical"
                     border={"2px"}
@@ -524,7 +538,11 @@ function MyAccount() {
                     mx={5}
                   />
                 </Center>
-                <Flex flexDirection={"column"} gap={5} ml={5}>
+                <Flex
+                  flexDirection={"column"}
+                  gap={5}
+                  ml={[0, 0, 5]}
+                >
                   <FormControl isInvalid={formik.touched.barcode}>
                     <FormLabel htmlFor="barcode">
                       <Text
@@ -551,7 +569,7 @@ function MyAccount() {
                       <ErrorMessage name="barcode" />
                     </FormErrorMessage>
                   </FormControl>
-                  <Box>
+                  <Box w={["50vw","50vw","50vw","full"]}>
                     <Text
                       fontFamily={"body"}
                       color="#636363"
@@ -649,7 +667,7 @@ function MyAccount() {
           </Form>
         )}
       </Formik>
-      <Flex my={2}>
+      <Flex my={2} flexDirection={["column", "column", "row"]}>
         <Heading as={"h5"} fontSize="24px" mr={5}>
           NIC VERIFICATION
         </Heading>
@@ -660,7 +678,7 @@ function MyAccount() {
             <Text
               fontFamily={"body"}
               color="#2ECC71"
-              fontSize="18px"
+              fontSize={["16px", "18px"]}
               fontWeight={"500"}
             >
               Verified
@@ -672,7 +690,7 @@ function MyAccount() {
             <Text
               fontFamily={"body"}
               color="#F1C40F"
-              fontSize="18px"
+              fontSize={["16px", "18px"]}
               fontWeight={"500"}
             >
               Verification Pending

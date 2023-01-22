@@ -27,16 +27,21 @@ const bannerList: Array<string> = [
 function HomePage() {
   return (
     <Box w={"full"}>
-      <Flex mx={10} align={"center"} justify="space-between">
+      <Flex
+        flexDirection={["column", "column", "row"]}
+        gap={2}
+        mx={10}
+        align={"center"}
+        justify="space-between"
+      >
         <Flex
           bg={"#E6F1FF"}
           align={"center"}
           justify="center"
           flexDirection={"column"}
           borderRadius="16px"
-          overflow="hidden"
-          w={"709px"}
-          h={"353px"}
+          w={"full"}
+          p={5}
         >
           <Image src={sipsaLogo} objectFit="cover" w={"421px"} h="210px" />
           <Text
@@ -50,7 +55,7 @@ function HomePage() {
           <Text
             fontFamily={"fantasy"}
             fontWeight={"400"}
-            fontSize="80px"
+            fontSize={["34", "52", "80px"]}
             bgGradient={
               "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
             }
@@ -66,6 +71,7 @@ function HomePage() {
           align={"center"}
           justify="center"
           bg={"yellow.400"}
+          w={"full"}
           p={1}
         >
           <Image
@@ -91,7 +97,12 @@ function HomePage() {
           gap={10}
           px={5}
           rounded="10px"
-          templateColumns={"repeat(5, 1fr)"}
+          templateColumns={[
+            "repeat(1, 1fr)",
+            "repeat(2, 1fr)",
+            "repeat(2, 1fr)",
+            "repeat(5, 1fr)",
+          ]}
           bg="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
         >
           {bannerList.map((item: string, index: number) => (
@@ -112,6 +123,7 @@ function HomePage() {
         my={5}
         mx={10}
         p={3}
+        flexDirection={["column", "column","column", "row"]}
         align={"center"}
         justify="space-between"
         bg="#E6F1FF"
@@ -120,10 +132,9 @@ function HomePage() {
         <Text
           color={"#585858"}
           fontFamily="fantasy"
-          fontSize={"18px"}
+          fontSize={["14px", "14px", "18px"]}
           fontWeight="bold"
-          w={"830px"}
-          mx={2}
+          m={2}
         >
           <Text as={"span"} fontFamily="body">
             Sipsa Web
@@ -135,10 +146,10 @@ function HomePage() {
           පිටුවට පිවිසෙන්න
         </Text>
         <Button
-          colorScheme={'yellow'}
+          colorScheme={"yellow"}
           bgGradient={" linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"}
         >
-          <Text color={"white"} fontSize="21px">
+          <Text color={"white"} fontSize={["16px", "16px", "21px"]}>
             Support Page
           </Text>
         </Button>

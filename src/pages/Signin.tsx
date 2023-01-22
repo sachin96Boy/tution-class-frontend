@@ -1,14 +1,38 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import signinBg from "../assets/signin/bg-signin.jpg";
 import SipsaLogo from "../assets/signin/Sipsa_logo.png";
-import React from "react";
+import React, {useEffect} from "react";
 import Signinform from "../components/formcontrol/Signinform";
+import queryString from 'query-string';
+import useToastResponse from "../components/toast/ToastResponse";
+
 
 function Signin() {
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [state, newToast] = useToastResponse();
+
+  useEffect(()=>{
+    const value = queryString.parse(window.location.search);
+    if(value.emailVerified === 'true'){
+      newToast({
+        status: 'success',
+        title: 'Email verified',
+      })
+    }
+    if(value.emailVerified === 'false'){
+      newToast({
+        status: 'error',
+        title: 'Email not verified',
+      })
+    }
+  },[newToast])
+
   return (
-    <Flex align={"center"} w="full">
+    <Flex flexDirection={['column','column','row']} align={"center"} w="full" h={"100vh"}>
       <Image
         src={signinBg}
+        display={['none','none','flex']}
         w="50%"
         h={"full"}
         objectFit="cover"

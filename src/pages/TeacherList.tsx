@@ -103,7 +103,15 @@ function TeacherList() {
         </Flex>
       </Box>
       <Box className="tacher-list" my={10}>
-        <Grid templateColumns="repeat(3, 1fr)" gap={3}>
+        <Grid
+          templateColumns={[
+            "repeat(1, 1fr)",
+            "repeat(1, 1fr)",
+            "repeat(2, 1fr)",
+            "repeat(3, 1fr)",
+          ]}
+          gap={3}
+        >
           {courseArray
             .filter((teacherElement: CourseCardProps) => {
               if (

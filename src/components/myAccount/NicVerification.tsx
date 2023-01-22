@@ -158,7 +158,7 @@ function NicVerification() {
     >
       {(formik2) => (
         <Form>
-          <Flex align={"center"} justify={"center"} gap={5}>
+          <Flex align={"center"} justify={"center"} gap={5} flexDirection={['column','column','row']}>
             <FormControl>
               <FormLabel htmlFor="frontNic">
                 <Text

@@ -14,8 +14,10 @@ import {
 import { ErrorMessage, Form, Formik } from "formik";
 import React, { useRef } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import axios from "axios";
+import useToastResponse from "../toast/ToastResponse";
 
 interface SigninformProps {
   email: string;
@@ -23,6 +25,9 @@ interface SigninformProps {
 }
 
 function Signinform() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [state, newToast] = useToastResponse();
+  const navigate = useNavigate();
   const { isOpen, onToggle } = useDisclosure();
   const inputRef = useRef<HTMLInputElement>(null);
   const onClickReveal = () => {
@@ -39,15 +44,40 @@ function Signinform() {
     password: "",
   };
 
-  const validationSchema = Yup.object().shape({
+  const validationSchema = Yup.object({
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
     password: Yup.string().required("Password is required"),
   });
 
-  const onSubmit = (values: SigninformProps, actions: any) => {
-    console.log(values);
+  const onSubmit = async (values: SigninformProps, actions: any) => {
+    await axios
+      .post(
+        `/auth/login`,
+        {
+          email: values.email,
+          password: values.password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        newToast({
+          status: res.data.status,
+          message: res.data.message,
+        })
+        if (res.data.user) {
+          localStorage.setItem("user", JSON.stringify(res.data.user));
+          navigate("/dashboard");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     actions.setSubmitting(false);
   };
 
@@ -60,7 +90,7 @@ function Signinform() {
       {(formik) => (
         <Form autoComplete="off">
           <VStack spacing={4}>
-            <FormControl isInvalid={formik.touched.email}>
+            <FormControl>
               <FormLabel htmlFor="email">
                 <Text
                   color={"#636363"}
@@ -86,7 +116,7 @@ function Signinform() {
                 <ErrorMessage name="email" />
               </FormErrorMessage>
             </FormControl>
-            <FormControl isInvalid={formik.touched.password}>
+            <FormControl>
               <FormLabel htmlFor="password">
                 <Text
                   color={"#636363"}

@@ -33,7 +33,7 @@ function CourseCard({
       bg="#E6F1FF"
       rounded={"16px"}
       cursor={"pointer"}
-      onClick={() => navigate(`/course/${year}/${courseId}`)}
+      onClick={() => navigate(`/dashboard/course/${year}/${courseId}`)}
     >
       <Flex align={"center"} justify="center">
         <Image
