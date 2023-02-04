@@ -15,7 +15,7 @@ import Sipsalogo from "../assets/signin/Sipsa_logo.png";
 
 function ForgotPassword() {
   return (
-    <Flex minH={"100vh"} flexDirection={"column"} align={"center"} justify={"center"} bg={"gray.300"}>
+    <Flex minH={"100vh"} flexDirection={"column"} align={"center"} justify={"center"} bg={"gray.200"}>
       <Center>
         <Link to={"/"}>
           <Image

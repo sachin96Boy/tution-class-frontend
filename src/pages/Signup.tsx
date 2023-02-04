@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 function Signup() {
   return (
-    <Flex flexDirection={"column"} align="center" w="full" >
+    <Flex flexDirection={"column"} align="center" w="full" bg={"gray.200"} >
       <Center>
         <Link to={"/"}>
           <Image
