@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import DashBoard from "./pages/DashBoard";
@@ -13,6 +13,7 @@ function App() {
       <Route path="signup" element={<Signup />} />
       <Route path="forgotpassword" element={<ForgotPassword />} />
       <Route path="/" element={<Signin />} />
+      <Route path="*" element={<Navigate to={"/"} replace />} />
     </Routes>
   );
 }

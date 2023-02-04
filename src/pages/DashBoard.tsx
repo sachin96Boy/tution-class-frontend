@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import React from "react";
 import Header from "../components/header/Header";
 import SideBar from "../components/sidebar/SideBar";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import MyCourses from "./MyCourses";
 import CourseDetails from "./CourseDetails";
 import MyAccount from "./MyAccount";
@@ -42,6 +42,7 @@ function DashBoard() {
             <Route path="myCourses" element={<MyCourses />} />
             <Route path="teacherList" element={<TeacherList />} />
             <Route path="/" element={<HomePage />} />
+            <Route path="/*" element={<Navigate to={"/dashboard"} replace/>} />
           </Routes>
         </Box>
       </Box>
