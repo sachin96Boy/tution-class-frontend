@@ -183,7 +183,7 @@ function Signinform() {
               fontSize={"12px"}
               fontWeight="700"
             >
-              <Link to={"/forgotPassword"}>Forget password?</Link>
+              <Link to={"/forgotpassword"}>Forget password?</Link>
             </Text>
             <Button
               type="submit"
