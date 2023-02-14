@@ -1,6 +1,5 @@
 {
   "name": "tution-app",
-  "proxy": "https://tution-class-backend.vercel.app/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
