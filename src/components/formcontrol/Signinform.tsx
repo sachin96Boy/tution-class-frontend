@@ -16,7 +16,7 @@ import React, { useRef } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import axios from "axios";
+import axios from "../../utils/AxiosInstans";
 import useToastResponse from "../toast/ToastResponse";
 
 interface SigninformProps {

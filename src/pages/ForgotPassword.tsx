@@ -4,27 +4,18 @@ import {
   Flex,
   FormControl,
   Heading,
-  Image,
   Input,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import React from "react";
-import { Link } from "react-router-dom";
-import Sipsalogo from "../assets/signin/Sipsa_logo.png";
+import Logo from "../components/Logo";
 
 function ForgotPassword() {
   return (
     <Flex minH={"100vh"} flexDirection={"column"} align={"center"} justify={"center"} bg={"gray.200"}>
       <Center>
-        <Link to={"/"}>
-          <Image
-            src={Sipsalogo}
-            boxSize="36"
-            objectFit={"contain"}
-            alt="Sipsa Institute"
-          />
-        </Link>
+        <Logo boxSize={"36"} linkPath={"/"} fitType={"Contain"} />
       </Center>
       <Stack
         spacing={4}

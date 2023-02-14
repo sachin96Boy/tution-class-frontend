@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Box,
   Button,
@@ -7,13 +8,13 @@ import {
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import sipsaLogo from "../assets/home/Sipsa_logo.png";
 import sipsaclassbanner1 from "../assets/home/class-banner/sipsa-class-1.jpg";
 import sipsaclassBannerrow2 from "../assets/home/class-banner/sipsa-banner-row-2.jpg";
 import sipsaclassBannerrow1 from "../assets/home/class-banner/sipsa-banner-row1.jpg";
 import sipsaclassBannerrow3 from "../assets/home/class-banner/sipsa-banner-row3.jpg";
 import sipsaclassBannerrow4 from "../assets/home/class-banner/sipsa-banner-row4.jpg";
-import React from "react";
+import sipsaLogo from "../assets/header/logos/Sipsa_logo.png";
+
 import Slider from "react-slick";
 
 const bannerList: Array<string> = [
@@ -24,12 +25,16 @@ const bannerList: Array<string> = [
   sipsaclassBannerrow4,
 ];
 
-
-
 function HomePage() {
-  const vertical = useBreakpointValue({base:true,sm:true,md:false, lg:false},{ ssr: false });
-  const verticalSwiping = useBreakpointValue({base:true,sm:true,md:false, lg:false},{ ssr: false });
-  
+  const vertical = useBreakpointValue(
+    { base: true, sm: true, md: false, lg: false },
+    { ssr: false }
+  );
+  const verticalSwiping = useBreakpointValue(
+    { base: true, sm: true, md: false, lg: false },
+    { ssr: false }
+  );
+
   const settings: any = {
     dots: true,
     autoplay: true,
