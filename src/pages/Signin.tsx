@@ -1,10 +1,10 @@
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Flex, Image, Text } from "@chakra-ui/react";
 import signinBg from "../assets/signin/bg-signin.jpg";
-import SipsaLogo from "../assets/signin/Sipsa_logo.png";
 import React, {useEffect} from "react";
 import Signinform from "../components/formcontrol/Signinform";
 import queryString from 'query-string';
 import useToastResponse from "../components/toast/ToastResponse";
+import Logo from "../components/Logo";
 
 
 function Signin() {
@@ -29,7 +29,7 @@ function Signin() {
   },[newToast])
 
   return (
-    <Flex flexDirection={['column','column','row']} align={"center"} w="full" h={"100vh"}>
+    <Flex flexDirection={['column','column','row']} align={"center"} w="full" h={"100vh"} bg={"gray.200"}>
       <Image
         src={signinBg}
         display={['none','none','flex']}
@@ -39,9 +39,10 @@ function Signin() {
         alt="sipsaWeb-Signin"
       />
       <Flex flex={"1"} align="center" flexDir={"column"} justify={"center"}>
-        <Box className="logo">
+        {/* <Box className="logo">
           <Image src={SipsaLogo} boxSize="52" alt="Sipsa Education" />
-        </Box>
+        </Box> */}
+        <Logo boxSize={"52"} linkPath={"/"} fitType={"Cover"} />
         <Text
           fontFamily={"body"}
           fontSize="22px"

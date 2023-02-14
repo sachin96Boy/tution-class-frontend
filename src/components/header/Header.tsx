@@ -2,15 +2,13 @@ import {
   Box,
   Button,
   Flex,
-  Image,
   Text,
   Icon,
   Avatar,
   Spacer,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Header_Logo from "../../assets/header/logos/Sipsa_logo.png";
+import { useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdDashboard } from "react-icons/md";
 import { GiBookshelf } from "react-icons/gi";
@@ -18,6 +16,7 @@ import { BsHeadset } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
+import Logo from "../Logo";
 
 function Header() {
   const navigate = useNavigate();
@@ -47,16 +46,7 @@ function Header() {
           color={"blue.400"}
           onClick={handleShow}
         />
-        <Box className="class-logo">
-          <Link to={"/dashboard"}>
-            <Image
-              boxSize={"24"}
-              src={Header_Logo}
-              objectFit="cover"
-              alt="sipsa Institute"
-            />
-          </Link>
-        </Box>
+        <Logo boxSize={"24"} linkPath={"/dashboard"} fitType={"Cover"}/>
       </Flex>
       <Flex
         display={["none", "none", "flex"]}
@@ -65,16 +55,7 @@ function Header() {
         mx={10}
         as="nav"
       >
-        <Box className="class-logo">
-          <Link to={"/dashboard"}>
-            <Image
-              boxSize={"100px"}
-              src={Header_Logo}
-              objectFit="cover"
-              alt="sipsa Institute"
-            />
-          </Link>
-        </Box>
+        <Logo boxSize={"100px"} linkPath={"/dashboard"} fitType={"Cover"}/>
         <Box className="Teacher-List">
           <Button
             border={"10px"}

@@ -1,20 +1,21 @@
+import React from "react";
 import {
   Box,
   Button,
   Flex,
-  Grid,
-  GridItem,
   Image,
   Spacer,
   Text,
+  useBreakpointValue,
 } from "@chakra-ui/react";
-import sipsaLogo from "../assets/home/Sipsa_logo.png";
 import sipsaclassbanner1 from "../assets/home/class-banner/sipsa-class-1.jpg";
 import sipsaclassBannerrow2 from "../assets/home/class-banner/sipsa-banner-row-2.jpg";
 import sipsaclassBannerrow1 from "../assets/home/class-banner/sipsa-banner-row1.jpg";
 import sipsaclassBannerrow3 from "../assets/home/class-banner/sipsa-banner-row3.jpg";
 import sipsaclassBannerrow4 from "../assets/home/class-banner/sipsa-banner-row4.jpg";
-import React from "react";
+import sipsaLogo from "../assets/header/logos/Sipsa_logo.png";
+
+import Slider from "react-slick";
 
 const bannerList: Array<string> = [
   sipsaclassbanner1,
@@ -25,6 +26,25 @@ const bannerList: Array<string> = [
 ];
 
 function HomePage() {
+  const vertical = useBreakpointValue(
+    { base: true, sm: true, md: false, lg: false },
+    { ssr: false }
+  );
+  const verticalSwiping = useBreakpointValue(
+    { base: true, sm: true, md: false, lg: false },
+    { ssr: false }
+  );
+
+  const settings: any = {
+    dots: true,
+    autoplay: true,
+    vertical: vertical,
+    verticalSwiping: verticalSwiping,
+    autoplaySpeed: 4000,
+    arrow: false,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+  };
   return (
     <Box w={"full"}>
       <Flex
@@ -81,7 +101,7 @@ function HomePage() {
           />
         </Flex>
       </Flex>
-      <Flex mx={10} flexDir={"column"} align="start" justify={"start"}>
+      <Box mx={10}>
         <Text
           bgClip={"text"}
           bgGradient="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
@@ -91,39 +111,33 @@ function HomePage() {
         >
           අපගේ පාඨමාලා
         </Text>
-        <Grid
-          flexDir={"row"}
+        <Box
           alignItems={"center"}
-          gap={10}
           px={5}
           rounded="10px"
-          templateColumns={[
-            "repeat(1, 1fr)",
-            "repeat(2, 1fr)",
-            "repeat(2, 1fr)",
-            "repeat(5, 1fr)",
-          ]}
           bg="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
         >
-          {bannerList.map((item: string, index: number) => (
-            <GridItem key={index}>
-              <Box p={1} bg={"yellow.400"} rounded="5px" my={5}>
-                <Image
-                  borderRadius={"12px"}
-                  src={item}
-                  objectFit="contain"
-                  boxSize={"200px"}
-                />
+          <Slider {...settings}>
+            {bannerList.map((item: string, index: number) => (
+              <Box key={index}>
+                <Box p={1} bg={"yellow.400"} rounded="5px" m={5}>
+                  <Image
+                    borderRadius={"12px"}
+                    src={item}
+                    objectFit="contain"
+                    boxSize={"200px"}
+                  />
+                </Box>
               </Box>
-            </GridItem>
-          ))}
-        </Grid>
-      </Flex>
+            ))}
+          </Slider>
+        </Box>
+      </Box>
       <Flex
         my={5}
         mx={10}
         p={3}
-        flexDirection={["column", "column","column", "row"]}
+        flexDirection={["column", "column", "column", "row"]}
         align={"center"}
         justify="space-between"
         bg="#E6F1FF"

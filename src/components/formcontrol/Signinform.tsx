@@ -16,7 +16,7 @@ import React, { useRef } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import axios from "axios";
+import axios from "../../utils/AxiosInstans";
 import useToastResponse from "../toast/ToastResponse";
 
 interface SigninformProps {
@@ -183,7 +183,7 @@ function Signinform() {
               fontSize={"12px"}
               fontWeight="700"
             >
-              <Link to={"/forgotPassword"}>Forget password?</Link>
+              <Link to={"/forgotpassword"}>Forget password?</Link>
             </Text>
             <Button
               type="submit"

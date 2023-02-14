@@ -1,55 +1,53 @@
-import { Box } from '@chakra-ui/react'
-import React from 'react'
-import Header from '../components/header/Header'
-import SideBar from '../components/sidebar/SideBar'
-import { Route, Routes } from 'react-router-dom'
-import MyCourses from './MyCourses'
-import CourseDetails from './CourseDetails'
-import MyAccount from './MyAccount'
-import TeacherList from './TeacherList'
-import HomePage from './HomePage'
+import { Box } from "@chakra-ui/react";
+import React from "react";
+import Header from "../components/header/Header";
+import SideBar from "../components/sidebar/SideBar";
+import { Navigate, Route, Routes } from "react-router-dom";
+import MyCourses from "./MyCourses";
+import CourseDetails from "./CourseDetails";
+import MyAccount from "./MyAccount";
+import TeacherList from "./TeacherList";
+import HomePage from "./HomePage";
 
 function DashBoard() {
   return (
     <Box
-    className="PageBody"
-    overflow={"hidden"}
-    display="flex"
-    flexDirection={"column"}
-    w="full"
-    h={"100vh"}
-  >
-    <Header />
-    <Box
-      className="containerNew"
-      display={"flex"}
-      flex="1"
+      className="PageBody"
       overflow={"hidden"}
-      w="100vw"
+      display="flex"
+      flexDirection={"column"}
+      w="full"
+      h={"100vh"}
     >
-      {/* add sidebar component Here*/}
-      <SideBar />
+      <Header />
       <Box
-        className="otherSection"
+        className="containerNew"
         display={"flex"}
         flex="1"
-        overflowY={"auto"}
+        overflow={"hidden"}
+        w="100vw"
       >
-        <Routes>
-          {/* add different routes that need to be loade for different pages */}
-          <Route
-            path="course/:year/:courseId"
-            element={<CourseDetails />}
-          />
-          <Route path="myAccount" element={<MyAccount />} />
-          <Route path="myCourses" element={<MyCourses />} />
-          <Route path="teacherList" element={<TeacherList />} />
-          <Route path="/" element={<HomePage />} />
-        </Routes>
+        {/* add sidebar component Here*/}
+        <SideBar />
+        <Box
+          className="otherSection"
+          display={"flex"}
+          flex="1"
+          overflowY={"auto"}
+        >
+          <Routes>
+            {/* add different routes that need to be loade for different pages */}
+            <Route path="course/:year/:courseId" element={<CourseDetails />} />
+            <Route path="myAccount" element={<MyAccount />} />
+            <Route path="myCourses" element={<MyCourses />} />
+            <Route path="teacherList" element={<TeacherList />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/*" element={<Navigate to={"/dashboard"} replace/>} />
+          </Routes>
+        </Box>
       </Box>
     </Box>
-  </Box>
-  )
+  );
 }
 
-export default DashBoard
+export default DashBoard;

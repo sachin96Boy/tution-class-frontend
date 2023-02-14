@@ -1,21 +1,14 @@
-import { Center, Flex, Image, Text } from "@chakra-ui/react";
-import Sipsalogo from "../assets/signin/Sipsa_logo.png";
+import { Center, Flex, Text } from "@chakra-ui/react";
 import React from "react";
 import RegisterForm from "../components/formcontrol/RegisterForm";
 import { Link } from "react-router-dom";
+import Logo from "../components/Logo";
 
 function Signup() {
   return (
-    <Flex flexDirection={"column"} align="center" w="full" >
+    <Flex flexDirection={"column"} align="center" w="full" bg={"gray.200"} >
       <Center>
-        <Link to={"/"}>
-          <Image
-            src={Sipsalogo}
-            boxSize="36"
-            objectFit={"contain"}
-            alt="Sipsa Institute"
-          />
-        </Link>
+      <Logo boxSize={"33"} linkPath={"/"} fitType={"Contain"}/>
       </Center>
       <Flex align={"center"} justify="center" my={"20"}>
         <RegisterForm />

@@ -282,6 +282,7 @@ function RegisterForm() {
                       ml={10}
                       mt={6}
                       onClick={() => handleSendOTP(formik.values.mobile)}
+                      isDisabled={formik.values.mobile.length === 9 ? false : true}
                     >
                       Send OTP
                     </Button>
@@ -324,6 +325,7 @@ function RegisterForm() {
                             formik.values.otpNumber
                           )
                         }
+                        isDisabled={formik.values.otpNumber.length < 0}
                       >
                         Verify OTP
                       </Button>
@@ -439,7 +441,7 @@ function RegisterForm() {
           <Button
             size="sm"
             onClick={nextStep}
-            disabled={!verifyOTP && activeStep === 1 ? true : false}
+            isDisabled={(!verifyOTP && activeStep === 1) ? true : false}
           >
             {activeStep === steps.length - 1 ? "Finish" : "Next"}
           </Button>
