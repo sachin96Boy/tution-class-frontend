@@ -8,6 +8,7 @@ import CourseDetails from "./CourseDetails";
 import MyAccount from "./MyAccount";
 import TeacherList from "./TeacherList";
 import HomePage from "./HomePage";
+import Support from "./Support";
 
 function DashBoard() {
   return (
@@ -41,6 +42,7 @@ function DashBoard() {
             <Route path="myAccount" element={<MyAccount />} />
             <Route path="myCourses" element={<MyCourses />} />
             <Route path="teacherList" element={<TeacherList />} />
+            <Route path="/support" element={<Support />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/*" element={<Navigate to={"/dashboard"} replace/>} />
           </Routes>

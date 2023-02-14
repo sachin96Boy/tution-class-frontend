@@ -6,9 +6,9 @@ import Logo from "../components/Logo";
 
 function Signup() {
   return (
-    <Flex flexDirection={"column"} align="center" w="full" bg={"gray.200"} >
+    <Flex flexDirection={"column"} align="center" w="full" minH="100vh" bg={"gray.200"} >
       <Center>
-      <Logo boxSize={"33"} linkPath={"/"} fitType={"Contain"}/>
+      <Logo boxSize={"36"} linkPath={"/"} fitType={"Contain"}/>
       </Center>
       <Flex align={"center"} justify="center" my={"20"}>
         <RegisterForm />
