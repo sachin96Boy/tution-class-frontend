@@ -34,6 +34,7 @@ function CourseDetailCard({
         />
         <Box ml={[5,5,10]}>
           <Flex flexDirection={"column"} align="start" gap={3}>
+            {/* Button wwith subject name */}
             <Button
               bgGradient={
                 "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
@@ -48,6 +49,7 @@ function CourseDetailCard({
                 {subjectName}
               </Text>
             </Button>
+            {/* Teacher name */}
             <Heading
               fontSize={["16px","16px","24px"]}
               fontFamily={"body"}
@@ -56,6 +58,7 @@ function CourseDetailCard({
             >
               {teacherName}
             </Heading>
+            {/* year and course subscription details */}
             <Heading
               fontFamily={"body"}
               fontSize={["16px","16px","18px"]}
@@ -65,6 +68,7 @@ function CourseDetailCard({
             >
               {year} | {subcription} Course
             </Heading>
+            {/* course description */}
             <Text
               fontFamily={"body"}
               fontSize="10px"
