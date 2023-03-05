@@ -1,9 +1,10 @@
-import { VStack } from "@chakra-ui/react";
+import { Button, Text, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React from "react";
 
 import * as Yup from "yup";
 import InputComponent from "./InputComponent";
+import InputTextAreaComponent from "./InputTextAreaComponent";
 
 type ContactFormProps = {
   fullName: string;
@@ -72,7 +73,36 @@ function ContactUsForm() {
               InputValue={formik.values.grade}
               formikError="grade"
             />
-            
+            <InputTextAreaComponent
+              htmlFor="BodyContent"
+              placeHolder="Say Something to us"
+              labelText="You Message"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              InputValue={formik.values.grade}
+              formikError="contentBody"
+            />
+
+            <Button
+              type="submit"
+              width={"full"}
+              border={"10px"}
+              colorScheme="blue"
+              bgGradient={
+                "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
+              }
+              boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
+              isLoading={formik.isSubmitting}
+            >
+              <Text
+                fontFamily={"body"}
+                fontSize="21px"
+                color="white"
+                fontWeight={"400"}
+              >
+                Submit
+              </Text>
+            </Button>
           </VStack>
         </Form>
       )}

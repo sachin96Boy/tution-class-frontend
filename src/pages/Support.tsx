@@ -5,21 +5,28 @@ import Logo from "../components/Logo";
 
 function Support() {
   return (
-    <Flex alignItems={"center"} justify={"space-between"} mx={"10"}>
+    <Flex
+      align={"center"}
+      flexDirection="column"
+      justify={"space-between"}
+      mx={"10"}
+      w="full"
+    >
+      {/* Sipsa Logo */}
+      <Logo boxSize={"48"} linkPath={"/"} fitType={"Cover"} />
       {/* contact Us Section */}
       <Flex
         flexDirection={"column"}
         alignItems={"center"}
         justifyContent="center"
         gap={2}
+        flex={1}
       >
-        <Text fontFamily={"body"} fontSize={"3xl"} fontWeight={"bold"}>
+        <Text fontFamily={"body"} fontSize={"6xl"} fontWeight={"bold"}>
           Write Us Your Questions
         </Text>
         <ContactUsForm />
       </Flex>
-      {/* Sipsa Logo */}
-      <Logo boxSize={"52"} linkPath={"/"} fitType={"Cover"} />
     </Flex>
   );
 }
