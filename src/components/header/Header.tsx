@@ -32,7 +32,7 @@ function Header() {
   };
 
   let headerNav = (
-    <>
+    <Box top="0" position={"sticky"}>
       <Flex
         mx={5}
         align={"center"}
@@ -46,7 +46,7 @@ function Header() {
           color={"blue.400"}
           onClick={handleShow}
         />
-        <Logo boxSize={"24"} linkPath={"/dashboard"} fitType={"Cover"}/>
+        <Logo boxSize={"24"} linkPath={"/dashboard"} fitType={"Cover"} />
       </Flex>
       <Flex
         display={["none", "none", "flex"]}
@@ -55,7 +55,7 @@ function Header() {
         mx={10}
         as="nav"
       >
-        <Logo boxSize={"100px"} linkPath={"/dashboard"} fitType={"Cover"}/>
+        <Logo boxSize={"100px"} linkPath={"/dashboard"} fitType={"Cover"} />
         <Box className="Teacher-List">
           <Button
             border={"10px"}
@@ -75,18 +75,21 @@ function Header() {
           </Button>
         </Box>
       </Flex>
-    </>
+    </Box>
   );
 
   if (show) {
     headerNav = (
-      <>
-        <Flex
-          m="5"
-          align={"center"}
-          justify={"space-between"}
-          position="relative"
-        >
+      <Box
+        position="fixed"
+        top={0}
+        bottom={0}
+        w="full"
+        overflowY="scroll"
+        overflowX={"hidden"}
+        outline="2px solid red"
+      >
+        <Flex m="5" align={"center"} justify={"space-between"}>
           <Icon
             as={AiOutlineClose}
             boxSize="25"
@@ -362,7 +365,7 @@ function Header() {
             </Flex>
           </Box>
         </Flex>
-      </>
+      </Box>
     );
   }
 
@@ -370,11 +373,7 @@ function Header() {
     <Box
       backgroundColor={"white"}
       as="header"
-      top="0"
-      position={"sticky"}
-      w={show ? "100vw" : "full"}
       h={show ? "full" : "100px"}
-      display={"block"}
     >
       {headerNav}
     </Box>

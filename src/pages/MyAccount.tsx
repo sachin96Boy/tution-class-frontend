@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  Avatar,
   Box,
   Button,
   Center,
@@ -21,12 +20,15 @@ import {
 } from "@chakra-ui/react";
 import * as yup from "yup";
 import { ErrorMessage, Form, Formik, FormikHelpers } from "formik";
+
 import { MdVerifiedUser } from "react-icons/md";
 import { BsShieldFillExclamation } from "react-icons/bs";
-import { TbCameraPlus } from "react-icons/tb";
-import NicVerification from "../components/myAccount/NicVerification";
 
-interface FormValues {
+
+import NicVerification from "../components/myAccount/NicVerification";
+import ProfileBanner from "../components/myAccount/ProfileBanner";
+
+export interface FormValues {
   fullName: string;
   school: string;
   examAttempt: string;
@@ -95,11 +97,12 @@ function MyAccount() {
     }
   };
 
-  // for profile image
+  // for profile image clic to change trigger
   const profilehandleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     formik: FormikHelpers<FormValues>
   ) => {
+    // image path set to undefined
     if (!event.target.files || event.target.files.length === 0) {
       setSelectedFile(undefined);
       return;
@@ -111,6 +114,7 @@ function MyAccount() {
 
   // for profile image
   useEffect(() => {
+    // if no image attached, set profile image to undefined
     if (!selectedFile) {
       setPreview(undefined);
       return;
@@ -135,108 +139,14 @@ function MyAccount() {
       >
         {(formik) => (
           <Form autoComplete="off">
-            <Flex
-              className="profileBanner"
-              p={["2", "2", "24px"]}
-              rounded={"12px"}
-              bg={"gray.50"}
-              my={5}
-              maxW={["full", "full", "550px"]}
-            >
-              <Flex
-                align={"center"}
-                justify="center"
-                flexDirection={["column", "column", "row"]}
-              >
-                <Box
-                  className="Avater-box"
-                  rounded={"full"}
-                  bg="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
-                  p={"4px"}
-                >
-                  <FormControl>
-                    <Input
-                      id="profileImage"
-                      ref={hiddenInputRef}
-                      onChange={(event: any) =>
-                        profilehandleChange(event, formik)
-                      }
-                      type={"file"}
-                      onBlur={formik.handleBlur}
-                      hidden
-                    />
-                    <Avatar
-                      boxSize={"20"}
-                      _hover={{ cursor: "pointer" }}
-                      src={selectedFile ? preview : undefined}
-                      objectFit={"cover"}
-                      icon={
-                        <TbCameraPlus
-                          size={"28"}
-                          style={{ color: "#ffffffff" }}
-                        />
-                      }
-                      onClick={onClick}
-                    />
-                  </FormControl>
-                </Box>
-
-                <Flex
-                  ml={5}
-                  flexDirection={"column"}
-                  align={["center", "start"]}
-                  justify={"center"}
-                >
-                  <Heading
-                    as={"h3"}
-                    color="#215DA7"
-                    fontWeight={"700"}
-                    fontSize={["24px", "24px", "24px", "36px"]}
-                    fontFamily={"body"}
-                  >
-                    Hashan{" "}
-                    <Text
-                      as={"span"}
-                      color="#636363"
-                      fontWeight={"500"}
-                      fontSize={["24px", "24px", "24px", "36px"]}
-                      fontFamily={"body"}
-                    >
-                      Maduranga
-                    </Text>
-                  </Heading>
-                  <Flex gap={5}>
-                    <Flex align={"center"} gap={1}>
-                      {" "}
-                      <MdVerifiedUser style={{ color: "#2ECC71" }} />
-                      <Text
-                        fontFamily={"body"}
-                        color="#2ECC71"
-                        fontSize={["16px", "18px"]}
-                        fontWeight={"500"}
-                      >
-                        Verified
-                      </Text>
-                    </Flex>
-                    <Flex align={"center"} gap={1}>
-                      {" "}
-                      <BsShieldFillExclamation style={{ color: "#F1C40F" }} />
-                      <Text
-                        fontFamily={"body"}
-                        color="#F1C40F"
-                        fontSize={["16px", "18px"]}
-                        fontWeight={"500"}
-                      >
-                        Verification Pending
-                      </Text>
-                    </Flex>
-                  </Flex>
-                </Flex>
-              </Flex>
-              <FormErrorMessage>
-                <ErrorMessage name="profileImage" />
-              </FormErrorMessage>
-            </Flex>
+            <ProfileBanner
+              formik={formik}
+              hiddenInputRef={hiddenInputRef}
+              onClick={onClick}
+              preview={preview}
+              profilehandleChange={profilehandleChange}
+              selectedFile={selectedFile}
+            />
             <Flex flexDirection={"column"} gap={4} className="details-of-form">
               <Heading as={"h5"} fontSize="25px">
                 PROFILE
@@ -538,11 +448,7 @@ function MyAccount() {
                     mx={5}
                   />
                 </Center>
-                <Flex
-                  flexDirection={"column"}
-                  gap={5}
-                  ml={[0, 0, 5]}
-                >
+                <Flex flexDirection={"column"} gap={5} ml={[0, 0, 5]}>
                   <FormControl isInvalid={formik.touched.barcode}>
                     <FormLabel htmlFor="barcode">
                       <Text
@@ -569,7 +475,7 @@ function MyAccount() {
                       <ErrorMessage name="barcode" />
                     </FormErrorMessage>
                   </FormControl>
-                  <Box w={["50vw","50vw","50vw","full"]}>
+                  <Box w={["50vw", "50vw", "50vw", "full"]}>
                     <Text
                       fontFamily={"body"}
                       color="#636363"
