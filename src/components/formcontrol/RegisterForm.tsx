@@ -192,7 +192,7 @@ function RegisterForm() {
             <VStack spacing={4}>
               {activeStep === 0 && (
                 <>
-                  <FormControl>
+                  <FormControl isInvalid={formik.touched.fullName && !!formik.touched.fullName}>
                     <FormLabel htmlFor="fullName">
                       <Text
                         color={"#636363"}
@@ -218,7 +218,7 @@ function RegisterForm() {
                       <ErrorMessage name="fullName" />
                     </FormErrorMessage>
                   </FormControl>
-                  <FormControl>
+                  <FormControl isInvalid={formik.touched.email && !!formik.errors.email}>
                     <FormLabel htmlFor="email">
                       <Text
                         color={"#636363"}
@@ -249,7 +249,7 @@ function RegisterForm() {
               {activeStep === 1 && (
                 <>
                   <Flex align={"center"} justify="center">
-                    <FormControl>
+                    <FormControl isInvalid={formik.touched.mobile && !!formik.errors.mobile}>
                       <FormLabel htmlFor="mobile">
                         <Text
                           color={"#636363"}
@@ -290,7 +290,7 @@ function RegisterForm() {
                   <Box id="recaptcha-container" />
                   {showOTP && (
                     <Flex align={"center"} justify="center">
-                      <FormControl>
+                      <FormControl isInvalid={formik.touched.otpNumber && !!formik.errors.otpNumber}>
                         <FormLabel htmlFor="otpNumber">
                           <Text
                             color={"#636363"}
@@ -335,7 +335,7 @@ function RegisterForm() {
               )}
               {activeStep === 2 && (
                 <>
-                  <FormControl>
+                  <FormControl isInvalid={formik.touched.password && !!formik.errors.password}>
                     <FormLabel htmlFor="password">
                       <Text
                         color={"#636363"}

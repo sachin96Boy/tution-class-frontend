@@ -90,7 +90,7 @@ function Signinform() {
       {(formik) => (
         <Form autoComplete="off">
           <VStack spacing={4}>
-            <FormControl>
+            <FormControl isInvalid={formik.touched.email && !!formik.errors.email}>
               <FormLabel htmlFor="email">
                 <Text
                   color={"#636363"}
@@ -116,7 +116,7 @@ function Signinform() {
                 <ErrorMessage name="email" />
               </FormErrorMessage>
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={formik.touched.password && !!formik.errors.password}>
               <FormLabel htmlFor="password">
                 <Text
                   color={"#636363"}

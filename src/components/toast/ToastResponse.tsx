@@ -7,7 +7,7 @@ export type Iresponse = {
 }
 
 const useToastResponse = () => {
-    const toastposition = useBreakpointValue({ base: 'bottom', md: 'top' }) as any;
+    const toastposition = useBreakpointValue({ base: 'bottom', md: 'top-right' }) as any;
     const toast = useToast();
     const [state, setState] = useState<any>();
     useEffect(()=>{
@@ -20,7 +20,7 @@ const useToastResponse = () => {
                 isClosable: true,
                 position: toastposition,
                 containerStyle: {
-                    marginTop: '140px',
+                    marginTop: '40px',
                     marginBottom: '60px',
                   },
         
