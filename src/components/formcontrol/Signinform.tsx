@@ -11,6 +11,7 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
+import { AxiosError } from "axios";
 import { ErrorMessage, Form, Formik } from "formik";
 import React, { useRef } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
@@ -48,7 +49,10 @@ function Signinform() {
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
-    password: Yup.string().required("Password is required"),
+    password: Yup.string().required("Password is required").matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#%&])(?=.{8,})/,
+      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+    ),
   });
 
   const onSubmit = async (values: SigninformProps, actions: any) => {
@@ -66,17 +70,24 @@ function Signinform() {
         }
       )
       .then((res) => {
-        newToast({
-          status: res.data.status,
-          message: res.data.message,
-        })
-        if (res.data.user) {
-          localStorage.setItem("user", JSON.stringify(res.data.user));
-          navigate("/dashboard");
+        if(res.status === 200){
+          newToast({
+            status: res.data.status,
+            message: res.data.message,
+          })
+          if (res.data.user) {
+            localStorage.setItem("user", JSON.stringify(res.data.user));
+            navigate("/dashboard");
+          }
         }
+        
       })
-      .catch((err) => {
+      .catch((err:AxiosError<any,any>) => {
         console.log(err);
+        newToast({
+          status: err.response?.data?.status,
+          message: err.response?.data?.message,
+        })
       });
     actions.setSubmitting(false);
   };
@@ -90,7 +101,7 @@ function Signinform() {
       {(formik) => (
         <Form autoComplete="off">
           <VStack spacing={4}>
-            <FormControl>
+            <FormControl isInvalid={formik.touched.email && !!formik.errors.email}>
               <FormLabel htmlFor="email">
                 <Text
                   color={"#636363"}
@@ -116,7 +127,7 @@ function Signinform() {
                 <ErrorMessage name="email" />
               </FormErrorMessage>
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={formik.touched.password && !!formik.errors.password}>
               <FormLabel htmlFor="password">
                 <Text
                   color={"#636363"}

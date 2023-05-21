@@ -112,6 +112,65 @@ function MyCourses() {
     setYear("");
   };
 
+  let filteredCourseData = (
+    <Box>
+      <Flex alignItems={"center"}>
+        <Heading as={"h2"}>Item not Found, What Do you want me to do?</Heading>
+      </Flex>
+    </Box>
+  );
+
+  if (teacherName || subjectName || year) {
+    filteredCourseData = (
+      <Grid
+        templateColumns={[
+          "repeat(1, 1fr)",
+          "repeat(1, 1fr)",
+          "repeat(2, 1fr)",
+          "repeat(3, 1fr)",
+        ]}
+        gap={3}
+      >
+        {courseArray
+          .filter((courseElement: CourseCardProps) => {
+            if (
+              courseElement.teacherName
+                .toLowerCase()
+                .includes(teacherName.toLowerCase()) &&
+              courseElement.subjectName
+                .toLowerCase()
+                .includes(subjectName.toLowerCase()) &&
+              courseElement.year.toLowerCase().includes(year.toLowerCase())
+            ) {
+              return courseElement;
+            } else if (
+              teacherName === "" &&
+              subjectName === "" &&
+              year === ""
+            ) {
+              return courseElement;
+            } else {
+              return null;
+            }
+          })
+          .map((course, index) => (
+            <GridItem key={index}>
+              <CourseCard
+                courseId={course.courseId}
+                grade={course.grade}
+                subject={course.subject}
+                subjectName={course.subjectName}
+                teacherName={course.teacherName}
+                description={course.description}
+                year={course.year}
+                courseImg={course.courseImg}
+              />
+            </GridItem>
+          ))}
+      </Grid>
+    );
+  }
+
   return (
     <Box mx={10} w="full">
       <Heading as={"h2"}>Course List</Heading>
@@ -125,7 +184,10 @@ function MyCourses() {
                 justify="space-between"
                 gap={[5, 5, 10]}
               >
-                <Flex flexDirection={["column","column","column","row"]} gap={2}>
+                <Flex
+                  flexDirection={["column", "column", "column", "row"]}
+                  gap={2}
+                >
                   <FormControl>
                     <FormLabel htmlFor="teacherName">Teacher Name</FormLabel>
                     <Input
@@ -245,52 +307,7 @@ function MyCourses() {
         </Formik>
       </Box>
       <Box className="course-list" my={10}>
-        <Grid
-          templateColumns={[
-            "repeat(1, 1fr)",
-            "repeat(1, 1fr)",
-            "repeat(2, 1fr)",
-            "repeat(3, 1fr)",
-          ]}
-          gap={3}
-        >
-          {courseArray
-            .filter((courseElement: CourseCardProps) => {
-              if (
-                courseElement.teacherName
-                  .toLowerCase()
-                  .includes(teacherName.toLowerCase()) &&
-                courseElement.subjectName
-                  .toLowerCase()
-                  .includes(subjectName.toLowerCase()) &&
-                courseElement.year.toLowerCase().includes(year.toLowerCase())
-              ) {
-                return courseElement;
-              } else if (
-                teacherName === "" &&
-                subjectName === "" &&
-                year === ""
-              ) {
-                return courseElement;
-              } else {
-                return null;
-              }
-            })
-            .map((course, index) => (
-              <GridItem key={index}>
-                <CourseCard
-                  courseId={course.courseId}
-                  grade={course.grade}
-                  subject={course.subject}
-                  subjectName={course.subjectName}
-                  teacherName={course.teacherName}
-                  description={course.description}
-                  year={course.year}
-                  courseImg={course.courseImg}
-                />
-              </GridItem>
-            ))}
-        </Grid>
+        {filteredCourseData}
       </Box>
     </Box>
   );
