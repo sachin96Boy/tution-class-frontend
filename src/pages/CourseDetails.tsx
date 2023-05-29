@@ -33,7 +33,7 @@ function CourseDetails() {
       </Box>
       <Box my={10}>
         <Heading
-        fontWeight={'bold'}
+          fontWeight={"bold"}
           bgGradient={"linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"}
           bgClip={"text"}
           text-fill-color="transparent"
