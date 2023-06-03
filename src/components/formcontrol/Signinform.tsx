@@ -77,6 +77,7 @@ function Signinform() {
           })
           if (res.data.user) {
             localStorage.setItem("user", JSON.stringify(res.data.user));
+            localStorage.setItem("access_token", JSON.stringify(res.data.token));
             navigate("/dashboard");
           }
         }
@@ -100,7 +101,7 @@ function Signinform() {
     >
       {(formik) => (
         <Form autoComplete="off">
-          <VStack spacing={4}>
+          <VStack spacing={4} m={4} p={8}>
             <FormControl isInvalid={formik.touched.email && !!formik.errors.email}>
               <FormLabel htmlFor="email">
                 <Text
