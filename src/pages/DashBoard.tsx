@@ -11,6 +11,17 @@ import HomePage from "./HomePage";
 import Support from "./Support";
 
 function DashBoard() {
+  const [items, setItems] = React.useState([]);
+
+  React.useEffect(()=>{
+    const items = JSON.parse(`${localStorage.getItem('user')}`);
+    if (items) {
+     setItems(items);
+    }
+  },[]);
+
+
+
   return (
     <Box
       className="PageBody"
@@ -29,7 +40,7 @@ function DashBoard() {
         w="100vw"
       >
         {/* add sidebar component Here*/}
-        <SideBar />
+        <SideBar items={items}/>
         <Box
           className="otherSection"
           display={"flex"}
@@ -39,7 +50,7 @@ function DashBoard() {
           <Routes>
             {/* add different routes that need to be loade for different pages */}
             <Route path="course/:year/:courseId" element={<CourseDetails />} />
-            <Route path="myAccount" element={<MyAccount />} />
+            <Route path="myAccount" element={<MyAccount  items={items}/>} />
             <Route path="myCourses" element={<MyCourses />} />
             <Route path="teacherList" element={<TeacherList />} />
             <Route path="/support" element={<Support />} />

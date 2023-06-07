@@ -7,7 +7,8 @@ import { FaUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
-function SideBar() {
+function SideBar(props:any) {
+  const {items} = props;
   const [dashboard, setDashboard] = useState(false);
   const [mycourse, setMyCourse] = useState(false);
   const [support, setSupport] = useState(false);
@@ -52,7 +53,7 @@ function SideBar() {
                 fontSize={"15px"}
                 fontWeight="bold"
               >
-                Hashan
+                {items?.displayName?.split(" ")[0]}
               </Text>
               <Text
                 fontFamily={"body"}
@@ -60,7 +61,7 @@ function SideBar() {
                 fontSize={"15px"}
                 fontWeight="normal"
               >
-                Maduranga
+                {items?.displayName?.split(" ")[1]}
               </Text>
             </Flex>
           </Flex>

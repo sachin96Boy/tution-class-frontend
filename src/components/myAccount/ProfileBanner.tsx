@@ -27,6 +27,7 @@ interface BannerProps {
   selectedFile: File;
   preview: string | undefined;
   onClick: () => void;
+  items: any;
 }
 
 function ProfileBanner({
@@ -36,6 +37,7 @@ function ProfileBanner({
   selectedFile,
   preview,
   onClick,
+  items
 }: BannerProps) {
   return (
     <Flex
@@ -90,7 +92,7 @@ function ProfileBanner({
             fontSize={["24px", "24px", "24px", "36px"]}
             fontFamily={"body"}
           >
-            Hashan{" "}
+            {items?.displayName?.split(" ")[0]}{" "}
             <Text
               as={"span"}
               color="#636363"
@@ -98,7 +100,7 @@ function ProfileBanner({
               fontSize={["24px", "24px", "24px", "36px"]}
               fontFamily={"body"}
             >
-              Maduranga
+              {items?.displayName?.split(" ")[1]}
             </Text>
           </Heading>
           <Flex gap={5}>

@@ -45,7 +45,8 @@ export interface FormValues {
   profileImage: File | any;
 }
 
-function MyAccount() {
+function MyAccount(props:any) {
+  const {items} = props;
   const [preview, setPreview] = useState<string>();
   const [selectedFile, setSelectedFile] = useState<any>();
   const hiddenInputRef = useRef<HTMLInputElement>(null);
@@ -146,6 +147,7 @@ function MyAccount() {
               preview={preview}
               profilehandleChange={profilehandleChange}
               selectedFile={selectedFile}
+              items={items}
             />
             <Flex flexDirection={"column"} gap={4} className="details-of-form">
               <Heading as={"h5"} fontSize="25px">
