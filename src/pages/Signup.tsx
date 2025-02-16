@@ -1,5 +1,5 @@
-import { Center, Flex, Text } from "@chakra-ui/react";
 import React from "react";
+import { Center, Flex, Text } from "@chakra-ui/react";
 import RegisterForm from "../components/formcontrol/RegisterForm";
 import { Link } from "react-router-dom";
 import Logo from "../components/Logo";

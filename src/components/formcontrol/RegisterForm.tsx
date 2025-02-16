@@ -160,11 +160,19 @@ function RegisterForm() {
           });
           setVerifyOTP(true);
         } else {
-          newToast({
-            status: "error",
-            message: "something went wrong",
-          })
-          setVerifyOTP(false);
+          if (!res.data.valid) {
+            newToast({
+              status: "error",
+              message: "OTP Not valid",
+            });
+            setVerifyOTP(false);
+          } else {
+            newToast({
+              status: "error",
+              message: "something went wrong",
+            });
+            setVerifyOTP(false);
+          }
         }
       })
       .catch((err: AxiosError) => {
@@ -187,12 +195,24 @@ function RegisterForm() {
         onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
-        {(formik) => (
+        {(formik: {
+          values: RegisterFormProops;
+          touched: Record<string, boolean>;
+          errors: Record<string, string>;
+          handleChange: (e: React.ChangeEvent<any>) => void;
+          handleBlur: (e: React.FocusEvent<any>) => void;
+          handleSubmit: () => void;
+          isSubmitting: boolean;
+        }) => (
           <Form autoComplete="off" onSubmit={handleThis}>
             <VStack spacing={4}>
               {activeStep === 0 && (
                 <>
-                  <FormControl isInvalid={formik.touched.fullName && !!formik.touched.fullName}>
+                  <FormControl
+                    isInvalid={
+                      formik.touched.fullName && !!formik.touched.fullName
+                    }
+                  >
                     <FormLabel htmlFor="fullName">
                       <Text
                         color={"#636363"}
@@ -218,7 +238,9 @@ function RegisterForm() {
                       <ErrorMessage name="fullName" />
                     </FormErrorMessage>
                   </FormControl>
-                  <FormControl isInvalid={formik.touched.email && !!formik.errors.email}>
+                  <FormControl
+                    isInvalid={formik.touched.email && !!formik.errors.email}
+                  >
                     <FormLabel htmlFor="email">
                       <Text
                         color={"#636363"}
@@ -249,7 +271,11 @@ function RegisterForm() {
               {activeStep === 1 && (
                 <>
                   <Flex align={"center"} justify="center">
-                    <FormControl isInvalid={formik.touched.mobile && !!formik.errors.mobile}>
+                    <FormControl
+                      isInvalid={
+                        formik.touched.mobile && !!formik.errors.mobile
+                      }
+                    >
                       <FormLabel htmlFor="mobile">
                         <Text
                           color={"#636363"}
@@ -282,7 +308,9 @@ function RegisterForm() {
                       ml={10}
                       mt={6}
                       onClick={() => handleSendOTP(formik.values.mobile)}
-                      isDisabled={formik.values.mobile.length === 9 ? false : true}
+                      isDisabled={
+                        formik.values.mobile.length === 9 ? false : true
+                      }
                     >
                       Send OTP
                     </Button>
@@ -290,7 +318,11 @@ function RegisterForm() {
                   <Box id="recaptcha-container" />
                   {showOTP && (
                     <Flex align={"center"} justify="center">
-                      <FormControl isInvalid={formik.touched.otpNumber && !!formik.errors.otpNumber}>
+                      <FormControl
+                        isInvalid={
+                          formik.touched.otpNumber && !!formik.errors.otpNumber
+                        }
+                      >
                         <FormLabel htmlFor="otpNumber">
                           <Text
                             color={"#636363"}
@@ -335,7 +367,11 @@ function RegisterForm() {
               )}
               {activeStep === 2 && (
                 <>
-                  <FormControl isInvalid={formik.touched.password && !!formik.errors.password}>
+                  <FormControl
+                    isInvalid={
+                      formik.touched.password && !!formik.errors.password
+                    }
+                  >
                     <FormLabel htmlFor="password">
                       <Text
                         color={"#636363"}
@@ -441,7 +477,7 @@ function RegisterForm() {
           <Button
             size="sm"
             onClick={nextStep}
-            isDisabled={(!verifyOTP && activeStep === 1) ? true : false}
+            isDisabled={!verifyOTP && activeStep === 1 ? true : false}
           >
             {activeStep === steps.length - 1 ? "Finish" : "Next"}
           </Button>
