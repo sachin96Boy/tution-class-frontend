@@ -2,28 +2,28 @@ import {
   Box,
   Button,
   Flex,
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
+  Group,
   Heading,
   IconButton,
   Input,
-  InputGroup,
-  InputLeftAddon,
-  InputRightElement,
+  InputAddon,
+  StepsRootProvider,
   Text,
   useDisclosure,
+  useSteps,
   VStack,
 } from "@chakra-ui/react";
-import { ErrorMessage, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import React, { useRef, useState } from "react";
-import { Step, Steps, useSteps } from "chakra-ui-steps";
+// import { Step, Steps, useSteps } from "chakra-ui-steps";
 import * as Yup from "yup";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import axios from "axios";
 import { AxiosResponse, AxiosError } from "axios";
 import useToastResponse from "../toast/ToastResponse";
+import { Field } from "../ui/field";
+import { InputGroup } from "../ui/input-group";
+import { StepsItem, StepsList } from "../ui/steps";
 
 interface RegisterFormProops {
   fullName: string;
@@ -38,7 +38,7 @@ function RegisterForm() {
   const [state, newToast] = useToastResponse();
   const [showOTP, setShowOTP] = useState<boolean>(false);
   const [verifyOTP, setVerifyOTP] = useState<boolean>(false);
-  const { isOpen, onToggle } = useDisclosure();
+  const { open, onToggle } = useDisclosure();
   const inputRef = useRef<HTMLInputElement>(null);
   const onClickReveal = () => {
     onToggle();
@@ -54,8 +54,9 @@ function RegisterForm() {
     { label: "Step 2", description: "Mobile Number Verification" },
     { label: "Step 3", description: "Password Submission" },
   ];
-  const { nextStep, prevStep, reset, activeStep } = useSteps({
-    initialStep: 0,
+  const stepsHooks = useSteps({
+    defaultStep: 0,
+    count: steps.length,
   });
   const initialValues: RegisterFormProops = {
     fullName: "",
@@ -184,11 +185,18 @@ function RegisterForm() {
   return (
     <Flex flexDir={"column"} align="center" justify={"center"} gap={10}>
       <Flex w={"full"}>
-        <Steps colorScheme="blue" activeStep={activeStep}>
-          {steps.map(({ label, description }, index) => (
-            <Step label={label} key={label} description={description} />
-          ))}
-        </Steps>
+        <StepsRootProvider colorScheme="blue" value={stepsHooks}>
+          <StepsList>
+            {steps.map(({ label, description }, index) => (
+              <StepsItem
+                index={index}
+                title={label}
+                key={label}
+                description={description}
+              />
+            ))}
+          </StepsList>
+        </StepsRootProvider>
       </Flex>
       <Formik
         initialValues={initialValues}
@@ -205,24 +213,16 @@ function RegisterForm() {
           isSubmitting: boolean;
         }) => (
           <Form autoComplete="off" onSubmit={handleThis}>
-            <VStack spacing={4}>
-              {activeStep === 0 && (
+            <VStack gap={4}>
+              {stepsHooks.value === 0 && (
                 <>
-                  <FormControl
-                    isInvalid={
+                  <Field
+                    invalid={
                       formik.touched.fullName && !!formik.touched.fullName
                     }
+                    label="fullName"
+                    errorText={formik.errors.fullName}
                   >
-                    <FormLabel htmlFor="fullName">
-                      <Text
-                        color={"#636363"}
-                        fontSize="12px"
-                        fontWeight={"600"}
-                        fontFamily="body"
-                      >
-                        Full Name
-                      </Text>
-                    </FormLabel>
                     <Input
                       id="fullName"
                       type={"text"}
@@ -234,23 +234,12 @@ function RegisterForm() {
                       placeholder="Full Name"
                       rounded={"10px"}
                     />
-                    <FormErrorMessage>
-                      <ErrorMessage name="fullName" />
-                    </FormErrorMessage>
-                  </FormControl>
-                  <FormControl
-                    isInvalid={formik.touched.email && !!formik.errors.email}
+                  </Field>
+                  <Field
+                    invalid={formik.touched.email && !!formik.errors.email}
+                    label="email"
+                    errorText={formik.errors.email}
                   >
-                    <FormLabel htmlFor="email">
-                      <Text
-                        color={"#636363"}
-                        fontSize="12px"
-                        fontWeight={"600"}
-                        fontFamily="body"
-                      >
-                        Email
-                      </Text>
-                    </FormLabel>
                     <Input
                       id="email"
                       type={"text"}
@@ -262,32 +251,19 @@ function RegisterForm() {
                       placeholder="email address"
                       rounded={"10px"}
                     />
-                    <FormErrorMessage>
-                      <ErrorMessage name="email" />
-                    </FormErrorMessage>
-                  </FormControl>
+                  </Field>
                 </>
               )}
-              {activeStep === 1 && (
+              {stepsHooks.value === 1 && (
                 <>
                   <Flex align={"center"} justify="center">
-                    <FormControl
-                      isInvalid={
-                        formik.touched.mobile && !!formik.errors.mobile
-                      }
+                    <Field
+                      invalid={formik.touched.mobile && !!formik.errors.mobile}
+                      label="mobile"
+                      errorText={formik.errors.mobile}
                     >
-                      <FormLabel htmlFor="mobile">
-                        <Text
-                          color={"#636363"}
-                          fontSize="12px"
-                          fontWeight={"600"}
-                          fontFamily="body"
-                        >
-                          Mobile Number
-                        </Text>
-                      </FormLabel>
-                      <InputGroup>
-                        <InputLeftAddon children="+94" />
+                      <Group attached>
+                        <InputAddon>+94</InputAddon>
                         <Input
                           id="mobile"
                           type={"text"}
@@ -299,16 +275,13 @@ function RegisterForm() {
                           placeholder="Mobile Number"
                           rounded={"10px"}
                         />
-                      </InputGroup>
-                      <FormErrorMessage>
-                        <ErrorMessage name="mobile" />
-                      </FormErrorMessage>
-                    </FormControl>
+                      </Group>
+                    </Field>
                     <Button
                       ml={10}
                       mt={6}
                       onClick={() => handleSendOTP(formik.values.mobile)}
-                      isDisabled={
+                      disabled={
                         formik.values.mobile.length === 9 ? false : true
                       }
                     >
@@ -318,21 +291,13 @@ function RegisterForm() {
                   <Box id="recaptcha-container" />
                   {showOTP && (
                     <Flex align={"center"} justify="center">
-                      <FormControl
-                        isInvalid={
+                      <Field
+                        invalid={
                           formik.touched.otpNumber && !!formik.errors.otpNumber
                         }
+                        label="otpNumber"
+                        errorText={formik.errors.otpNumber}
                       >
-                        <FormLabel htmlFor="otpNumber">
-                          <Text
-                            color={"#636363"}
-                            fontSize="12px"
-                            fontWeight={"600"}
-                            fontFamily="body"
-                          >
-                            OTP Number
-                          </Text>
-                        </FormLabel>
                         <Input
                           id="otpNumber"
                           type={"text"}
@@ -344,10 +309,7 @@ function RegisterForm() {
                           placeholder="Mobile Number"
                           rounded={"10px"}
                         />
-                        <FormErrorMessage>
-                          <ErrorMessage name="otpNumber" />
-                        </FormErrorMessage>
-                      </FormControl>
+                      </Field>
                       <Button
                         ml={10}
                         mt={6}
@@ -357,7 +319,7 @@ function RegisterForm() {
                             formik.values.otpNumber
                           )
                         }
-                        isDisabled={formik.values.otpNumber.length < 0}
+                        disabled={formik.values.otpNumber.length < 0}
                       >
                         Verify OTP
                       </Button>
@@ -365,28 +327,37 @@ function RegisterForm() {
                   )}
                 </>
               )}
-              {activeStep === 2 && (
+              {stepsHooks.value === 2 && (
                 <>
-                  <FormControl
-                    isInvalid={
+                  <Field
+                    invalid={
                       formik.touched.password && !!formik.errors.password
                     }
+                    label="password"
+                    errorText={formik.errors.password}
+                    helperText=" Password must be at least 8 characters long, contain
+                        letters and numbers, and must not contain spaces"
                   >
-                    <FormLabel htmlFor="password">
-                      <Text
-                        color={"#636363"}
-                        fontSize="12px"
-                        fontWeight={"600"}
-                        fontFamily="body"
-                      >
-                        password
-                      </Text>
-                    </FormLabel>
-                    <InputGroup>
+                    <InputGroup
+                      endElement={
+                        <IconButton
+                          aria-label={
+                            open ? "Mask password" : "Reveal password"
+                          }
+                          onClick={() => onClickReveal()}
+                        >
+                          {open ? (
+                            <HiEye style={{ color: "gray.500" }} />
+                          ) : (
+                            <HiEyeOff style={{ color: "gray.500" }} />
+                          )}
+                        </IconButton>
+                      }
+                    >
                       <Input
                         id="password"
                         ref={inputRef}
-                        type={isOpen ? "text" : "password"}
+                        type={open ? "text" : "password"}
                         value={formik.values.password}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
@@ -395,80 +366,55 @@ function RegisterForm() {
                         placeholder="Password"
                         rounded={"10px"}
                       />
-                      <InputRightElement>
-                        <IconButton
-                          aria-label={
-                            isOpen ? "Mask password" : "Reveal password"
-                          }
-                          onClick={() => onClickReveal()}
-                          variant="link"
-                          icon={
-                            isOpen ? (
-                              <HiEye style={{ color: "gray.500" }} />
-                            ) : (
-                              <HiEyeOff style={{ color: "gray.500" }} />
-                            )
-                          }
-                        />
-                      </InputRightElement>
                     </InputGroup>
-                    <FormErrorMessage>
-                      <ErrorMessage name="password" />
-                    </FormErrorMessage>
-                    <FormHelperText>
-                      <Text
-                        color={"#636363"}
-                        fontSize="12px"
-                        fontWeight={"600"}
-                        fontFamily="body"
-                      >
-                        Password must be at least 8 characters long, contain
-                        letters and numbers, and must not contain spaces,
-                      </Text>
-                    </FormHelperText>
-                  </FormControl>
-                  <Button
-                    type="button"
-                    width={"full"}
-                    border={"10px"}
-                    colorScheme="blue"
-                    bgGradient={
-                      "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
-                    }
-                    boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
-                    onClick={() => formik.handleSubmit()}
-                    isLoading={formik.isSubmitting}
-                  >
-                    <Text
-                      fontFamily={"body"}
-                      fontSize="21px"
-                      color="white"
-                      fontWeight={"400"}
+                    <Button
+                      type="button"
+                      width={"full"}
+                      border={"10px"}
+                      colorScheme="blue"
+                      bgGradient={
+                        "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
+                      }
+                      boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
+                      onClick={() => formik.handleSubmit()}
+                      loading={formik.isSubmitting}
                     >
-                      Register
-                    </Text>
-                  </Button>
+                      <Text
+                        fontFamily={"body"}
+                        fontSize="21px"
+                        color="white"
+                        fontWeight={"400"}
+                      >
+                        Register
+                      </Text>
+                    </Button>
+                  </Field>
                 </>
               )}
             </VStack>
           </Form>
         )}
       </Formik>
-      {activeStep === steps.length ? (
+      {stepsHooks.value === steps.length ? (
         <Flex px={4} py={4} width="100%" flexDirection="column">
           <Heading fontSize="xl" textAlign="center">
             Woohoo! All steps completed!
           </Heading>
-          <Button mx="auto" mt={6} size="sm" onClick={reset}>
+          <Button
+            mx="auto"
+            mt={6}
+            size="sm"
+            onClick={() => stepsHooks.resetStep()}
+          >
             Reset
           </Button>
         </Flex>
       ) : (
         <Flex width="100%" justify="flex-end">
           <Button
-            isDisabled={activeStep === 0}
+            disabled={stepsHooks.value === 0}
             mr={4}
-            onClick={prevStep}
+            onClick={() => stepsHooks.goToPrevStep()}
             size="sm"
             variant="ghost"
           >
@@ -476,10 +422,10 @@ function RegisterForm() {
           </Button>
           <Button
             size="sm"
-            onClick={nextStep}
-            isDisabled={!verifyOTP && activeStep === 1 ? true : false}
+            onClick={() => stepsHooks.goToNextStep()}
+            disabled={!verifyOTP && stepsHooks.value === 1 ? true : false}
           >
-            {activeStep === steps.length - 1 ? "Finish" : "Next"}
+            {stepsHooks.value === steps.length - 1 ? "Finish" : "Next"}
           </Button>
         </Flex>
       )}

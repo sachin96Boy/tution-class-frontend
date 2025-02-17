@@ -1,21 +1,20 @@
-import { extendTheme } from "@chakra-ui/react";
-import { theme } from "@chakra-ui/react";
-import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
+import { createSystem, defineConfig } from "@chakra-ui/react";
+
 import "@fontsource/roboto";
 import "@fontsource/noto-sans-sinhala";
 
-const customTheme = extendTheme(
-  {
-    fonts: {
-      body: "Roboto, system-ui, sans-serif",
-      heading: "Roboto, system-ui, sans-serif",
-      fantasy: "Noto Sans Sinhala, sans-serif",
-    },
-    components: {
-      Steps,
+const config = defineConfig({
+  theme: {
+    tokens: {
+      fonts: {
+        body: { value: "Roboto, system-ui, sans-serif" },
+        heading: { value: "Roboto, system-ui, sans-serif" },
+        fantasy: { value: "Noto Sans Sinhala, sans-serif" },
+      },
     },
   },
-  theme
-);
+});
 
-export default customTheme;
+const customSystem = createSystem(config);
+
+export default customSystem;
