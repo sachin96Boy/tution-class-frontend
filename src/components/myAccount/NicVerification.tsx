@@ -3,15 +3,13 @@ import {
   Button,
   Center,
   Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
   Input,
   Text,
 } from "@chakra-ui/react";
 import * as yup from "yup";
 import { ErrorMessage, Form, Formik, FormikHelpers } from "formik";
 import { BsCameraFill } from "react-icons/bs";
+import { Field } from "../ui/field";
 
 interface NicValues {
   frontNic: File | any;
@@ -159,17 +157,7 @@ function NicVerification() {
       {(formik2) => (
         <Form>
           <Flex align={"center"} justify={"center"} gap={5} flexDirection={['column','column','row']}>
-            <FormControl>
-              <FormLabel htmlFor="frontNic">
-                <Text
-                  color={"#636363"}
-                  fontSize="12px"
-                  fontWeight={"600"}
-                  fontFamily="body"
-                >
-                  Front of the NIC
-                </Text>
-              </FormLabel>
+            <Field label="frontNic" >
               <Input
                 id="frontNic"
                 ref={hiddenInputRefNic}
@@ -202,21 +190,8 @@ function NicVerification() {
                   />
                 </Center>
               </Flex>
-              <FormErrorMessage>
-                {formik2.values.frontNic === "" && <Text>no nic image</Text>}
-              </FormErrorMessage>
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="backNic">
-                <Text
-                  color={"#636363"}
-                  fontSize="12px"
-                  fontWeight={"600"}
-                  fontFamily="body"
-                >
-                  Back of the NIC
-                </Text>
-              </FormLabel>
+            </Field>
+            <Field label="backNic">
               <Input
                 id="frontNic"
                 ref={hiddenInputRefNicBack}
@@ -249,21 +224,8 @@ function NicVerification() {
                   />
                 </Center>
               </Flex>
-              <FormErrorMessage>
-                <ErrorMessage name="backNic" />
-              </FormErrorMessage>
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="selfieNic">
-                <Text
-                  color={"#636363"}
-                  fontSize="12px"
-                  fontWeight={"600"}
-                  fontFamily="body"
-                >
-                  Selfie with the NIC
-                </Text>
-              </FormLabel>
+            </Field>
+            <Field label="selfieNic">
               <Input
                 id="frontNic"
                 ref={hiddenInputRefNicSelfie}
@@ -296,14 +258,11 @@ function NicVerification() {
                   />
                 </Center>
               </Flex>
-              <FormErrorMessage>
-                <ErrorMessage name="selfieNic" />
-              </FormErrorMessage>
-            </FormControl>
+            </Field>
             <Button
               type="submit"
               width={"full"}
-              isDisabled={
+              disabled={
                 formik2.isSubmitting ||
                 formik2.values.frontNic === "" ||
                 formik2.values.backNic === "" ||
@@ -315,7 +274,7 @@ function NicVerification() {
                 "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
               }
               boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
-              isLoading={formik2.isSubmitting}
+              loading={formik2.isSubmitting}
             >
               <Text
                 fontFamily={"body"}

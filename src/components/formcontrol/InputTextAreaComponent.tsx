@@ -1,12 +1,7 @@
-import {
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Text,
-  Textarea,
-} from "@chakra-ui/react";
+import { Text, Textarea } from "@chakra-ui/react";
 import { ErrorMessage } from "formik";
 import React from "react";
+import { Field } from "../ui/field";
 
 type InputProps = {
   htmlFor: string | undefined;
@@ -28,17 +23,7 @@ function InputTextAreaComponent({
   formikError,
 }: InputProps) {
   return (
-    <FormControl>
-      <FormLabel htmlFor={htmlFor}>
-        <Text
-          color={"#636363"}
-          fontSize="12px"
-          fontWeight={"600"}
-          fontFamily="body"
-        >
-          {labelText}
-        </Text>
-      </FormLabel>
+    <Field label={htmlFor}>
       <Textarea
         id={htmlFor}
         value={InputValue}
@@ -50,10 +35,7 @@ function InputTextAreaComponent({
         rounded={"10px"}
         size="lg"
       />
-      <FormErrorMessage>
-        <ErrorMessage name={formikError} />
-      </FormErrorMessage>
-    </FormControl>
+    </Field>
   );
 }
 

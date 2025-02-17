@@ -1,15 +1,12 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Flex,
-  Heading,
-} from "@chakra-ui/react";
+import { Box, Flex, Heading } from "@chakra-ui/react";
 import React from "react";
 import LessonlementCard from "./LessonlementCard";
+import {
+  AccordionItem,
+  AccordionItemContent,
+  AccordionItemTrigger,
+  AccordionRoot,
+} from "../ui/accordion";
 
 export interface LessonContent {
   week: string;
@@ -105,11 +102,11 @@ const lessonList: Array<LessonDetailsListProps> = [
 function LessonlistAccordian() {
   return (
     <Box>
-      {lessonList.map((lessonContent, index) => (
-        <Accordion key={index} my={2} allowMultiple w={'full'}>
-          <AccordionItem>
-            <Heading>
-              <AccordionButton
+      <AccordionRoot my={2} multiple w={"full"}>
+        {lessonList.map((lessonContent, index) => (
+          <AccordionItem key={index} value={lessonContent.subject}>
+            <AccordionItemTrigger>
+              <Box
                 h={"61.76px"}
                 color="white"
                 fontFamily={"body"}
@@ -126,17 +123,17 @@ function LessonlistAccordian() {
                 <Box flex="1" textAlign="left">
                   {lessonContent.month} {lessonContent.year}
                 </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </Heading>
+              </Box>
+              {lessonContent.month}
+            </AccordionItemTrigger>
 
-            <AccordionPanel p={2}>
+            <AccordionItemContent>
               <Flex
                 bg="#E6F1FF"
                 align={"center"}
                 justify="space-evenly"
                 gap={1}
-                flexDirection={["column","column","row"]}
+                flexDirection={["column", "column", "row"]}
               >
                 {lessonContent.content.map((lesson, index) => (
                   <LessonlementCard
@@ -150,10 +147,10 @@ function LessonlistAccordian() {
                   />
                 ))}
               </Flex>
-            </AccordionPanel>
+            </AccordionItemContent>
           </AccordionItem>
-        </Accordion>
-      ))}
+        ))}
+      </AccordionRoot>
     </Box>
   );
 }

@@ -3,20 +3,12 @@ import {
   Box,
   Button,
   Center,
-  Divider,
   Flex,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
   Heading,
   Input,
   Table,
   TableCaption,
-  TableContainer,
   Text,
-  Th,
-  Thead,
-  Tr,
 } from "@chakra-ui/react";
 import * as yup from "yup";
 import { ErrorMessage, Form, Formik, FormikHelpers } from "formik";
@@ -24,9 +16,9 @@ import { ErrorMessage, Form, Formik, FormikHelpers } from "formik";
 import { MdVerifiedUser } from "react-icons/md";
 import { BsShieldFillExclamation } from "react-icons/bs";
 
-
 import NicVerification from "../components/myAccount/NicVerification";
 import ProfileBanner from "../components/myAccount/ProfileBanner";
+import { Field } from "@/components/ui/field";
 
 export interface FormValues {
   fullName: string;
@@ -170,17 +162,7 @@ function MyAccount() {
                     gap={1}
                     mr={5}
                   >
-                    <FormControl isInvalid={formik.touched.fullName}>
-                      <FormLabel htmlFor="fullName">
-                        <Text
-                          color={"#636363"}
-                          fontSize="12px"
-                          fontWeight={"600"}
-                          fontFamily="body"
-                        >
-                          Full name
-                        </Text>
-                      </FormLabel>
+                    <Field label="fullName" isInvalid={formik.touched.fullName}>
                       <Input
                         id="fullName"
                         type={"text"}
@@ -192,21 +174,11 @@ function MyAccount() {
                         placeholder="Enter Full name"
                         rounded={"10px"}
                       />
-                      <FormErrorMessage>
-                        <ErrorMessage name="fullName" />
-                      </FormErrorMessage>
-                    </FormControl>
-                    <FormControl isInvalid={formik.touched.examAttempt}>
-                      <FormLabel htmlFor="examAttempt">
-                        <Text
-                          color={"#636363"}
-                          fontSize="12px"
-                          fontWeight={"600"}
-                          fontFamily="body"
-                        >
-                          Exam Attempt
-                        </Text>
-                      </FormLabel>
+                    </Field>
+                    <Field
+                      label="examAttempt"
+                      isInvalid={formik.touched.examAttempt}
+                    >
                       <Input
                         id="examAttempt"
                         type={"text"}
@@ -218,21 +190,8 @@ function MyAccount() {
                         placeholder="Enter Exam Attempt"
                         rounded={"10px"}
                       />
-                      <FormErrorMessage>
-                        <ErrorMessage name="examAttempt" />
-                      </FormErrorMessage>
-                    </FormControl>
-                    <FormControl isInvalid={formik.touched.district}>
-                      <FormLabel htmlFor="district">
-                        <Text
-                          color={"#636363"}
-                          fontSize="12px"
-                          fontWeight={"600"}
-                          fontFamily="body"
-                        >
-                          District
-                        </Text>
-                      </FormLabel>
+                    </Field>
+                    <Field label="district" isInvalid={formik.touched.district}>
                       <Input
                         id="district"
                         type={"text"}
@@ -244,21 +203,8 @@ function MyAccount() {
                         placeholder="Enter District"
                         rounded={"10px"}
                       />
-                      <FormErrorMessage>
-                        <ErrorMessage name="district" />
-                      </FormErrorMessage>
-                    </FormControl>
-                    <FormControl isInvalid={formik.touched.nic}>
-                      <FormLabel htmlFor="nic">
-                        <Text
-                          color={"#636363"}
-                          fontSize="12px"
-                          fontWeight={"600"}
-                          fontFamily="body"
-                        >
-                          Nic
-                        </Text>
-                      </FormLabel>
+                    </Field>
+                    <Field label="nic" isInvalid={formik.touched.nic}>
                       <Input
                         id="nic"
                         type={"text"}
@@ -270,21 +216,11 @@ function MyAccount() {
                         placeholder="Enter NIC number"
                         rounded={"10px"}
                       />
-                      <FormErrorMessage>
-                        <ErrorMessage name="nic" />
-                      </FormErrorMessage>
-                    </FormControl>
-                    <FormControl isInvalid={formik.touched.mobileNumber}>
-                      <FormLabel htmlFor="mobileNumber">
-                        <Text
-                          color={"#636363"}
-                          fontSize="12px"
-                          fontWeight={"600"}
-                          fontFamily="body"
-                        >
-                          Mobile Number
-                        </Text>
-                      </FormLabel>
+                    </Field>
+                    <Field
+                      label="mobileNumber"
+                      isInvalid={formik.touched.mobileNumber}
+                    >
                       <Input
                         id="mobileNumber"
                         type={"text"}
@@ -296,10 +232,7 @@ function MyAccount() {
                         placeholder="Enter Mobile Number"
                         rounded={"10px"}
                       />
-                      <FormErrorMessage>
-                        <ErrorMessage name="mobileNumber" />
-                      </FormErrorMessage>
-                    </FormControl>
+                    </Field>
                   </Flex>
                   <Flex
                     flexDirection={"column"}
@@ -308,17 +241,7 @@ function MyAccount() {
                     gap={1}
                     mr={5}
                   >
-                    <FormControl isInvalid={formik.touched.school}>
-                      <FormLabel htmlFor="school">
-                        <Text
-                          color={"#636363"}
-                          fontSize="12px"
-                          fontWeight={"600"}
-                          fontFamily="body"
-                        >
-                          School
-                        </Text>
-                      </FormLabel>
+                    <Field label="school" isInvalid={formik.touched.school}>
                       <Input
                         id="school"
                         type={"text"}
@@ -330,21 +253,8 @@ function MyAccount() {
                         placeholder="Enter School"
                         rounded={"10px"}
                       />
-                      <FormErrorMessage>
-                        <ErrorMessage name="school" />
-                      </FormErrorMessage>
-                    </FormControl>
-                    <FormControl isInvalid={formik.touched.examYear}>
-                      <FormLabel htmlFor="examYear">
-                        <Text
-                          color={"#636363"}
-                          fontSize="12px"
-                          fontWeight={"600"}
-                          fontFamily="body"
-                        >
-                          Exam Year
-                        </Text>
-                      </FormLabel>
+                    </Field>
+                    <Field label="examYear" isInvalid={formik.touched.examYear}>
                       <Input
                         id="examYear"
                         type={"text"}
@@ -356,21 +266,8 @@ function MyAccount() {
                         placeholder="Enter Exam Year"
                         rounded={"10px"}
                       />
-                      <FormErrorMessage>
-                        <ErrorMessage name="examYear" />
-                      </FormErrorMessage>
-                    </FormControl>
-                    <FormControl isInvalid={formik.touched.city}>
-                      <FormLabel htmlFor="city">
-                        <Text
-                          color={"#636363"}
-                          fontSize="12px"
-                          fontWeight={"600"}
-                          fontFamily="body"
-                        >
-                          City
-                        </Text>
-                      </FormLabel>
+                    </Field>
+                    <Field label="city" isInvalid={formik.touched.city}>
                       <Input
                         id="city"
                         type={"text"}
@@ -382,21 +279,8 @@ function MyAccount() {
                         placeholder="Enter City"
                         rounded={"10px"}
                       />
-                      <FormErrorMessage>
-                        <ErrorMessage name="city" />
-                      </FormErrorMessage>
-                    </FormControl>
-                    <FormControl isInvalid={formik.touched.address}>
-                      <FormLabel htmlFor="address">
-                        <Text
-                          color={"#636363"}
-                          fontSize="12px"
-                          fontWeight={"600"}
-                          fontFamily="body"
-                        >
-                          Address
-                        </Text>
-                      </FormLabel>
+                    </Field>
+                    <Field label="address" isInvalid={formik.touched.address}>
                       <Input
                         id="address"
                         type={"text"}
@@ -408,21 +292,8 @@ function MyAccount() {
                         placeholder="Enter Address"
                         rounded={"10px"}
                       />
-                      <FormErrorMessage>
-                        <ErrorMessage name="address" />
-                      </FormErrorMessage>
-                    </FormControl>
-                    <FormControl isInvalid={formik.touched.email}>
-                      <FormLabel htmlFor="email">
-                        <Text
-                          color={"#636363"}
-                          fontSize="12px"
-                          fontWeight={"600"}
-                          fontFamily="body"
-                        >
-                          Email Address
-                        </Text>
-                      </FormLabel>
+                    </Field>
+                    <Field label="email" isInvalid={formik.touched.email}>
                       <Input
                         id="email"
                         type={"text"}
@@ -434,32 +305,22 @@ function MyAccount() {
                         placeholder="Enter Email"
                         rounded={"10px"}
                       />
-                      <FormErrorMessage>
-                        <ErrorMessage name="email" />
-                      </FormErrorMessage>
-                    </FormControl>
+                    </Field>
                   </Flex>
                 </Flex>
-                <Center display={["none", "none", "block"]} height="350px">
-                  <Divider
-                    orientation="vertical"
-                    border={"2px"}
+                <Center
+                  divideY={"2px"}
+                  display={["none", "none", "block"]}
+                  height="350px"
+                >
+                  <Box
+                    // border={"2px"}
                     bg="#B6D7FF"
                     mx={5}
                   />
                 </Center>
                 <Flex flexDirection={"column"} gap={5} ml={[0, 0, 5]}>
-                  <FormControl isInvalid={formik.touched.barcode}>
-                    <FormLabel htmlFor="barcode">
-                      <Text
-                        color={"#636363"}
-                        fontSize="12px"
-                        fontWeight={"600"}
-                        fontFamily="body"
-                      >
-                        Barcode
-                      </Text>
-                    </FormLabel>
+                  <Field label="barcode" isInvalid={formik.touched.barcode}>
                     <Input
                       id="barcode"
                       type={"text"}
@@ -471,10 +332,7 @@ function MyAccount() {
                       placeholder="Enter Barcode number"
                       rounded={"10px"}
                     />
-                    <FormErrorMessage>
-                      <ErrorMessage name="barcode" />
-                    </FormErrorMessage>
-                  </FormControl>
+                  </Field>
                   <Box w={["50vw", "50vw", "50vw", "full"]}>
                     <Text
                       fontFamily={"body"}
@@ -495,17 +353,10 @@ function MyAccount() {
                       </Text>
                     </Text>
                   </Box>
-                  <FormControl isInvalid={formik.touched.mobileNumber1}>
-                    <FormLabel htmlFor="mobileNumber1">
-                      <Text
-                        color={"#636363"}
-                        fontSize="12px"
-                        fontWeight={"600"}
-                        fontFamily="body"
-                      >
-                        Mobile Number1
-                      </Text>
-                    </FormLabel>
+                  <Field
+                    label="mobileNumber1"
+                    isInvalid={formik.touched.mobileNumber1}
+                  >
                     <Input
                       id="mobileNumber1"
                       type={"text"}
@@ -517,21 +368,11 @@ function MyAccount() {
                       placeholder="Enter Mobile Number1"
                       rounded={"10px"}
                     />
-                    <FormErrorMessage>
-                      <ErrorMessage name="mobileNumber1" />
-                    </FormErrorMessage>
-                  </FormControl>
-                  <FormControl isInvalid={formik.touched.mobileNumber2}>
-                    <FormLabel htmlFor="mobileNumber2">
-                      <Text
-                        color={"#636363"}
-                        fontSize="12px"
-                        fontWeight={"600"}
-                        fontFamily="body"
-                      >
-                        Mobile Number2
-                      </Text>
-                    </FormLabel>
+                  </Field>
+                  <Field
+                    label="mobileNumber2"
+                    isInvalid={formik.touched.mobileNumber2}
+                  >
                     <Input
                       id="mobileNumber2"
                       type={"text"}
@@ -543,10 +384,7 @@ function MyAccount() {
                       placeholder="Enter Mobile Number2"
                       rounded={"10px"}
                     />
-                    <FormErrorMessage>
-                      <ErrorMessage name="mobileNumber2" />
-                    </FormErrorMessage>
-                  </FormControl>
+                  </Field>
                   <Button
                     type="submit"
                     border={"10px"}
@@ -555,7 +393,7 @@ function MyAccount() {
                       "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
                     }
                     boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
-                    isLoading={formik.isSubmitting}
+                    loading={formik.isSubmitting}
                   >
                     <Text
                       fontFamily={"body"}
@@ -569,7 +407,7 @@ function MyAccount() {
                 </Flex>
               </Flex>
             </Flex>
-            <Divider border={"2px"} bg="#B6D7FF" my={5} />
+            <Box divideX={"2px"} bg="#B6D7FF" my={5} />
           </Form>
         )}
       </Formik>
@@ -606,17 +444,19 @@ function MyAccount() {
       </Flex>
       {/* nic verification */}
       <NicVerification />
-      <Divider border={"2px"} bg="#B6D7FF" my={5} />
+      <Box divideX={"2px"} bg="#B6D7FF" my={5} />
       <Heading as={"h5"} fontSize="24px" mr={5} my={3}>
         PAYMENT HISTORY
       </Heading>
       {/* table displaying payment info based on users courses */}
-      <TableContainer roundedTopLeft="10px" roundedTopRight="10px">
-        <Table variant={"simple"}>
+      <Box roundedTopLeft="10px" roundedTopRight="10px">
+        <Table.Root>
           <TableCaption>Payment History</TableCaption>
-          <Thead bg={"#E6F1FF"}>
-            <Tr>
-              <Th>
+
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeader>
+                {" "}
                 <Text
                   fontFamily={"body"}
                   fontSize="12px"
@@ -625,8 +465,9 @@ function MyAccount() {
                 >
                   #
                 </Text>
-              </Th>
-              <Th>
+              </Table.ColumnHeader>
+              <Table.ColumnHeader>
+                {" "}
                 <Text
                   fontFamily={"body"}
                   fontSize="12px"
@@ -635,8 +476,9 @@ function MyAccount() {
                 >
                   Billed To
                 </Text>
-              </Th>
-              <Th>
+              </Table.ColumnHeader>
+              <Table.ColumnHeader>
+                {" "}
                 <Text
                   fontFamily={"body"}
                   fontSize="12px"
@@ -645,8 +487,9 @@ function MyAccount() {
                 >
                   Date
                 </Text>
-              </Th>
-              <Th>
+              </Table.ColumnHeader>
+              <Table.ColumnHeader>
+                {" "}
                 <Text
                   fontFamily={"body"}
                   fontSize="12px"
@@ -655,8 +498,9 @@ function MyAccount() {
                 >
                   Amount
                 </Text>
-              </Th>
-              <Th>
+              </Table.ColumnHeader>
+              <Table.ColumnHeader>
+                {" "}
                 <Text
                   fontFamily={"body"}
                   fontSize="12px"
@@ -665,11 +509,11 @@ function MyAccount() {
                 >
                   Action
                 </Text>
-              </Th>
-            </Tr>
-          </Thead>
-        </Table>
-      </TableContainer>
+              </Table.ColumnHeader>
+            </Table.Row>
+          </Table.Header>
+        </Table.Root>
+      </Box>
     </Box>
   );
 }

@@ -15,15 +15,19 @@ function SideBar() {
   const [logOut, setLogout] = useState(false);
   const navigate = useNavigate();
 
-
   return (
     <Box
       bg={"white"}
       as="div"
       h="calc(100vh-100px)"
-      display={["none","none","block"]}
+      display={["none", "none", "block"]}
     >
-      <Flex  direction={"column"} align='start' justifyContent="space-between" gap={5}>
+      <Flex
+        direction={"column"}
+        align="start"
+        justifyContent="space-between"
+        gap={5}
+      >
         <Box
           className="profileViwer"
           bg={"#E6F1FF"}
@@ -39,13 +43,14 @@ function SideBar() {
               p={"4px"}
             >
               <Box rounded={"full"} bg={"#E6F1FF"} p={"2px"}>
-                <Avatar />
+                <Avatar.Root />
               </Box>
             </Box>
 
-            <Flex direction={"column"} display={[
-              'none','none','none','block'
-            ]}>
+            <Flex
+              direction={"column"}
+              display={["none", "none", "none", "block"]}
+            >
               <Text
                 fontFamily={"body"}
                 color="#215DA7"
@@ -71,7 +76,6 @@ function SideBar() {
           bg="linear-gradient(94.5deg, #313C6A 0.53%, #205EAA 99.79%)"
           w={"100%"}
           h={"100vh"}
-          
         >
           <Flex
             align={"start"}
@@ -88,8 +92,7 @@ function SideBar() {
                 color="white"
                 _hover={{
                   color: "#F4BB4E",
-                  cursor: "pointer",
-                  fontcolor: "#F4BB4E",
+                  cursor: "pointer"
                 }}
                 p={5}
                 borderRadius={"12px"}
@@ -107,13 +110,13 @@ function SideBar() {
                   navigate("/dashboard");
                 }}
               >
-                <MdDashboard size={"28px"}/>
+                <MdDashboard size={"28px"} />
                 <Text
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
-                  display={['none','none','none','block']}
+                  display={["none", "none", "none", "block"]}
                 >
                   Dashboard
                 </Text>
@@ -126,8 +129,7 @@ function SideBar() {
                 p={5}
                 _hover={{
                   color: "#F4BB4E",
-                  cursor: "pointer",
-                  fontcolor: "#F4BB4E",
+                  cursor: "pointer"
                 }}
                 bg={
                   mycourse
@@ -143,13 +145,13 @@ function SideBar() {
                   navigate("/dashboard/myCourses");
                 }}
               >
-                <GiBookshelf size={"28px"}/>
+                <GiBookshelf size={"28px"} />
                 <Text
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
-                  display={['none','none','none','block']}
+                  display={["none", "none", "none", "block"]}
                 >
                   My Courses
                 </Text>
@@ -163,7 +165,6 @@ function SideBar() {
                 _hover={{
                   color: "#F4BB4E",
                   cursor: "pointer",
-                  fontcolor: "#F4BB4E",
                 }}
                 bg={
                   support
@@ -179,13 +180,13 @@ function SideBar() {
                   navigate("/dashboard/support");
                 }}
               >
-                <BsHeadset size={"28px"}/>
+                <BsHeadset size={"28px"} />
                 <Text
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
-                  display={['none','none','none','block']}
+                  display={["none", "none", "none", "block"]}
                 >
                   Support
                 </Text>
@@ -199,7 +200,6 @@ function SideBar() {
                 _hover={{
                   color: "#F4BB4E",
                   cursor: "pointer",
-                  fontcolor: "#F4BB4E",
                 }}
                 bg={
                   myAccount
@@ -215,20 +215,20 @@ function SideBar() {
                   navigate("/dashboard/myAccount");
                 }}
               >
-                <FaUser size={"28px"}/>
+                <FaUser size={"28px"} />
                 <Text
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
-                  display={['none','none','none','block']}
+                  display={["none", "none", "none", "block"]}
                 >
                   My Account
                 </Text>
               </Flex>
             </Flex>
             <Spacer />
-            <Flex direction={"column"} justify="center" align={"start"} >
+            <Flex direction={"column"} justify="center" align={"start"}>
               <Flex
                 align={"center"}
                 justify="center"
@@ -238,7 +238,6 @@ function SideBar() {
                 _hover={{
                   color: "#F4BB4E",
                   cursor: "pointer",
-                  fontcolor: "#F4BB4E",
                 }}
                 bg={
                   logOut
@@ -255,13 +254,13 @@ function SideBar() {
                   navigate("/");
                 }}
               >
-                <FiLogOut size={"28px"}/>
+                <FiLogOut size={"28px"} />
                 <Text
                   ml={2}
                   fontFamily={"body"}
                   fontSize="18px"
                   fontWeight={"600"}
-                  display={['none','none','none','block']}
+                  display={["none", "none", "none", "block"]}
                 >
                   Logout
                 </Text>

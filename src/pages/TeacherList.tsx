@@ -1,8 +1,6 @@
 import {
   Box,
   Flex,
-  FormControl,
-  FormLabel,
   Grid,
   GridItem,
   Heading,
@@ -12,6 +10,7 @@ import React, { useState } from "react";
 import CourseCard, {
   CourseCardProps,
 } from "../components/mycourse/courseard/CourseCard";
+import { Field } from "@/components/ui/field";
 
 function TeacherList() {
   const [teacherName, setTeacherName] = useState("");
@@ -87,8 +86,7 @@ function TeacherList() {
       <Heading as={"h2"}>Teacher List</Heading>
       <Box className="filter" my={3}>
         <Flex gap={3} align="center">
-          <FormControl>
-            <FormLabel htmlFor="teacherName">Teacher Name</FormLabel>
+          <Field label="teacherName">
             <Input
               id="teacherName"
               w={"full"}
@@ -99,7 +97,7 @@ function TeacherList() {
               borderColor={"#B6D7FF"}
               border="1px"
             />
-          </FormControl>
+          </Field>
         </Flex>
       </Box>
       <Box className="tacher-list" my={10}>

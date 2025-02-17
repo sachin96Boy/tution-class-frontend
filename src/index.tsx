@@ -5,6 +5,10 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "./components/ui/provider";
 
+import "@fontsource/roboto";
+import "@fontsource/noto-sans-sinhala";
+
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );

@@ -1,9 +1,6 @@
-import { createSystem, defineConfig } from "@chakra-ui/react";
+import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
 
-import "@fontsource/roboto";
-import "@fontsource/noto-sans-sinhala";
-
-const config = defineConfig({
+const config = {
   theme: {
     tokens: {
       fonts: {
@@ -13,8 +10,8 @@ const config = defineConfig({
       },
     },
   },
-});
+};
 
-const customSystem = createSystem(config);
+const customSystem = createSystem(defaultConfig, config);
 
 export default customSystem;

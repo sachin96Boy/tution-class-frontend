@@ -8,23 +8,23 @@ import Logo from "../components/Logo";
 
 function Signin() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [state, newToast] = useToastResponse();
+  // const [state, newToast] = useToastResponse();
 
-  useEffect(() => {
-    const value = queryString.parse(window.location.search);
-    if (value.emailVerified === "true") {
-      newToast({
-        status: "success",
-        title: "Email verified",
-      });
-    }
-    if (value.emailVerified === "false") {
-      newToast({
-        status: "error",
-        title: "Email not verified",
-      });
-    }
-  }, [newToast]);
+  // useEffect(() => {
+  //   const value = queryString.parse(window.location.search);
+  //   if (value.emailVerified === "true") {
+  //     newToast({
+  //       status: "success",
+  //       title: "Email verified",
+  //     });
+  //   }
+  //   if (value.emailVerified === "false") {
+  //     newToast({
+  //       status: "error",
+  //       title: "Email not verified",
+  //     });
+  //   }
+  // }, [newToast]);
 
   return (
     <Flex
