@@ -63,14 +63,13 @@ function Signin() {
               fontSize="15px"
               fontWeight={"600"}
               color="#636363"
-              align={"center"}
               my={2}
             >
               By logging into Sipsa Institute, you agree to our Terms of use and
               Privacy Policy.
             </Text>
           </Flex>
-          <Stack spacing={4}>
+          <Stack gap={4}>
             <Signinform />
           </Stack>
         </Flex>

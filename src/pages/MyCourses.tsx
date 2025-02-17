@@ -3,8 +3,6 @@ import {
   Button,
   ButtonGroup,
   Flex,
-  FormControl,
-  FormLabel,
   Grid,
   GridItem,
   Heading,
@@ -16,6 +14,7 @@ import React, { useState } from "react";
 import CourseCard, {
   CourseCardProps,
 } from "../components/mycourse/courseard/CourseCard";
+import { Field } from "@/components/ui/field";
 
 interface Values {
   teacherName: string;
@@ -188,8 +187,7 @@ function MyCourses() {
                   flexDirection={["column", "column", "column", "row"]}
                   gap={2}
                 >
-                  <FormControl>
-                    <FormLabel htmlFor="teacherName">Teacher Name</FormLabel>
+                  <Field label="teacherName">
                     <Input
                       id="teacherName"
                       type={"text"}
@@ -200,9 +198,8 @@ function MyCourses() {
                       borderColor={"#B6D7FF"}
                       border="1px"
                     />
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel htmlFor="subjectName">Subject Name</FormLabel>
+                  </Field>
+                  <Field label="subjectName">
                     <Input
                       id="subjectName"
                       type={"text"}
@@ -213,9 +210,9 @@ function MyCourses() {
                       borderColor={"#B6D7FF"}
                       border="1px"
                     />
-                  </FormControl>
+                  </Field>
                 </Flex>
-                <ButtonGroup mt={7} variant={"outline"} isAttached>
+                <ButtonGroup mt={7} variant={"outline"}>
                   <Button
                     color={"#CDCDCD"}
                     border={"1px"}
@@ -265,7 +262,7 @@ function MyCourses() {
                     type="submit"
                     mt={7}
                     w={"full"}
-                    isLoading={formik.isSubmitting}
+                    loading={formik.isSubmitting}
                     bgGradient={
                       "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
                     }

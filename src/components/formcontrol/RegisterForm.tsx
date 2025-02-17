@@ -189,7 +189,6 @@ function RegisterForm() {
           <StepsList>
             {steps.map(({ label, description }, index) => (
               <StepsItem
-                index={index}
                 title={label}
                 key={label}
                 description={description}
