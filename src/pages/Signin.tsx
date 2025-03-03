@@ -45,9 +45,6 @@ function Signin() {
       />
       <Container maxW={"lg"}>
         <Flex flex={"1"} align="center" flexDir={"column"} justify={"center"}>
-          {/* <Box className="logo">
-          <Image src={SipsaLogo} boxSize="52" alt="Sipsa Education" />
-        </Box> */}
           <Logo boxSize={"52"} linkPath={"/"} fitType={"Cover"} />
           <Text
             fontFamily={"body"}

@@ -15,6 +15,7 @@ import CourseCard, {
   CourseCardProps,
 } from "../components/mycourse/courseard/CourseCard";
 import { Field } from "@/components/ui/field";
+import InputComponent from "@/components/formcontrol/InputComponent";
 
 interface Values {
   teacherName: string;
@@ -171,9 +172,21 @@ function MyCourses() {
   }
 
   return (
-    <Box mx={10} w="full">
-      <Heading as={"h2"}>Course List</Heading>
-      <Box className="filter" my={10}>
+    <Box mx={[2, 4, 6, 10]} w="full">
+      {" "}
+      {/* Responsive margin */}
+      <Heading
+        as={"h2"}
+        fontSize={["20px", "24px", "28px", "32px"]}
+        my={[2, 4]}
+      >
+        {" "}
+        {/* Responsive font size */}
+        Course List
+      </Heading>
+      <Box className="filter" my={[4, 6, 8, 10]}>
+        {" "}
+        {/* Responsive margin */}
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
           {(formik) => (
             <Form autoComplete="off">
@@ -181,87 +194,71 @@ function MyCourses() {
                 align={"center"}
                 flexDirection={["column", "column", "row"]}
                 justify="space-between"
-                gap={[5, 5, 10]}
+                gap={[3, 5, 10]}
               >
                 <Flex
                   flexDirection={["column", "column", "column", "row"]}
-                  gap={2}
+                  gap={[2, 3, 4]}
+                  w={["full", "full", "auto"]}
                 >
-                  <Field label="teacherName">
-                    <Input
-                      id="teacherName"
-                      type={"text"}
-                      value={formik.values.teacherName}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      placeholder="Select Teacher"
-                      borderColor={"#B6D7FF"}
-                      border="1px"
-                    />
-                  </Field>
-                  <Field label="subjectName">
-                    <Input
-                      id="subjectName"
-                      type={"text"}
-                      value={formik.values.subjectName}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      placeholder="Select Subject"
-                      borderColor={"#B6D7FF"}
-                      border="1px"
-                    />
-                  </Field>
+                  <InputComponent
+                    htmlFor={"teacherName"}
+                    labelText={"Teacher Name"}
+                    InputType={"text"}
+                    InputValue={formik.values.teacherName}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    placeHolder={"Select Teacher"}
+                    isTouched={formik.touched.teacherName}
+                    isError={formik.errors.teacherName}
+                  />
+                  <InputComponent
+                    htmlFor={"subjectName"}
+                    labelText={"Subject Name"}
+                    InputType={"text"}
+                    InputValue={formik.values.subjectName}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    placeHolder={"Select Subject"}
+                    isTouched={formik.touched.subjectName}
+                    isError={formik.errors.subjectName}
+                  />
                 </Flex>
-                <ButtonGroup mt={7} variant={"outline"}>
-                  <Button
-                    color={"#CDCDCD"}
-                    border={"1px"}
-                    borderColor="#B6D7FF"
-                    onClick={() => {
-                      formik.setFieldValue("year", "2021");
-                    }}
-                  >
-                    2021
-                  </Button>
-                  <Button
-                    color={"#CDCDCD"}
-                    border={"1px"}
-                    borderColor="#B6D7FF"
-                    onClick={() => {
-                      formik.setFieldValue("year", "2022");
-                    }}
-                  >
-                    2022
-                  </Button>
-                  <Button
-                    color={"#CDCDCD"}
-                    border={"1px"}
-                    borderColor="#B6D7FF"
-                    onClick={() => {
-                      formik.setFieldValue("year", "2023");
-                    }}
-                  >
-                    2023
-                  </Button>
-                  <Button
-                    color={"#CDCDCD"}
-                    border={"1px"}
-                    borderColor="#B6D7FF"
-                    onClick={() => {
-                      formik.setFieldValue("year", "2024");
-                    }}
-                  >
-                    2024
-                  </Button>
+                <ButtonGroup
+                  mt={[4, 7]}
+                  variant={"outline"}
+                  flexWrap="wrap" /* Allow buttons to wrap on smaller screens */
+                  gap={[2, 3]}
+                  borderWidth={"1px"}
+                  borderColor={"light_bg_blue"}
+                  rounded={"12px"}
+                >
+                  {["2021", "2022", "2023", "2024"].map((yr) => (
+                    <Button
+                      key={yr}
+                      color={"#CDCDCD"}
+                      border={"1px"}
+                      borderColor="#B6D7FF"
+                      onClick={() => {
+                        formik.setFieldValue("year", yr);
+                      }}
+                      flex={[
+                        "1 1 45%",
+                        "0 0 auto",
+                      ]} /* Responsive button sizing */
+                    >
+                      {yr}
+                    </Button>
+                  ))}
                 </ButtonGroup>
                 <Flex
                   flexDirection={["column", "column", "column", "row"]}
-                  gap={2}
+                  gap={[2, 3, 4]}
+                  w={["full", "full", "auto"]}
                 >
                   <Button
                     type="submit"
-                    mt={7}
-                    w={"full"}
+                    mt={[4, 7]}
                     loading={formik.isSubmitting}
                     bgGradient={
                       "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
@@ -273,7 +270,7 @@ function MyCourses() {
                   >
                     <Text
                       fontFamily={"body"}
-                      fontSize="14px"
+                      fontSize={["12px", "14px"]}
                       fontWeight={"bold"}
                     >
                       Apply Filters
@@ -281,9 +278,8 @@ function MyCourses() {
                   </Button>
                   <Button
                     type="button"
-                    mt={7}
-                    w={"full"}
-                    colorScheme="red"
+                    mt={[4, 7]}
+                    colorPalette="red"
                     rounded="10px"
                     boxShadow={"0px 5px 20px rgba(32, 92, 166, 0.5)"}
                     color={"white"}
@@ -291,7 +287,7 @@ function MyCourses() {
                   >
                     <Text
                       fontFamily={"body"}
-                      fontSize="14pxx"
+                      fontSize={["12px", "14px"]}
                       fontWeight={"bold"}
                     >
                       Clear Filters
@@ -303,7 +299,9 @@ function MyCourses() {
           )}
         </Formik>
       </Box>
-      <Box className="course-list" my={10}>
+      <Box className="course-list" my={[4, 6, 8, 10]}>
+        {" "}
+        {/* Responsive margin */}
         {filteredCourseData}
       </Box>
     </Box>

@@ -136,7 +136,7 @@ function Header() {
                 p={"4px"}
               >
                 <Box rounded={"full"} bg={"#E6F1FF"} p={"2px"}>
-                  <Avatar />
+                  <Avatar.Root />
                 </Box>
               </Box>
 
@@ -188,8 +188,7 @@ function Header() {
                   color="white"
                   _hover={{
                     color: "#F4BB4E",
-                    cursor: "pointer",
-                    fontcolor: "#F4BB4E",
+                    cursor: "pointer"
                   }}
                   p={5}
                   borderRadius={"12px"}
@@ -226,7 +225,6 @@ function Header() {
                   _hover={{
                     color: "#F4BB4E",
                     cursor: "pointer",
-                    fontcolor: "#F4BB4E",
                   }}
                   bg={
                     mycourse
@@ -261,7 +259,6 @@ function Header() {
                   _hover={{
                     color: "#F4BB4E",
                     cursor: "pointer",
-                    fontcolor: "#F4BB4E",
                   }}
                   bg={
                     support
@@ -296,7 +293,6 @@ function Header() {
                   _hover={{
                     color: "#F4BB4E",
                     cursor: "pointer",
-                    fontcolor: "#F4BB4E",
                   }}
                   bg={
                     myAccount
@@ -334,7 +330,6 @@ function Header() {
                   _hover={{
                     color: "#F4BB4E",
                     cursor: "pointer",
-                    fontcolor: "#F4BB4E",
                   }}
                   bg={
                     logOut

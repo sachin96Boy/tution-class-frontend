@@ -1,12 +1,9 @@
 import {
-  Box,
   Button,
-  Center,
   Flex,
   Group,
   Heading,
   Icon,
-  IconButton,
   Input,
   InputAddon,
   StepsRootProvider,
@@ -40,8 +37,6 @@ interface RegisterFormProops {
 function RegisterForm() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [state, newToast] = useToastResponse();
-  const [showOTP, setShowOTP] = useState<boolean>(false);
-  const [verifyOTP, setVerifyOTP] = useState<boolean>(false);
   const { open, onToggle } = useDisclosure();
   const inputRef = useRef<HTMLInputElement>(null);
   const onClickReveal = () => {
@@ -98,8 +93,6 @@ function RegisterForm() {
         });
         actions.setSubmitting(false);
         actions.resetForm();
-        setVerifyOTP(false);
-        setShowOTP(false);
       })
       .catch((error: AxiosError) => {
         alert(error);
@@ -110,92 +103,19 @@ function RegisterForm() {
     e.preventDefault();
   };
 
-  const handleSendOTP = async (mobile: string) => {
-    await axios
-      .post(
-        `/auth/send-verification-token`,
-        {
-          phoneNumber: mobile,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res: AxiosResponse) => {
-        if (res.data.status === "pending") {
-          newToast({
-            status: "success",
-            message: "OTP sent, Please check your mobile",
-          });
-          setShowOTP(true);
-        } else {
-          newToast({
-            status: "error",
-            message: "something went wrong",
-          });
-        }
-      })
-      .catch((err: AxiosError) => {
-        alert(err);
-        setShowOTP(false);
-      });
-  };
-
-  const handleVerifyOTP = async (mobile: string, otpNumber: string) => {
-    await axios
-      .post(
-        `/auth/check-verification-token`,
-        {
-          phoneNumber: mobile,
-          token: otpNumber,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res: AxiosResponse) => {
-        if (res.data.status === "approved") {
-          newToast({
-            status: "success",
-            message: "OTP verified, Please proceed",
-          });
-          setVerifyOTP(true);
-        } else {
-          if (!res.data.valid) {
-            newToast({
-              status: "error",
-              message: "OTP Not valid",
-            });
-            setVerifyOTP(false);
-          } else {
-            newToast({
-              status: "error",
-              message: "something went wrong",
-            });
-            setVerifyOTP(false);
-          }
-        }
-      })
-      .catch((err: AxiosError) => {
-        alert(err);
-        setVerifyOTP(false);
-      });
-  };
-
   return (
     <Flex flexDir={"column"} align="center" justify={"center"} gap={10}>
-      <Flex w={"full"}>
+      <Flex
+        w={"full"} // Responsive width
+        maxW="800px" // Maximum width to ensure it doesn't get too wide on larger screens
+      >
         <StepsRootProvider
           orientation={["vertical", "horizontal", "horizontal"]}
           height={["150px", "full"]}
           colorScheme="blue"
           value={stepsHooks}
         >
-          <StepsList>
+          <StepsList >
             {steps.map(({ label, description }, index) => (
               <StepsItem
                 index={index}
@@ -214,7 +134,7 @@ function RegisterForm() {
       >
         {(formik) => (
           <Form autoComplete="off" onSubmit={handleThis}>
-            <VStack gap={4}>
+            <VStack gap={4} width={"full"} maxW="800px">
               {stepsHooks.value === 0 && (
                 <>
                   <InputComponent
@@ -231,7 +151,7 @@ function RegisterForm() {
                   <InputComponent
                     htmlFor={"email"}
                     labelText={"Email address"}
-                    InputType={"text"}
+                    InputType={"email"}
                     InputValue={formik.values.email}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -269,66 +189,25 @@ function RegisterForm() {
                         />
                       </Group>
                     </Field>
-                    <Button
-                      ml={10}
-                      mt={6}
-                      onClick={() => handleSendOTP(formik.values.mobile)}
-                      disabled={
-                        formik.values.mobile.length === 9 ? false : true
-                      }
-                      bgColor={"primary_color"}
-                    >
-                      Send OTP
-                    </Button>
                   </Flex>
-                  <Box id="recaptcha-container" />
-                  {showOTP && (
-                    <Flex align={"center"} justify="center">
-                      <InputComponent
-                        htmlFor={"otpNumber"}
-                        labelText={"OTP Number"}
-                        InputType={"number"}
-                        InputValue={formik.values.otpNumber}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        placeHolder={"OTP Number"}
-                        isTouched={formik.touched.otpNumber}
-                        isError={formik.errors.otpNumber}
-                      />
-                      <Button
-                        ml={10}
-                        mt={6}
-                        onClick={() =>
-                          handleVerifyOTP(
-                            formik.values.mobile,
-                            formik.values.otpNumber
-                          )
-                        }
-                        bgColor={"primary_color"}
-                        disabled={formik.values.otpNumber.length < 0}
-                      >
-                        Verify OTP
-                      </Button>
-                    </Flex>
-                  )}
                 </>
               )}
               {stepsHooks.value === 2 && (
                 <>
                   <Flex
                     flexDirection={"column"}
-                    alignItems={"center"}
+                    align={"center"}
                     justify={"center"}
+                    mx={"5"}
                   >
                     <Field
-                      width={"full"}
                       invalid={
                         formik.touched.password && !!formik.errors.password
                       }
-                      label="password"
+                      label="Password"
                       htmlFor="password"
                       errorText={formik.errors.password}
-                      helperText=" Password must be at least 8 characters long, contain
+                      helperText="Password must be at least 8 characters long,  contain
                         letters and numbers, and must not contain spaces"
                     >
                       <InputGroup
@@ -396,7 +275,13 @@ function RegisterForm() {
         )}
       </Formik>
       {stepsHooks.value === steps.length ? (
-        <Flex px={4} py={4} width="100%" flexDirection="column">
+        <Flex
+          px={4}
+          py={4}
+          width={["90%", "80%", "70%", "60%"]}
+          maxW="800px"
+          flexDirection="column"
+        >
           <Heading fontSize="xl" textAlign="center">
             Woohoo! All steps completed!
           </Heading>
@@ -414,7 +299,11 @@ function RegisterForm() {
           </Button>
         </Flex>
       ) : (
-        <Flex width="100%" justify="flex-end">
+        <Flex
+          width={["90%", "80%", "70%", "60%"]}
+          maxW="800px"
+          justify="flex-end"
+        >
           <Button
             disabled={stepsHooks.value === 0}
             mr={4}
@@ -427,7 +316,6 @@ function RegisterForm() {
           <Button
             size="sm"
             onClick={() => stepsHooks.goToNextStep()}
-            disabled={!verifyOTP && stepsHooks.value === 1 ? true : false}
             colorScheme="blue"
             bgGradient={
               "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"

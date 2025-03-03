@@ -39,11 +39,12 @@ function ForgotPassword() {
         <Text fontSize={{ base: "sm", sm: "md" }} color={"gray.800"}>
           You&apos;ll get an email with a reset link
         </Text>
-        <Field id="email">
+        <Field htmlFor="email">
           <Input
             placeholder="your-email@example.com"
             _placeholder={{ color: "gray.500" }}
             type="email"
+            id="email"
           />
         </Field>
         <Stack gap={6}>

@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import { Outlet,} from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Header from "../header/Header";
 import SideBar from "../sidebar/SideBar";
 

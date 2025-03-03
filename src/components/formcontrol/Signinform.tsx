@@ -108,7 +108,7 @@ function Signinform() {
             <InputComponent
               htmlFor={"email"}
               labelText={"Email Address"}
-              InputType={"text"}
+              InputType={"email"}
               InputValue={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
