@@ -1,13 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Button,
-  Center,
-  Flex,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import { Button, Center, Flex, Input, Text, Image } from "@chakra-ui/react";
 import * as yup from "yup";
-import { ErrorMessage, Form, Formik, FormikHelpers } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 import { BsCameraFill } from "react-icons/bs";
 import { Field } from "../ui/field";
 
@@ -34,7 +28,7 @@ function NicVerification() {
     selfieNic: "",
   };
   const onSubmit2 = (values: NicValues, actions: any) => {
-    console.log(values);
+
     actions.setSubmitting(false);
     setSelectedFileNic(undefined);
     setSelectedFileNicBack(undefined);
@@ -156,8 +150,14 @@ function NicVerification() {
     >
       {(formik2) => (
         <Form>
-          <Flex align={"center"} justify={"center"} gap={5} flexDirection={['column','column','row']}>
-            <Field label="frontNic" >
+          <Flex
+            align={"center"}
+            justify={"center"}
+            gap={5}
+            flexDirection={["column", "column", "column", "row"]}
+          >
+            {/* Front NIC */}
+            <Field htmlFor="frontNic" label="Front of the NIC">
               <Input
                 id="frontNic"
                 ref={hiddenInputRefNic}
@@ -170,30 +170,41 @@ function NicVerification() {
               <Flex
                 align={"center"}
                 cursor={"pointer"}
-                bgImage={previewNic ? previewNic : undefined}
-                objectFit={"cover"}
                 justify="center"
                 position="relative"
-                bg={previewNic ? undefined : "#E6F1FF"}
-                w="full"
+                bg={previewNic ? undefined : "light_bg_card"}
+                w={["full", "300px"]}
                 h={"200px"}
                 my={5}
                 rounded="16px"
                 onClick={onClickNic}
+                overflow="hidden"
               >
-                <Center zIndex="2">
-                  <BsCameraFill
-                    size={"48"}
-                    style={{
-                      color: "#205EAA",
-                    }}
+                {previewNic ? (
+                  <Image
+                    src={previewNic}
+                    alt="Front NIC Preview"
+                    objectFit="cover"
+                    w="full"
+                    h="full"
                   />
-                </Center>
+                ) : (
+                  <Center zIndex="2">
+                    <BsCameraFill
+                      size={"48"}
+                      style={{
+                        color: "#205EAA",
+                      }}
+                    />
+                  </Center>
+                )}
               </Flex>
             </Field>
-            <Field label="backNic">
+
+            {/* Back NIC */}
+            <Field htmlFor="backNic" label="Back of the NIC">
               <Input
-                id="frontNic"
+                id="backNic"
                 ref={hiddenInputRefNicBack}
                 type={"file"}
                 onChange={(event: any) => {
@@ -204,30 +215,41 @@ function NicVerification() {
               <Flex
                 align={"center"}
                 cursor={"pointer"}
-                bgImage={previewNicBack ? previewNicBack : undefined}
-                objectFit={"cover"}
                 justify="center"
                 position="relative"
-                bg={previewNicBack ? undefined : "#E6F1FF"}
-                w="full"
+                bg={previewNicBack ? undefined : "light_bg_card"}
+                w={["full", "300px"]}
                 h={"200px"}
                 my={5}
-                onClick={onClickNicBack}
                 rounded="16px"
+                onClick={onClickNicBack}
+                overflow="hidden"
               >
-                <Center zIndex="2">
-                  <BsCameraFill
-                    size={"48"}
-                    style={{
-                      color: "#205EAA",
-                    }}
+                {previewNicBack ? (
+                  <Image
+                    src={previewNicBack}
+                    alt="Back NIC Preview"
+                    objectFit="cover"
+                    w="full"
+                    h="full"
                   />
-                </Center>
+                ) : (
+                  <Center zIndex="2">
+                    <BsCameraFill
+                      size={"48"}
+                      style={{
+                        color: "#205EAA",
+                      }}
+                    />
+                  </Center>
+                )}
               </Flex>
             </Field>
-            <Field label="selfieNic">
+
+            {/* Selfie with NIC */}
+            <Field htmlFor="selfieNic" label="Selfie with Nic">
               <Input
-                id="frontNic"
+                id="selfieNic"
                 ref={hiddenInputRefNicSelfie}
                 type={"file"}
                 onChange={(event: any) => {
@@ -238,30 +260,40 @@ function NicVerification() {
               <Flex
                 align={"center"}
                 cursor={"pointer"}
-                bgImage={previewNicSelfie ? previewNicSelfie : undefined}
-                objectFit={"cover"}
                 justify="center"
                 position="relative"
-                bg={previewNicSelfie ? undefined : "#E6F1FF"}
-                w="full"
+                bg={previewNicSelfie ? undefined : "light_bg_card"}
+                w={["full", "300px"]}
                 h={"200px"}
                 my={5}
                 rounded="16px"
                 onClick={onClickNicSelfie}
+                overflow="hidden"
               >
-                <Center zIndex="2">
-                  <BsCameraFill
-                    size={"48"}
-                    style={{
-                      color: "#205EAA",
-                    }}
+                {previewNicSelfie ? (
+                  <Image
+                    src={previewNicSelfie}
+                    alt="Selfie with NIC Preview"
+                    objectFit="cover"
+                    w="full"
+                    h="full"
                   />
-                </Center>
+                ) : (
+                  <Center zIndex="2">
+                    <BsCameraFill
+                      size={"48"}
+                      style={{
+                        color: "#205EAA",
+                      }}
+                    />
+                  </Center>
+                )}
               </Flex>
             </Field>
+
+            {/* Submit Button */}
             <Button
               type="submit"
-              width={"full"}
               disabled={
                 formik2.isSubmitting ||
                 formik2.values.frontNic === "" ||
@@ -275,6 +307,7 @@ function NicVerification() {
               }
               boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
               loading={formik2.isSubmitting}
+              mt={[4, 0]}
             >
               <Text
                 fontFamily={"body"}

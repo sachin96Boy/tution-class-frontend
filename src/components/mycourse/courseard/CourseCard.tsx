@@ -28,14 +28,13 @@ function CourseCard({
     <Box
       my={5}
       p={5}
-      maxH="166px"
       maxW={"full"}
-      bg="#E6F1FF"
+      bg="light_bg_card"
       rounded={"16px"}
       cursor={"pointer"}
       onClick={() => navigate(`/dashboard/course/${year}/${courseId}`)}
     >
-      <Flex align={"center"} justify="center">
+      <Flex align={"center"} justify="space-around">
         <Image
           boxSize={"32"}
           objectFit={"cover"}
@@ -62,7 +61,7 @@ function CourseCard({
               fontFamily={"body"}
               as={"h2"}
               color="black"
-              noOfLines={1}
+              maxLines={1}
             >
               {subjectName}
             </Heading>
@@ -71,7 +70,7 @@ function CourseCard({
               fontFamily={"body"}
               as={"h4"}
               color="black"
-              noOfLines={1}
+              maxLines={1}
             >
               {teacherName}
             </Heading>
@@ -81,7 +80,8 @@ function CourseCard({
               fontWeight={"600"}
               color="#545454"
               h={"44px"}
-              noOfLines={3}
+              
+               lineClamp="3"
             >
               {description}
             </Text>

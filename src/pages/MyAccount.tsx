@@ -2,23 +2,22 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
-  Center,
   Flex,
   Heading,
-  Input,
+  Separator,
   Table,
   TableCaption,
   Text,
 } from "@chakra-ui/react";
 import * as yup from "yup";
-import { ErrorMessage, Form, Formik, FormikHelpers } from "formik";
+import { Form, Formik, FormikHelpers } from "formik";
 
 import { MdVerifiedUser } from "react-icons/md";
 import { BsShieldFillExclamation } from "react-icons/bs";
 
 import NicVerification from "../components/myAccount/NicVerification";
 import ProfileBanner from "../components/myAccount/ProfileBanner";
-import { Field } from "@/components/ui/field";
+import InputComponent from "@/components/formcontrol/InputComponent";
 
 export interface FormValues {
   fullName: string;
@@ -139,20 +138,20 @@ function MyAccount() {
               profilehandleChange={profilehandleChange}
               selectedFile={selectedFile}
             />
-            <Flex flexDirection={"column"} gap={4} className="details-of-form">
+            <Flex flexDirection={"column"} gap={5} className="details-of-form">
               <Heading as={"h5"} fontSize="25px">
                 PROFILE
               </Heading>
               <Flex
-                flexDirection={["column", "column", "row"]}
+                flexDirection={["column", "column", "column", "row"]}
                 align={"center"}
-                justify="center"
+                justify="space-around"
                 gap={5}
               >
                 <Flex
                   flexDirection={["column", "column", "row"]}
                   align={"center"}
-                  justify="center"
+                  justify="space-around"
                   gap={5}
                 >
                   <Flex
@@ -162,77 +161,61 @@ function MyAccount() {
                     gap={1}
                     mr={5}
                   >
-                    <Field label="fullName" isInvalid={formik.touched.fullName}>
-                      <Input
-                        id="fullName"
-                        type={"text"}
-                        value={formik.values.fullName}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        borderColor="#636363"
-                        border={"1px"}
-                        placeholder="Enter Full name"
-                        rounded={"10px"}
-                      />
-                    </Field>
-                    <Field
-                      label="examAttempt"
-                      isInvalid={formik.touched.examAttempt}
-                    >
-                      <Input
-                        id="examAttempt"
-                        type={"text"}
-                        value={formik.values.examAttempt}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        borderColor="#636363"
-                        border={"1px"}
-                        placeholder="Enter Exam Attempt"
-                        rounded={"10px"}
-                      />
-                    </Field>
-                    <Field label="district" isInvalid={formik.touched.district}>
-                      <Input
-                        id="district"
-                        type={"text"}
-                        value={formik.values.district}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        borderColor="#636363"
-                        border={"1px"}
-                        placeholder="Enter District"
-                        rounded={"10px"}
-                      />
-                    </Field>
-                    <Field label="nic" isInvalid={formik.touched.nic}>
-                      <Input
-                        id="nic"
-                        type={"text"}
-                        value={formik.values.nic}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        borderColor="#636363"
-                        border={"1px"}
-                        placeholder="Enter NIC number"
-                        rounded={"10px"}
-                      />
-                    </Field>
-                    <Field
-                      label="mobileNumber"
-                      isInvalid={formik.touched.mobileNumber}
-                    >
-                      <Input
-                        id="mobileNumber"
-                        type={"text"}
-                        value={formik.values.mobileNumber}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        borderColor="#636363"
-                        border={"1px"}
-                        placeholder="Enter Mobile Number"
-                        rounded={"10px"}
-                      />
-                    </Field>
+                    <InputComponent
+                      htmlFor={"fullName"}
+                      labelText={"Full Name"}
+                      InputType={"text"}
+                      InputValue={formik.values.fullName}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      placeHolder={"Enter Full Name"}
+                      isTouched={formik.touched.fullName}
+                      isError={formik.errors.fullName}
+                    />
+                    <InputComponent
+                      htmlFor={"examAttempt"}
+                      labelText={"Exam Attempt"}
+                      InputType={"text"}
+                      InputValue={formik.values.examAttempt}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      placeHolder={"Enter Exam Attempt"}
+                      isTouched={formik.touched.examAttempt}
+                      isError={formik.errors.examAttempt}
+                    />
+                    <InputComponent
+                      htmlFor={"district"}
+                      labelText={"District"}
+                      InputType={"text"}
+                      InputValue={formik.values.district}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      placeHolder={"Enter District"}
+                      isTouched={formik.touched.district}
+                      isError={formik.errors.district}
+                    />
+                    <InputComponent
+                      htmlFor={"nic"}
+                      labelText={"NIC Number"}
+                      InputType={"text"}
+                      InputValue={formik.values.nic}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      placeHolder={"Enter NIC Number"}
+                      isTouched={formik.touched.nic}
+                      isError={formik.errors.nic}
+                    />
+                    <InputComponent
+                      htmlFor={"mobileNumber"}
+                      labelText={"Mobile Number"}
+                      InputType={"text"}
+                      InputValue={formik.values.mobileNumber}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      placeHolder={"Enter Mobbile Nmuber"}
+                      isTouched={formik.touched.mobileNumber}
+                      isError={formik.errors.mobileNumber}
+                    />
                   </Flex>
                   <Flex
                     flexDirection={"column"}
@@ -241,98 +224,82 @@ function MyAccount() {
                     gap={1}
                     mr={5}
                   >
-                    <Field label="school" isInvalid={formik.touched.school}>
-                      <Input
-                        id="school"
-                        type={"text"}
-                        value={formik.values.school}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        borderColor="#636363"
-                        border={"1px"}
-                        placeholder="Enter School"
-                        rounded={"10px"}
-                      />
-                    </Field>
-                    <Field label="examYear" isInvalid={formik.touched.examYear}>
-                      <Input
-                        id="examYear"
-                        type={"text"}
-                        value={formik.values.examYear}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        borderColor="#636363"
-                        border={"1px"}
-                        placeholder="Enter Exam Year"
-                        rounded={"10px"}
-                      />
-                    </Field>
-                    <Field label="city" isInvalid={formik.touched.city}>
-                      <Input
-                        id="city"
-                        type={"text"}
-                        value={formik.values.city}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        borderColor="#636363"
-                        border={"1px"}
-                        placeholder="Enter City"
-                        rounded={"10px"}
-                      />
-                    </Field>
-                    <Field label="address" isInvalid={formik.touched.address}>
-                      <Input
-                        id="address"
-                        type={"text"}
-                        value={formik.values.address}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        borderColor="#636363"
-                        border={"1px"}
-                        placeholder="Enter Address"
-                        rounded={"10px"}
-                      />
-                    </Field>
-                    <Field label="email" isInvalid={formik.touched.email}>
-                      <Input
-                        id="email"
-                        type={"text"}
-                        value={formik.values.email}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        borderColor="#636363"
-                        border={"1px"}
-                        placeholder="Enter Email"
-                        rounded={"10px"}
-                      />
-                    </Field>
-                  </Flex>
-                </Flex>
-                <Center
-                  divideY={"2px"}
-                  display={["none", "none", "block"]}
-                  height="350px"
-                >
-                  <Box
-                    // border={"2px"}
-                    bg="#B6D7FF"
-                    mx={5}
-                  />
-                </Center>
-                <Flex flexDirection={"column"} gap={5} ml={[0, 0, 5]}>
-                  <Field label="barcode" isInvalid={formik.touched.barcode}>
-                    <Input
-                      id="barcode"
-                      type={"text"}
-                      value={formik.values.barcode}
+                    <InputComponent
+                      htmlFor={"school"}
+                      labelText={"School Attended"}
+                      InputType={"text"}
+                      InputValue={formik.values.school}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      borderColor="#636363"
-                      border={"1px"}
-                      placeholder="Enter Barcode number"
-                      rounded={"10px"}
+                      placeHolder={"Enter School"}
+                      isTouched={formik.touched.school}
+                      isError={formik.errors.school}
                     />
-                  </Field>
+                    <InputComponent
+                      htmlFor={"examYear"}
+                      labelText={"Exam Year"}
+                      InputType={"text"}
+                      InputValue={formik.values.examYear}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      placeHolder={"Enter Exam Year"}
+                      isTouched={formik.touched.examYear}
+                      isError={formik.errors.examYear}
+                    />
+                    <InputComponent
+                      htmlFor={"city"}
+                      labelText={"City"}
+                      InputType={"text"}
+                      InputValue={formik.values.city}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      placeHolder={"Enter City"}
+                      isTouched={formik.touched.city}
+                      isError={formik.errors.city}
+                    />
+                    <InputComponent
+                      htmlFor={"address"}
+                      labelText={"Address"}
+                      InputType={"text"}
+                      InputValue={formik.values.address}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      placeHolder={"Enter Address"}
+                      isTouched={formik.touched.address}
+                      isError={formik.errors.address}
+                    />
+                    <InputComponent
+                      htmlFor={"email"}
+                      labelText={"Email Address"}
+                      InputType={"email"}
+                      InputValue={formik.values.email}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      placeHolder={"Enter Email"}
+                      isTouched={formik.touched.email}
+                      isError={formik.errors.email}
+                    />
+                  </Flex>
+                </Flex>
+                <Separator
+                  minHeight={"350px"}
+                  size={"lg"}
+                  display={["none", "none", "none", "block"]}
+                  orientation={"vertical"}
+                  colorPalette={"blue"}
+                />
+                <Flex flexDirection={"column"} gap={5} ml={[-5, -5, 5]}>
+                  <InputComponent
+                    htmlFor={"barcode"}
+                    labelText={"Barcode Number"}
+                    InputType={"text"}
+                    InputValue={formik.values.barcode}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    placeHolder={"Enter Barcode"}
+                    isTouched={formik.touched.barcode}
+                    isError={formik.errors.barcode}
+                  />
                   <Box w={["50vw", "50vw", "50vw", "full"]}>
                     <Text
                       fontFamily={"body"}
@@ -353,38 +320,28 @@ function MyAccount() {
                       </Text>
                     </Text>
                   </Box>
-                  <Field
-                    label="mobileNumber1"
-                    isInvalid={formik.touched.mobileNumber1}
-                  >
-                    <Input
-                      id="mobileNumber1"
-                      type={"text"}
-                      value={formik.values.mobileNumber1}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      borderColor="#636363"
-                      border={"1px"}
-                      placeholder="Enter Mobile Number1"
-                      rounded={"10px"}
-                    />
-                  </Field>
-                  <Field
-                    label="mobileNumber2"
-                    isInvalid={formik.touched.mobileNumber2}
-                  >
-                    <Input
-                      id="mobileNumber2"
-                      type={"text"}
-                      value={formik.values.barcode}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      borderColor="#636363"
-                      border={"1px"}
-                      placeholder="Enter Mobile Number2"
-                      rounded={"10px"}
-                    />
-                  </Field>
+                  <InputComponent
+                    htmlFor={"mobileNumber1"}
+                    labelText={"Mobile number1"}
+                    InputType={"text"}
+                    InputValue={formik.values.mobileNumber1}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    placeHolder={"Enter First Number"}
+                    isTouched={formik.touched.mobileNumber1}
+                    isError={formik.errors.mobileNumber1}
+                  />
+                  <InputComponent
+                    htmlFor={"mobileNumber2"}
+                    labelText={"Mobile number2"}
+                    InputType={"text"}
+                    InputValue={formik.values.mobileNumber2}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    placeHolder={"Enter Second Number"}
+                    isTouched={formik.touched.mobileNumber2}
+                    isError={formik.errors.mobileNumber2}
+                  />
                   <Button
                     type="submit"
                     border={"10px"}
@@ -407,7 +364,7 @@ function MyAccount() {
                 </Flex>
               </Flex>
             </Flex>
-            <Box divideX={"2px"} bg="#B6D7FF" my={5} />
+            <Separator divideX={"2px"} colorPalette={"blue"} my={5} />
           </Form>
         )}
       </Formik>
@@ -421,7 +378,7 @@ function MyAccount() {
             <MdVerifiedUser style={{ color: "#2ECC71" }} />
             <Text
               fontFamily={"body"}
-              color="#2ECC71"
+              color="verified_green_text"
               fontSize={["16px", "18px"]}
               fontWeight={"500"}
             >
@@ -450,10 +407,10 @@ function MyAccount() {
       </Heading>
       {/* table displaying payment info based on users courses */}
       <Box roundedTopLeft="10px" roundedTopRight="10px">
-        <Table.Root>
+        <Table.Root variant={"outline"}>
           <TableCaption>Payment History</TableCaption>
 
-          <Table.Header>
+          <Table.Header bgColor={"light_bg_card"}>
             <Table.Row>
               <Table.ColumnHeader>
                 {" "}
@@ -461,7 +418,7 @@ function MyAccount() {
                   fontFamily={"body"}
                   fontSize="12px"
                   fontWeight={"600"}
-                  color="#636363"
+                  color="text_secondary_color"
                 >
                   #
                 </Text>
@@ -472,7 +429,7 @@ function MyAccount() {
                   fontFamily={"body"}
                   fontSize="12px"
                   fontWeight={"600"}
-                  color="#636363"
+                  color="text_secondary_color"
                 >
                   Billed To
                 </Text>
@@ -483,7 +440,7 @@ function MyAccount() {
                   fontFamily={"body"}
                   fontSize="12px"
                   fontWeight={"600"}
-                  color="#636363"
+                  color="text_secondary_color"
                 >
                   Date
                 </Text>
@@ -494,7 +451,7 @@ function MyAccount() {
                   fontFamily={"body"}
                   fontSize="12px"
                   fontWeight={"600"}
-                  color="#636363"
+                  color="text_secondary_color"
                 >
                   Amount
                 </Text>

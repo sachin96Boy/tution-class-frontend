@@ -1,4 +1,4 @@
-import React from "react";
+import React, { RefObject } from "react";
 import { Avatar, Box, Flex, Heading, Input, Text } from "@chakra-ui/react";
 import { ErrorMessage, FormikProps, FormikHelpers } from "formik";
 
@@ -10,7 +10,7 @@ import { FormValues } from "../../pages/MyAccount";
 import { Field } from "../ui/field";
 
 interface BannerProps {
-  hiddenInputRef: React.RefObject<HTMLInputElement> | null;
+  hiddenInputRef: RefObject<HTMLInputElement | null>;
   formik: FormikProps<FormValues>;
   profilehandleChange: (
     element1: React.ChangeEvent<HTMLInputElement>,
@@ -34,7 +34,7 @@ function ProfileBanner({
       className="profileBanner"
       p={["2", "2", "24px"]}
       rounded={"12px"}
-      bg={"gray.50"}
+      bgColor={"light_bg_card"}
       my={5}
       maxW={["full", "full", "550px"]}
     >
@@ -49,7 +49,7 @@ function ProfileBanner({
           bg="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
           p={"4px"}
         >
-          <Field>
+          <Field htmlFor="profileImage">
             <Input
               id="profileImage"
               ref={hiddenInputRef}
@@ -61,15 +61,15 @@ function ProfileBanner({
             <Avatar.Root
               boxSize={"20"}
               _hover={{ cursor: "pointer" }}
-              src={selectedFile ? preview : undefined}
               objectFit={"cover"}
               onClick={onClick}
             >
-              {!selectedFile && (
+              <Avatar.Fallback>
                 <Avatar.Icon>
                   <TbCameraPlus size={"28"} style={{ color: "#ffffffff" }} />
                 </Avatar.Icon>
-              )}
+              </Avatar.Fallback>
+              <Avatar.Image src={preview} />
             </Avatar.Root>
           </Field>
         </Box>
