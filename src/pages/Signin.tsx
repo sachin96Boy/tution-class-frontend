@@ -31,8 +31,9 @@ function Signin() {
       flexDirection={["column", "column", "row"]}
       align={"center"}
       w="full"
-      h={["full","full","100vh"]}
-      bg={"gray.200"}
+      minHeight={"100vh"}
+      h={["full", "full", "100vh"]}
+      bg={"white"}
     >
       <Image
         src={signinBg}

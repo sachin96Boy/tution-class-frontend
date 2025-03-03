@@ -4,6 +4,7 @@ import {
   Flex,
   Group,
   Heading,
+  Icon,
   IconButton,
   Input,
   InputAddon,
@@ -189,6 +190,7 @@ function RegisterForm() {
           <StepsList>
             {steps.map(({ label, description }, index) => (
               <StepsItem
+                index={index}
                 title={label}
                 key={label}
                 description={description}
@@ -202,15 +204,7 @@ function RegisterForm() {
         onSubmit={onSubmit}
         validationSchema={validationSchema}
       >
-        {(formik: {
-          values: RegisterFormProops;
-          touched: Record<string, boolean>;
-          errors: Record<string, string>;
-          handleChange: (e: React.ChangeEvent<any>) => void;
-          handleBlur: (e: React.FocusEvent<any>) => void;
-          handleSubmit: () => void;
-          isSubmitting: boolean;
-        }) => (
+        {(formik) => (
           <Form autoComplete="off" onSubmit={handleThis}>
             <VStack gap={4}>
               {stepsHooks.value === 0 && (
@@ -219,34 +213,46 @@ function RegisterForm() {
                     invalid={
                       formik.touched.fullName && !!formik.touched.fullName
                     }
-                    label="fullName"
+                    label="Full Name"
+                    htmlFor="fullName"
                     errorText={formik.errors.fullName}
                   >
                     <Input
                       id="fullName"
+                      css={{ "--focus-color": "blue" }}
                       type={"text"}
                       value={formik.values.fullName}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      borderColor="#636363"
-                      border={"1px"}
+                      borderColor={
+                        formik.touched.fullName && formik.errors.fullName
+                          ? "red"
+                          : "#636363"
+                      }
+                      borderWidth={"1px"}
                       placeholder="Full Name"
                       rounded={"10px"}
                     />
                   </Field>
                   <Field
                     invalid={formik.touched.email && !!formik.errors.email}
-                    label="email"
+                    label="Email Address"
+                    htmlFor="email"
                     errorText={formik.errors.email}
                   >
                     <Input
                       id="email"
+                      css={{ "--focus-color": "blue" }}
                       type={"text"}
                       value={formik.values.email}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      borderColor="#636363"
-                      border={"1px"}
+                      borderColor={
+                        formik.touched.email && formik.errors.email
+                          ? "red"
+                          : "#636363"
+                      }
+                      borderWidth={"1px"}
                       placeholder="email address"
                       rounded={"10px"}
                     />
@@ -258,7 +264,8 @@ function RegisterForm() {
                   <Flex align={"center"} justify="center">
                     <Field
                       invalid={formik.touched.mobile && !!formik.errors.mobile}
-                      label="mobile"
+                      label="Mobile Number"
+                      htmlFor="mobile"
                       errorText={formik.errors.mobile}
                     >
                       <Group attached>
@@ -269,8 +276,12 @@ function RegisterForm() {
                           value={formik.values.mobile}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          borderColor="#636363"
-                          border={"1px"}
+                          borderColor={
+                            formik.touched.mobile && formik.errors.mobile
+                              ? "red"
+                              : "#636363"
+                          }
+                          borderWidth={"1px"}
                           placeholder="Mobile Number"
                           rounded={"10px"}
                         />
@@ -294,7 +305,8 @@ function RegisterForm() {
                         invalid={
                           formik.touched.otpNumber && !!formik.errors.otpNumber
                         }
-                        label="otpNumber"
+                        htmlFor="otpNumber"
+                        label="OTP Number"
                         errorText={formik.errors.otpNumber}
                       >
                         <Input
@@ -303,8 +315,12 @@ function RegisterForm() {
                           value={formik.values.otpNumber}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          borderColor="#636363"
-                          border={"1px"}
+                          borderColor={
+                            formik.touched.otpNumber && formik.errors.otpNumber
+                              ? "red"
+                              : "#636363"
+                          }
+                          borderWidth={"1px"}
                           placeholder="Mobile Number"
                           rounded={"10px"}
                         />
@@ -333,13 +349,14 @@ function RegisterForm() {
                       formik.touched.password && !!formik.errors.password
                     }
                     label="password"
+                    htmlFor="password"
                     errorText={formik.errors.password}
                     helperText=" Password must be at least 8 characters long, contain
                         letters and numbers, and must not contain spaces"
                   >
                     <InputGroup
                       endElement={
-                        <IconButton
+                        <Icon
                           aria-label={
                             open ? "Mask password" : "Reveal password"
                           }
@@ -350,7 +367,7 @@ function RegisterForm() {
                           ) : (
                             <HiEyeOff style={{ color: "gray.500" }} />
                           )}
-                        </IconButton>
+                        </Icon>
                       }
                     >
                       <Input
@@ -360,8 +377,12 @@ function RegisterForm() {
                         value={formik.values.password}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        borderColor="#636363"
-                        border={"1px"}
+                        borderColor={
+                          formik.touched.password && formik.errors.password
+                            ? "red"
+                            : "#636363"
+                        }
+                        borderWidth={"1px"}
                         placeholder="Password"
                         rounded={"10px"}
                       />
@@ -403,6 +424,10 @@ function RegisterForm() {
             mx="auto"
             mt={6}
             size="sm"
+            colorScheme="blue"
+            bgGradient={
+              "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
+            }
             onClick={() => stepsHooks.resetStep()}
           >
             Reset
@@ -423,6 +448,10 @@ function RegisterForm() {
             size="sm"
             onClick={() => stepsHooks.goToNextStep()}
             disabled={!verifyOTP && stepsHooks.value === 1 ? true : false}
+            colorScheme="blue"
+            bgGradient={
+              "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
+            }
           >
             {stepsHooks.value === steps.length - 1 ? "Finish" : "Next"}
           </Button>

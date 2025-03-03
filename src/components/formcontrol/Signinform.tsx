@@ -1,5 +1,6 @@
 import {
   Button,
+  Icon,
   IconButton,
   Input,
   Text,
@@ -26,6 +27,7 @@ function Signinform() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [state, newToast] = useToastResponse();
   const navigate = useNavigate();
+
   const { open, onToggle } = useDisclosure();
   const inputRef = useRef<HTMLInputElement>(null);
   const onClickReveal = () => {
@@ -105,17 +107,23 @@ function Signinform() {
           <VStack gap={4} m={4} p={8}>
             <Field
               invalid={formik.touched.email && !!formik.errors.email}
-              label="email"
+              label="Email Address"
+              htmlFor="email"
               errorText={formik.errors.email}
             >
               <Input
                 id="email"
+                css={{ "--focus-color": "blue" }}
                 type={"text"}
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                borderColor="#636363"
-                border={"1px"}
+                borderColor={
+                  formik.touched.email && formik.errors.email
+                    ? "red"
+                    : "#636363"
+                }
+                borderWidth={"1px"}
                 placeholder="Email"
                 rounded={"10px"}
               />
@@ -123,11 +131,13 @@ function Signinform() {
             <Field
               invalid={formik.touched.password && !!formik.errors.password}
               label="password"
+              htmlFor="password"
               errorText={formik.errors.password}
             >
               <InputGroup
+                width={"full"}
                 endElement={
-                  <IconButton
+                  <Icon
                     aria-label={open ? "Mask password" : "Reveal password"}
                     onClick={() => onClickReveal()}
                   >
@@ -136,20 +146,26 @@ function Signinform() {
                     ) : (
                       <HiEyeOff style={{ color: "gray.500" }} />
                     )}
-                  </IconButton>
+                  </Icon>
                 }
               >
                 <Input
                   id="password"
                   ref={inputRef}
+                  css={{ "--focus-color": "blue" }}
                   type={open ? "text" : "password"}
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  borderColor="#636363"
-                  border={"1px"}
+                  borderColor={
+                    formik.touched.password && formik.errors.password
+                      ? "red"
+                      : "#636363"
+                  }
+                  borderWidth={"1px"}
                   placeholder="Password"
                   rounded={"10px"}
+                  autoComplete="off"
                 />
               </InputGroup>
             </Field>
