@@ -10,9 +10,8 @@ type InputProps = {
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   onBlur: React.FocusEventHandler<HTMLInputElement>;
   placeHolder: string;
-  formikError: string | undefined;
   isTouched: boolean | undefined;
-  isError: boolean | undefined;
+  isError: string | undefined;
 };
 
 function InputComponent({
@@ -23,24 +22,25 @@ function InputComponent({
   onChange,
   onBlur,
   placeHolder,
-  formikError,
   isTouched,
-  isError
+  isError,
 }: InputProps) {
   return (
-    <Field invalid={isTouched && isError} errorText={formikError} htmlFor={htmlFor} label={labelText}>
+    <Field
+      invalid={isTouched && !!isError}
+      errorText={isError}
+      htmlFor={htmlFor}
+      label={labelText}
+    >
       <Input
         id={htmlFor}
-        css={{ "--focus-color": "blue" }}
+        colorPalette={"blue"}
+        css={{ "--focus-color": "colors.primary_color" }}
         type={InputType}
         value={InputValue}
         onChange={onChange}
         onBlur={onBlur}
-        borderColor={
-          isTouched && isError
-            ? "red"
-            : "#636363"
-        }
+        borderColor={isTouched && isError ? "red" : "border_color"}
         borderWidth={"1px"}
         placeholder={placeHolder}
         rounded={"10px"}

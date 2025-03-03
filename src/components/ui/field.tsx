@@ -19,7 +19,7 @@ export const Field = React.forwardRef<HTMLDivElement, FieldProps>(
           <ChakraField.Label
             fontSize={"12px"}
             fontFamily={"body"}
-            color={"#636363"}
+            color={"text_secondary_color"}
             fontWeight={"600"}
             htmlFor={htmlFor}
           >

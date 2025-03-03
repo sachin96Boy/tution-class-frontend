@@ -1,7 +1,6 @@
 import {
   Button,
   Icon,
-  IconButton,
   Input,
   Text,
   useDisclosure,
@@ -17,6 +16,7 @@ import axios from "../../utils/AxiosInstans";
 import useToastResponse from "../toast/ToastResponse";
 import { Field } from "../ui/field";
 import { InputGroup } from "../ui/input-group";
+import InputComponent from "./InputComponent";
 
 interface SigninformProps {
   email: string;
@@ -105,32 +105,21 @@ function Signinform() {
       {(formik) => (
         <Form autoComplete="off">
           <VStack gap={4} m={4} p={8}>
-            <Field
-              invalid={formik.touched.email && !!formik.errors.email}
-              label="Email Address"
-              htmlFor="email"
-              errorText={formik.errors.email}
-            >
-              <Input
-                id="email"
-                css={{ "--focus-color": "blue" }}
-                type={"text"}
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                borderColor={
-                  formik.touched.email && formik.errors.email
-                    ? "red"
-                    : "#636363"
-                }
-                borderWidth={"1px"}
-                placeholder="Email"
-                rounded={"10px"}
-              />
-            </Field>
+            <InputComponent
+              htmlFor={"email"}
+              labelText={"Email Address"}
+              InputType={"text"}
+              InputValue={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeHolder={"Email"}
+              isTouched={formik.touched.email}
+              isError={formik.errors.email}
+            />
+
             <Field
               invalid={formik.touched.password && !!formik.errors.password}
-              label="password"
+              label="Password"
               htmlFor="password"
               errorText={formik.errors.password}
             >
@@ -152,7 +141,8 @@ function Signinform() {
                 <Input
                   id="password"
                   ref={inputRef}
-                  css={{ "--focus-color": "blue" }}
+                  colorPalette={"blue"}
+                  css={{ "--focus-color": "colors.primary_color" }}
                   type={open ? "text" : "password"}
                   value={formik.values.password}
                   onChange={formik.handleChange}
@@ -215,6 +205,24 @@ function Signinform() {
                 Login
               </Text>
             </Button>
+            <Text
+              fontFamily={"body"}
+              color="#AFAFAF"
+              fontSize={"12px"}
+              fontWeight="600"
+            >
+              Coperate Member?{"  "}
+              <Text
+                as={"span"}
+                mx={2}
+                fontFamily={"body"}
+                color="#215DA7"
+                fontSize={"12px"}
+                fontWeight="700"
+              >
+                <Link to={"/signup"}>Coperate login</Link>
+              </Text>
+            </Text>
           </VStack>
         </Form>
       )}

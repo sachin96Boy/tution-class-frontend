@@ -53,7 +53,7 @@ function Signin() {
             fontFamily={"body"}
             fontSize="22px"
             fontWeight={"600"}
-            color="#215DA7"
+            color="primary_color"
             my={1}
           >
             Good to see You Again!
@@ -63,7 +63,7 @@ function Signin() {
               fontFamily={"body"}
               fontSize="15px"
               fontWeight={"600"}
-              color="#636363"
+              color="secondary_title_color"
               my={2}
             >
               By logging into Sipsa Institute, you agree to our Terms of use and

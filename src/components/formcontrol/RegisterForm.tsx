@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Center,
   Flex,
   Group,
   Heading,
@@ -22,9 +23,11 @@ import { HiEye, HiEyeOff } from "react-icons/hi";
 import axios from "axios";
 import { AxiosResponse, AxiosError } from "axios";
 import useToastResponse from "../toast/ToastResponse";
+
 import { Field } from "../ui/field";
 import { InputGroup } from "../ui/input-group";
 import { StepsItem, StepsList } from "../ui/steps";
+import InputComponent from "./InputComponent";
 
 interface RegisterFormProops {
   fullName: string;
@@ -186,7 +189,12 @@ function RegisterForm() {
   return (
     <Flex flexDir={"column"} align="center" justify={"center"} gap={10}>
       <Flex w={"full"}>
-        <StepsRootProvider colorScheme="blue" value={stepsHooks}>
+        <StepsRootProvider
+          orientation={["vertical", "horizontal", "horizontal"]}
+          height={["150px", "full"]}
+          colorScheme="blue"
+          value={stepsHooks}
+        >
           <StepsList>
             {steps.map(({ label, description }, index) => (
               <StepsItem
@@ -209,59 +217,33 @@ function RegisterForm() {
             <VStack gap={4}>
               {stepsHooks.value === 0 && (
                 <>
-                  <Field
-                    invalid={
-                      formik.touched.fullName && !!formik.touched.fullName
-                    }
-                    label="Full Name"
-                    htmlFor="fullName"
-                    errorText={formik.errors.fullName}
-                  >
-                    <Input
-                      id="fullName"
-                      css={{ "--focus-color": "blue" }}
-                      type={"text"}
-                      value={formik.values.fullName}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      borderColor={
-                        formik.touched.fullName && formik.errors.fullName
-                          ? "red"
-                          : "#636363"
-                      }
-                      borderWidth={"1px"}
-                      placeholder="Full Name"
-                      rounded={"10px"}
-                    />
-                  </Field>
-                  <Field
-                    invalid={formik.touched.email && !!formik.errors.email}
-                    label="Email Address"
-                    htmlFor="email"
-                    errorText={formik.errors.email}
-                  >
-                    <Input
-                      id="email"
-                      css={{ "--focus-color": "blue" }}
-                      type={"text"}
-                      value={formik.values.email}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      borderColor={
-                        formik.touched.email && formik.errors.email
-                          ? "red"
-                          : "#636363"
-                      }
-                      borderWidth={"1px"}
-                      placeholder="email address"
-                      rounded={"10px"}
-                    />
-                  </Field>
+                  <InputComponent
+                    htmlFor={"fullName"}
+                    labelText={"Full Name"}
+                    InputType={"text"}
+                    InputValue={formik.values.fullName}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    placeHolder={"Full Name"}
+                    isTouched={formik.touched.fullName}
+                    isError={formik.errors.fullName}
+                  />
+                  <InputComponent
+                    htmlFor={"email"}
+                    labelText={"Email address"}
+                    InputType={"text"}
+                    InputValue={formik.values.email}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    placeHolder={"Email"}
+                    isTouched={formik.touched.email}
+                    isError={formik.errors.email}
+                  />
                 </>
               )}
               {stepsHooks.value === 1 && (
                 <>
-                  <Flex align={"center"} justify="center">
+                  <Flex align={"center"} justify="center" spaceX={6}>
                     <Field
                       invalid={formik.touched.mobile && !!formik.errors.mobile}
                       label="Mobile Number"
@@ -279,7 +261,7 @@ function RegisterForm() {
                           borderColor={
                             formik.touched.mobile && formik.errors.mobile
                               ? "red"
-                              : "#636363"
+                              : "border_color"
                           }
                           borderWidth={"1px"}
                           placeholder="Mobile Number"
@@ -294,6 +276,7 @@ function RegisterForm() {
                       disabled={
                         formik.values.mobile.length === 9 ? false : true
                       }
+                      bgColor={"primary_color"}
                     >
                       Send OTP
                     </Button>
@@ -301,30 +284,17 @@ function RegisterForm() {
                   <Box id="recaptcha-container" />
                   {showOTP && (
                     <Flex align={"center"} justify="center">
-                      <Field
-                        invalid={
-                          formik.touched.otpNumber && !!formik.errors.otpNumber
-                        }
-                        htmlFor="otpNumber"
-                        label="OTP Number"
-                        errorText={formik.errors.otpNumber}
-                      >
-                        <Input
-                          id="otpNumber"
-                          type={"text"}
-                          value={formik.values.otpNumber}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          borderColor={
-                            formik.touched.otpNumber && formik.errors.otpNumber
-                              ? "red"
-                              : "#636363"
-                          }
-                          borderWidth={"1px"}
-                          placeholder="Mobile Number"
-                          rounded={"10px"}
-                        />
-                      </Field>
+                      <InputComponent
+                        htmlFor={"otpNumber"}
+                        labelText={"OTP Number"}
+                        InputType={"number"}
+                        InputValue={formik.values.otpNumber}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        placeHolder={"OTP Number"}
+                        isTouched={formik.touched.otpNumber}
+                        isError={formik.errors.otpNumber}
+                      />
                       <Button
                         ml={10}
                         mt={6}
@@ -334,6 +304,7 @@ function RegisterForm() {
                             formik.values.otpNumber
                           )
                         }
+                        bgColor={"primary_color"}
                         disabled={formik.values.otpNumber.length < 0}
                       >
                         Verify OTP
@@ -344,49 +315,58 @@ function RegisterForm() {
               )}
               {stepsHooks.value === 2 && (
                 <>
-                  <Field
-                    invalid={
-                      formik.touched.password && !!formik.errors.password
-                    }
-                    label="password"
-                    htmlFor="password"
-                    errorText={formik.errors.password}
-                    helperText=" Password must be at least 8 characters long, contain
-                        letters and numbers, and must not contain spaces"
+                  <Flex
+                    flexDirection={"column"}
+                    alignItems={"center"}
+                    justify={"center"}
                   >
-                    <InputGroup
-                      endElement={
-                        <Icon
-                          aria-label={
-                            open ? "Mask password" : "Reveal password"
-                          }
-                          onClick={() => onClickReveal()}
-                        >
-                          {open ? (
-                            <HiEye style={{ color: "gray.500" }} />
-                          ) : (
-                            <HiEyeOff style={{ color: "gray.500" }} />
-                          )}
-                        </Icon>
+                    <Field
+                      width={"full"}
+                      invalid={
+                        formik.touched.password && !!formik.errors.password
                       }
+                      label="password"
+                      htmlFor="password"
+                      errorText={formik.errors.password}
+                      helperText=" Password must be at least 8 characters long, contain
+                        letters and numbers, and must not contain spaces"
                     >
-                      <Input
-                        id="password"
-                        ref={inputRef}
-                        type={open ? "text" : "password"}
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        borderColor={
-                          formik.touched.password && formik.errors.password
-                            ? "red"
-                            : "#636363"
+                      <InputGroup
+                        endElement={
+                          <Icon
+                            aria-label={
+                              open ? "Mask password" : "Reveal password"
+                            }
+                            onClick={() => onClickReveal()}
+                          >
+                            {open ? (
+                              <HiEye style={{ color: "gray.500" }} />
+                            ) : (
+                              <HiEyeOff style={{ color: "gray.500" }} />
+                            )}
+                          </Icon>
                         }
-                        borderWidth={"1px"}
-                        placeholder="Password"
-                        rounded={"10px"}
-                      />
-                    </InputGroup>
+                      >
+                        <Input
+                          id="password"
+                          width={"full"}
+                          colorPalette={"blue"}
+                          ref={inputRef}
+                          type={open ? "text" : "password"}
+                          value={formik.values.password}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          borderColor={
+                            formik.touched.password && formik.errors.password
+                              ? "red"
+                              : "border_color"
+                          }
+                          borderWidth={"1px"}
+                          placeholder="Password"
+                          rounded={"10px"}
+                        />
+                      </InputGroup>
+                    </Field>
                     <Button
                       type="button"
                       width={"full"}
@@ -408,7 +388,7 @@ function RegisterForm() {
                         Register
                       </Text>
                     </Button>
-                  </Field>
+                  </Flex>
                 </>
               )}
             </VStack>
