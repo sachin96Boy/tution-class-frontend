@@ -23,16 +23,16 @@ function CourseDetailCard({
   subcription,
 }: CourseDetailsProps) {
   return (
-    <Box  p={4} maxH={"204px"} bgColor="#E6F1FF" rounded={"16px"} w='full'>
+    <Box p={4} maxH={"204px"} bgColor="#E6F1FF" rounded={"16px"} w="full">
       <Flex align={"center"} justify="start">
         <Image
-          boxSize={["24","28","44"]}
+          boxSize={["24", "28", "44"]}
           objectFit={"cover"}
           src={courseImg}
           alt={subject}
           rounded="12px"
         />
-        <Box ml={[5,5,10]}>
+        <Box ml={[5, 5, 10]}>
           <Flex flexDirection={"column"} align="start" gap={3}>
             {/* Button wwith subject name */}
             <Button
@@ -51,7 +51,7 @@ function CourseDetailCard({
             </Button>
             {/* Teacher name */}
             <Heading
-              fontSize={["16px","16px","24px"]}
+              fontSize={["16px", "16px", "24px"]}
               fontFamily={"body"}
               as={"h2"}
               color="black"
@@ -61,10 +61,10 @@ function CourseDetailCard({
             {/* year and course subscription details */}
             <Heading
               fontFamily={"body"}
-              fontSize={["16px","16px","18px"]}
+              fontSize={["16px", "16px", "18px"]}
               as={"h4"}
               color={"black"}
-              noOfLines={1}
+              lineClamp="1"
             >
               {year} | {subcription} Course
             </Heading>
@@ -74,9 +74,9 @@ function CourseDetailCard({
               fontSize="10px"
               fontWeight={"600"}
               color="#545454"
-              noOfLines={3}
+              lineClamp="3"
               h="44px"
-              w={["full","full","full","300px"]}
+              w={["full", "full", "full", "300px"]}
             >
               {description}
             </Text>

@@ -1,12 +1,7 @@
 import {
   Button,
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  IconButton,
+  Icon,
   Input,
-  InputGroup,
-  InputRightElement,
   Text,
   useDisclosure,
   VStack,
@@ -19,6 +14,9 @@ import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import axios from "../../utils/AxiosInstans";
 import useToastResponse from "../toast/ToastResponse";
+import { Field } from "../ui/field";
+import { InputGroup } from "../ui/input-group";
+import InputComponent from "./InputComponent";
 
 interface SigninformProps {
   email: string;
@@ -29,7 +27,8 @@ function Signinform() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [state, newToast] = useToastResponse();
   const navigate = useNavigate();
-  const { isOpen, onToggle } = useDisclosure();
+
+  const { open, onToggle } = useDisclosure();
   const inputRef = useRef<HTMLInputElement>(null);
   const onClickReveal = () => {
     onToggle();
@@ -49,10 +48,12 @@ function Signinform() {
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required"),
-    password: Yup.string().required("Password is required").matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#%&])(?=.{8,})/,
-      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-    ),
+    password: Yup.string()
+      .required("Password is required")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#%&])(?=.{8,})/,
+        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+      ),
   });
 
   const onSubmit = async (values: SigninformProps, actions: any) => {
@@ -70,24 +71,27 @@ function Signinform() {
         }
       )
       .then((res) => {
-        if(res.status === 200){
+        if (res.status === 200) {
           newToast({
             status: res.data.status,
             message: res.data.message,
-          })
+          });
           if (res.data.user) {
             localStorage.setItem("user", JSON.stringify(res.data.user));
+            localStorage.setItem(
+              "access_token",
+              JSON.stringify(res.data.token)
+            );
             navigate("/dashboard");
           }
         }
-        
       })
-      .catch((err:AxiosError<any,any>) => {
+      .catch((err: AxiosError<any, any>) => {
         console.log(err);
         newToast({
           status: err.response?.data?.status,
           message: err.response?.data?.message,
-        })
+        });
       });
     actions.setSubmitting(false);
   };
@@ -100,76 +104,61 @@ function Signinform() {
     >
       {(formik) => (
         <Form autoComplete="off">
-          <VStack spacing={4}>
-            <FormControl isInvalid={formik.touched.email && !!formik.errors.email}>
-              <FormLabel htmlFor="email">
-                <Text
-                  color={"#636363"}
-                  fontSize="12px"
-                  fontWeight={"600"}
-                  fontFamily="body"
-                >
-                  Email address
-                </Text>
-              </FormLabel>
-              <Input
-                id="email"
-                type={"text"}
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                borderColor="#636363"
-                border={"1px"}
-                placeholder="Email"
-                rounded={"10px"}
-              />
-              <FormErrorMessage>
-                <ErrorMessage name="email" />
-              </FormErrorMessage>
-            </FormControl>
-            <FormControl isInvalid={formik.touched.password && !!formik.errors.password}>
-              <FormLabel htmlFor="password">
-                <Text
-                  color={"#636363"}
-                  fontSize="12px"
-                  fontWeight={"600"}
-                  fontFamily="body"
-                >
-                  password
-                </Text>
-              </FormLabel>
-              <InputGroup>
+          <VStack gap={4} m={4} p={8}>
+            <InputComponent
+              htmlFor={"email"}
+              labelText={"Email Address"}
+              InputType={"email"}
+              InputValue={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              placeHolder={"Email"}
+              isTouched={formik.touched.email}
+              isError={formik.errors.email}
+            />
+
+            <Field
+              invalid={formik.touched.password && !!formik.errors.password}
+              label="Password"
+              htmlFor="password"
+              errorText={formik.errors.password}
+            >
+              <InputGroup
+                width={"full"}
+                endElement={
+                  <Icon
+                    aria-label={open ? "Mask password" : "Reveal password"}
+                    onClick={() => onClickReveal()}
+                  >
+                    {open ? (
+                      <HiEye style={{ color: "gray.500" }} />
+                    ) : (
+                      <HiEyeOff style={{ color: "gray.500" }} />
+                    )}
+                  </Icon>
+                }
+              >
                 <Input
                   id="password"
                   ref={inputRef}
-                  type={isOpen ? "text" : "password"}
+                  colorPalette={"blue"}
+                  css={{ "--focus-color": "colors.primary_color" }}
+                  type={open ? "text" : "password"}
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  borderColor="#636363"
-                  border={"1px"}
+                  borderColor={
+                    formik.touched.password && formik.errors.password
+                      ? "red"
+                      : "#636363"
+                  }
+                  borderWidth={"1px"}
                   placeholder="Password"
                   rounded={"10px"}
+                  autoComplete="off"
                 />
-                <InputRightElement>
-                  <IconButton
-                    aria-label={isOpen ? "Mask password" : "Reveal password"}
-                    onClick={() => onClickReveal()}
-                    variant="link"
-                    icon={
-                      isOpen ? (
-                        <HiEye style={{ color: "gray.500" }} />
-                      ) : (
-                        <HiEyeOff style={{ color: "gray.500" }} />
-                      )
-                    }
-                  />
-                </InputRightElement>
               </InputGroup>
-              <FormErrorMessage>
-                <ErrorMessage name="password" />
-              </FormErrorMessage>
-            </FormControl>
+            </Field>
             <Text
               fontFamily={"body"}
               color="#AFAFAF"
@@ -205,7 +194,7 @@ function Signinform() {
                 "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
               }
               boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
-              isLoading={formik.isSubmitting}
+              loading={formik.isSubmitting}
             >
               <Text
                 fontFamily={"body"}
@@ -216,6 +205,24 @@ function Signinform() {
                 Login
               </Text>
             </Button>
+            <Text
+              fontFamily={"body"}
+              color="#AFAFAF"
+              fontSize={"12px"}
+              fontWeight="600"
+            >
+              Coperate Member?{"  "}
+              <Text
+                as={"span"}
+                mx={2}
+                fontFamily={"body"}
+                color="#215DA7"
+                fontSize={"12px"}
+                fontWeight="700"
+              >
+                <Link to={"/signup"}>Coperate login</Link>
+              </Text>
+            </Text>
           </VStack>
         </Form>
       )}

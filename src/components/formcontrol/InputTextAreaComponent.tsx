@@ -1,21 +1,16 @@
-import {
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-  Text,
-  Textarea,
-} from "@chakra-ui/react";
-import { ErrorMessage } from "formik";
+import { Text, Textarea } from "@chakra-ui/react";
 import React from "react";
+import { Field } from "../ui/field";
 
 type InputProps = {
-  htmlFor: string | undefined;
+  htmlFor: string;
   labelText: string;
   InputValue: string | number | readonly string[];
   onChange: React.ChangeEventHandler<HTMLTextAreaElement>;
   onBlur: React.FocusEventHandler<HTMLTextAreaElement>;
   placeHolder: string;
-  formikError: string;
+  isTouched: boolean | undefined;
+  isError: string | undefined;
 };
 
 function InputTextAreaComponent({
@@ -25,35 +20,25 @@ function InputTextAreaComponent({
   onChange,
   onBlur,
   placeHolder,
-  formikError,
+  isTouched,
+  isError,
 }: InputProps) {
   return (
-    <FormControl>
-      <FormLabel htmlFor={htmlFor}>
-        <Text
-          color={"#636363"}
-          fontSize="12px"
-          fontWeight={"600"}
-          fontFamily="body"
-        >
-          {labelText}
-        </Text>
-      </FormLabel>
+    <Field label={labelText} htmlFor={htmlFor} invalid={isTouched && !!isError}>
       <Textarea
-        id={htmlFor}
         value={InputValue}
+        colorPalette={"blue"}
+        css={{ "--focus-color": "colors.primary_color" }}
+        id={htmlFor}
         onChange={onChange}
         onBlur={onBlur}
-        borderColor="#636363"
-        border={"1px"}
+        borderColor={isTouched && isError ? "red" : "border_color"}
+        borderWidth={"1px"}
         placeholder={placeHolder}
         rounded={"10px"}
         size="lg"
       />
-      <FormErrorMessage>
-        <ErrorMessage name={formikError} />
-      </FormErrorMessage>
-    </FormControl>
+    </Field>
   );
 }
 

@@ -1,17 +1,10 @@
-import {
-  Box,
-  Flex,
-  FormControl,
-  FormLabel,
-  Grid,
-  GridItem,
-  Heading,
-  Input,
-} from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, Heading, Input } from "@chakra-ui/react";
 import React, { useState } from "react";
 import CourseCard, {
   CourseCardProps,
 } from "../components/mycourse/courseard/CourseCard";
+import { Field } from "@/components/ui/field";
+import InputComponent from "@/components/formcontrol/InputComponent";
 
 function TeacherList() {
   const [teacherName, setTeacherName] = useState("");
@@ -87,8 +80,7 @@ function TeacherList() {
       <Heading as={"h2"}>Teacher List</Heading>
       <Box className="filter" my={3}>
         <Flex gap={3} align="center">
-          <FormControl>
-            <FormLabel htmlFor="teacherName">Teacher Name</FormLabel>
+          <Field htmlFor="teacherName" label="Teacher Name">
             <Input
               id="teacherName"
               w={"full"}
@@ -96,10 +88,10 @@ function TeacherList() {
               value={teacherName}
               onChange={(e) => setTeacherName(e.target.value)}
               placeholder="Select Teacher"
-              borderColor={"#B6D7FF"}
-              border="1px"
+              borderColor={"light_bg_blue"}
+              borderWidth="1px"
             />
-          </FormControl>
+          </Field>
         </Flex>
       </Box>
       <Box className="tacher-list" my={10}>

@@ -41,41 +41,62 @@ function HomePage() {
     vertical: vertical,
     verticalSwiping: verticalSwiping,
     autoplaySpeed: 4000,
-    arrow: false,
+    arrows: false,
     slidesToShow: 3,
     slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 768, // Adjust for smaller screens
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          vertical: false,
+          verticalSwiping: false,
+        },
+      },
+    ],
   };
+
   return (
-    <Box w={"full"}>
+    <Box w={"full"} px={[4, 6, 10]}>
+      {" "}
+      {/* Responsive padding */}
+      {/* Top Section */}
       <Flex
         flexDirection={["column", "column", "row"]}
-        gap={2}
-        mx={10}
+        gap={[4, 6, 8]}
         align={"center"}
         justify="space-between"
+        my={[4, 6, 8]}
       >
         <Flex
-          bg={"#E6F1FF"}
+          bg={"light_bg_card"}
           align={"center"}
           justify="center"
           flexDirection={"column"}
           borderRadius="16px"
-          w={"full"}
-          p={5}
+          w={["full", "full", "60%"]}
+          p={[4, 6]}
         >
-          <Image src={sipsaLogo} objectFit="cover" w={"421px"} h="210px" />
+          <Image
+            src={sipsaLogo}
+            objectFit="cover"
+            w={["200px", "300px", "421px"]}
+            h={["100px", "150px", "210px"]}
+          />
           <Text
             fontFamily={"fantasy"}
             fontWeight="400"
-            color="#585858"
-            fontSize={"18px"}
+            color="secondary_title_color"
+            fontSize={["14px", "16px", "18px"]}
+            textAlign="center"
           >
             ඔබෙ සිහින වලට නිවහනක් වන අපේ කාලයේ
           </Text>
           <Text
             fontFamily={"fantasy"}
             fontWeight={"400"}
-            fontSize={["34", "52", "80px"]}
+            fontSize={["24px", "36px", "52px", "80px"]}
             bgGradient={
               "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
             }
@@ -91,41 +112,42 @@ function HomePage() {
           align={"center"}
           justify="center"
           bg={"yellow.400"}
-          w={"full"}
-          p={1}
+          w={["full", "full", "35%"]}
+          p={[2, 4]}
         >
           <Image
             src={sipsaclassbanner1}
             objectFit="contain"
-            boxSize={"350px"}
+            boxSize={["200px", "250px", "350px"]}
           />
         </Flex>
       </Flex>
-      <Box mx={10}>
+      {/* Courses Section */}
+      <Box>
         <Text
           bgClip={"text"}
           bgGradient="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
-          fontSize={"24px"}
+          fontSize={["18px", "20px", "24px"]}
           fontFamily="fantasy"
-          my={2}
+          my={[2, 4]}
         >
           අපගේ පාඨමාලා
         </Text>
         <Box
           alignItems={"center"}
-          px={5}
+          px={[2, 4, 6]}
           rounded="10px"
           bg="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
         >
           <Slider {...settings}>
             {bannerList.map((item: string, index: number) => (
               <Box key={index}>
-                <Box p={1} bg={"yellow.400"} rounded="5px" m={5}>
+                <Box p={1} bg={"yellow.400"} rounded="5px" m={[2, 4]}>
                   <Image
                     borderRadius={"12px"}
                     src={item}
-                    objectFit="contain"
-                    boxSize={"200px"}
+                    objectFit="cover"
+                    boxSize={["150px", "180px", "200px"]}
                   />
                 </Box>
               </Box>
@@ -133,22 +155,23 @@ function HomePage() {
           </Slider>
         </Box>
       </Box>
+      {/* Support Section */}
       <Flex
-        my={5}
-        mx={10}
-        p={3}
-        flexDirection={["column", "column", "column", "row"]}
+        my={[4, 6]}
+        p={[3, 4, 6]}
+        flexDirection={["column", "column", "row"]}
         align={"center"}
         justify="space-between"
-        bg="#E6F1FF"
+        bg="light_bg_card"
         rounded={"16px"}
       >
         <Text
-          color={"#585858"}
+          color={"text_secondary_color"}
           fontFamily="fantasy"
-          fontSize={["14px", "14px", "18px"]}
+          fontSize={["12px", "14px", "18px"]}
           fontWeight="bold"
-          m={2}
+          m={[1, 2]}
+          textAlign="center"
         >
           <Text as={"span"} fontFamily="body">
             Sipsa Web
@@ -160,14 +183,17 @@ function HomePage() {
           පිටුවට පිවිසෙන්න
         </Text>
         <Button
-          colorScheme={"yellow"}
+          colorPalette={"yellow"}
           bgGradient={" linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"}
+          size={["sm", "md"]}
+          mt={[2, 0]}
         >
-          <Text color={"white"} fontSize={["16px", "16px", "21px"]}>
+          <Text color={"white"} fontSize={["14px", "16px", "21px"]}>
             Support Page
           </Text>
         </Button>
       </Flex>
+      {/* Hidden Section */}
       <Box my={2} visibility="hidden">
         Dont show this
       </Box>

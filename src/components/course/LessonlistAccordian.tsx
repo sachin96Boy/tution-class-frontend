@@ -1,15 +1,13 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Flex,
-  Heading,
-} from "@chakra-ui/react";
 import React from "react";
+import { Box, useBreakpointValue } from "@chakra-ui/react";
 import LessonlementCard from "./LessonlementCard";
+import {
+  AccordionItem,
+  AccordionItemContent,
+  AccordionItemTrigger,
+  AccordionRoot,
+} from "../ui/accordion";
+import Slider from "react-slick";
 
 export interface LessonContent {
   week: string;
@@ -63,6 +61,33 @@ const lessonList: Array<LessonDetailsListProps> = [
         viewResource: "View Resource",
         AttendNow: "Attand Now",
       },
+      {
+        week: "Week 4",
+        date: "03/03/2020",
+        lessonName: "Lesson 4",
+        imgSrc: "https://picsum.photos/200",
+        lessonContent: "This is the content of lesson 4",
+        viewResource: "View Resource",
+        AttendNow: "Attand Now",
+      },
+      {
+        week: "Week 5",
+        date: "03/03/2020",
+        lessonName: "Lesson 5",
+        imgSrc: "https://picsum.photos/200",
+        lessonContent: "This is the content of lesson 5",
+        viewResource: "View Resource",
+        AttendNow: "Attand Now",
+      },
+      {
+        week: "Week 6",
+        date: "03/03/2020",
+        lessonName: "Lesson 6",
+        imgSrc: "https://picsum.photos/200",
+        lessonContent: "This is the content of lesson 6",
+        viewResource: "View Resource",
+        AttendNow: "Attand Now",
+      },
     ],
   },
   {
@@ -103,57 +128,72 @@ const lessonList: Array<LessonDetailsListProps> = [
 ];
 
 function LessonlistAccordian() {
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
+  const sliderSettings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: isMobile ? 1 : 4, // Show 1 slide on mobile, 4 on desktop
+    slidesToScroll: 1,
+    arrows: !isMobile, // Hide arrows on mobile
+    vertical: false,
+    verticalSwiping: false,
+    responsive: [
+      {
+        breakpoint: 768, // Adjust for tablets
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
   return (
     <Box>
-      {lessonList.map((lessonContent, index) => (
-        <Accordion key={index} my={2} allowMultiple w={'full'}>
-          <AccordionItem>
-            <Heading>
-              <AccordionButton
-                h={"61.76px"}
+      <AccordionRoot my={2} multiple maxW="80vw">
+        {lessonList.map((lessonContent, index) => (
+          <AccordionItem key={index} value={lessonContent.subject}>
+            <AccordionItemTrigger
+              bgGradient="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
+              _hover={{ bg: "#2B2D4E" }}
+              rounded="2xl"
+              aria-expanded="false"
+            >
+              <Box
                 color="white"
-                fontFamily={"body"}
+                fontFamily="body"
                 fontWeight="500"
-                fontSize={"24px"}
+                fontSize="24px"
                 rounded="10px"
-                bgGradient={
-                  "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
-                }
-                _hover={{
-                  bg: "#2B2D4E",
-                }}
+                p={5}
               >
-                <Box flex="1" textAlign="left">
-                  {lessonContent.month} {lessonContent.year}
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </Heading>
+                {lessonContent.month} {lessonContent.year}
+              </Box>
+            </AccordionItemTrigger>
 
-            <AccordionPanel p={2}>
-              <Flex
-                bg="#E6F1FF"
-                align={"center"}
-                justify="space-evenly"
-                gap={1}
-                flexDirection={["column","column","row"]}
-              >
-                {lessonContent.content.map((lesson, index) => (
-                  <LessonlementCard
-                    key={index}
-                    grade={lessonContent.grade}
-                    date={lesson.date}
-                    imgSrc={lesson.imgSrc}
-                    lessonName={lesson.lessonName}
-                    attendNow={lesson.AttendNow}
-                    viewResource={lesson.viewResource}
-                  />
-                ))}
-              </Flex>
-            </AccordionPanel>
+            <AccordionItemContent>
+              <Box bg="light_bg_card" p={2} rounded="2xl">
+                <Slider {...sliderSettings}>
+                  {lessonContent.content.map((lesson, index) => (
+                    <Box key={index} px={2}>
+                      <LessonlementCard
+                        grade={lessonContent.grade}
+                        date={lesson.date}
+                        imgSrc={lesson.imgSrc}
+                        lessonName={lesson.lessonName}
+                        attendNow={lesson.AttendNow}
+                        viewResource={lesson.viewResource}
+                      />
+                    </Box>
+                  ))}
+                </Slider>
+              </Box>
+            </AccordionItemContent>
           </AccordionItem>
-        </Accordion>
-      ))}
+        ))}
+      </AccordionRoot>
     </Box>
   );
 }

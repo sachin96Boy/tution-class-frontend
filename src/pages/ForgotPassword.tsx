@@ -2,7 +2,6 @@ import {
   Button,
   Center,
   Flex,
-  FormControl,
   Heading,
   Input,
   Stack,
@@ -10,15 +9,22 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import Logo from "../components/Logo";
+import { Field } from "@/components/ui/field";
 
 function ForgotPassword() {
   return (
-    <Flex minH={"100vh"} flexDirection={"column"} align={"center"} justify={"center"} bg={"gray.200"}>
+    <Flex
+      minH={"100vh"}
+      flexDirection={"column"}
+      align={"center"}
+      justify={"center"}
+      bg={"gray.200"}
+    >
       <Center>
         <Logo boxSize={"36"} linkPath={"/"} fitType={"Contain"} />
       </Center>
       <Stack
-        spacing={4}
+        gap={4}
         w={"full"}
         maxW={"md"}
         bg={"white"}
@@ -33,14 +39,15 @@ function ForgotPassword() {
         <Text fontSize={{ base: "sm", sm: "md" }} color={"gray.800"}>
           You&apos;ll get an email with a reset link
         </Text>
-        <FormControl id="email">
+        <Field htmlFor="email">
           <Input
             placeholder="your-email@example.com"
             _placeholder={{ color: "gray.500" }}
             type="email"
+            id="email"
           />
-        </FormControl>
-        <Stack spacing={6}>
+        </Field>
+        <Stack gap={6}>
           <Button
             colorScheme="blue"
             bgGradient={

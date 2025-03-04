@@ -42,7 +42,7 @@ function ContactUsForm() {
     >
       {(formik) => (
         <Form>
-          <VStack spacing={4}>
+          <VStack gap={4}>
             <InputComponent
               htmlFor="name"
               placeHolder="Full Name"
@@ -51,7 +51,8 @@ function ContactUsForm() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               InputValue={formik.values.fullName}
-              formikError="fullName"
+              isTouched={formik.touched.fullName}
+              isError={formik.errors.fullName}
             />
             <InputComponent
               htmlFor="email"
@@ -61,7 +62,8 @@ function ContactUsForm() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               InputValue={formik.values.email}
-              formikError="email"
+              isTouched={formik.touched.email}
+              isError={formik.errors.email}
             />
             <InputComponent
               htmlFor="grade"
@@ -71,7 +73,8 @@ function ContactUsForm() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               InputValue={formik.values.grade}
-              formikError="grade"
+              isTouched={formik.touched.grade}
+              isError={formik.errors.grade}
             />
             <InputTextAreaComponent
               htmlFor="BodyContent"
@@ -80,19 +83,20 @@ function ContactUsForm() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               InputValue={formik.values.grade}
-              formikError="contentBody"
+              isTouched={formik.touched.grade}
+              isError={formik.errors.grade}
             />
 
             <Button
               type="submit"
               width={"full"}
               border={"10px"}
-              colorScheme="blue"
+              colorPalette="blue"
               bgGradient={
                 "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
               }
               boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
-              isLoading={formik.isSubmitting}
+              loading={formik.isSubmitting}
             >
               <Text
                 fontFamily={"body"}

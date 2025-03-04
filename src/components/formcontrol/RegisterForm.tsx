@@ -1,29 +1,30 @@
 import {
-  Box,
   Button,
   Flex,
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
+  Group,
   Heading,
-  IconButton,
+  Icon,
   Input,
-  InputGroup,
-  InputLeftAddon,
-  InputRightElement,
+  InputAddon,
+  StepsRootProvider,
   Text,
   useDisclosure,
+  useSteps,
   VStack,
 } from "@chakra-ui/react";
-import { ErrorMessage, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import React, { useRef, useState } from "react";
-import { Step, Steps, useSteps } from "chakra-ui-steps";
+// import { Step, Steps, useSteps } from "chakra-ui-steps";
 import * as Yup from "yup";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import axios from "axios";
 import { AxiosResponse, AxiosError } from "axios";
 import useToastResponse from "../toast/ToastResponse";
+
+import { Field } from "../ui/field";
+import { InputGroup } from "../ui/input-group";
+import { StepsItem, StepsList } from "../ui/steps";
+import InputComponent from "./InputComponent";
 
 interface RegisterFormProops {
   fullName: string;
@@ -36,9 +37,7 @@ interface RegisterFormProops {
 function RegisterForm() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [state, newToast] = useToastResponse();
-  const [showOTP, setShowOTP] = useState<boolean>(false);
-  const [verifyOTP, setVerifyOTP] = useState<boolean>(false);
-  const { isOpen, onToggle } = useDisclosure();
+  const { open, onToggle } = useDisclosure();
   const inputRef = useRef<HTMLInputElement>(null);
   const onClickReveal = () => {
     onToggle();
@@ -54,8 +53,9 @@ function RegisterForm() {
     { label: "Step 2", description: "Mobile Number Verification" },
     { label: "Step 3", description: "Password Submission" },
   ];
-  const { nextStep, prevStep, reset, activeStep } = useSteps({
-    initialStep: 0,
+  const stepsHooks = useSteps({
+    defaultStep: 0,
+    count: steps.length,
   });
   const initialValues: RegisterFormProops = {
     fullName: "",
@@ -93,8 +93,6 @@ function RegisterForm() {
         });
         actions.setSubmitting(false);
         actions.resetForm();
-        setVerifyOTP(false);
-        setShowOTP(false);
       })
       .catch((error: AxiosError) => {
         alert(error);
@@ -105,82 +103,29 @@ function RegisterForm() {
     e.preventDefault();
   };
 
-  const handleSendOTP = async (mobile: string) => {
-    await axios
-      .post(
-        `/auth/send-verification-token`,
-        {
-          phoneNumber: mobile,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res: AxiosResponse) => {
-        if (res.data.status === "pending") {
-          newToast({
-            status: "success",
-            message: "OTP sent, Please check your mobile",
-          });
-          setShowOTP(true);
-        } else {
-          newToast({
-            status: "error",
-            message: "something went wrong",
-          });
-        }
-      })
-      .catch((err: AxiosError) => {
-        alert(err);
-        setShowOTP(false);
-      });
-  };
-
-  const handleVerifyOTP = async (mobile: string, otpNumber: string) => {
-    await axios
-      .post(
-        `/auth/check-verification-token`,
-        {
-          phoneNumber: mobile,
-          token: otpNumber,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res: AxiosResponse) => {
-        if (res.data.status === "approved") {
-          newToast({
-            status: "success",
-            message: "OTP verified, Please proceed",
-          });
-          setVerifyOTP(true);
-        } else {
-          newToast({
-            status: "error",
-            message: "something went wrong",
-          })
-          setVerifyOTP(false);
-        }
-      })
-      .catch((err: AxiosError) => {
-        alert(err);
-        setVerifyOTP(false);
-      });
-  };
-
   return (
     <Flex flexDir={"column"} align="center" justify={"center"} gap={10}>
-      <Flex w={"full"}>
-        <Steps colorScheme="blue" activeStep={activeStep}>
-          {steps.map(({ label, description }, index) => (
-            <Step label={label} key={label} description={description} />
-          ))}
-        </Steps>
+      <Flex
+        w={"full"} // Responsive width
+        maxW="800px" // Maximum width to ensure it doesn't get too wide on larger screens
+      >
+        <StepsRootProvider
+          orientation={["vertical", "horizontal", "horizontal"]}
+          height={["150px", "full"]}
+          colorScheme="blue"
+          value={stepsHooks}
+        >
+          <StepsList >
+            {steps.map(({ label, description }, index) => (
+              <StepsItem
+                index={index}
+                title={label}
+                key={label}
+                description={description}
+              />
+            ))}
+          </StepsList>
+        </StepsRootProvider>
       </Flex>
       <Formik
         initialValues={initialValues}
@@ -189,250 +134,180 @@ function RegisterForm() {
       >
         {(formik) => (
           <Form autoComplete="off" onSubmit={handleThis}>
-            <VStack spacing={4}>
-              {activeStep === 0 && (
+            <VStack gap={4} width={"full"} maxW="800px">
+              {stepsHooks.value === 0 && (
                 <>
-                  <FormControl isInvalid={formik.touched.fullName && !!formik.touched.fullName}>
-                    <FormLabel htmlFor="fullName">
-                      <Text
-                        color={"#636363"}
-                        fontSize="12px"
-                        fontWeight={"600"}
-                        fontFamily="body"
-                      >
-                        Full Name
-                      </Text>
-                    </FormLabel>
-                    <Input
-                      id="fullName"
-                      type={"text"}
-                      value={formik.values.fullName}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      borderColor="#636363"
-                      border={"1px"}
-                      placeholder="Full Name"
-                      rounded={"10px"}
-                    />
-                    <FormErrorMessage>
-                      <ErrorMessage name="fullName" />
-                    </FormErrorMessage>
-                  </FormControl>
-                  <FormControl isInvalid={formik.touched.email && !!formik.errors.email}>
-                    <FormLabel htmlFor="email">
-                      <Text
-                        color={"#636363"}
-                        fontSize="12px"
-                        fontWeight={"600"}
-                        fontFamily="body"
-                      >
-                        Email
-                      </Text>
-                    </FormLabel>
-                    <Input
-                      id="email"
-                      type={"text"}
-                      value={formik.values.email}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      borderColor="#636363"
-                      border={"1px"}
-                      placeholder="email address"
-                      rounded={"10px"}
-                    />
-                    <FormErrorMessage>
-                      <ErrorMessage name="email" />
-                    </FormErrorMessage>
-                  </FormControl>
+                  <InputComponent
+                    htmlFor={"fullName"}
+                    labelText={"Full Name"}
+                    InputType={"text"}
+                    InputValue={formik.values.fullName}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    placeHolder={"Full Name"}
+                    isTouched={formik.touched.fullName}
+                    isError={formik.errors.fullName}
+                  />
+                  <InputComponent
+                    htmlFor={"email"}
+                    labelText={"Email address"}
+                    InputType={"email"}
+                    InputValue={formik.values.email}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    placeHolder={"Email"}
+                    isTouched={formik.touched.email}
+                    isError={formik.errors.email}
+                  />
                 </>
               )}
-              {activeStep === 1 && (
+              {stepsHooks.value === 1 && (
                 <>
-                  <Flex align={"center"} justify="center">
-                    <FormControl isInvalid={formik.touched.mobile && !!formik.errors.mobile}>
-                      <FormLabel htmlFor="mobile">
-                        <Text
-                          color={"#636363"}
-                          fontSize="12px"
-                          fontWeight={"600"}
-                          fontFamily="body"
-                        >
-                          Mobile Number
-                        </Text>
-                      </FormLabel>
-                      <InputGroup>
-                        <InputLeftAddon children="+94" />
+                  <Flex align={"center"} justify="center" spaceX={6}>
+                    <Field
+                      invalid={formik.touched.mobile && !!formik.errors.mobile}
+                      label="Mobile Number"
+                      htmlFor="mobile"
+                      errorText={formik.errors.mobile}
+                    >
+                      <Group attached>
+                        <InputAddon>+94</InputAddon>
                         <Input
                           id="mobile"
                           type={"text"}
                           value={formik.values.mobile}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
-                          borderColor="#636363"
-                          border={"1px"}
+                          borderColor={
+                            formik.touched.mobile && formik.errors.mobile
+                              ? "red"
+                              : "border_color"
+                          }
+                          borderWidth={"1px"}
                           placeholder="Mobile Number"
                           rounded={"10px"}
                         />
-                      </InputGroup>
-                      <FormErrorMessage>
-                        <ErrorMessage name="mobile" />
-                      </FormErrorMessage>
-                    </FormControl>
-                    <Button
-                      ml={10}
-                      mt={6}
-                      onClick={() => handleSendOTP(formik.values.mobile)}
-                      isDisabled={formik.values.mobile.length === 9 ? false : true}
-                    >
-                      Send OTP
-                    </Button>
+                      </Group>
+                    </Field>
                   </Flex>
-                  <Box id="recaptcha-container" />
-                  {showOTP && (
-                    <Flex align={"center"} justify="center">
-                      <FormControl isInvalid={formik.touched.otpNumber && !!formik.errors.otpNumber}>
-                        <FormLabel htmlFor="otpNumber">
-                          <Text
-                            color={"#636363"}
-                            fontSize="12px"
-                            fontWeight={"600"}
-                            fontFamily="body"
-                          >
-                            OTP Number
-                          </Text>
-                        </FormLabel>
-                        <Input
-                          id="otpNumber"
-                          type={"text"}
-                          value={formik.values.otpNumber}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          borderColor="#636363"
-                          border={"1px"}
-                          placeholder="Mobile Number"
-                          rounded={"10px"}
-                        />
-                        <FormErrorMessage>
-                          <ErrorMessage name="otpNumber" />
-                        </FormErrorMessage>
-                      </FormControl>
-                      <Button
-                        ml={10}
-                        mt={6}
-                        onClick={() =>
-                          handleVerifyOTP(
-                            formik.values.mobile,
-                            formik.values.otpNumber
-                          )
-                        }
-                        isDisabled={formik.values.otpNumber.length < 0}
-                      >
-                        Verify OTP
-                      </Button>
-                    </Flex>
-                  )}
                 </>
               )}
-              {activeStep === 2 && (
+              {stepsHooks.value === 2 && (
                 <>
-                  <FormControl isInvalid={formik.touched.password && !!formik.errors.password}>
-                    <FormLabel htmlFor="password">
-                      <Text
-                        color={"#636363"}
-                        fontSize="12px"
-                        fontWeight={"600"}
-                        fontFamily="body"
-                      >
-                        password
-                      </Text>
-                    </FormLabel>
-                    <InputGroup>
-                      <Input
-                        id="password"
-                        ref={inputRef}
-                        type={isOpen ? "text" : "password"}
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        borderColor="#636363"
-                        border={"1px"}
-                        placeholder="Password"
-                        rounded={"10px"}
-                      />
-                      <InputRightElement>
-                        <IconButton
-                          aria-label={
-                            isOpen ? "Mask password" : "Reveal password"
-                          }
-                          onClick={() => onClickReveal()}
-                          variant="link"
-                          icon={
-                            isOpen ? (
+                  <Flex
+                    flexDirection={"column"}
+                    align={"center"}
+                    justify={"center"}
+                    mx={"5"}
+                  >
+                    <Field
+                      invalid={
+                        formik.touched.password && !!formik.errors.password
+                      }
+                      label="Password"
+                      htmlFor="password"
+                      errorText={formik.errors.password}
+                      helperText="Password must be at least 8 characters long,  contain
+                        letters and numbers, and must not contain spaces"
+                    >
+                      <InputGroup
+                        endElement={
+                          <Icon
+                            aria-label={
+                              open ? "Mask password" : "Reveal password"
+                            }
+                            onClick={() => onClickReveal()}
+                          >
+                            {open ? (
                               <HiEye style={{ color: "gray.500" }} />
                             ) : (
                               <HiEyeOff style={{ color: "gray.500" }} />
-                            )
-                          }
-                        />
-                      </InputRightElement>
-                    </InputGroup>
-                    <FormErrorMessage>
-                      <ErrorMessage name="password" />
-                    </FormErrorMessage>
-                    <FormHelperText>
-                      <Text
-                        color={"#636363"}
-                        fontSize="12px"
-                        fontWeight={"600"}
-                        fontFamily="body"
+                            )}
+                          </Icon>
+                        }
                       >
-                        Password must be at least 8 characters long, contain
-                        letters and numbers, and must not contain spaces,
-                      </Text>
-                    </FormHelperText>
-                  </FormControl>
-                  <Button
-                    type="button"
-                    width={"full"}
-                    border={"10px"}
-                    colorScheme="blue"
-                    bgGradient={
-                      "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
-                    }
-                    boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
-                    onClick={() => formik.handleSubmit()}
-                    isLoading={formik.isSubmitting}
-                  >
-                    <Text
-                      fontFamily={"body"}
-                      fontSize="21px"
-                      color="white"
-                      fontWeight={"400"}
+                        <Input
+                          id="password"
+                          width={"full"}
+                          colorPalette={"blue"}
+                          ref={inputRef}
+                          type={open ? "text" : "password"}
+                          value={formik.values.password}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          borderColor={
+                            formik.touched.password && formik.errors.password
+                              ? "red"
+                              : "border_color"
+                          }
+                          borderWidth={"1px"}
+                          placeholder="Password"
+                          rounded={"10px"}
+                        />
+                      </InputGroup>
+                    </Field>
+                    <Button
+                      type="button"
+                      width={"full"}
+                      border={"10px"}
+                      colorScheme="blue"
+                      bgGradient={
+                        "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
+                      }
+                      boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
+                      onClick={() => formik.handleSubmit()}
+                      loading={formik.isSubmitting}
                     >
-                      Register
-                    </Text>
-                  </Button>
+                      <Text
+                        fontFamily={"body"}
+                        fontSize="21px"
+                        color="white"
+                        fontWeight={"400"}
+                      >
+                        Register
+                      </Text>
+                    </Button>
+                  </Flex>
                 </>
               )}
             </VStack>
           </Form>
         )}
       </Formik>
-      {activeStep === steps.length ? (
-        <Flex px={4} py={4} width="100%" flexDirection="column">
+      {stepsHooks.value === steps.length ? (
+        <Flex
+          px={4}
+          py={4}
+          width={["90%", "80%", "70%", "60%"]}
+          maxW="800px"
+          flexDirection="column"
+        >
           <Heading fontSize="xl" textAlign="center">
             Woohoo! All steps completed!
           </Heading>
-          <Button mx="auto" mt={6} size="sm" onClick={reset}>
+          <Button
+            mx="auto"
+            mt={6}
+            size="sm"
+            colorScheme="blue"
+            bgGradient={
+              "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
+            }
+            onClick={() => stepsHooks.resetStep()}
+          >
             Reset
           </Button>
         </Flex>
       ) : (
-        <Flex width="100%" justify="flex-end">
+        <Flex
+          width={["90%", "80%", "70%", "60%"]}
+          maxW="800px"
+          justify="flex-end"
+        >
           <Button
-            isDisabled={activeStep === 0}
+            disabled={stepsHooks.value === 0}
             mr={4}
-            onClick={prevStep}
+            onClick={() => stepsHooks.goToPrevStep()}
             size="sm"
             variant="ghost"
           >
@@ -440,10 +315,13 @@ function RegisterForm() {
           </Button>
           <Button
             size="sm"
-            onClick={nextStep}
-            isDisabled={(!verifyOTP && activeStep === 1) ? true : false}
+            onClick={() => stepsHooks.goToNextStep()}
+            colorScheme="blue"
+            bgGradient={
+              "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
+            }
           >
-            {activeStep === steps.length - 1 ? "Finish" : "Next"}
+            {stepsHooks.value === steps.length - 1 ? "Finish" : "Next"}
           </Button>
         </Flex>
       )}
