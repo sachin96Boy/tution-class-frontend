@@ -18,7 +18,7 @@ function CourseDetails() {
     subcription: "Free",
   };
   return (
-    <Box mx={"10"} w="full">
+    <Box mx={["5","5","5","10"]} overflowX={'hidden'} w="full">
       <Box className="course details card">
         <CourseDetailCard
           courseId={CourseDetails.courseId}
@@ -42,7 +42,9 @@ function CourseDetails() {
         >
           Lessons
         </Heading>
-        <LessonlistAccordian />
+        <Box maxW={"80vw"}>
+          <LessonlistAccordian />
+        </Box>
       </Box>
     </Box>
   );

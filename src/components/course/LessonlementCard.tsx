@@ -27,18 +27,38 @@ function LessonlementCard({
   imgSrc,
 }: LessonEementCardProps) {
   return (
-    <Box my={2} p={4} maxH={"230px"} bg="#FFFFFF" rounded={"16px"} w='full'>
+    <Box
+      m={2}
+      p={4}
+      maxW={["100%", "100%", "300px"]} // Responsive max width
+      bg="#FFFFFF"
+      rounded={"16px"}
+      boxShadow="sm"
+      _hover={{ boxShadow: "md" }}
+      transition="box-shadow 0.2s"
+    >
       <Flex flexDir={"column"} align="center">
+        {/* Image Section */}
         <Image
           objectFit={"cover"}
           rounded={"12px"}
           src={imgSrc}
           alt={lessonName}
-          w={"238px"}
-          h={"109px"}
+          w={["100%", "100%", "238px"]} // Responsive width
+          h={["120px", "120px", "109px"]} // Responsive height
         />
-        <Flex align={"center"} justify={"start"} my={1}>
-          <Box gap={2}>
+
+        {/* Content Section */}
+        <Flex
+          align={"start"}
+          justify={"space-between"}
+          w="100%"
+          mt={3}
+          gap={2}
+          flexDir={["column", "column", "column", "row"]} // Stack vertically on small screens
+        >
+          {/* Left Section (Grade, Lesson Name, Date, View Resource) */}
+          <Box flex={1}>
             <Button
               bgGradient={
                 "linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"
@@ -48,6 +68,7 @@ function LessonlementCard({
               colorScheme={"yellow"}
               px={3}
               h={"20px"}
+              mb={2}
             >
               <Text fontFamily={"body"} fontWeight="400" fontSize={"12px"}>
                 Grade {grade}
@@ -57,8 +78,9 @@ function LessonlementCard({
               as={"h3"}
               color="#000000"
               fontFamily={"body"}
-              fontSize={["16px","16px","24px"]}
+              fontSize={["16px", "16px", "20px"]} // Responsive font size
               fontWeight="600"
+              mb={1}
             >
               {lessonName}
             </Heading>
@@ -67,18 +89,30 @@ function LessonlementCard({
               fontFamily={"body"}
               fontSize="12px"
               fontWeight={"400"}
+              mb={2}
             >
               {date}
             </Text>
-            <Link onClick={() => window.open(viewResource)}>View Resource</Link>
+            <Link
+              color="blue.500"
+              fontSize="14px"
+              fontWeight="500"
+              _hover={{ textDecoration: "underline" }}
+              onClick={() => window.open(viewResource)}
+            >
+              View Resource
+            </Link>
           </Box>
-          <Flex align={"center"} justify={"center"}>
+
+          {/* Right Section (Attend Now Button) */}
+          <Flex align={"center"} justify={"center"} ml={[-2,-2,-2,0]}>
             <Button
-              w={"75px"}
+              w={["100%", "100%", "75px"]} // Full width on small screens
               h={"52px"}
               color={"white"}
               rounded={"5px"}
-              colorScheme={"blackAlpha"}
+              bg="blackAlpha.800"
+              _hover={{ bg: "blackAlpha.900" }}
               px={3}
               onClick={() => window.open(attendNow)}
             >
