@@ -6,12 +6,13 @@ import { BsHeadset } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { TbCameraPlus } from "react-icons/tb";
 
 function SideBar() {
   const [activeMenu, setActiveMenu] = useState("dashboard");
   const navigate = useNavigate();
 
-  const handleMenuClick = (menu:string) => {
+  const handleMenuClick = (menu: string) => {
     setActiveMenu(menu);
     navigate(`/dashboard/${menu}`);
   };
@@ -27,7 +28,6 @@ function SideBar() {
       as="div"
       h="calc(100vh-100px)"
       display={["none", "none", "block"]}
-
     >
       <Flex
         direction={"column"}
@@ -51,7 +51,16 @@ function SideBar() {
               p={"4px"}
             >
               <Box rounded={"full"} bg={"#E6F1FF"} p={"2px"}>
-                <Avatar.Root />
+                <Avatar.Root>
+                  <Avatar.Fallback>
+                    <Avatar.Icon>
+                      <TbCameraPlus
+                        size={"28"}
+                        style={{ color: "#ffffffff" }}
+                      />
+                    </Avatar.Icon>
+                  </Avatar.Fallback>
+                </Avatar.Root>
               </Box>
             </Box>
 
@@ -98,10 +107,26 @@ function SideBar() {
             my={5}
           >
             {[
-              { icon: <MdDashboard size={"28px"} />, label: "Dashboard", key: "dashboard" },
-              { icon: <GiBookshelf size={"28px"} />, label: "My Courses", key: "myCourses" },
-              { icon: <BsHeadset size={"28px"} />, label: "Support", key: "support" },
-              { icon: <FaUser size={"28px"} />, label: "My Account", key: "myAccount" },
+              {
+                icon: <MdDashboard size={"28px"} />,
+                label: "Dashboard",
+                key: "dashboard",
+              },
+              {
+                icon: <GiBookshelf size={"28px"} />,
+                label: "My Courses",
+                key: "myCourses",
+              },
+              {
+                icon: <BsHeadset size={"28px"} />,
+                label: "Support",
+                key: "support",
+              },
+              {
+                icon: <FaUser size={"28px"} />,
+                label: "My Account",
+                key: "myAccount",
+              },
             ].map((item) => (
               <Flex
                 key={item.key}
@@ -110,7 +135,7 @@ function SideBar() {
                 color="white"
                 _hover={{
                   color: "#F4BB4E",
-                  cursor: "pointer"
+                  cursor: "pointer",
                 }}
                 p={5}
                 borderRadius={"12px"}
