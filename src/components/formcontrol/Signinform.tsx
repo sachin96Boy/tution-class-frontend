@@ -6,7 +6,7 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import { AxiosError } from "axios";
+
 import { ErrorMessage, Form, Formik } from "formik";
 import React, { useRef } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
@@ -17,16 +17,17 @@ import useToastResponse from "../toast/ToastResponse";
 import { Field } from "../ui/field";
 import { InputGroup } from "../ui/input-group";
 import InputComponent from "./InputComponent";
-
-interface SigninformProps {
-  email: string;
-  password: string;
-}
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { IloginProps, loginUser } from "@/features/auth/authAction";
 
 function Signinform() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [state, newToast] = useToastResponse();
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { loading, error } = useSelector((state: RootState) => state.auth);
 
   const { open, onToggle } = useDisclosure();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -39,7 +40,7 @@ function Signinform() {
       });
     }
   };
-  const initialValues: SigninformProps = {
+  const initialValues: IloginProps = {
     email: "",
     password: "",
   };
@@ -56,43 +57,11 @@ function Signinform() {
       ),
   });
 
-  const onSubmit = async (values: SigninformProps, actions: any) => {
-    await axios
-      .post(
-        `/auth/login`,
-        {
-          email: values.email,
-          password: values.password,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((res) => {
-        if (res.status === 200) {
-          newToast({
-            status: res.data.status,
-            message: res.data.message,
-          });
-          if (res.data.user) {
-            localStorage.setItem("user", JSON.stringify(res.data.user));
-            localStorage.setItem(
-              "access_token",
-              JSON.stringify(res.data.token)
-            );
-            navigate("/dashboard");
-          }
-        }
-      })
-      .catch((err: AxiosError<any, any>) => {
-        console.log(err);
-        newToast({
-          status: err.response?.data?.status,
-          message: err.response?.data?.message,
-        });
-      });
+  const onSubmit = async (values: IloginProps, actions: any) => {
+    const result = await dispatch(loginUser(values));
+    if (result.payload?.token) {
+      navigate("/dashboard");
+    }
     actions.setSubmitting(false);
   };
 
@@ -105,6 +74,7 @@ function Signinform() {
       {(formik) => (
         <Form autoComplete="off">
           <VStack gap={4} m={4} p={8}>
+            {error && <div className="error">{error}</div>}
             <InputComponent
               htmlFor={"email"}
               labelText={"Email Address"}
@@ -125,10 +95,11 @@ function Signinform() {
             >
               <InputGroup
                 width={"full"}
+                ref={inputRef}
                 endElement={
                   <Icon
                     aria-label={open ? "Mask password" : "Reveal password"}
-                    onClick={() => onClickReveal()}
+                    onClick={onClickReveal}
                   >
                     {open ? (
                       <HiEye style={{ color: "gray.500" }} />
@@ -140,7 +111,7 @@ function Signinform() {
               >
                 <Input
                   id="password"
-                  ref={inputRef}
+             
                   colorPalette={"blue"}
                   css={{ "--focus-color": "colors.primary_color" }}
                   type={open ? "text" : "password"}
@@ -194,7 +165,7 @@ function Signinform() {
                 "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
               }
               boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
-              loading={formik.isSubmitting}
+              loading={loading}
             >
               <Text
                 fontFamily={"body"}

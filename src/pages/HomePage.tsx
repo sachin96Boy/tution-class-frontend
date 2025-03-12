@@ -16,6 +16,7 @@ import sipsaclassBannerrow4 from "../assets/home/class-banner/sipsa-banner-row4.
 import sipsaLogo from "../assets/header/logos/Sipsa_logo.png";
 
 import Slider from "react-slick";
+import { useNavigate } from "react-router-dom";
 
 const bannerList: Array<string> = [
   sipsaclassbanner1,
@@ -34,6 +35,8 @@ function HomePage() {
     { base: true, sm: true, md: false, lg: false },
     { ssr: false }
   );
+
+  const navigate = useNavigate();
 
   const settings: any = {
     dots: true,
@@ -56,6 +59,10 @@ function HomePage() {
       },
     ],
   };
+
+  const handlenavigtetoSupport = ()=>{
+    navigate('/dashboard/support');
+  }
 
   return (
     <Box w={"full"} px={[4, 6, 10]}>
@@ -187,6 +194,7 @@ function HomePage() {
           bgGradient={" linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"}
           size={["sm", "md"]}
           mt={[2, 0]}
+          onClick={handlenavigtetoSupport}
         >
           <Text color={"white"} fontSize={["14px", "16px", "21px"]}>
             Support Page

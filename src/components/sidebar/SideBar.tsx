@@ -7,10 +7,16 @@ import { FaUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { TbCameraPlus } from "react-icons/tb";
+import { AppDispatch, RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/features/auth/authSlice";
 
 function SideBar() {
   const [activeMenu, setActiveMenu] = useState("dashboard");
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+
+  const { token } = useSelector((state: RootState) => state.auth);
 
   const handleMenuClick = (menu: string) => {
     setActiveMenu(menu);
@@ -18,8 +24,84 @@ function SideBar() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    navigate("/");
+    dispatch(logout());
+  };
+
+  const sideBarMenuList = [
+    {
+      icon: <MdDashboard size={"28px"} />,
+      label: "Dashboard",
+      key: "dashboard",
+    },
+    {
+      icon: <GiBookshelf size={"28px"} />,
+      label: "My Courses",
+      key: "myCourses",
+    },
+    {
+      icon: <BsHeadset size={"28px"} />,
+      label: "Support",
+      key: "support",
+    },
+    {
+      icon: <FaUser size={"28px"} />,
+      label: "My Account",
+      key: "myAccount",
+    },
+  ];
+
+  const ProfileMenu = () => {
+    return (
+      <Box
+        className="profileViwer"
+        bg={"light_bg_card"}
+        rounded="2xl"
+        border="20px"
+        ml={4}
+        mb={4}
+      >
+        <Flex align={"center"} justify="center" gap={2} mx={8} my={2}>
+          <Box
+            className="Avater-box"
+            rounded={"full"}
+            bg="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
+            p={"4px"}
+          >
+            <Box rounded={"full"} bg={"#E6F1FF"} p={"2px"}>
+              <Avatar.Root>
+                <Avatar.Fallback>
+                  <Avatar.Icon>
+                    <TbCameraPlus size={"28"} style={{ color: "#ffffffff" }} />
+                  </Avatar.Icon>
+                </Avatar.Fallback>
+              </Avatar.Root>
+            </Box>
+          </Box>
+
+          <Flex
+            direction={"column"}
+            display={["none", "none", "none", "block"]}
+          >
+            <Text
+              fontFamily={"body"}
+              color="#215DA7"
+              fontSize={"15px"}
+              fontWeight="bold"
+            >
+              Hashan
+            </Text>
+            <Text
+              fontFamily={"body"}
+              color="#636363"
+              fontSize={"15px"}
+              fontWeight="normal"
+            >
+              Maduranga
+            </Text>
+          </Flex>
+        </Flex>
+      </Box>
+    );
   };
 
   return (
@@ -35,58 +117,8 @@ function SideBar() {
         justifyContent="space-between"
         h="100%"
       >
-        <Box
-          className="profileViwer"
-          bg={"light_bg_card"}
-          rounded="2xl"
-          border="20px"
-          ml={4}
-          mb={4}
-        >
-          <Flex align={"center"} justify="center" gap={2} mx={8} my={2}>
-            <Box
-              className="Avater-box"
-              rounded={"full"}
-              bg="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
-              p={"4px"}
-            >
-              <Box rounded={"full"} bg={"#E6F1FF"} p={"2px"}>
-                <Avatar.Root>
-                  <Avatar.Fallback>
-                    <Avatar.Icon>
-                      <TbCameraPlus
-                        size={"28"}
-                        style={{ color: "#ffffffff" }}
-                      />
-                    </Avatar.Icon>
-                  </Avatar.Fallback>
-                </Avatar.Root>
-              </Box>
-            </Box>
+        {token && <ProfileMenu />}
 
-            <Flex
-              direction={"column"}
-              display={["none", "none", "none", "block"]}
-            >
-              <Text
-                fontFamily={"body"}
-                color="#215DA7"
-                fontSize={"15px"}
-                fontWeight="bold"
-              >
-                Hashan
-              </Text>
-              <Text
-                fontFamily={"body"}
-                color="#636363"
-                fontSize={"15px"}
-                fontWeight="normal"
-              >
-                Maduranga
-              </Text>
-            </Flex>
-          </Flex>
-        </Box>
         <Box
           className="menu-section"
           borderTopRightRadius={"75px"}
@@ -104,30 +136,9 @@ function SideBar() {
             align={"start"}
             gap={5}
             ml={8}
-            my={5}
+            my={token ? 5 : 10}
           >
-            {[
-              {
-                icon: <MdDashboard size={"28px"} />,
-                label: "Dashboard",
-                key: "dashboard",
-              },
-              {
-                icon: <GiBookshelf size={"28px"} />,
-                label: "My Courses",
-                key: "myCourses",
-              },
-              {
-                icon: <BsHeadset size={"28px"} />,
-                label: "Support",
-                key: "support",
-              },
-              {
-                icon: <FaUser size={"28px"} />,
-                label: "My Account",
-                key: "myAccount",
-              },
-            ].map((item) => (
+            {sideBarMenuList.map((item) => (
               <Flex
                 key={item.key}
                 align={"center"}
@@ -166,29 +177,31 @@ function SideBar() {
             ml={8}
             mb={5}
           >
-            <Flex
-              align={"center"}
-              justify="center"
-              p={5}
-              color="white"
-              borderRadius={"12px"}
-              _hover={{
-                color: "#F4BB4E",
-                cursor: "pointer",
-              }}
-              onClick={handleLogout}
-            >
-              <FiLogOut size={"28px"} />
-              <Text
-                ml={2}
-                fontFamily={"body"}
-                fontSize="18px"
-                fontWeight={"600"}
-                display={["none", "none", "none", "block"]}
+            {token && (
+              <Flex
+                align={"center"}
+                justify="center"
+                p={5}
+                color="white"
+                borderRadius={"12px"}
+                _hover={{
+                  color: "#F4BB4E",
+                  cursor: "pointer",
+                }}
+                onClick={handleLogout}
               >
-                Logout
-              </Text>
-            </Flex>
+                <FiLogOut size={"28px"} />
+                <Text
+                  ml={2}
+                  fontFamily={"body"}
+                  fontSize="18px"
+                  fontWeight={"600"}
+                  display={["none", "none", "none", "block"]}
+                >
+                  Logout
+                </Text>
+              </Flex>
+            )}
           </Flex>
         </Box>
       </Flex>

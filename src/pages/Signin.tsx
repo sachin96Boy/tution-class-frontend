@@ -1,31 +1,9 @@
 import { Container, Flex, Image, Stack, Text } from "@chakra-ui/react";
 import signinBg from "../assets/signin/bg-signin.jpg";
-import React, { useEffect } from "react";
 import Signinform from "../components/formcontrol/Signinform";
-import queryString from "query-string";
-import useToastResponse from "../components/toast/ToastResponse";
 import Logo from "../components/Logo";
 
 function Signin() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const [state, newToast] = useToastResponse();
-
-  // useEffect(() => {
-  //   const value = queryString.parse(window.location.search);
-  //   if (value.emailVerified === "true") {
-  //     newToast({
-  //       status: "success",
-  //       title: "Email verified",
-  //     });
-  //   }
-  //   if (value.emailVerified === "false") {
-  //     newToast({
-  //       status: "error",
-  //       title: "Email not verified",
-  //     });
-  //   }
-  // }, [newToast]);
-
   return (
     <Flex
       flexDirection={["column", "column", "row"]}
@@ -45,7 +23,7 @@ function Signin() {
       />
       <Container maxW={"lg"}>
         <Flex flex={"1"} align="center" flexDir={"column"} justify={"center"}>
-          <Logo boxSize={"52"} linkPath={"/"} fitType={"Cover"} />
+          <Logo boxSize={"52"} linkPath={"/"} fitType="cover" />
           <Text
             fontFamily={"body"}
             fontSize="22px"

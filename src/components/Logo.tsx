@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Image, ResponsiveValue } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 import Header_Logo from "../assets/header/logos/Sipsa_logo.png";
@@ -7,7 +7,7 @@ import Header_Logo from "../assets/header/logos/Sipsa_logo.png";
 interface PropTypes {
   boxSize: string;
   linkPath: string;
-  fitType: ResponsiveValue<any>;
+  fitType: "contain" | "cover" | "scale-down";
 }
 
 function Logo(props: PropTypes) {

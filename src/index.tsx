@@ -1,24 +1,27 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
-import { Provider } from "./components/ui/provider";
+import { Provider as UIProvider } from "./components/ui/provider";
+
+import { Provider } from "react-redux";
 
 import "@fontsource/roboto";
 import "@fontsource/noto-sans-sinhala";
+import { store } from "./store";
+import { Toaster } from "./components/ui/toaster";
 
-
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
-root.render(
+createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Provider>
+    <UIProvider>
       <Router>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </Router>
-    </Provider>
+      <Toaster />
+    </UIProvider>
   </React.StrictMode>
 );
 
