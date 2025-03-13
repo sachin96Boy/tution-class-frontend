@@ -2,6 +2,7 @@ import React from "react";
 import {
   Box,
   Button,
+  Center,
   Flex,
   Image,
   Spacer,
@@ -60,9 +61,9 @@ function HomePage() {
     ],
   };
 
-  const handlenavigtetoSupport = ()=>{
-    navigate('/dashboard/support');
-  }
+  const handlenavigtetoSupport = () => {
+    navigate("/dashboard/support");
+  };
 
   return (
     <Box w={"full"} px={[4, 6, 10]}>
@@ -124,7 +125,7 @@ function HomePage() {
         >
           <Image
             src={sipsaclassbanner1}
-            objectFit="contain"
+            objectFit="fill"
             boxSize={["200px", "250px", "350px"]}
           />
         </Flex>
@@ -149,14 +150,14 @@ function HomePage() {
           <Slider {...settings}>
             {bannerList.map((item: string, index: number) => (
               <Box key={index}>
-                <Box p={1} bg={"yellow.400"} rounded="5px" m={[2, 4]}>
+                <Center p={1} bg={"yellow.400"} rounded="5px" m={[2, 4]}>
                   <Image
                     borderRadius={"12px"}
                     src={item}
-                    objectFit="cover"
-                    boxSize={["150px", "180px", "200px"]}
+                    objectFit="fill"
+                    boxSize={["150px", "180px", "220px"]}
                   />
-                </Box>
+                </Center>
               </Box>
             ))}
           </Slider>

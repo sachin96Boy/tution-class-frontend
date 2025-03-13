@@ -1,3 +1,7 @@
+import React, { useRef } from "react";
+
+import * as Yup from "yup";
+import { IloginProps } from "@/features/auth/authAction";
 import {
   Button,
   Icon,
@@ -6,31 +10,16 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-
-import { ErrorMessage, Form, Formik } from "formik";
-import React, { useRef } from "react";
+import { Form, Formik } from "formik";
+import InputComponent from "../../formcontrol/InputComponent";
+import { InputGroup } from "@/components/ui/input-group";
 import { HiEye, HiEyeOff } from "react-icons/hi";
-import { Link, useNavigate } from "react-router-dom";
-import * as Yup from "yup";
-import axios from "../../utils/AxiosInstans";
-import useToastResponse from "../toast/ToastResponse";
-import { Field } from "../ui/field";
-import { InputGroup } from "../ui/input-group";
-import InputComponent from "./InputComponent";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/store";
-import { IloginProps, loginUser } from "@/features/auth/authAction";
+import { Field } from "@/components/ui/field";
 
-function Signinform() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [state, newToast] = useToastResponse();
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-
-  const { loading, error } = useSelector((state: RootState) => state.auth);
-
+function AdminLoginComponent() {
   const { open, onToggle } = useDisclosure();
   const inputRef = useRef<HTMLInputElement>(null);
+
   const onClickReveal = () => {
     onToggle();
 
@@ -40,6 +29,7 @@ function Signinform() {
       });
     }
   };
+
   const initialValues: IloginProps = {
     email: "",
     password: "",
@@ -58,10 +48,6 @@ function Signinform() {
   });
 
   const onSubmit = async (values: IloginProps, actions: any) => {
-    const result = await dispatch(loginUser(values));
-    if (result.payload?.token) {
-      navigate("/dashboard");
-    }
     actions.setSubmitting(false);
   };
 
@@ -73,8 +59,7 @@ function Signinform() {
     >
       {(formik) => (
         <Form autoComplete="off">
-          <VStack gap={4} m={4} p={8}>
-            {error && <div className="error">{error}</div>}
+          <VStack gap={4}>
             <InputComponent
               htmlFor={"email"}
               labelText={"Email Address"}
@@ -86,7 +71,6 @@ function Signinform() {
               isTouched={formik.touched.email}
               isError={formik.errors.email}
             />
-
             <Field
               invalid={formik.touched.password && !!formik.errors.password}
               label="Password"
@@ -129,32 +113,6 @@ function Signinform() {
                 />
               </InputGroup>
             </Field>
-            <Text
-              fontFamily={"body"}
-              color="#AFAFAF"
-              fontSize={"12px"}
-              fontWeight="600"
-            >
-              Don't have an account?{"  "}
-              <Text
-                as={"span"}
-                mx={2}
-                fontFamily={"body"}
-                color="#215DA7"
-                fontSize={"12px"}
-                fontWeight="700"
-              >
-                <Link to={"/signup"}>Sign up</Link>
-              </Text>
-            </Text>
-            <Text
-              fontFamily={"body"}
-              color="#215DA7"
-              fontSize={"12px"}
-              fontWeight="700"
-            >
-              <Link to={"/forgotpassword"}>Forget password?</Link>
-            </Text>
             <Button
               type="submit"
               width={"full"}
@@ -164,7 +122,7 @@ function Signinform() {
                 "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
               }
               boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
-              loading={loading}
+              loading={formik.isSubmitting}
             >
               <Text
                 fontFamily={"body"}
@@ -172,27 +130,9 @@ function Signinform() {
                 color="white"
                 fontWeight={"400"}
               >
-                Login
+                Corporate Login
               </Text>
             </Button>
-            <Text
-              fontFamily={"body"}
-              color="#AFAFAF"
-              fontSize={"12px"}
-              fontWeight="600"
-            >
-              Coperate Member?{"  "}
-              <Text
-                as={"span"}
-                mx={2}
-                fontFamily={"body"}
-                color="#215DA7"
-                fontSize={"12px"}
-                fontWeight="700"
-              >
-                <Link to={"/coparate"}>Coperate login</Link>
-              </Text>
-            </Text>
           </VStack>
         </Form>
       )}
@@ -200,4 +140,4 @@ function Signinform() {
   );
 }
 
-export default Signinform;
+export default AdminLoginComponent;
