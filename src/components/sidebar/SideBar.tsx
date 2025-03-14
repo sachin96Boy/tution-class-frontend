@@ -105,19 +105,14 @@ function SideBar() {
   };
 
   return (
-    <Box
-      bg={"white"}
-      as="div"
-      h="calc(100vh-100px)"
-      display={["none", "none", "block"]}
-    >
+    <Box as="div" h="calc(100vh-100px)" display={["none", "none", "block"]}>
       <Flex
         direction={"column"}
         align="start"
         justifyContent="space-between"
         h="100%"
       >
-        {token && <ProfileMenu />}
+        <ProfileMenu />
 
         <Box
           className="menu-section"
@@ -177,31 +172,29 @@ function SideBar() {
             ml={8}
             mb={5}
           >
-            {token && (
-              <Flex
-                align={"center"}
-                justify="center"
-                p={5}
-                color="white"
-                borderRadius={"12px"}
-                _hover={{
-                  color: "#F4BB4E",
-                  cursor: "pointer",
-                }}
-                onClick={handleLogout}
+            <Flex
+              align={"center"}
+              justify="center"
+              p={5}
+              color="white"
+              borderRadius={"12px"}
+              _hover={{
+                color: "#F4BB4E",
+                cursor: "pointer",
+              }}
+              onClick={handleLogout}
+            >
+              <FiLogOut size={"28px"} />
+              <Text
+                ml={2}
+                fontFamily={"body"}
+                fontSize="18px"
+                fontWeight={"600"}
+                display={["none", "none", "none", "block"]}
               >
-                <FiLogOut size={"28px"} />
-                <Text
-                  ml={2}
-                  fontFamily={"body"}
-                  fontSize="18px"
-                  fontWeight={"600"}
-                  display={["none", "none", "none", "block"]}
-                >
-                  Logout
-                </Text>
-              </Flex>
-            )}
+                Logout
+              </Text>
+            </Flex>
           </Flex>
         </Box>
       </Flex>

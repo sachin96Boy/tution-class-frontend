@@ -12,6 +12,7 @@ function DashBoardOutlet() {
       flexDirection={"column"}
       w="full"
       h={"100vh"}
+      bg={'gray.50'}
     >
       <Header />
       <Box

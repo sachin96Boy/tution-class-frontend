@@ -54,9 +54,9 @@ function Header() {
       bottom={0}
       left={0}
       right={0}
-      bg="white"
       zIndex={1000}
       overflowY="auto"
+      bg={"gray.50"}
     >
       <Flex m={5} align="center" justify="space-between">
         <Icon
@@ -157,7 +157,7 @@ function Header() {
   );
 
   return (
-    <Box bg="white" as="header" position="sticky" top={0} zIndex={1000}>
+    <Box bg={"gray.50"} as="header" position="sticky" top={0} zIndex={1000}>
       <Flex mx={5} align="center" justify="space-between">
         <Icon
           as={GiHamburgerMenu}
@@ -167,7 +167,7 @@ function Header() {
           display={["block", "block", "none"]}
           cursor="pointer"
         />
-        <Logo boxSize="24" linkPath="/dashboard" fitType="Cover" />
+        <Logo boxSize="24" linkPath="/" fitType="cover" />
         <Button
           bgGradient="linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"
           color="white"

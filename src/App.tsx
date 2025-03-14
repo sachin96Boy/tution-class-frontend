@@ -7,6 +7,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import AuthRoute from "./utils/AuthRoute";
 import AdminSigninScreen from "./pages/admin/AdminSigninScreen";
 import AdminRoutes from "./pages/admin/routes/AdminRoutes";
+import FrontViewPage from "./pages/front_view/FrontViewPage";
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
         <Route path="login" element={<Signin />} />
         <Route path="coparate" element={<AdminSigninScreen />} />
       </Route>
-      <Route path="*" element={<Navigate to={"/dashboard"} replace />} />
+      <Route path="/" element={<FrontViewPage />} />
+      <Route path="*" element={<Navigate to={"/"} replace />} />
     </Routes>
   );
 }

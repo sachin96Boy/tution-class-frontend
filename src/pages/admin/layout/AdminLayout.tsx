@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 
 function AdminLayout() {
   return (
-    <Flex bg={"light_bg_card"}>
+    <Flex bg={"gray.100"}>
       <AdminSidebar />
 
       <Box
