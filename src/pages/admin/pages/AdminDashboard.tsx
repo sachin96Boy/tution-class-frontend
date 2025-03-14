@@ -1,3 +1,4 @@
+import OverlayBanner from "@/components/admin/banner/OverlayBanner";
 import BarChart from "@/components/admin/charts/BarChart";
 import LineChart from "@/components/admin/charts/LineChart";
 import SalesOverview from "@/components/admin/sale/SalesOverview";
@@ -10,16 +11,18 @@ import {
   lineChartOptions,
 } from "@/utils/variables/chart";
 import { Flex, Grid, SimpleGrid } from "@chakra-ui/react";
-import React from "react";
+
 import { FaGlobe, FaWallet } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
 import { IoMdDocument } from "react-icons/io";
+
+import bgImg from "@/assets/signin/class-2.webp";
 
 function AdminDashboard() {
   const iconBoxInside = "white";
 
   return (
-    <Flex gap={4} mr={4} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
+    <Flex gap={4} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} gap="24px">
         <MiniStatTile
           title={"Today's Moneys"}
@@ -62,6 +65,22 @@ function AdminDashboard() {
           }
         />
       </SimpleGrid>
+
+      <Grid
+        templateColumns={{ md: "1fr", lg: "1.8fr 1.2fr" }}
+        templateRows={{ md: "1fr auto", lg: "1fr" }}
+        my="26px"
+        gap="24px"
+      >
+        <OverlayBanner
+          backgroundImage={bgImg}
+          title={"Work with the rockets"}
+          description={
+            "Wealth creation is a revolutionary recent positive-sum game. It is all about who takes the opportunity first."
+          }
+        />
+      </Grid>
+
       <Grid
         templateColumns={{ sm: "1fr", lg: "1.3fr 1.7fr" }}
         templateRows={{ sm: "repeat(2, 1fr)", lg: "1fr" }}
