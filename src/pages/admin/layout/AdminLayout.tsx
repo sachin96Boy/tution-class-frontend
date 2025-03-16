@@ -11,13 +11,13 @@ function AdminLayout() {
       <Box
         w={{
           base: "100%",
-          xl: "calc(100% - 275px)",
+          md: "calc(100% - 275px)",
         }}
         overflowY={"auto"}
         gap={4}
         ml={{
           base: "4",
-          xl: "275px",
+          md: "275px",
         }}
         mr={4}
       >

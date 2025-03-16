@@ -1,6 +1,6 @@
 import { Input, Text } from "@chakra-ui/react";
 import React from "react";
-import { Field } from "../ui/field";
+import { Field } from "../../ui/field";
 
 type InputProps = {
   htmlFor: string;

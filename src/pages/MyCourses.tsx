@@ -15,7 +15,7 @@ import CourseCard, {
   CourseCardProps,
 } from "../components/mycourse/courseard/CourseCard";
 import { Field } from "@/components/ui/field";
-import InputComponent from "@/components/formcontrol/InputComponent";
+import InputComponent from "@/components/formcontrol/customInput/InputComponent";
 
 interface Values {
   teacherName: string;

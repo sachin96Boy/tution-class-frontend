@@ -1,14 +1,18 @@
 import Logo from "@/components/Logo";
 import { Box, Button, Flex, GridItem, Icon, Text } from "@chakra-ui/react";
 import React, { useRef } from "react";
-import { BsFillPeopleFill } from "react-icons/bs";
+import { BsBookHalf, BsFillPeopleFill } from "react-icons/bs";
 import {
+  FaBookReader,
   FaBriefcase,
+  FaChalkboardTeacher,
   FaHome,
   FaMoneyBillAlt,
   FaRegCalendarCheck,
+  FaTable,
 } from "react-icons/fa";
 import { TbReport } from "react-icons/tb";
+import { PiStudentBold } from "react-icons/pi";
 import { NavLink, useLocation } from "react-router-dom";
 
 function AdminSidebar() {
@@ -39,16 +43,10 @@ function AdminSidebar() {
       route: "attandance",
     },
     {
-      title: "Payments",
+      title: "Accounting",
       icon: <FaMoneyBillAlt />,
-      path: "/admin/payments",
-      route: "payments",
-    },
-    {
-      title: "Expences",
-      icon: <FaBriefcase />,
-      path: "/admin/expences",
-      route: "expences",
+      path: "/admin/accounting",
+      route: "accounting",
     },
     {
       title: "Reports",
@@ -64,21 +62,43 @@ function AdminSidebar() {
     },
     {
       title: "Students",
-      icon: <BsFillPeopleFill />,
+      icon: <PiStudentBold />,
       path: "/admin/students",
       route: "students",
     },
     {
+      title: "Teachers",
+      icon: <FaChalkboardTeacher />,
+      path: "/admin/teachers",
+      route: "teachers",
+    },
+    {
+      title: "Time Table",
+      icon: <FaTable />,
+      path: "/admin/time-table",
+      route: "time-table",
+    },
+    {
       title: "Assignments",
-      icon: <BsFillPeopleFill />,
+      icon: <FaBookReader />,
       path: "/admin/assignments",
       route: "assignments",
+    },
+    {
+      title: "Courses",
+      icon: <BsBookHalf />,
+      path: "/admin/courses",
+      route: "courses",
     },
   ];
 
   return (
     <Box ref={panel}>
-      <Box display={{ sm: "none", xl: "block" }} position={"fixed"}>
+      <Box
+        display={{ base: "none", md: "block" }}
+        position={"fixed"}
+        overflowY={"auto"}
+      >
         <Box
           bg={sidebarBg}
           transition={variantChange}

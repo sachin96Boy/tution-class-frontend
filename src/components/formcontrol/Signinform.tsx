@@ -16,7 +16,7 @@ import axios from "../../utils/AxiosInstans";
 import useToastResponse from "../toast/ToastResponse";
 import { Field } from "../ui/field";
 import { InputGroup } from "../ui/input-group";
-import InputComponent from "./InputComponent";
+import InputComponent from "./customInput/InputComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { IloginProps, loginUser } from "@/features/auth/authAction";
