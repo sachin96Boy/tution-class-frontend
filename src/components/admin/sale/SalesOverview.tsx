@@ -1,7 +1,13 @@
 import { Box, Card, Flex, Text } from "@chakra-ui/react";
 import React from "react";
 
-function SalesOverview(props: any) {
+type IsalesOverview = {
+  title: string;
+  percentage: number;
+  chart: React.ReactNode;
+};
+
+function SalesOverview(props: IsalesOverview) {
   let textColor = "gray.700";
 
   const { title, percentage, chart } = props;

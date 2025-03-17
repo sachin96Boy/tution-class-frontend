@@ -39,7 +39,7 @@ function AdminAttandance() {
       gap={4}
       flexDir={"column"}
     >
-      <Tabs.Root variant={"subtle"} defaultValue={"qr"} padding={4} gap={2}>
+      <Tabs.Root fitted variant={"subtle"} defaultValue={"qr"} padding={4} gap={2}>
         <Tabs.List bg={"gray.200"} rounded={"2xl"} padding={"2"} width={"full"}>
           <Tabs.Trigger value="qr">
             <Icon>

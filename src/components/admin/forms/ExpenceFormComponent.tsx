@@ -1,33 +1,34 @@
+import InputComponent from "@/components/formcontrol/customInput/InputComponent";
+import InputWithSelect from "@/components/formcontrol/customInput/InputWithSelect";
+import { Field } from "@/components/ui/field";
 import { Button, Input, VStack } from "@chakra-ui/react";
+import { Form, Formik } from "formik";
+import React from "react";
+import DatePicker from "react-datepicker";
 
 import * as Yup from "yup";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { Form, Formik } from "formik";
-import { Field } from "@/components/ui/field";
-import InputWithSelect from "@/components/formcontrol/customInput/InputWithSelect";
 
-type IattandanceMarksForm = {
-  studentList: Array<string>;
-  courseList: Array<string>;
-};
-
-function AttandanceMarkForm(props: IattandanceMarksForm) {
-  const { studentList, courseList } = props;
+function ExpenceFormComponent(props: any) {
+  const { expenceTypeList, teacherList } = props;
 
   const initialValues = {
+    expenceTypeId: "",
+    teacherId: "",
+    amount: 0,
     date: null,
-    studentId: "",
-    courseId: "",
   };
 
   const validationSchema = Yup.object({
-    studentId: Yup.string().required("Student is required"),
-    courseId: Yup.string().required("Course is required"),
+    expenceTypeId: Yup.string().required("Expence Type is required"),
+    teacherId: Yup.string().required("Teacher is required"),
     date: Yup.date()
       .required("Date is required")
       .typeError("Invalid Date")
       .max(new Date(), "Date Can't be in Future"),
+    amount: Yup.number()
+      .required("Amount is Required")
+      .typeError("Invalid amount")
+      .min(0, "amount can't be Nagative"),
   });
 
   const onSubmit = async (values: any, action: any) => {
@@ -50,30 +51,42 @@ function AttandanceMarkForm(props: IattandanceMarksForm) {
           <Form autoComplete="off">
             <VStack gap={4} width={"full"}>
               <InputWithSelect
-                htmlFor={"studentId"}
-                labelText={"Student"}
+                htmlFor={"expencetype"}
+                labelText={"Expence Type"}
                 InputType={"text"}
-                InputValue={formik.values.studentId}
+                InputValue={formik.values.expenceTypeId}
                 onBlur={formik.handleBlur}
-                placeHolder={"student"}
-                isTouched={formik.touched.studentId}
-                isError={formik.errors.studentId}
+                placeHolder={"ExpenceType"}
+                isTouched={formik.touched.expenceTypeId}
+                isError={formik.errors.expenceTypeId}
                 formik={formik}
-                fieldValue={"studentId"}
-                dataList={studentList}
+                fieldValue={"expenceTypeId"}
+                dataList={expenceTypeList}
               />
               <InputWithSelect
-                htmlFor={"courseId"}
-                labelText={"Course"}
+                htmlFor={"teacherId"}
+                labelText={"Teacher"}
                 InputType={"text"}
-                InputValue={formik.values.courseId}
+                InputValue={formik.values.teacherId}
                 onBlur={formik.handleBlur}
                 placeHolder={"course"}
-                isTouched={formik.touched.courseId}
-                isError={formik.errors.courseId}
+                isTouched={formik.touched.teacherId}
+                isError={formik.errors.teacherId}
                 formik={formik}
-                fieldValue={"courseId"}
-                dataList={courseList}
+                fieldValue={"teacherId"}
+                dataList={teacherList}
+              />
+
+              <InputComponent
+                htmlFor={"amount"}
+                labelText={"Expence Amount"}
+                InputType={"text"}
+                InputValue={formik.values.amount}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeHolder={"Enter Amount"}
+                isTouched={formik.touched.amount}
+                isError={formik.errors.amount}
               />
 
               <Field
@@ -124,4 +137,4 @@ function AttandanceMarkForm(props: IattandanceMarksForm) {
   );
 }
 
-export default AttandanceMarkForm;
+export default ExpenceFormComponent;

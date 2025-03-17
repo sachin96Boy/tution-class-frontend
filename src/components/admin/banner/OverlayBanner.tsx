@@ -12,7 +12,13 @@ import React, { useRef } from "react";
 
 import { BsArrowRight } from "react-icons/bs";
 
-function OverlayBanner(props: any) {
+type IoverlayBanner = {
+  title: string;
+  description: string;
+  backgroundImage: string;
+};
+
+function OverlayBanner(props: IoverlayBanner) {
   const { title, description, backgroundImage } = props;
   const overlayRef = useRef<HTMLDivElement>(null);
 

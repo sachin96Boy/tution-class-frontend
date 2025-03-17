@@ -1,7 +1,14 @@
 import { Center, Flex, Progress, Text } from "@chakra-ui/react";
 import React from "react";
 
-function ChartStatisticTile(props: any) {
+type IcharacterStatisticTile = {
+  title: string;
+  amount: string;
+  icon: React.ReactNode;
+  percentage: number;
+};
+
+function ChartStatisticTile(props: IcharacterStatisticTile) {
   const { title, amount, icon, percentage } = props;
 
   const iconTeal = "primary_color";

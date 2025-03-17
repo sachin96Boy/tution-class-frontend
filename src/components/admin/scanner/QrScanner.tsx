@@ -3,7 +3,11 @@ import React, { useState } from "react";
 
 import { useZxing } from "react-zxing";
 
-function QrScanner(props: any) {
+type IqrScanner = {
+  visibility: boolean;
+};
+
+function QrScanner(props: IqrScanner) {
   const { visibility } = props;
 
   const [result, setResult] = useState("");

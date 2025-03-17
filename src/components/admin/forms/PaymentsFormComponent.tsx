@@ -8,7 +8,12 @@ import DatePicker from "react-datepicker";
 
 import * as Yup from "yup";
 
-function PaymentsFormComponent(props: any) {
+type IpaymentFormComponent = {
+  studentList: Array<string>;
+  courseList: Array<string>;
+};
+
+function PaymentsFormComponent(props: IpaymentFormComponent) {
   const { studentList, courseList } = props;
   const initialValues = {
     date: null,

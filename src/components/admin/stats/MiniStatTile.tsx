@@ -1,7 +1,14 @@
 import { Badge, Box, Card, Center, Flex, Icon, Stat } from "@chakra-ui/react";
 import React from "react";
 
-function MiniStatTile(props: any) {
+type IminiStatTile = {
+  title: string;
+  amount: string;
+  percentage: number;
+  icon: React.ReactNode;
+};
+
+function MiniStatTile(props: IminiStatTile) {
   const iconTeal = "primary_color";
   const textColor = "gray.700";
 
