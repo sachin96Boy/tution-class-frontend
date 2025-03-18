@@ -17,7 +17,7 @@ function AdminLayout() {
         gap={4}
         ml={{
           base: "4",
-          md: "275px",
+          md: "300px",
         }}
         mr={4}
       >

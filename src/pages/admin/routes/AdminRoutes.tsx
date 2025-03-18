@@ -9,6 +9,10 @@ import AdminTeachers from "../pages/AdminTeachers";
 import AdminTimeTables from "../pages/AdminTimeTables";
 import AdminCourses from "../pages/AdminCourses";
 import AdminAccounting from "../pages/AdminAccounting";
+import AdminReports from "../pages/AdminReports";
+import AdminUsers from "../pages/AdminUsers";
+import Students from "../pages/Students";
+import Assignments from "../pages/Assignments";
 
 function AdminRoutes() {
   return (
@@ -20,10 +24,10 @@ function AdminRoutes() {
         <Route path="attandance" element={<AdminAttandance />} />
         <Route path="payments" element={<AdminPayments />} />
         <Route path="expences" element={<AdminExpences />} />
-        <Route path="reports" element={<AdminExpences />} />
-        <Route path="users" element={<AdminExpences />} />
-        <Route path="students" element={<AdminExpences />} />
-        <Route path="assignments" element={<AdminExpences />} />
+        <Route path="reports" element={<AdminReports />} />
+        <Route path="users" element={<AdminUsers />} />
+        <Route path="students" element={<Students />} />
+        <Route path="assignments" element={<Assignments />} />
         <Route path="courses" element={<AdminCourses />} />
         <Route path="accounting" element={<AdminAccounting />} />
         <Route

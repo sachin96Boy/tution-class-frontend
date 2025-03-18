@@ -3,7 +3,6 @@ import InputWithSelect from "@/components/formcontrol/customInput/InputWithSelec
 import { Field } from "@/components/ui/field";
 import { Button, Input, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import React from "react";
 import DatePicker from "react-datepicker";
 
 import * as Yup from "yup";
@@ -69,7 +68,7 @@ function ExpenceFormComponent(props: any) {
                 InputType={"text"}
                 InputValue={formik.values.teacherId}
                 onBlur={formik.handleBlur}
-                placeHolder={"course"}
+                placeHolder={"Teacher"}
                 isTouched={formik.touched.teacherId}
                 isError={formik.errors.teacherId}
                 formik={formik}
