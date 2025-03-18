@@ -22,7 +22,7 @@ function AdminTeachers() {
       </Box>
       <Box>
         <OverlayTable
-          title={"Users Data"}
+          title={"Teacher Data"}
           captions={["TeacherId", "Full Name", "description"]}
           tableBodyComponent={<TeacherTableBody data={[]} />}
           data={[]}
