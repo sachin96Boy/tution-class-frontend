@@ -13,7 +13,7 @@ const useToastResponse = () => {
     md: "top-right",
   }) as any;
 
-  const [state, setState] = useState<any>();
+  const [state, setState] = useState<Iresponse>();
   useEffect(() => {
     if (state) {
       const { message, status } = state;

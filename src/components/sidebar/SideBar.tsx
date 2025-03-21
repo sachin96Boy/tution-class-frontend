@@ -16,7 +16,7 @@ function SideBar() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { token } = useSelector((state: RootState) => state.auth);
+  const { token, userInfo } = useSelector((state: RootState) => state.auth);
 
   const handleMenuClick = (menu: string) => {
     setActiveMenu(menu);
@@ -50,6 +50,9 @@ function SideBar() {
     },
   ];
 
+  const NameArray = userInfo?.full_name?.trim().split(" ") ?? ["", ""];
+
+
   const ProfileMenu = () => {
     return (
       <Box
@@ -79,7 +82,9 @@ function SideBar() {
           </Box>
 
           <Flex
-            direction={"column"}
+            flexDirection={"column"}
+            alignItems={'start'}
+            justifyContent={'center'}
             display={["none", "none", "none", "block"]}
           >
             <Text
@@ -88,7 +93,9 @@ function SideBar() {
               fontSize={"15px"}
               fontWeight="bold"
             >
-              Hashan
+              {
+                NameArray?.[0]
+              }
             </Text>
             <Text
               fontFamily={"body"}
@@ -96,7 +103,9 @@ function SideBar() {
               fontSize={"15px"}
               fontWeight="normal"
             >
-              Maduranga
+              {
+                NameArray?.[1]
+              }
             </Text>
           </Flex>
         </Flex>

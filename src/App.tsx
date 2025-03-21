@@ -20,9 +20,9 @@ function App() {
         <Route path="forgotpassword" element={<ForgotPassword />} />
         <Route path="login" element={<Signin />} />
         <Route path="coparate" element={<AdminSigninScreen />} />
+        <Route path="/" element={<FrontViewPage />} />
+        <Route path="*" element={<Navigate to={"/"} replace />} />
       </Route>
-      <Route path="/" element={<FrontViewPage />} />
-      <Route path="*" element={<Navigate to={"/"} replace />} />
     </Routes>
   );
 }

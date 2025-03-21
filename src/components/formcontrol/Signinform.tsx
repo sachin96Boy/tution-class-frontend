@@ -27,7 +27,7 @@ function Signinform() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
-  const { loading, error } = useSelector((state: RootState) => state.auth);
+  const { loading } = useSelector((state: RootState) => state.auth);
 
   const { open, onToggle } = useDisclosure();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -74,7 +74,6 @@ function Signinform() {
       {(formik) => (
         <Form autoComplete="off">
           <VStack gap={4} m={4} p={8}>
-            {error && <div className="error">{error}</div>}
             <InputComponent
               htmlFor={"email"}
               labelText={"Email Address"}

@@ -17,14 +17,15 @@ function DashBoard() {
     <Routes>
       <Route element={<DashBoardOutlet />}>
         {/* add different routes that need to be loade for different pages */}
-        <Route element={<ProtectedRoute />}></Route>
-        <Route path="course/:year/:courseId" element={<CourseDetails />} />
-        <Route path="myAccount" element={<MyAccount />} />
-        <Route path="myCourses" element={<MyCourses />} />
-        <Route path="teacherList" element={<TeacherList />} />
-        <Route path="/support" element={<Support />} />
-        <Route path="/" element={<HomePage />} />
-        <Route path="/*" element={<Navigate to={"/dashboard"} replace />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="course/:year/:courseId" element={<CourseDetails />} />
+          <Route path="myAccount" element={<MyAccount />} />
+          <Route path="myCourses" element={<MyCourses />} />
+          <Route path="teacherList" element={<TeacherList />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/*" element={<Navigate to={"/dashboard"} replace />} />
+        </Route>
       </Route>
     </Routes>
   );

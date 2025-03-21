@@ -1,11 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { loginUser, registerUser } from "./authAction";
+import { loginUser, registerUser, loginCoporateUser, registerCoporateUser } from "./authAction";
+import { toaster } from "@/components/ui/toaster";
+
+
+type IUserInfo = {
+    id: number
+    student_id: string;
+    full_name: string;
+    email: string;
+    isVerified: boolean;
+    pay_role: string;
+}
+type ICoporateUserInfo = {
+    id: number
+    user_id: string;
+    email: string;
+    userName: string;
+    isVerified: boolean;
+    user_role_id: string;
+}
 
 export type IinitialState = {
     loading: boolean;
-    userInfo: object | null;
+    userInfo: IUserInfo | null;
+    coporateInfo: ICoporateUserInfo | null;
     token: string | null;
-    error: string | null;
+    error: boolean | null;
+    errorMsg: string;
     success: boolean;
 
 }
@@ -13,8 +34,10 @@ export type IinitialState = {
 const initialState: IinitialState = {
     loading: false,
     userInfo: JSON.parse(`${localStorage.getItem("student")}`) || null,
+    coporateInfo: JSON.parse(`${localStorage.getItem("coporate")}`) || null,
     token: localStorage.getItem("token") || null,
     error: null,
+    errorMsg: '',
     success: false
 }
 
@@ -24,6 +47,8 @@ export const authSlice = createSlice({
     reducers: {
         logout: (state) => {
             localStorage.removeItem('token');
+            localStorage.removeItem('student');
+            localStorage.removeItem('coporate');
             state.userInfo = null;
             state.token = null;
         },
@@ -35,15 +60,58 @@ export const authSlice = createSlice({
                 state.error = null
             }
         ).addCase(
-            registerUser.fulfilled, (state) => {
+            registerUser.fulfilled, (state, action) => {
                 state.loading = false
                 state.error = null
+
+                toaster.create({
+                    type: 'success',
+                    title: action.payload.message
+                });
 
             }
         ).addCase(
             registerUser.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload?.error || 'Registration Failed'
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
+        ).addCase(
+            registerCoporateUser.pending, (state, action) => {
+                state.loading = true;
+                state.error = null;
+            }
+        ).addCase(
+            registerCoporateUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.error = null;
+
+                toaster.create({
+                    type: 'success',
+                    title: action.payload.message
+                });
+            }
+        ).addCase(
+            registerCoporateUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
             }
         ).addCase(
             loginUser.pending, (state) => {
@@ -55,14 +123,63 @@ export const authSlice = createSlice({
                 state.loading = false;
                 state.userInfo = action.payload.user;
                 state.token = action.payload.token;
-                
+
                 localStorage.setItem('token', action.payload.token);
-                localStorage.setItem('student', action.payload.user);
+                localStorage.setItem('student', JSON.stringify(action.payload.user));
+
+                toaster.create({
+                    type: 'success',
+                    title: action.payload.message
+                })
             }
         ).addCase(
             loginUser.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.payload?.error || 'Login failed';
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
+        ).addCase(
+            loginCoporateUser.pending, (state, action) => {
+                state.loading = true;
+                state.error = null;
+            }
+        ).addCase(
+            loginCoporateUser.fulfilled, (state, action) => {
+                state.loading = false;
+                state.coporateInfo = action.payload.user;
+                state.token = action.payload.token;
+
+                localStorage.setItem('token', action.payload.token);
+                localStorage.setItem('coporate', JSON.stringify(action.payload.user));
+
+
+                toaster.create({
+                    type: 'success',
+                    title: action.payload.message
+                })
+
+            }
+        ).addCase(
+            loginCoporateUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
             }
         )
     },
