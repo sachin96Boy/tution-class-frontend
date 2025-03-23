@@ -40,12 +40,13 @@ export const configSlice = createSlice({
             getCompanyDetails.fulfilled, (state, action) => {
                 state.loading = false;
                 state.company = action.payload.companies;
+                
             }
         ).addCase(
-            getCompanyDetails.rejected, (state,action) => {
+            getCompanyDetails.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
-                state.errorMsg = action.error.message || ''
+                state.errorMsg = (action.payload as any).error || ''
             }
         )
     },

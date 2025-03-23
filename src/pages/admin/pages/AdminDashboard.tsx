@@ -10,7 +10,7 @@ import {
   lineChartData,
   lineChartOptions,
 } from "@/utils/variables/chart";
-import { Flex, Grid, SimpleGrid } from "@chakra-ui/react";
+import { Box, Button, Flex, Grid, SimpleGrid, Wrap } from "@chakra-ui/react";
 
 import { FaGlobe, FaWallet } from "react-icons/fa";
 import { FiShoppingCart } from "react-icons/fi";
@@ -25,7 +25,7 @@ function AdminDashboard() {
     <Flex gap={4} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} gap="24px">
         <MiniStatTile
-          title={"Today's Moneys"}
+          title={"Today's Income"}
           amount={"$53,000"}
           percentage={55}
           icon={
@@ -33,7 +33,7 @@ function AdminDashboard() {
           }
         />
         <MiniStatTile
-          title={"Today's Users"}
+          title={"Today's Students"}
           amount={"2,300"}
           percentage={5}
           icon={
@@ -41,7 +41,7 @@ function AdminDashboard() {
           }
         />
         <MiniStatTile
-          title={"New Clients"}
+          title={"New Students"}
           amount={"+3,020"}
           percentage={-14}
           icon={
@@ -74,11 +74,17 @@ function AdminDashboard() {
       >
         <OverlayBanner
           backgroundImage={bgImg}
-          title={"Work with the rockets"}
-          description={
-            "Wealth creation is a revolutionary recent positive-sum game. It is all about who takes the opportunity first."
-          }
+          title={"Main Advertisment Banner"}
+          description={"Update Main Advertisment on Student Dashboard"}
         />
+        <Wrap>
+          <Button colorPalette={"blue"} size={"2xl"}>
+            Advertisments
+          </Button>
+          <Button colorPalette={"blue"} size={"2xl"}>
+            Statistics
+          </Button>
+        </Wrap>
       </Grid>
 
       <Grid
