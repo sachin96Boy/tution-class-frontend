@@ -12,12 +12,18 @@ import "@fontsource/noto-sans-sinhala";
 import { store } from "./store";
 import { Toaster } from "./components/ui/toaster";
 
+import {PhotoProvider} from 'react-photo-view';
+
+import "react-photo-view/dist/react-photo-view.css";
+
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <UIProvider>
       <Router>
         <Provider store={store}>
-          <App />
+          <PhotoProvider maskOpacity={0.5}>
+            <App />
+          </PhotoProvider>
         </Provider>
       </Router>
       <Toaster />

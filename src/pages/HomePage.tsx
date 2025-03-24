@@ -20,6 +20,7 @@ import Slider from "react-slick";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { PhotoView } from "react-photo-view";
 
 const bannerList: Array<string> = [
   sipsaclassbanner1,
@@ -159,12 +160,14 @@ function HomePage() {
             {bannerList.map((item: string, index: number) => (
               <Box key={index}>
                 <Center p={1} bg={"yellow.400"} rounded="5px" m={[2, 4]}>
-                  <Image
-                    borderRadius={"12px"}
-                    src={item}
-                    objectFit="fill"
-                    boxSize={["150px", "180px", "220px"]}
-                  />
+                  <PhotoView key={index} src={item}>
+                    <Image
+                      borderRadius={"12px"}
+                      src={item}
+                      objectFit="fill"
+                      boxSize={["150px", "180px", "220px"]}
+                    />
+                  </PhotoView>
                 </Center>
               </Box>
             ))}

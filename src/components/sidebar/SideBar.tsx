@@ -5,23 +5,21 @@ import { GiBookshelf } from "react-icons/gi";
 import { BsHeadset } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { TbCameraPlus } from "react-icons/tb";
 import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/features/auth/authSlice";
 
 function SideBar() {
-  const [activeMenu, setActiveMenu] = useState("dashboard");
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
+  let location = useLocation();
+
+  const checkActive = (route: string) => {
+    return location.pathname === route ? "active" : "";
+  };
 
   const { token, userInfo } = useSelector((state: RootState) => state.auth);
-
-  const handleMenuClick = (menu: string) => {
-    setActiveMenu(menu);
-    navigate(`/dashboard/${menu}`);
-  };
 
   const handleLogout = () => {
     dispatch(logout());
@@ -31,27 +29,30 @@ function SideBar() {
     {
       icon: <MdDashboard size={"28px"} />,
       label: "Dashboard",
+      path: "/dashboard",
       key: "dashboard",
     },
     {
       icon: <GiBookshelf size={"28px"} />,
       label: "My Courses",
+      path: "/dashboard/myCourses",
       key: "myCourses",
     },
     {
       icon: <BsHeadset size={"28px"} />,
       label: "Support",
+      path: "/dashboard/support",
       key: "support",
     },
     {
       icon: <FaUser size={"28px"} />,
       label: "My Account",
+      path: "/dashboard/myAccount",
       key: "myAccount",
     },
   ];
 
   const NameArray = userInfo?.full_name?.trim().split(" ") ?? ["", ""];
-
 
   const ProfileMenu = () => {
     return (
@@ -83,8 +84,8 @@ function SideBar() {
 
           <Flex
             flexDirection={"column"}
-            alignItems={'start'}
-            justifyContent={'center'}
+            alignItems={"start"}
+            justifyContent={"center"}
             display={["none", "none", "none", "block"]}
           >
             <Text
@@ -93,9 +94,7 @@ function SideBar() {
               fontSize={"15px"}
               fontWeight="bold"
             >
-              {
-                NameArray?.[0]
-              }
+              {NameArray?.[0]}
             </Text>
             <Text
               fontFamily={"body"}
@@ -103,9 +102,7 @@ function SideBar() {
               fontSize={"15px"}
               fontWeight="normal"
             >
-              {
-                NameArray?.[1]
-              }
+              {NameArray?.[1]}
             </Text>
           </Flex>
         </Flex>
@@ -142,36 +139,59 @@ function SideBar() {
             ml={8}
             my={token ? 5 : 10}
           >
-            {sideBarMenuList.map((item) => (
-              <Flex
-                key={item.key}
-                align={"center"}
-                justify="center"
-                color="white"
-                _hover={{
-                  color: "#F4BB4E",
-                  cursor: "pointer",
-                }}
-                p={5}
-                borderRadius={"12px"}
-                bg={
-                  activeMenu === item.key
-                    ? "linear-gradient(90deg, #0776FF 0%, #225498 100%)"
-                    : ""
-                }
-                onClick={() => handleMenuClick(item.key)}
-              >
-                {item.icon}
-                <Text
-                  ml={2}
-                  fontFamily={"body"}
-                  fontSize="18px"
-                  fontWeight={"600"}
-                  display={["none", "none", "none", "block"]}
-                >
-                  {item.label}
-                </Text>
-              </Flex>
+            {sideBarMenuList.map((item, index) => (
+              <NavLink to={item.path} key={index}>
+                {checkActive(item.path) === "active" ? (
+                  <Flex
+                    key={item.key}
+                    align={"center"}
+                    justify="center"
+                    color="white"
+                    _hover={{
+                      color: "#F4BB4E",
+                      cursor: "pointer",
+                    }}
+                    p={5}
+                    borderRadius={"12px"}
+                    bg={"linear-gradient(90deg, #0776FF 0%, #225498 100%)"}
+                  >
+                    {item.icon}
+                    <Text
+                      ml={2}
+                      fontFamily={"body"}
+                      fontSize="18px"
+                      fontWeight={"600"}
+                      display={["none", "none", "none", "block"]}
+                    >
+                      {item.label}
+                    </Text>
+                  </Flex>
+                ) : (
+                  <Flex
+                    key={item.key}
+                    align={"center"}
+                    justify="center"
+                    color="white"
+                    _hover={{
+                      color: "#F4BB4E",
+                      cursor: "pointer",
+                    }}
+                    p={5}
+                    borderRadius={"12px"}
+                  >
+                    {item.icon}
+                    <Text
+                      ml={2}
+                      fontFamily={"body"}
+                      fontSize="18px"
+                      fontWeight={"600"}
+                      display={["none", "none", "none", "block"]}
+                    >
+                      {item.label}
+                    </Text>
+                  </Flex>
+                )}
+              </NavLink>
             ))}
           </Flex>
           <Flex

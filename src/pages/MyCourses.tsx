@@ -28,6 +28,17 @@ function MyCourses() {
   const [subjectName, setSubjectName] = useState("");
   const [year, setYear] = useState("");
 
+  let currentYear = new Date().getFullYear();
+
+  let yearArray = [
+    currentYear - 5,
+    currentYear - 4,
+    currentYear - 3,
+    currentYear - 2,
+    currentYear - 1,
+    currentYear,
+  ];
+
   const courseArray: Array<CourseCardProps> = [
     {
       courseId: "1",
@@ -140,7 +151,7 @@ function MyCourses() {
               courseElement.subjectName
                 .toLowerCase()
                 .includes(subjectName.toLowerCase()) &&
-              courseElement.year.toLowerCase().includes(year.toLowerCase())
+              courseElement.year.includes(year)
             ) {
               return courseElement;
             } else if (
@@ -233,7 +244,7 @@ function MyCourses() {
                   borderColor={"light_bg_blue"}
                   rounded={"12px"}
                 >
-                  {["2021", "2022", "2023", "2024"].map((yr) => (
+                  {yearArray.map((yr) => (
                     <Button
                       key={yr}
                       color={"#CDCDCD"}
