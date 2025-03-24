@@ -29,8 +29,6 @@ import { AppDispatch, RootState } from "@/store";
 import { IregisterProps, registerUser } from "@/features/auth/authAction";
 
 function RegisterForm() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [state, newToast] = useToastResponse();
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -76,7 +74,6 @@ function RegisterForm() {
 
     actions.setSubmitting(false);
 
-    console.log(result);
   };
 
   const handleThis = (e: any) => {

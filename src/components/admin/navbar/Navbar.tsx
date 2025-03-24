@@ -1,6 +1,8 @@
 "use client";
 
 import Logo from "@/components/Logo";
+import { logout } from "@/features/auth/authSlice";
+import { AppDispatch } from "@/store";
 import {
   Box,
   Flex,
@@ -29,6 +31,7 @@ import {
 import { IoMdClose, IoMdMenu } from "react-icons/io";
 import { PiStudentBold } from "react-icons/pi";
 import { TbReport } from "react-icons/tb";
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 interface Props {
@@ -99,7 +102,44 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const dispatch = useDispatch<AppDispatch>();
+
   const { open, onOpen, onClose } = useDisclosure();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  const renderMobileView = () => {
+    return (
+      <Box pb={4} display={{ md: "none" }}>
+        <Stack as={"nav"} gap={4}>
+          {navLinks.map((link, index) => (
+            <NavLink to={link.path} key={index}>
+              <Flex gap={2} alignItems={"center"} justify={"space-around"}>
+                <Box
+                  padding={2}
+                  rounded={"xl"}
+                  bg={"white"}
+                  color={"primary_color"}
+                >
+                  <Icon size={"lg"}>{link.icon}</Icon>
+                </Box>
+                <Text
+                  my="auto"
+                  fontSize="md"
+                  fontWeight={"bold"}
+                  color={"GrayText"}
+                >
+                  {link.title}
+                </Text>
+              </Flex>
+            </NavLink>
+          ))}
+        </Stack>
+      </Box>
+    );
+  };
 
   return (
     <>
@@ -117,17 +157,16 @@ export default function Navbar() {
           <Box display={["block", "block", "none"]}>
             <Logo boxSize="24" linkPath="/admin/dashboard" fitType="cover" />
           </Box>
-          <Spacer display={['none','none','block']} />
+          <Spacer display={["none", "none", "block"]} />
           <Flex align={"end"}>
             <Menu.Root
               positioning={{
                 placement: "top-end",
               }}
-              
             >
-              <Menu.Trigger outline={"none"} pt={[0,0,8]}>
+              <Menu.Trigger outline={"none"} pt={[0, 0, 8]}>
                 <Box as={"button"} outline={"none"} cursor={"pointer"}>
-                  <Avatar.Root size={'md'}>
+                  <Avatar.Root size={"md"}>
                     <Avatar.Fallback name="Oshigaki Kisame" />
                     <Avatar.Image src="https://bit.ly/broken-link" />
                   </Avatar.Root>
@@ -136,6 +175,7 @@ export default function Navbar() {
               <Menu.Positioner>
                 <Menu.Content>
                   <Menu.Item
+                    onClick={handleLogout}
                     value="delete"
                     color="fg.error"
                     _hover={{ bg: "bg.error", color: "fg.error" }}
@@ -148,34 +188,7 @@ export default function Navbar() {
           </Flex>
         </Flex>
 
-        {open ? (
-          <Box pb={4} display={{ md: "none" }}>
-            <Stack as={"nav"} gap={4}>
-              {navLinks.map((link, index) => (
-                <NavLink to={link.path} key={index}>
-                  <Flex gap={2} alignItems={"center"} justify={"space-around"}>
-                    <Box
-                      padding={2}
-                      rounded={"xl"}
-                      bg={"white"}
-                      color={"primary_color"}
-                    >
-                      <Icon size={"lg"}>{link.icon}</Icon>
-                    </Box>
-                    <Text
-                      my="auto"
-                      fontSize="md"
-                      fontWeight={"bold"}
-                      color={"GrayText"}
-                    >
-                      {link.title}
-                    </Text>
-                  </Flex>
-                </NavLink>
-              ))}
-            </Stack>
-          </Box>
-        ) : null}
+        {open && renderMobileView()}
       </Box>
     </>
   );

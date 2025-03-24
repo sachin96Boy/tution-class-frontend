@@ -2,6 +2,11 @@ import InputComponent from "@/components/formcontrol/customInput/InputComponent"
 import { Field } from "@/components/ui/field";
 import { InputGroup } from "@/components/ui/input-group";
 import {
+  ICoporateregisterProps,
+  registerCoporateUser,
+} from "@/features/auth/authAction";
+import { AppDispatch, RootState } from "@/store";
+import {
   Button,
   createListCollection,
   Icon,
@@ -15,11 +20,15 @@ import {
 import { Form, Formik } from "formik";
 import React, { useRef } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
 
 import * as Yup from "yup";
 
-
 function UserFormComponent() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { loading } = useSelector((state: RootState) => state.auth);
+
   const { open, onToggle } = useDisclosure();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -47,11 +56,11 @@ function UserFormComponent() {
     }
   };
 
-  const initialValues = {
+  const initialValues: ICoporateregisterProps = {
     email: "",
     userName: "",
     password: "",
-    userRole: [""],
+    userType: [""],
   };
 
   const validationSchema = Yup.object({
@@ -59,7 +68,7 @@ function UserFormComponent() {
       .email("Invalid email address")
       .required("Email is required"),
     userName: Yup.string().required("UserName is required"),
-    userRole: Yup.string().required("Role is required"),
+    userType: Yup.array().required("Role is required"),
     password: Yup.string()
       .required("Password is required")
       .matches(
@@ -68,8 +77,13 @@ function UserFormComponent() {
       ),
   });
 
-  const onSubmit = async (values: any, actions: any) => {
+  const onSubmit = async (values: ICoporateregisterProps, actions: any) => {
+    console.log(values);
+
+    const result = await dispatch(registerCoporateUser(values));
+
     actions.setSubmitting(false);
+    console.log(result);
   };
 
   return (
@@ -93,7 +107,7 @@ function UserFormComponent() {
               isError={formik.errors.email}
             />
             <InputComponent
-              htmlFor={"useName"}
+              htmlFor={"userName"}
               labelText={"Username"}
               InputType={"text"}
               InputValue={formik.values.userName}
@@ -146,14 +160,16 @@ function UserFormComponent() {
               </InputGroup>
             </Field>
             <Field
-              invalid={!!(formik.errors.userRole || formik.touched.userRole)}
-              htmlFor={"role"}
+              invalid={formik.touched.userType || !!formik.errors.userType}
+              errorText={formik.errors.userType}
+              htmlFor={"userType"}
             >
               <Select.Root
-                onValueChange={(obj)=>formik.setFieldValue('userRole',obj.value)}
-                onBlur={formik.handleBlur}
+                onValueChange={(obj) =>
+                  formik.setFieldValue("userType", obj.value)
+                }
                 onInteractOutside={formik.handleBlur}
-                value={formik.values.userRole}
+                value={formik.values.userType}
                 collection={userTypeCollections}
               >
                 <Select.HiddenSelect />
@@ -166,16 +182,16 @@ function UserFormComponent() {
                     <Select.Indicator />
                   </Select.IndicatorGroup>
                 </Select.Control>
-                  <Select.Positioner width={'full'}>
-                    <Select.Content>
-                      {userTypeCollections.items.map((type) => (
-                        <Select.Item item={type} key={type.value}>
-                          {type.label}
-                          <Select.ItemIndicator />
-                        </Select.Item>
-                      ))}
-                    </Select.Content>
-                  </Select.Positioner>
+                <Select.Positioner width={"full"}>
+                  <Select.Content>
+                    {userTypeCollections.items.map((type) => (
+                      <Select.Item item={type} key={type.value}>
+                        {type.label}
+                        <Select.ItemIndicator />
+                      </Select.Item>
+                    ))}
+                  </Select.Content>
+                </Select.Positioner>
               </Select.Root>
             </Field>
             <Button
@@ -187,7 +203,7 @@ function UserFormComponent() {
                 "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
               }
               boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
-              loading={formik.isSubmitting}
+              loading={loading}
             >
               <Text
                 fontFamily={"body"}

@@ -11,7 +11,7 @@ export type IregisterProps = {
 export type ICoporateregisterProps = {
     userName: string;
     email: string,
-    userType: string,
+    userType: Array<string>,
     password: string
 }
 
