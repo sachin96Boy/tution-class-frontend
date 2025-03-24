@@ -9,8 +9,12 @@ interface AuthRouteProps {
 }
 
 const AuthRoute = () => {
-  const { token } = useSelector((state: RootState) => state.auth);
-  return token ? <Navigate to="/dashboard" replace /> : <Outlet />;
+  const { token, userInfo } = useSelector((state: RootState) => state.auth);
+  return token && userInfo != null ? (
+    <Navigate to="/dashboard" replace />
+  ) : (
+    <Outlet />
+  );
 };
 
 export default AuthRoute;

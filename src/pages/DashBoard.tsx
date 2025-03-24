@@ -15,9 +15,9 @@ import ProtectedRoute from "@/utils/ProtectedRoute";
 function DashBoard() {
   return (
     <Routes>
-      <Route element={<DashBoardOutlet />}>
-        {/* add different routes that need to be loade for different pages */}
-        <Route element={<ProtectedRoute />}>
+      <Route element={<ProtectedRoute />}>
+        <Route element={<DashBoardOutlet />}>
+          {/* add different routes that need to be loade for different pages */}
           <Route path="course/:year/:courseId" element={<CourseDetails />} />
           <Route path="myAccount" element={<MyAccount />} />
           <Route path="myCourses" element={<MyCourses />} />

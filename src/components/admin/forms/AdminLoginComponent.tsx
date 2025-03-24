@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 
 import * as Yup from "yup";
-import { IloginProps } from "@/features/auth/authAction";
+import { IloginProps, loginCoporateUser } from "@/features/auth/authAction";
 import {
   Button,
   Icon,
@@ -15,8 +15,16 @@ import InputComponent from "../../formcontrol/customInput/InputComponent";
 import { InputGroup } from "@/components/ui/input-group";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { Field } from "@/components/ui/field";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
 
 function AdminLoginComponent() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { loading } = useSelector((state: RootState) => state.auth);
+
   const { open, onToggle } = useDisclosure();
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -48,6 +56,11 @@ function AdminLoginComponent() {
   });
 
   const onSubmit = async (values: IloginProps, actions: any) => {
+    const result = await dispatch(loginCoporateUser(values));
+    if (result.payload?.token) {
+      navigate("/admin");
+    }
+
     actions.setSubmitting(false);
   };
 
@@ -122,7 +135,7 @@ function AdminLoginComponent() {
                 "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
               }
               boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
-              loading={formik.isSubmitting}
+              loading={loading}
             >
               <Text
                 fontFamily={"body"}

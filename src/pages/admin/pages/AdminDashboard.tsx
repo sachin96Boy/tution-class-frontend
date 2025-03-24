@@ -82,6 +82,9 @@ function AdminDashboard() {
             Advertisments
           </Button>
           <Button colorPalette={"blue"} size={"2xl"}>
+            Company
+          </Button>
+          <Button colorPalette={"blue"} size={"2xl"}>
             Statistics
           </Button>
         </Wrap>

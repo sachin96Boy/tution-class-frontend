@@ -13,27 +13,30 @@ import AdminReports from "../pages/AdminReports";
 import AdminUsers from "../pages/AdminUsers";
 import Students from "../pages/Students";
 import Assignments from "../pages/Assignments";
+import AdminRoute from "@/utils/AdminRoutes";
 
 function AdminRoutes() {
   return (
     <Routes>
-      <Route element={<AdminLayout />}>
-        <Route path="teachers" element={<AdminTeachers />} />
-        <Route path="time-table" element={<AdminTimeTables />} />
-        <Route path="dashboard" element={<AdminDashboard />} />
-        <Route path="attandance" element={<AdminAttandance />} />
-        <Route path="payments" element={<AdminPayments />} />
-        <Route path="expences" element={<AdminExpences />} />
-        <Route path="reports" element={<AdminReports />} />
-        <Route path="users" element={<AdminUsers />} />
-        <Route path="students" element={<Students />} />
-        <Route path="assignments" element={<Assignments />} />
-        <Route path="courses" element={<AdminCourses />} />
-        <Route path="accounting" element={<AdminAccounting />} />
-        <Route
-          path="*"
-          element={<Navigate to={"/admin/dashboard"} replace />}
-        />
+      <Route element={<AdminRoute />}>
+        <Route element={<AdminLayout />}>
+          <Route path="teachers" element={<AdminTeachers />} />
+          <Route path="time-table" element={<AdminTimeTables />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="attandance" element={<AdminAttandance />} />
+          <Route path="payments" element={<AdminPayments />} />
+          <Route path="expences" element={<AdminExpences />} />
+          <Route path="reports" element={<AdminReports />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="students" element={<Students />} />
+          <Route path="assignments" element={<Assignments />} />
+          <Route path="courses" element={<AdminCourses />} />
+          <Route path="accounting" element={<AdminAccounting />} />
+          <Route
+            path="*"
+            element={<Navigate to={"/admin/dashboard"} replace />}
+          />
+        </Route>
       </Route>
     </Routes>
   );

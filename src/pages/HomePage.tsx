@@ -18,6 +18,8 @@ import sipsaLogo from "../assets/header/logos/Sipsa_logo.png";
 
 import Slider from "react-slick";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 const bannerList: Array<string> = [
   sipsaclassbanner1,
@@ -36,6 +38,12 @@ function HomePage() {
     { base: true, sm: true, md: false, lg: false },
     { ssr: false }
   );
+
+  const { company } = useSelector((state: RootState) => state.config);
+
+  const logoPath = `${import.meta.env.VITE_BACKEND_STATIC}/logo/${
+    company[0]?.logo
+  }`;
 
   const navigate = useNavigate();
 
@@ -87,8 +95,8 @@ function HomePage() {
           p={[4, 6]}
         >
           <Image
-            src={sipsaLogo}
-            objectFit="cover"
+            src={company && company.length > 0 ? logoPath : sipsaLogo}
+            objectFit="contain"
             w={["200px", "300px", "421px"]}
             h={["100px", "150px", "210px"]}
           />
@@ -182,7 +190,7 @@ function HomePage() {
           textAlign="center"
         >
           <Text as={"span"} fontFamily="body">
-            Sipsa Web
+            {company && company.length > 0 ? company[0].name : ""} Web
           </Text>{" "}
           අඩඩිය භාවිත කරන ආකාරය හා ඒ් ආශිත තොරතුරු දැනගැනීම සදහා{" "}
           <Text as={"span"} fontFamily="body">

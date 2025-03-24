@@ -12,8 +12,7 @@ import React, { useRef } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import axios from "../../utils/AxiosInstans";
-import useToastResponse from "../toast/ToastResponse";
+
 import { Field } from "../ui/field";
 import { InputGroup } from "../ui/input-group";
 import InputComponent from "./customInput/InputComponent";
@@ -22,8 +21,6 @@ import { AppDispatch, RootState } from "@/store";
 import { IloginProps, loginUser } from "@/features/auth/authAction";
 
 function Signinform() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [state, newToast] = useToastResponse();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -189,7 +186,7 @@ function Signinform() {
                 fontSize={"12px"}
                 fontWeight="700"
               >
-                <Link to={"/coparate"}>Coperate login</Link>
+                <Link to={"/corporate"}>Coperate login</Link>
               </Text>
             </Text>
           </VStack>

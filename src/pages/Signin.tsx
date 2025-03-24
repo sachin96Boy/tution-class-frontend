@@ -2,8 +2,12 @@ import { Container, Flex, Image, Stack, Text } from "@chakra-ui/react";
 import signinBg from "../assets/signin/bg-signin.jpg";
 import Signinform from "../components/formcontrol/Signinform";
 import Logo from "../components/Logo";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 function Signin() {
+  const { company } = useSelector((state: RootState) => state.config);
+
   return (
     <Flex
       flexDirection={["column", "column", "row"]}
@@ -41,8 +45,9 @@ function Signin() {
               color="secondary_title_color"
               my={2}
             >
-              By logging into Sipsa Institute, you agree to our Terms of use and
-              Privacy Policy.
+              By logging into{" "}
+              {company && company.length > 0 ? company[0].name : ""}, you agree
+              to our Terms of use and Privacy Policy.
             </Text>
           </Flex>
           <Stack gap={4}>

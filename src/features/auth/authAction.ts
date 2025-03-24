@@ -54,7 +54,7 @@ const handleLoginCoporateUser = async (value: IloginProps, { rejectWithValue }: 
 
     } catch (err: any) {
 
-        return rejectWithValue(err.sponse.data);
+        return rejectWithValue(err.response.data);
 
     }
 

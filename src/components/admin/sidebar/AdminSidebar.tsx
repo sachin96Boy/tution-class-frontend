@@ -1,10 +1,9 @@
 import Logo from "@/components/Logo";
 import { Box, Button, Flex, GridItem, Icon, Text } from "@chakra-ui/react";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { BsBookHalf, BsFillPeopleFill } from "react-icons/bs";
 import {
   FaBookReader,
-  FaBriefcase,
   FaChalkboardTeacher,
   FaHome,
   FaMoneyBillAlt,
@@ -116,7 +115,7 @@ function AdminSidebar() {
           m={sidebarMargins}
           borderRadius={sidebarRadius}
         >
-          <Logo boxSize="24" linkPath="/admin/dashboard" fitType="cover" />
+          <Logo boxSize="24" linkPath="/admin" fitType="cover" />
 
           {navLinks.map((item, index) => (
             <NavLink to={item.path} key={index}>

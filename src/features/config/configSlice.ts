@@ -3,6 +3,7 @@ import { getCompanyDetails } from "./configAction";
 
 type IcompanyInfo = {
     id: number;
+    encodedId: string;
     name: string;
     code: string;
     address: string;
@@ -40,7 +41,7 @@ export const configSlice = createSlice({
             getCompanyDetails.fulfilled, (state, action) => {
                 state.loading = false;
                 state.company = action.payload.companies;
-                
+
             }
         ).addCase(
             getCompanyDetails.rejected, (state, action) => {

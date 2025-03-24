@@ -5,7 +5,7 @@ const handleGetCompanyDetails = async ({ rejectWithValue }: any) => {
     try {
 
         const response = await axiosInstance.get(
-            'connfig/getCompany'
+            'config/getCompany'
         );
 
         return response.data;
