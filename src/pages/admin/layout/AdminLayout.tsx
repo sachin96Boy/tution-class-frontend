@@ -23,7 +23,9 @@ function AdminLayout() {
         mr={4}
       >
         <Navbar />
-        <Outlet />
+        <Box minH={"100vh"}>
+          <Outlet />
+        </Box>
       </Box>
     </Flex>
   );

@@ -14,6 +14,7 @@ import AdminUsers from "../pages/AdminUsers";
 import Students from "../pages/Students";
 import Assignments from "../pages/Assignments";
 import AdminRoute from "@/utils/AdminRoutes";
+import AdminAdvertiments from "../pages/AdminAdvertiments";
 
 function AdminRoutes() {
   return (
@@ -24,6 +25,7 @@ function AdminRoutes() {
           <Route path="time-table" element={<AdminTimeTables />} />
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="attandance" element={<AdminAttandance />} />
+          <Route path="advertisments" element={<AdminAdvertiments />} />
           <Route path="payments" element={<AdminPayments />} />
           <Route path="expences" element={<AdminExpences />} />
           <Route path="reports" element={<AdminReports />} />

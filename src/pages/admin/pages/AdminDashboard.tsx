@@ -17,6 +17,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { IoMdDocument } from "react-icons/io";
 
 import bgImg from "@/assets/signin/class-2.webp";
+import { NavLink } from "react-router-dom";
 
 function AdminDashboard() {
   const iconBoxInside = "white";
@@ -78,9 +79,11 @@ function AdminDashboard() {
           description={"Update Main Advertisment on Student Dashboard"}
         />
         <Wrap>
-          <Button colorPalette={"blue"} size={"2xl"}>
-            Advertisments
-          </Button>
+          <NavLink to={"/admin/advertisments"}>
+            <Button colorPalette={"blue"} size={"2xl"}>
+              Advertisments
+            </Button>
+          </NavLink>
           <Button colorPalette={"blue"} size={"2xl"}>
             Company
           </Button>

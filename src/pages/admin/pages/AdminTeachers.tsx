@@ -7,12 +7,7 @@ import React from "react";
 
 function AdminTeachers() {
   return (
-    <Flex
-      gap={2}
-      minH={"100vh"}
-      flexDirection="column"
-      pt={{ base: "120px", md: "75px" }}
-    >
+    <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Box>
         <Modalsheet
           buttonText={"Create Teacher"}

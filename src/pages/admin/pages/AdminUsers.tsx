@@ -9,7 +9,6 @@ function AdminUsers() {
   return (
     <Flex
       gap={2}
-      minH={"100vh"}
       flexDirection="column"
       pt={{ base: "120px", md: "75px" }}
     >

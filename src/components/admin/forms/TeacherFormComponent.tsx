@@ -82,7 +82,7 @@ function TeacherFormComponent() {
     >
       {(formik) => (
         <>
-          <Form autoComplete="off">
+          <Form autoComplete="off" encType="multipart/form-data">
             <VStack gap={4} width={"full"}>
               <InputComponent
                 htmlFor={"fullname"}
@@ -110,12 +110,12 @@ function TeacherFormComponent() {
                 htmlFor={"profileImg"}
                 labelText={"Profile Image"}
                 isInvalid={
-                  !!(formik.touched.profileImg && formik.errors.profileImg)
+                  formik.touched.profileImg && !!formik.errors.profileImg
                 }
                 isTouched={formik.touched.profileImg}
                 errorText={formik.errors.profileImg}
-                handleChange={(event) =>
-                  formik.setFieldValue("profileImg", event)
+                handleChange={(details) =>
+                  formik.setFieldValue("profileImg", details.acceptedFiles[0])
                 }
                 handleBlur={formik.handleBlur}
               />
@@ -123,12 +123,12 @@ function TeacherFormComponent() {
                 htmlFor={"introImage1"}
                 labelText={"Intro image1"}
                 isInvalid={
-                  !!(formik.touched.introImage1 && formik.errors.introImage1)
+                  formik.touched.introImage1 && !!formik.errors.introImage1
                 }
                 isTouched={formik.touched.introImage1}
                 errorText={formik.errors.introImage1}
-                handleChange={(event) =>
-                  formik.setFieldValue("introImage1", event)
+                handleChange={(details) =>
+                  formik.setFieldValue("introImage1", details.acceptedFiles[0])
                 }
                 handleBlur={formik.handleBlur}
               />
@@ -136,12 +136,12 @@ function TeacherFormComponent() {
                 htmlFor={"introImage2"}
                 labelText={"Intro image2"}
                 isInvalid={
-                  !!(formik.touched.introImage2 && formik.errors.introImage2)
+                  formik.touched.introImage2 && !!formik.errors.introImage2
                 }
                 isTouched={formik.touched.introImage2}
                 errorText={formik.errors.introImage2}
-                handleChange={(event) =>
-                  formik.setFieldValue("introImage2", event)
+                handleChange={(details) =>
+                  formik.setFieldValue("introImage2", details.acceptedFiles[0])
                 }
                 handleBlur={formik.handleBlur}
               />

@@ -2,6 +2,7 @@ import { Field } from "@/components/ui/field";
 import {
   Button,
   FileUpload,
+  FileUploadFileChangeDetails,
   Float,
   useFileUploadContext,
 } from "@chakra-ui/react";
@@ -14,7 +15,7 @@ type IFileUpoad = {
   isInvalid: boolean | undefined;
   isTouched: boolean | undefined;
   errorText: string | undefined;
-  handleChange: React.ChangeEventHandler<HTMLInputElement>;
+  handleChange: ((details: FileUploadFileChangeDetails) => void) | undefined;
   handleBlur: React.FocusEventHandler<HTMLInputElement>;
 };
 
@@ -26,7 +27,6 @@ function FileUploadInput(props: IFileUpoad) {
     isTouched,
     errorText,
     handleChange,
-    // value,
     handleBlur,
   } = props;
 
@@ -39,7 +39,7 @@ function FileUploadInput(props: IFileUpoad) {
         {files.map((file, index) => (
           <FileUpload.Item w="auto" boxSize="20" p="2" file={file} key={index}>
             <FileUpload.ItemPreviewImage />
-            <Float placement="top-end">
+            <Float placement="middle-start">
               <FileUpload.ItemDeleteTrigger boxSize="4" layerStyle="fill.solid">
                 <LuX />
               </FileUpload.ItemDeleteTrigger>
@@ -58,8 +58,9 @@ function FileUploadInput(props: IFileUpoad) {
       errorText={errorText}
     >
       <FileUpload.Root
-        onChange={handleChange}
         onBlur={handleBlur}
+        onFileChange={handleChange}
+        name={htmlFor}
         accept={[
           "image/jpeg",
           "image/png",
@@ -67,13 +68,14 @@ function FileUploadInput(props: IFileUpoad) {
           "application/webp",
         ]}
       >
-        <FileUpload.HiddenInput />
+        <FileUpload.HiddenInput  />
         <FileUpload.Trigger asChild>
-          <Button variant="outline" size="sm">
+          <Button type="button" variant="outline" size="sm">
             <LuFileImage /> Upload Images
           </Button>
         </FileUpload.Trigger>
         <FileUploadList />
+        {/* <FileUpload.List  /> */}
       </FileUpload.Root>
     </Field>
   );

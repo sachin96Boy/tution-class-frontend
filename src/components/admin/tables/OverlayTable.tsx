@@ -52,7 +52,18 @@ function OverlayTable(props: IoverlayTable) {
                 <LuChevronLeft />
               </IconButton>
             </Pagination.PrevTrigger>
-
+            <Pagination.Context>
+              {({ pages }) =>
+                pages.map((page, index) => {
+                  // console.log(page);
+                  return page.type === "page" ? (
+                    <Pagination.Item key={index} {...page} />
+                  ) : (
+                    <Pagination.Ellipsis key={index} index={index} />
+                  );
+                })
+              }
+            </Pagination.Context>
             {/* <Pagination.Items
               render={(page) => (
                 <IconButton variant={{ base: "ghost", _selected: "outline" }}>
@@ -60,17 +71,6 @@ function OverlayTable(props: IoverlayTable) {
                 </IconButton>
               )}
             /> */}
-            <Pagination.Context>
-              {({ pages }) =>
-                pages.map((page, index) =>
-                  page.type === "page" ? (
-                    <Pagination.Item key={index} {...page} />
-                  ) : (
-                    <Pagination.Ellipsis key={index} index={index} />
-                  )
-                )
-              }
-            </Pagination.Context>
 
             <Pagination.NextTrigger asChild>
               <IconButton>

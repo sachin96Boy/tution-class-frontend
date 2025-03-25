@@ -6,7 +6,6 @@ import AdminExpences from "./AdminExpences";
 function AdminAccounting() {
   return (
     <Flex
-      minH={"100vh"}
       gap={4}
       flexDirection="column"
       pt={{ base: "120px", md: "75px" }}
