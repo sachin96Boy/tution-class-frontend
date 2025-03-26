@@ -2,6 +2,7 @@ import React from "react";
 import {
   Box,
   Button,
+  Center,
   Flex,
   Image,
   Spacer,
@@ -16,6 +17,10 @@ import sipsaclassBannerrow4 from "../assets/home/class-banner/sipsa-banner-row4.
 import sipsaLogo from "../assets/header/logos/Sipsa_logo.png";
 
 import Slider from "react-slick";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { PhotoView } from "react-photo-view";
 
 const bannerList: Array<string> = [
   sipsaclassbanner1,
@@ -34,6 +39,14 @@ function HomePage() {
     { base: true, sm: true, md: false, lg: false },
     { ssr: false }
   );
+
+  const { company } = useSelector((state: RootState) => state.config);
+
+  const logoPath = `${import.meta.env.VITE_BACKEND_STATIC}/logo/${
+    company[0]?.logo
+  }`;
+
+  const navigate = useNavigate();
 
   const settings: any = {
     dots: true,
@@ -55,6 +68,10 @@ function HomePage() {
         },
       },
     ],
+  };
+
+  const handlenavigtetoSupport = () => {
+    navigate("/dashboard/support");
   };
 
   return (
@@ -79,8 +96,8 @@ function HomePage() {
           p={[4, 6]}
         >
           <Image
-            src={sipsaLogo}
-            objectFit="cover"
+            src={company && company.length > 0 ? logoPath : sipsaLogo}
+            objectFit="contain"
             w={["200px", "300px", "421px"]}
             h={["100px", "150px", "210px"]}
           />
@@ -117,7 +134,7 @@ function HomePage() {
         >
           <Image
             src={sipsaclassbanner1}
-            objectFit="contain"
+            objectFit="fill"
             boxSize={["200px", "250px", "350px"]}
           />
         </Flex>
@@ -142,14 +159,16 @@ function HomePage() {
           <Slider {...settings}>
             {bannerList.map((item: string, index: number) => (
               <Box key={index}>
-                <Box p={1} bg={"yellow.400"} rounded="5px" m={[2, 4]}>
-                  <Image
-                    borderRadius={"12px"}
-                    src={item}
-                    objectFit="cover"
-                    boxSize={["150px", "180px", "200px"]}
-                  />
-                </Box>
+                <Center p={1} bg={"yellow.400"} rounded="5px" m={[2, 4]}>
+                  <PhotoView key={index} src={item}>
+                    <Image
+                      borderRadius={"12px"}
+                      src={item}
+                      objectFit="fill"
+                      boxSize={["150px", "180px", "220px"]}
+                    />
+                  </PhotoView>
+                </Center>
               </Box>
             ))}
           </Slider>
@@ -174,7 +193,7 @@ function HomePage() {
           textAlign="center"
         >
           <Text as={"span"} fontFamily="body">
-            Sipsa Web
+            {company && company.length > 0 ? company[0].name : ""} Web
           </Text>{" "}
           අඩඩිය භාවිත කරන ආකාරය හා ඒ් ආශිත තොරතුරු දැනගැනීම සදහා{" "}
           <Text as={"span"} fontFamily="body">
@@ -187,6 +206,7 @@ function HomePage() {
           bgGradient={" linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"}
           size={["sm", "md"]}
           mt={[2, 0]}
+          onClick={handlenavigtetoSupport}
         >
           <Text color={"white"} fontSize={["14px", "16px", "21px"]}>
             Support Page

@@ -1,10 +1,23 @@
 import axios from "axios";
 
-const instance = axios.create({
+const token = localStorage.getItem("token");
+
+const axiosInstance = axios.create({
   baseURL: `${import.meta.env.VITE_BACKEND_URL}`,
   headers: {
-    Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    "Content-Type": "application/json",
   },
 });
 
-export default instance;
+// Add request interceptor to include token
+axiosInstance.interceptors.request.use(
+  (config) => {
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+export default axiosInstance;

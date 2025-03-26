@@ -10,19 +10,22 @@ import TeacherList from "./TeacherList";
 import HomePage from "./HomePage";
 import Support from "./Support";
 import DashBoardOutlet from "@/components/outlet/Dashboard_outlet";
+import ProtectedRoute from "@/utils/ProtectedRoute";
 
 function DashBoard() {
   return (
     <Routes>
-      <Route element={<DashBoardOutlet />}>
-        {/* add different routes that need to be loade for different pages */}
-        <Route path="course/:year/:courseId" element={<CourseDetails />} />
-        <Route path="myAccount" element={<MyAccount />} />
-        <Route path="myCourses" element={<MyCourses />} />
-        <Route path="teacherList" element={<TeacherList />} />
-        <Route path="/support" element={<Support />} />
-        <Route path="/" element={<HomePage />} />
-        <Route path="/*" element={<Navigate to={"/dashboard"} replace />} />
+      <Route element={<ProtectedRoute />}>
+        <Route element={<DashBoardOutlet />}>
+          {/* add different routes that need to be loade for different pages */}
+          <Route path="course/:year/:courseId" element={<CourseDetails />} />
+          <Route path="myAccount" element={<MyAccount />} />
+          <Route path="myCourses" element={<MyCourses />} />
+          <Route path="teacherList" element={<TeacherList />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/*" element={<Navigate to={"/dashboard"} replace />} />
+        </Route>
       </Route>
     </Routes>
   );

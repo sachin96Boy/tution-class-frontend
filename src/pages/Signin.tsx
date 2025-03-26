@@ -1,30 +1,12 @@
 import { Container, Flex, Image, Stack, Text } from "@chakra-ui/react";
 import signinBg from "../assets/signin/bg-signin.jpg";
-import React, { useEffect } from "react";
 import Signinform from "../components/formcontrol/Signinform";
-import queryString from "query-string";
-import useToastResponse from "../components/toast/ToastResponse";
 import Logo from "../components/Logo";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 function Signin() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const [state, newToast] = useToastResponse();
-
-  // useEffect(() => {
-  //   const value = queryString.parse(window.location.search);
-  //   if (value.emailVerified === "true") {
-  //     newToast({
-  //       status: "success",
-  //       title: "Email verified",
-  //     });
-  //   }
-  //   if (value.emailVerified === "false") {
-  //     newToast({
-  //       status: "error",
-  //       title: "Email not verified",
-  //     });
-  //   }
-  // }, [newToast]);
+  const { company } = useSelector((state: RootState) => state.config);
 
   return (
     <Flex
@@ -45,7 +27,7 @@ function Signin() {
       />
       <Container maxW={"lg"}>
         <Flex flex={"1"} align="center" flexDir={"column"} justify={"center"}>
-          <Logo boxSize={"52"} linkPath={"/"} fitType={"Cover"} />
+          <Logo boxSize={"52"} linkPath={"/"} fitType="cover" />
           <Text
             fontFamily={"body"}
             fontSize="22px"
@@ -63,8 +45,9 @@ function Signin() {
               color="secondary_title_color"
               my={2}
             >
-              By logging into Sipsa Institute, you agree to our Terms of use and
-              Privacy Policy.
+              By logging into{" "}
+              {company && company.length > 0 ? company[0].name : ""}, you agree
+              to our Terms of use and Privacy Policy.
             </Text>
           </Flex>
           <Stack gap={4}>

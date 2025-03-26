@@ -3,7 +3,7 @@ import { Form, Formik } from "formik";
 import React from "react";
 
 import * as Yup from "yup";
-import InputComponent from "./InputComponent";
+import InputComponent from "./customInput/InputComponent";
 import InputTextAreaComponent from "./InputTextAreaComponent";
 
 type ContactFormProps = {

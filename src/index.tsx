@@ -1,24 +1,33 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
-import { Provider } from "./components/ui/provider";
+import { Provider as UIProvider } from "./components/ui/provider";
+
+import { Provider } from "react-redux";
 
 import "@fontsource/roboto";
 import "@fontsource/noto-sans-sinhala";
+import { store } from "./store";
+import { Toaster } from "./components/ui/toaster";
 
+import {PhotoProvider} from 'react-photo-view';
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
-root.render(
+import "react-photo-view/dist/react-photo-view.css";
+
+createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Provider>
+    <UIProvider>
       <Router>
-        <App />
+        <Provider store={store}>
+          <PhotoProvider maskOpacity={0.5}>
+            <App />
+          </PhotoProvider>
+        </Provider>
       </Router>
-    </Provider>
+      <Toaster />
+    </UIProvider>
   </React.StrictMode>
 );
 

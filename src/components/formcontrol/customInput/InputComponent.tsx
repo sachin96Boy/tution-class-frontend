@@ -1,12 +1,12 @@
 import { Input, Text } from "@chakra-ui/react";
 import React from "react";
-import { Field } from "../ui/field";
+import { Field } from "../../ui/field";
 
 type InputProps = {
   htmlFor: string;
   labelText: string;
   InputType: React.HTMLInputTypeAttribute;
-  InputValue: string | number | readonly string[];
+  InputValue: string | number | readonly string[] | undefined;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   onBlur: React.FocusEventHandler<HTMLInputElement>;
   placeHolder: string;

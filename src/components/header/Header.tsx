@@ -9,7 +9,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdDashboard } from "react-icons/md";
 import { GiBookshelf } from "react-icons/gi";
@@ -19,32 +19,53 @@ import { FiLogOut } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 import Logo from "../Logo";
 import { TbCameraPlus } from "react-icons/tb";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { logout } from "@/features/auth/authSlice";
 
 function Header() {
-  const navigate = useNavigate();
   const { open, onToggle } = useDisclosure(); // Handles mobile menu state
-  const [activeMenu, setActiveMenu] = useState("dashboard"); // Tracks active menu item
+  const dispatch = useDispatch<AppDispatch>();
+  let location = useLocation();
+  const navigate = useNavigate();
 
-  const handleMenuClick = (menu: string) => {
-    setActiveMenu(menu);
-    navigate(`/dashboard/${menu}`);
-    onToggle();
+  const checkActive = (route: string) => {
+    return location.pathname === route ? "active" : "";
   };
 
+  const { token, userInfo } = useSelector((state: RootState) => state.auth);
+
+  const NameArray = userInfo?.full_name?.trim().split(" ") ?? ["", ""];
+
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    navigate("/");
+    dispatch(logout());
   };
 
   const menuItems = [
-    { icon: <MdDashboard size="28px" />, label: "Dashboard", key: "dashboard" },
+    {
+      icon: <MdDashboard size="28px" />,
+      path: "/dashboard",
+      label: "Dashboard",
+      key: "dashboard",
+    },
     {
       icon: <GiBookshelf size="28px" />,
       label: "My Courses",
+      path: "/dashboard/myCourses",
       key: "myCourses",
     },
-    { icon: <BsHeadset size="28px" />, label: "Support", key: "support" },
-    { icon: <FaUser size="28px" />, label: "My Account", key: "myAccount" },
+    {
+      icon: <BsHeadset size="28px" />,
+      path: "/dashboard/support",
+      label: "Support",
+      key: "support",
+    },
+    {
+      icon: <FaUser size="28px" />,
+      path: "/dashboard/myAccount",
+      label: "My Account",
+      key: "myAccount",
+    },
   ];
 
   const renderMobileMenu = () => (
@@ -54,9 +75,9 @@ function Header() {
       bottom={0}
       left={0}
       right={0}
-      bg="white"
       zIndex={1000}
       overflowY="auto"
+      bg={"gray.50"}
     >
       <Flex m={5} align="center" justify="space-between">
         <Icon
@@ -95,10 +116,10 @@ function Header() {
             </Avatar.Root>
             <Flex direction="column">
               <Text color="#215DA7" fontSize="15px" fontWeight="bold">
-                Hashan
+                {NameArray?.[0]}
               </Text>
               <Text color="#636363" fontSize="15px">
-                Maduranga
+                {NameArray?.[1]}
               </Text>
             </Flex>
           </Flex>
@@ -112,26 +133,39 @@ function Header() {
         >
           <Flex direction="column" justify="space-between" h={"full"}>
             <Flex direction="column" gap={5}>
-              {menuItems.map((item) => (
-                <Flex
-                  key={item.key}
-                  align="center"
-                  color="white"
-                  p={3}
-                  borderRadius="12px"
-                  _hover={{ color: "#F4BB4E", cursor: "pointer" }}
-                  bg={
-                    activeMenu === item.key
-                      ? "linear-gradient(90deg, #0776FF 0%, #225498 100%)"
-                      : ""
-                  }
-                  onClick={() => handleMenuClick(item.key)}
-                >
-                  {item.icon}
-                  <Text ml={2} fontSize="18px" fontWeight="600">
-                    {item.label}
-                  </Text>
-                </Flex>
+              {menuItems.map((item, index) => (
+                <NavLink key={index} to={item.path}>
+                  {checkActive(item.path) === "active" ? (
+                    <Flex
+                      key={item.key}
+                      align="center"
+                      color="white"
+                      p={3}
+                      borderRadius="12px"
+                      _hover={{ color: "#F4BB4E", cursor: "pointer" }}
+                      bg={"linear-gradient(90deg, #0776FF 0%, #225498 100%)"}
+                    >
+                      {item.icon}
+                      <Text ml={2} fontSize="18px" fontWeight="600">
+                        {item.label}
+                      </Text>
+                    </Flex>
+                  ) : (
+                    <Flex
+                      key={item.key}
+                      align="center"
+                      color="white"
+                      p={3}
+                      borderRadius="12px"
+                      _hover={{ color: "#F4BB4E", cursor: "pointer" }}
+                    >
+                      {item.icon}
+                      <Text ml={2} fontSize="18px" fontWeight="600">
+                        {item.label}
+                      </Text>
+                    </Flex>
+                  )}
+                </NavLink>
               ))}
             </Flex>
             <Spacer />
@@ -157,17 +191,26 @@ function Header() {
   );
 
   return (
-    <Box bg="white" as="header" position="sticky" top={0} zIndex={1000}>
-      <Flex mx={5} align="center" justify="space-between">
-        <Icon
-          as={GiHamburgerMenu}
-          boxSize="25"
-          color="blue.400"
-          onClick={onToggle}
-          display={["block", "block", "none"]}
-          cursor="pointer"
-        />
-        <Logo boxSize="24" linkPath="/dashboard" fitType="Cover" />
+    <Box bg={"gray.50"} as="header" position="sticky" top={0} zIndex={1000}>
+      <Flex
+        mx={5}
+        align="center"
+        justify={
+          token ? "space-between" : ["center", "center", "space-between"]
+        }
+      >
+        {token ? (
+          <Icon
+            as={GiHamburgerMenu}
+            boxSize="25"
+            color="blue.400"
+            onClick={onToggle}
+            display={["block", "block", "none"]}
+            cursor="pointer"
+          />
+        ) : null}
+
+        <Logo boxSize="24" linkPath="/" fitType="cover" />
         <Button
           bgGradient="linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"
           color="white"

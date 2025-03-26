@@ -17,7 +17,7 @@ import { BsShieldFillExclamation } from "react-icons/bs";
 
 import NicVerification from "../components/myAccount/NicVerification";
 import ProfileBanner from "../components/myAccount/ProfileBanner";
-import InputComponent from "@/components/formcontrol/InputComponent";
+import InputComponent from "@/components/formcontrol/customInput/InputComponent";
 
 export interface FormValues {
   fullName: string;

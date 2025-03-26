@@ -14,7 +14,7 @@ function Signup() {
       bg={"white"}
     >
       <Center>
-        <Logo boxSize={"36"} linkPath={"/"} fitType={"Contain"} />
+        <Logo boxSize={"36"} linkPath={"/"} fitType="contain" />
       </Center>
       <Flex align={"center"} justify="center" my={"20"}>
         <RegisterForm />
@@ -23,7 +23,7 @@ function Signup() {
         <Text fontSize="12px" fontWeight={"600"} color="secondary_title_color">
           Already A User?{" "}
           <Text as={"span"} mx={3} color="primary_color">
-            <Link to={"/"}>LogIn</Link>
+            <Link to={"/login"}>LogIn</Link>
           </Text>
         </Text>
       </Flex>

@@ -1,5 +1,6 @@
-import { createToaster, useBreakpointValue } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { toaster } from "../ui/toaster";
+import { useBreakpointValue } from "@chakra-ui/react";
 
 export type Iresponse = {
   status: "info" | "warning" | "success" | "error" | "loading" | undefined;
@@ -11,24 +12,19 @@ const useToastResponse = () => {
     base: "bottom",
     md: "top-right",
   }) as any;
-  const toast = createToaster();
-  const [state, setState] = useState<any>();
+
+  const [state, setState] = useState<Iresponse>();
   useEffect(() => {
     if (state) {
       const { message, status } = state;
-      toast({
+      toaster.create({
         title: message,
-        status: status,
+        type: status,
         duration: 5000,
-        isClosable: true,
-        position: toastposition,
-        containerStyle: {
-          marginTop: "40px",
-          marginBottom: "60px",
-        },
+        placement: toastposition,
       });
     }
-  }, [state, toast, toastposition]);
+  }, [state, toaster]);
   return [state, setState];
 };
 

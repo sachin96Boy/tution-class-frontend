@@ -14,29 +14,26 @@ import {
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React, { useRef, useState } from "react";
-// import { Step, Steps, useSteps } from "chakra-ui-steps";
+
 import * as Yup from "yup";
 import { HiEye, HiEyeOff } from "react-icons/hi";
-import axios from "axios";
-import { AxiosResponse, AxiosError } from "axios";
+
 import useToastResponse from "../toast/ToastResponse";
 
 import { Field } from "../ui/field";
 import { InputGroup } from "../ui/input-group";
 import { StepsItem, StepsList } from "../ui/steps";
-import InputComponent from "./InputComponent";
-
-interface RegisterFormProops {
-  fullName: string;
-  email: string;
-  mobile: string;
-  otpNumber: string;
-  password: string;
-}
+import InputComponent from "./customInput/InputComponent";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { IregisterProps, registerUser } from "@/features/auth/authAction";
 
 function RegisterForm() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [state, newToast] = useToastResponse();
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { loading, error } = useSelector((state: RootState) => state.auth);
+
   const { open, onToggle } = useDisclosure();
   const inputRef = useRef<HTMLInputElement>(null);
   const onClickReveal = () => {
@@ -57,11 +54,10 @@ function RegisterForm() {
     defaultStep: 0,
     count: steps.length,
   });
-  const initialValues: RegisterFormProops = {
+  const initialValues: IregisterProps = {
     fullName: "",
     email: "",
-    mobile: "",
-    otpNumber: "",
+    phone: "",
     password: "",
   };
   const validationSchema = Yup.object({
@@ -73,30 +69,11 @@ function RegisterForm() {
       .required("Password is required")
       .min(8, "Password must be at least 6 characters"),
   });
-  const onSubmit = async (values: RegisterFormProops, actions: any) => {
-    await axios
-      .post(
-        "/auth/register",
-        {
-          values: values,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response: AxiosResponse) => {
-        newToast({
-          status: response.data.status,
-          message: response.data.message,
-        });
-        actions.setSubmitting(false);
-        actions.resetForm();
-      })
-      .catch((error: AxiosError) => {
-        alert(error);
-      });
+  const onSubmit = async (values: IregisterProps, actions: any) => {
+    const result = await dispatch(registerUser(values));
+
+    actions.setSubmitting(false);
+
   };
 
   const handleThis = (e: any) => {
@@ -115,7 +92,7 @@ function RegisterForm() {
           colorScheme="blue"
           value={stepsHooks}
         >
-          <StepsList >
+          <StepsList>
             {steps.map(({ label, description }, index) => (
               <StepsItem
                 index={index}
@@ -165,21 +142,21 @@ function RegisterForm() {
                 <>
                   <Flex align={"center"} justify="center" spaceX={6}>
                     <Field
-                      invalid={formik.touched.mobile && !!formik.errors.mobile}
+                      invalid={formik.touched.phone && !!formik.errors.phone}
                       label="Mobile Number"
                       htmlFor="mobile"
-                      errorText={formik.errors.mobile}
+                      errorText={formik.errors.phone}
                     >
                       <Group attached>
                         <InputAddon>+94</InputAddon>
                         <Input
                           id="mobile"
-                          type={"text"}
-                          value={formik.values.mobile}
+                          type={"number"}
+                          value={formik.values.phone}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                           borderColor={
-                            formik.touched.mobile && formik.errors.mobile
+                            formik.touched.phone && formik.errors.phone
                               ? "red"
                               : "border_color"
                           }
