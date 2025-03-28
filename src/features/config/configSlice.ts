@@ -2,8 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getCompanyDetails } from "./configAction";
 
 type IcompanyInfo = {
-    id: number;
-    encodedId: string;
+    id: string;
     name: string;
     code: string;
     address: string;

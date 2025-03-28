@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Button,
   Center,
   Flex,
+  Heading,
   Image,
   Spacer,
   Text,
@@ -18,9 +19,15 @@ import sipsaLogo from "../assets/header/logos/Sipsa_logo.png";
 
 import Slider from "react-slick";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
 import { PhotoView } from "react-photo-view";
+import {
+  getAllAdvertisments,
+  getCompanyMainBanner,
+} from "@/features/advertisment/advertismentAction";
+import Spinner from "@/components/spinner/Spinner";
+import { Iadvertisment } from "@/features/advertisment/advertismentSlice";
 
 const bannerList: Array<string> = [
   sipsaclassbanner1,
@@ -40,7 +47,13 @@ function HomePage() {
     { ssr: false }
   );
 
+  const dispatch = useDispatch<AppDispatch>();
+
   const { company } = useSelector((state: RootState) => state.config);
+
+  const { loading, advertisments, companyMainAd } = useSelector(
+    (state: RootState) => state.advertisment
+  );
 
   const logoPath = `${import.meta.env.VITE_BACKEND_STATIC}/logo/${
     company[0]?.logo
@@ -73,6 +86,17 @@ function HomePage() {
   const handlenavigtetoSupport = () => {
     navigate("/dashboard/support");
   };
+
+  useEffect(() => {
+    if (company && company.length > 0) {
+      dispatch(
+        getCompanyMainBanner({
+          enc_company_id: company[0].id,
+        })
+      );
+    }
+    dispatch(getAllAdvertisments(""));
+  }, [dispatch, company]);
 
   return (
     <Box w={"full"} px={[4, 6, 10]}>
@@ -132,11 +156,21 @@ function HomePage() {
           w={["full", "full", "35%"]}
           p={[2, 4]}
         >
-          <Image
-            src={sipsaclassbanner1}
-            objectFit="fill"
-            boxSize={["200px", "250px", "350px"]}
-          />
+          {loading ? (
+            <Center boxSize={["200px", "250px", "350px"]}>
+              <Spinner />
+            </Center>
+          ) : (
+            <Image
+              src={
+                companyMainAd != null
+                  ? companyMainAd.advertisment_img_path
+                  : sipsaLogo
+              }
+              objectFit="fill"
+              boxSize={["200px", "250px", "350px"]}
+            />
+          )}
         </Flex>
       </Flex>
       {/* Courses Section */}
@@ -150,29 +184,43 @@ function HomePage() {
         >
           අපගේ පාඨමාලා
         </Text>
-        <Box
-          alignItems={"center"}
+        <Flex
+          align={"center"}
+          justify={"center"}
           px={[2, 4, 6]}
           rounded="10px"
           bg="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
         >
-          <Slider {...settings}>
-            {bannerList.map((item: string, index: number) => (
-              <Box key={index}>
-                <Center p={1} bg={"yellow.400"} rounded="5px" m={[2, 4]}>
-                  <PhotoView key={index} src={item}>
-                    <Image
-                      borderRadius={"12px"}
-                      src={item}
-                      objectFit="fill"
-                      boxSize={["150px", "180px", "220px"]}
-                    />
-                  </PhotoView>
-                </Center>
-              </Box>
-            ))}
-          </Slider>
-        </Box>
+          {loading ? (
+            <Center>
+              <Spinner />
+            </Center>
+          ) : advertisments && advertisments.length > 0 ? (
+            <Slider {...settings}>
+              {advertisments.map((item: Iadvertisment, index: number) => (
+                <Box key={index}>
+                  <Center p={1} bg={"yellow.400"} rounded="5px" m={[2, 4]}>
+                    <PhotoView key={index} src={item.advertisment_img_path}>
+                      <Image
+                        borderRadius={"12px"}
+                        src={item.advertisment_img_path}
+                        alt={item.file_name}
+                        objectFit="fill"
+                        boxSize={["150px", "180px", "220px"]}
+                      />
+                    </PhotoView>
+                  </Center>
+                </Box>
+              ))}
+            </Slider>
+          ) : (
+            <Center boxSize={["150px", "180px", "220px"]}>
+              <Heading textAlign={"center"} color={"gray.200"} size={"lg"}>
+                No Advertisments to Display
+              </Heading>
+            </Center>
+          )}
+        </Flex>
       </Box>
       {/* Support Section */}
       <Flex
