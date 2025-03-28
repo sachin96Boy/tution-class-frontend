@@ -6,6 +6,7 @@ import {
   Grid,
   GridItem,
   Heading,
+  Image,
   Input,
   Text,
 } from "@chakra-ui/react";
@@ -17,6 +18,8 @@ import CourseCard, {
 import { Field } from "@/components/ui/field";
 import InputComponent from "@/components/formcontrol/customInput/InputComponent";
 
+import courseSearch from "@/assets/home/course/search_course_1.svg";
+import InputWithSelect from "@/components/formcontrol/customInput/InputWithSelect";
 interface Values {
   teacherName: string;
   subjectName: string;
@@ -125,8 +128,12 @@ function MyCourses() {
 
   let filteredCourseData = (
     <Box>
-      <Flex alignItems={"center"}>
-        <Heading as={"h2"}>Item not Found, What Do you want me to do?</Heading>
+      <Flex direction={"column"} alignItems={"center"}>
+        <Image
+          boxSize={["200px", "300px", "450px"]}
+          src={courseSearch}
+          alt="Course not found"
+        />
       </Flex>
     </Box>
   );
@@ -212,27 +219,31 @@ function MyCourses() {
                   gap={[2, 3, 4]}
                   w={["full", "full", "auto"]}
                 >
-                  <InputComponent
+                  <InputWithSelect
                     htmlFor={"teacherName"}
                     labelText={"Teacher Name"}
                     InputType={"text"}
                     InputValue={formik.values.teacherName}
-                    onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     placeHolder={"Select Teacher"}
                     isTouched={formik.touched.teacherName}
                     isError={formik.errors.teacherName}
+                    formik={formik}
+                    fieldValue={"teacherName"}
+                    dataList={[]}
                   />
-                  <InputComponent
+                  <InputWithSelect
                     htmlFor={"subjectName"}
                     labelText={"Subject Name"}
                     InputType={"text"}
                     InputValue={formik.values.subjectName}
-                    onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     placeHolder={"Select Subject"}
                     isTouched={formik.touched.subjectName}
                     isError={formik.errors.subjectName}
+                    formik={formik}
+                    fieldValue={"subjectName"}
+                    dataList={[]}
                   />
                 </Flex>
                 <ButtonGroup

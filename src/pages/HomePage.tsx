@@ -216,7 +216,7 @@ function HomePage() {
           ) : (
             <Center boxSize={["150px", "180px", "220px"]}>
               <Heading textAlign={"center"} color={"gray.200"} size={"lg"}>
-                No Advertisments to Display
+                No Details to Display
               </Heading>
             </Center>
           )}

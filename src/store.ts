@@ -3,12 +3,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import authReducer from './features/auth/authSlice'
 import configReducer from './features/config/configSlice'
 import advertismentReducer from './features/advertisment/advertismentSlice'
+import teacherreducer from './features/teacher/teacherSlice'
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     config: configReducer,
-    advertisment: advertismentReducer
+    advertisment: advertismentReducer,
+    teacher: teacherreducer
   },
 })
 
