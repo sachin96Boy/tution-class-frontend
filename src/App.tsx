@@ -13,6 +13,8 @@ import { AppDispatch, RootState } from "./store";
 import { Box, Center, Flex, ProgressCircle, Text } from "@chakra-ui/react";
 import { getCompanyDetails } from "./features/config/configAction";
 import { getAllTeachers } from "./features/teacher/teacherAction";
+import { getAllCourses } from "./features/course/courseAction";
+import { getAllGrades, getAllSubjects } from "./features/comon/commonAction";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -24,6 +26,8 @@ function App() {
   useEffect(() => {
     dispatch(getCompanyDetails(""));
     dispatch(getAllTeachers(""));
+    dispatch(getAllSubjects(""));
+    dispatch(getAllGrades(""));
   }, []);
 
   return (

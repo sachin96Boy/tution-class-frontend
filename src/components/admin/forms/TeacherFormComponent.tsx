@@ -1,22 +1,30 @@
 import FileUploadInput from "@/components/formcontrol/customInput/FileUploadInput";
 import InputComponent from "@/components/formcontrol/customInput/InputComponent";
+import {
+  createTeacher,
+  IteacherRegisterProps,
+} from "@/features/teacher/teacherAction";
+import { AppDispatch } from "@/store";
 import { Button, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React from "react";
+import { useDispatch } from "react-redux";
 
 import * as Yup from "yup";
 
 function TeacherFormComponent() {
-  const initialValues = {
-    fullName: "",
+  const dispatch = useDispatch<AppDispatch>();
+
+  const initialValues: IteacherRegisterProps = {
+    full_name: "",
     description: "",
     profileImg: null,
-    introImage1: null,
-    introImage2: null,
+    introImg1: null,
+    introImg2: null,
   };
 
   const validationSchema = Yup.object({
-    fullName: Yup.string().required("Full name Required"),
+    full_name: Yup.string().required("Full name Required"),
     description: Yup.string().required("decrition is required"),
     profileImg: Yup.mixed()
       .required("A file is required") // Ensure a file is selected
@@ -33,7 +41,7 @@ function TeacherFormComponent() {
           "image/webp",
         ].includes((value as File).type); // Allowed file types
       }),
-    introImage1: Yup.mixed()
+    introImg1: Yup.mixed()
       .required("A file is required") // Ensure a file is selected
       .test("fileSize", "File size is too large", (value) => {
         if (!value) return true; // Skip validation if no file is selected
@@ -48,7 +56,7 @@ function TeacherFormComponent() {
           "image/webp",
         ].includes((value as File).type); // Allowed file types
       }),
-    introImage2: Yup.mixed()
+    introImg2: Yup.mixed()
       .required("A file is required") // Ensure a file is selected
       .test("fileSize", "File size is too large", (value) => {
         if (!value) return true; // Skip validation if no file is selected
@@ -65,9 +73,10 @@ function TeacherFormComponent() {
       }),
   });
 
-  const onSubmit = async (values: any, action: any) => {
+  const onSubmit = async (values: IteacherRegisterProps, action: any) => {
     try {
-      console.log(values);
+      const result = await dispatch(createTeacher(values));
+
       action.setSubmitting(false);
     } catch (err) {
       console.log(err);
@@ -88,12 +97,12 @@ function TeacherFormComponent() {
                 htmlFor={"fullname"}
                 labelText={"Full Name"}
                 InputType={"text"}
-                InputValue={formik.values.fullName}
+                InputValue={formik.values.full_name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeHolder={"Enter Name"}
-                isTouched={formik.touched.fullName}
-                isError={formik.errors.fullName}
+                isTouched={formik.touched.full_name}
+                isError={formik.errors.full_name}
               />
               <InputComponent
                 htmlFor={"description"}
@@ -123,10 +132,10 @@ function TeacherFormComponent() {
                 htmlFor={"introImage1"}
                 labelText={"Intro image1"}
                 isInvalid={
-                  formik.touched.introImage1 && !!formik.errors.introImage1
+                  formik.touched.introImg1 && !!formik.errors.introImg1
                 }
-                isTouched={formik.touched.introImage1}
-                errorText={formik.errors.introImage1}
+                isTouched={formik.touched.introImg1}
+                errorText={formik.errors.introImg1}
                 handleChange={(details) =>
                   formik.setFieldValue("introImage1", details.acceptedFiles[0])
                 }
@@ -136,10 +145,10 @@ function TeacherFormComponent() {
                 htmlFor={"introImage2"}
                 labelText={"Intro image2"}
                 isInvalid={
-                  formik.touched.introImage2 && !!formik.errors.introImage2
+                  formik.touched.introImg2 && !!formik.errors.introImg2
                 }
-                isTouched={formik.touched.introImage2}
-                errorText={formik.errors.introImage2}
+                isTouched={formik.touched.introImg2}
+                errorText={formik.errors.introImg2}
                 handleChange={(details) =>
                   formik.setFieldValue("introImage2", details.acceptedFiles[0])
                 }

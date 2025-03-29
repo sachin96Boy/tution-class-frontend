@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { getAllTeachers, IteacherGetProps } from "./teacherAction";
+import { createTeacher, getAllTeachers, IteacherGetProps } from "./teacherAction";
 import { toaster } from "@/components/ui/toaster";
 
 export type IteachersInitialState = {
@@ -35,6 +35,35 @@ export const teacherSlice = createSlice({
             }
         ).addCase(
             getAllTeachers.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
+        ).addCase(
+            createTeacher.pending, (state) => {
+                state.loading = true
+                state.error = false
+            }
+        ).addCase(
+            createTeacher.fulfilled, (state, action) => {
+                state.loading = false
+                state.error = null
+
+                toaster.create({
+                    type: 'success',
+                    title: action.payload.message
+                });
+            }
+        ).addCase(
+            createTeacher.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
 

@@ -15,14 +15,15 @@ import React, { useState } from "react";
 import CourseCard, {
   CourseCardProps,
 } from "../components/mycourse/courseard/CourseCard";
-import { Field } from "@/components/ui/field";
-import InputComponent from "@/components/formcontrol/customInput/InputComponent";
 
 import courseSearch from "@/assets/home/course/search_course_1.svg";
 import InputWithSelect from "@/components/formcontrol/customInput/InputWithSelect";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { IListItemProp } from "@/features/config/configAction";
 interface Values {
-  teacherName: string;
-  subjectName: string;
+  teacherName: IListItemProp;
+  subjectName: IListItemProp;
   year: string;
 }
 
@@ -30,6 +31,24 @@ function MyCourses() {
   const [teacherName, setTeacherName] = useState("");
   const [subjectName, setSubjectName] = useState("");
   const [year, setYear] = useState("");
+
+  const { teachers } = useSelector((state: RootState) => state.teacher);
+  const { subjects } = useSelector((state: RootState) => state.common);
+
+  let teachersSelectList: Array<IListItemProp> = teachers?.map((teacher) => {
+    return {
+      key: teacher.teacher_id,
+      value: teacher.full_name,
+      image_path: teacher.profileImg,
+    };
+  });
+  let subjectSelectList: Array<IListItemProp> = subjects?.map((subject) => {
+    return {
+      key: subject.subject_id,
+      value: subject.subject_name,
+      image_path: null,
+    };
+  });
 
   let currentYear = new Date().getFullYear();
 
@@ -108,13 +127,21 @@ function MyCourses() {
     },
   ];
   const initialValues: Values = {
-    teacherName: "",
-    subjectName: "",
+    teacherName: {
+      key: "",
+      value: "",
+      image_path: null,
+    },
+    subjectName: {
+      key: "",
+      value: "",
+      image_path: null,
+    },
     year: "",
   };
   const onSubmit: any = (values: Values, action: FormikHelpers<Values>) => {
-    setSubjectName(values.subjectName);
-    setTeacherName(values.teacherName);
+    setSubjectName(values.subjectName.value);
+    setTeacherName(values.teacherName.value);
     setYear(values.year);
     action.setSubmitting(false);
     action.resetForm();
@@ -223,27 +250,27 @@ function MyCourses() {
                     htmlFor={"teacherName"}
                     labelText={"Teacher Name"}
                     InputType={"text"}
-                    InputValue={formik.values.teacherName}
+                    InputValue={formik.values.teacherName.value}
                     onBlur={formik.handleBlur}
                     placeHolder={"Select Teacher"}
-                    isTouched={formik.touched.teacherName}
-                    isError={formik.errors.teacherName}
+                    isTouched={formik.touched.teacherName?.value}
+                    isError={formik.errors.teacherName?.value}
                     formik={formik}
                     fieldValue={"teacherName"}
-                    dataList={[]}
+                    dataList={teachersSelectList}
                   />
                   <InputWithSelect
                     htmlFor={"subjectName"}
                     labelText={"Subject Name"}
                     InputType={"text"}
-                    InputValue={formik.values.subjectName}
+                    InputValue={formik.values.subjectName.value}
                     onBlur={formik.handleBlur}
                     placeHolder={"Select Subject"}
-                    isTouched={formik.touched.subjectName}
-                    isError={formik.errors.subjectName}
+                    isTouched={formik.touched.subjectName?.value}
+                    isError={formik.errors.subjectName?.value}
                     formik={formik}
                     fieldValue={"subjectName"}
-                    dataList={[]}
+                    dataList={subjectSelectList}
                   />
                 </Flex>
                 <ButtonGroup

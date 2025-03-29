@@ -1,7 +1,9 @@
-import { Box, List, useDisclosure } from "@chakra-ui/react";
+import { Avatar, Box, Icon, List, useDisclosure } from "@chakra-ui/react";
 import React, { useState } from "react";
 import InputComponent from "./InputComponent";
 import { FormikProps } from "formik";
+import { IListItemProp } from "@/features/config/configAction";
+import { FaDotCircle } from "react-icons/fa";
 
 type InputWithSelectProps = {
   htmlFor: string;
@@ -14,7 +16,7 @@ type InputWithSelectProps = {
   isError: string | undefined;
   formik: FormikProps<any>;
   fieldValue: string;
-  dataList: Array<any>;
+  dataList: Array<IListItemProp>;
 };
 
 function InputWithSelect(props: InputWithSelectProps) {
@@ -41,7 +43,11 @@ function InputWithSelect(props: InputWithSelectProps) {
     formik: FormikProps<any>
   ) => {
     const value = data.target.value;
-    formik.setFieldValue(fieldValue, value);
+    formik.setFieldValue(fieldValue, {
+      key: "",
+      value: value,
+      image_path: null,
+    });
     setFilter(value);
 
     if (value.length > 2) {
@@ -51,16 +57,20 @@ function InputWithSelect(props: InputWithSelectProps) {
     }
   };
 
-  const handleItemClick = (item: string, formik: FormikProps<any>) => {
-    setFilter(item);
-    formik.setFieldValue(fieldValue, item);
+  const handleItemClick = (item: IListItemProp, formik: FormikProps<any>) => {
+    setFilter(item.value);
+    formik.setFieldValue(fieldValue, {
+      key: item.key,
+      value: item.value,
+      image_path: item.image_path,
+    });
     onClose();
   };
 
-  const filteredItems: Array<string> =
+  const filteredItems =
     filter.length > 2
-      ? dataList.filter((item: any) =>
-          item.toLowerCase().includes(filter.toLowerCase())
+      ? dataList.filter((item) =>
+          item.value.toLowerCase().includes(filter.toLowerCase())
         )
       : [];
 
@@ -102,7 +112,19 @@ function InputWithSelect(props: InputWithSelectProps) {
                 _hover={{ bg: "gray.100", cursor: "pointer" }}
                 onClick={() => handleItemClick(item, formik)}
               >
-                {item}
+                <List.Indicator asChild color="green.500">
+                  {item.image_path != null ? (
+                    <Avatar.Root shape="full" size="lg">
+                      <Avatar.Fallback name="Random User" />
+                      <Avatar.Image src={item.image_path} />
+                    </Avatar.Root>
+                  ) : (
+                    <Icon size="lg" color="tomato">
+                      <FaDotCircle />
+                    </Icon>
+                  )}
+                </List.Indicator>
+                {item.value}
               </List.Item>
             ))}
           </List.Root>
