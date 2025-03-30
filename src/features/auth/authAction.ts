@@ -22,6 +22,7 @@ export type IloginProps = {
 }
 
 
+
 const handleRegisterCoporateUser = async (value: ICoporateregisterProps,{ rejectWithValue }: any) => {
     try {
 

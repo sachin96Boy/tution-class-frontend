@@ -1,11 +1,11 @@
 import axiosInstance from "@/utils/AxiosInstans";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const handleGetAllUsers = async ({ rejectWithValue }: any) => {
+const handleGetAllStudents = async ({ rejectWithValue }: any) => {
     try {
 
         const response = await axiosInstance.get(
-            'user/getAllUsers'
+            'student/getAllStudents'
         );
 
         return response.data;
@@ -15,8 +15,8 @@ const handleGetAllUsers = async ({ rejectWithValue }: any) => {
     }
 }
 
-const getAllUsers = createAsyncThunk('user/getAllUsers', handleGetAllUsers);
+const getAllStudents = createAsyncThunk('student/getAllStudents', handleGetAllStudents);
 
 export {
-    getAllUsers
+    getAllStudents
 }

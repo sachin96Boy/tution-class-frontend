@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { toaster } from "@/components/ui/toaster";
-import { ICoporateUserInfo } from "../auth/authSlice";
-import { getAllUsers } from "./userAction";
-import { registerCoporateUser } from "../auth/authAction";
+
+
+import { IUserInfo } from "../auth/authSlice";
+import { getAllStudents } from "./studentAction";
 
 export type IusersInitialState = {
     loading: boolean;
-    users: Array<ICoporateUserInfo>;
+    students: Array<IUserInfo>;
     error: boolean | null;
     errorMsg: string;
     success: boolean;
@@ -15,33 +16,31 @@ export type IusersInitialState = {
 
 const initialState: IusersInitialState = {
     loading: false,
-    users: [],
+    students: [],
     error: null,
     errorMsg: '',
     success: false
 }
 
-export const userSlice = createSlice({
-    name: 'user',
+export const studentSlice = createSlice({
+    name: 'student',
     initialState: initialState,
     reducers: {
-        userAdded(state, action) {
-            state.users.push(action.payload);
-        }
+
     },
     extraReducers(builder) {
         builder.addCase(
-            getAllUsers.pending, (state) => {
+            getAllStudents.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             }
         ).addCase(
-            getAllUsers.fulfilled, (state, action) => {
+            getAllStudents.fulfilled, (state, action) => {
                 state.loading = false;
-                state.users = action.payload.users;
+                state.students = action.payload.students;
             }
         ).addCase(
-            getAllUsers.rejected, (state, action) => {
+            getAllStudents.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
 
@@ -54,18 +53,11 @@ export const userSlice = createSlice({
                     title: state.errorMsg
                 });
             }
-        ).addCase(
-            registerCoporateUser.fulfilled, (state, action) => {
-
-                const newUser = action.payload.user;
-
-                state.users.push(newUser);
-            }
         )
 
     },
 });
 
-export const { userAdded } = userSlice.actions;
 
-export default userSlice.reducer
+
+export default studentSlice.reducer

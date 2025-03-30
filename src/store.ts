@@ -4,8 +4,10 @@ import authReducer from './features/auth/authSlice'
 import configReducer from './features/config/configSlice'
 import advertismentReducer from './features/advertisment/advertismentSlice'
 import teacherreducer from './features/teacher/teacherSlice'
+import userReducer from './features/users/userSlice'
 import coursereducer from './features/course/courseSlice'
 import commonReducer from './features/comon/commonSlice'
+import studentReducer from './features/student/studentSlice'
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +15,8 @@ export const store = configureStore({
     config: configReducer,
     advertisment: advertismentReducer,
     teacher: teacherreducer,
+    user: userReducer,
+    student: studentReducer,
     course: coursereducer,
     common: commonReducer,
   },

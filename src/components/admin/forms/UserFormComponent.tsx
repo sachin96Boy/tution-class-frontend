@@ -78,7 +78,6 @@ function UserFormComponent() {
   });
 
   const onSubmit = async (values: ICoporateregisterProps, actions: any) => {
-    console.log(values);
 
     const result = await dispatch(registerCoporateUser(values));
 
@@ -194,25 +193,8 @@ function UserFormComponent() {
                 </Select.Positioner>
               </Select.Root>
             </Field>
-            <Button
-              type="submit"
-              width={"full"}
-              border={"10px"}
-              colorScheme="blue"
-              bgGradient={
-                "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
-              }
-              boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
-              loading={loading}
-            >
-              <Text
-                fontFamily={"body"}
-                fontSize="21px"
-                color="white"
-                fontWeight={"400"}
-              >
-                Create User
-              </Text>
+            <Button type="submit" colorPalette={"blue"} loading={loading}>
+              Create User
             </Button>
           </VStack>
         </Form>

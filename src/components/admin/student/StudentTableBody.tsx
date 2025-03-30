@@ -1,13 +1,12 @@
-import { ICoporateUserInfo } from "@/features/auth/authSlice";
+import { IUserInfo } from "@/features/auth/authSlice";
 import { Badge, Table, Text } from "@chakra-ui/react";
 
 type IuserTableBody = {
-  data: Array<ICoporateUserInfo>;
+  data: Array<IUserInfo>;
 };
 
-const UserTableCell = (payDataProps: ICoporateUserInfo) => {
-  const { isVerified, user_role_id, email, userName, user_id, id } =
-    payDataProps;
+const UserTableCell = (payDataProps: IUserInfo) => {
+  const { isVerified, full_name, pay_role, email, id } = payDataProps;
   return (
     <Table.Row p={2}>
       <Table.Cell pl="0px">
@@ -17,7 +16,7 @@ const UserTableCell = (payDataProps: ICoporateUserInfo) => {
       </Table.Cell>
       <Table.Cell pl="0px">
         <Text fontSize="sm" color="gray.400" fontWeight="normal">
-          {userName}
+          {full_name}
         </Text>
       </Table.Cell>
       <Table.Cell>
@@ -28,7 +27,7 @@ const UserTableCell = (payDataProps: ICoporateUserInfo) => {
           p="3px 10px"
           borderRadius="8px"
         >
-          {user_role_id}
+          {pay_role}
         </Badge>
       </Table.Cell>
       <Table.Cell pl="0px">
@@ -49,7 +48,7 @@ const UserTableCell = (payDataProps: ICoporateUserInfo) => {
   );
 };
 
-function UsersTableBody(props: IuserTableBody) {
+function StudentsTableBody(props: IuserTableBody) {
   const { data } = props;
 
   return (
@@ -59,10 +58,10 @@ function UsersTableBody(props: IuserTableBody) {
           <UserTableCell
             key={index}
             id={item.id}
-            user_id={item.user_id}
-            userName={item.userName}
             email={item.email}
-            user_role_id={item.user_role_id}
+            full_name={item.full_name}
+            pay_role={item.pay_role}
+            student_id={item.student_id}
             isVerified={item.isVerified}
           />
         );
@@ -71,4 +70,4 @@ function UsersTableBody(props: IuserTableBody) {
   );
 }
 
-export default UsersTableBody;
+export default StudentsTableBody;
