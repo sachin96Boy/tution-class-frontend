@@ -2,20 +2,16 @@
 
 import Logo from "@/components/Logo";
 import { logout } from "@/features/auth/authSlice";
-import { AppDispatch } from "@/store";
+import { AppDispatch, RootState } from "@/store";
 import {
   Box,
   Flex,
   Avatar,
-  HStack,
   Text,
   IconButton,
-  Button,
   Menu,
-  MenuItem,
   useDisclosure,
   Stack,
-  Portal,
   Icon,
   Spacer,
 } from "@chakra-ui/react";
@@ -31,7 +27,7 @@ import {
 import { IoMdClose, IoMdMenu } from "react-icons/io";
 import { PiStudentBold } from "react-icons/pi";
 import { TbReport } from "react-icons/tb";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 interface Props {
@@ -104,6 +100,8 @@ const navLinks = [
 export default function Navbar() {
   const dispatch = useDispatch<AppDispatch>();
 
+  const { token, coporateInfo } = useSelector((state: RootState) => state.auth);
+
   const { open, onOpen, onClose } = useDisclosure();
 
   const handleLogout = () => {
@@ -167,8 +165,8 @@ export default function Navbar() {
               <Menu.Trigger outline={"none"} pt={[0, 0, 8]}>
                 <Box as={"button"} outline={"none"} cursor={"pointer"}>
                   <Avatar.Root size={"md"}>
-                    <Avatar.Fallback name="Oshigaki Kisame" />
-                    <Avatar.Image src="https://bit.ly/broken-link" />
+                    <Avatar.Fallback name={coporateInfo?.userName} />
+                    <Avatar.Image src={coporateInfo?.userName} />
                   </Avatar.Root>
                 </Box>
               </Menu.Trigger>

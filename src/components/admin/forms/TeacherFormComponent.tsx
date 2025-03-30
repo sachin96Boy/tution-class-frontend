@@ -75,9 +75,10 @@ function TeacherFormComponent() {
 
   const onSubmit = async (values: IteacherRegisterProps, action: any) => {
     try {
-      const result = await dispatch(createTeacher(values));
+      await dispatch(createTeacher(values));
 
       action.setSubmitting(false);
+      action.resetForm();
     } catch (err) {
       console.log(err);
     }
@@ -94,7 +95,7 @@ function TeacherFormComponent() {
           <Form autoComplete="off" encType="multipart/form-data">
             <VStack gap={4} width={"full"}>
               <InputComponent
-                htmlFor={"fullname"}
+                htmlFor={"full_name"}
                 labelText={"Full Name"}
                 InputType={"text"}
                 InputValue={formik.values.full_name}
@@ -129,7 +130,7 @@ function TeacherFormComponent() {
                 handleBlur={formik.handleBlur}
               />
               <FileUploadInput
-                htmlFor={"introImage1"}
+                htmlFor={"introImg1"}
                 labelText={"Intro image1"}
                 isInvalid={
                   formik.touched.introImg1 && !!formik.errors.introImg1
@@ -137,12 +138,12 @@ function TeacherFormComponent() {
                 isTouched={formik.touched.introImg1}
                 errorText={formik.errors.introImg1}
                 handleChange={(details) =>
-                  formik.setFieldValue("introImage1", details.acceptedFiles[0])
+                  formik.setFieldValue("introImg1", details.acceptedFiles[0])
                 }
                 handleBlur={formik.handleBlur}
               />
               <FileUploadInput
-                htmlFor={"introImage2"}
+                htmlFor={"introImg2"}
                 labelText={"Intro image2"}
                 isInvalid={
                   formik.touched.introImg2 && !!formik.errors.introImg2
@@ -150,7 +151,7 @@ function TeacherFormComponent() {
                 isTouched={formik.touched.introImg2}
                 errorText={formik.errors.introImg2}
                 handleChange={(details) =>
-                  formik.setFieldValue("introImage2", details.acceptedFiles[0])
+                  formik.setFieldValue("introImg2", details.acceptedFiles[0])
                 }
                 handleBlur={formik.handleBlur}
               />

@@ -9,12 +9,13 @@ export type IteacherRegisterProps = {
     introImg2: File | null;
 }
 export type IteacherGetProps = {
+    id: string;
     teacher_id: string;
     full_name: string;
     description: string;
-    profileImg: string | null;
-    introImg1: string | null;
-    introImg2: string | null;
+    profile_img: string;
+    intro_image1: string;
+    intro_image2: string;
 }
 
 const handleGetAllTeachers = async ({ rejectWithValue }: any) => {

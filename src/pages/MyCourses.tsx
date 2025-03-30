@@ -39,7 +39,7 @@ function MyCourses() {
     return {
       key: teacher.teacher_id,
       value: teacher.full_name,
-      image_path: teacher.profileImg,
+      image_path: teacher.profile_img,
     };
   });
   let subjectSelectList: Array<IListItemProp> = subjects?.map((subject) => {

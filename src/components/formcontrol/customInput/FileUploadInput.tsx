@@ -68,14 +68,14 @@ function FileUploadInput(props: IFileUpoad) {
           "application/webp",
         ]}
       >
-        <FileUpload.HiddenInput  />
+        <FileUpload.HiddenInput />
         <FileUpload.Trigger asChild>
           <Button type="button" variant="outline" size="sm">
             <LuFileImage /> Upload Images
           </Button>
         </FileUpload.Trigger>
-        <FileUploadList />
-        {/* <FileUpload.List  /> */}
+        {/* <FileUploadList /> */}
+        <FileUpload.List />
       </FileUpload.Root>
     </Field>
   );

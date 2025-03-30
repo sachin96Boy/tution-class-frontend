@@ -31,7 +31,7 @@ export const teacherSlice = createSlice({
         ).addCase(
             getAllTeachers.fulfilled, (state, action) => {
                 state.loading = false;
-                state.teachers = action.payload.advertisments;
+                state.teachers = action.payload.teachers;
             }
         ).addCase(
             getAllTeachers.rejected, (state, action) => {
@@ -56,6 +56,13 @@ export const teacherSlice = createSlice({
             createTeacher.fulfilled, (state, action) => {
                 state.loading = false
                 state.error = null
+
+                const newTeacher = action.payload.teacher;
+                const teacherList = state.teachers;
+
+                teacherList.push(newTeacher);
+
+                state.teachers = teacherList;
 
                 toaster.create({
                     type: 'success',
