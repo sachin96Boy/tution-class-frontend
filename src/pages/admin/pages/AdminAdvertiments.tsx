@@ -2,6 +2,7 @@ import AdvertismentTabeBody from "@/components/admin/advertisment/AdvertismentTa
 import AdvertismentFormComponent from "@/components/admin/forms/AdvertismentFormComponent";
 import Modalsheet from "@/components/admin/modal/Modalsheet";
 import OverlayTable from "@/components/admin/tables/OverlayTable";
+import Spinner from "@/components/spinner/Spinner";
 import { getAllAdvertisments } from "@/features/advertisment/advertismentAction";
 import { AppDispatch, RootState } from "@/store";
 import { Box, Flex } from "@chakra-ui/react";
@@ -10,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 function AdminAdvertiments() {
   const dispatch = useDispatch<AppDispatch>();
+  
   const { loading, advertisments } = useSelector(
     (state: RootState) => state.advertisment
   );
@@ -29,7 +31,7 @@ function AdminAdvertiments() {
       </Box>
       <Box>
         {loading ? (
-          <Box>loading...</Box>
+          <Spinner />
         ) : (
           <OverlayTable
             title={"Advertisment Data"}

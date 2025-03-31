@@ -18,9 +18,12 @@ import { BsShieldFillExclamation } from "react-icons/bs";
 import NicVerification from "../components/myAccount/NicVerification";
 import ProfileBanner from "../components/myAccount/ProfileBanner";
 import InputComponent from "@/components/formcontrol/customInput/InputComponent";
+import { QrCode } from "@/components/ui/qr-code";
+import Logo from "@/components/Logo";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export interface FormValues {
-  fullName: string;
   school: string;
   examAttempt: string;
   examYear: string;
@@ -28,9 +31,6 @@ export interface FormValues {
   city: string;
   nic: string;
   address: string;
-  mobileNumber: string;
-  email: string;
-  barcode: string;
   mobileNumber1: string;
   mobileNumber2: string;
   profileImage: File | any;
@@ -42,7 +42,6 @@ function MyAccount() {
   const hiddenInputRef = useRef<HTMLInputElement>(null);
 
   const initialValues: FormValues = {
-    fullName: "",
     school: "",
     examAttempt: "",
     examYear: "",
@@ -50,9 +49,6 @@ function MyAccount() {
     city: "",
     nic: "",
     address: "",
-    mobileNumber: "",
-    email: "",
-    barcode: "",
     mobileNumber1: "",
     mobileNumber2: "",
     profileImage: "",
@@ -66,7 +62,6 @@ function MyAccount() {
   };
 
   const validationSchema = yup.object({
-    fullName: yup.string().required("Full Name is required"),
     school: yup.string().required("School is required"),
     examAttempt: yup.string().required("Exam Attempt is required"),
     examYear: yup.string().required("Exam Year is required"),
@@ -75,8 +70,6 @@ function MyAccount() {
     nic: yup.string().required("NIC is required"),
     address: yup.string().required("Address is required"),
     mobileNumber: yup.string().required("Mobile Number is required"),
-    email: yup.string().required("Email is required"),
-    barcode: yup.string().required("Barcode is required"),
     mobileNumber1: yup.string().required("Mobile Number 1 is required"),
     mobileNumber2: yup.string().required("Mobile Number 2 is required"),
     profileImage: yup.mixed().required("Profile Image is required"),
@@ -118,6 +111,8 @@ function MyAccount() {
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
 
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+
   return (
     <Box mx={[5, 5, 10]} w="full">
       <Heading as={"h2"} fontSize={["26px", "26px", "36px"]}>
@@ -129,7 +124,7 @@ function MyAccount() {
         validationSchema={validationSchema}
       >
         {(formik) => (
-          <Form autoComplete="off">
+          <Form autoComplete="off" onSubmit={(e) => e.preventDefault()}>
             <ProfileBanner
               formik={formik}
               hiddenInputRef={hiddenInputRef}
@@ -137,6 +132,8 @@ function MyAccount() {
               preview={preview}
               profilehandleChange={profilehandleChange}
               selectedFile={selectedFile}
+              isTouched={!!formik.touched.profileImage}
+              isError={formik.errors.profileImage as string}
             />
             <Flex flexDirection={"column"} gap={5} className="details-of-form">
               <Heading as={"h5"} fontSize="25px">
@@ -161,17 +158,6 @@ function MyAccount() {
                     gap={1}
                     mr={5}
                   >
-                    <InputComponent
-                      htmlFor={"fullName"}
-                      labelText={"Full Name"}
-                      InputType={"text"}
-                      InputValue={formik.values.fullName}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      placeHolder={"Enter Full Name"}
-                      isTouched={formik.touched.fullName}
-                      isError={formik.errors.fullName}
-                    />
                     <InputComponent
                       htmlFor={"examAttempt"}
                       labelText={"Exam Attempt"}
@@ -204,17 +190,6 @@ function MyAccount() {
                       placeHolder={"Enter NIC Number"}
                       isTouched={formik.touched.nic}
                       isError={formik.errors.nic}
-                    />
-                    <InputComponent
-                      htmlFor={"mobileNumber"}
-                      labelText={"Mobile Number"}
-                      InputType={"text"}
-                      InputValue={formik.values.mobileNumber}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      placeHolder={"Enter Mobbile Nmuber"}
-                      isTouched={formik.touched.mobileNumber}
-                      isError={formik.errors.mobileNumber}
                     />
                   </Flex>
                   <Flex
@@ -268,17 +243,6 @@ function MyAccount() {
                       isTouched={formik.touched.address}
                       isError={formik.errors.address}
                     />
-                    <InputComponent
-                      htmlFor={"email"}
-                      labelText={"Email Address"}
-                      InputType={"email"}
-                      InputValue={formik.values.email}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      placeHolder={"Enter Email"}
-                      isTouched={formik.touched.email}
-                      isError={formik.errors.email}
-                    />
                   </Flex>
                 </Flex>
                 <Separator
@@ -289,17 +253,20 @@ function MyAccount() {
                   colorPalette={"blue"}
                 />
                 <Flex flexDirection={"column"} gap={5} ml={[-5, -5, 5]}>
-                  <InputComponent
-                    htmlFor={"barcode"}
-                    labelText={"Barcode Number"}
-                    InputType={"text"}
-                    InputValue={formik.values.barcode}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    placeHolder={"Enter Barcode"}
-                    isTouched={formik.touched.barcode}
-                    isError={formik.errors.barcode}
-                  />
+                  <Box>
+                    <Text>QR Code</Text>
+                    {userInfo != null ? (
+                      <QrCode
+                        colorPalette={"blue"}
+                        value={userInfo.student_id}
+                        size={"lg"}
+                      >
+                        <Logo linkPath="/" boxSize="24" fitType="cover" />
+                      </QrCode>
+                    ) : (
+                      <Box />
+                    )}
+                  </Box>
                   <Box w={["50vw", "50vw", "50vw", "full"]}>
                     <Text
                       fontFamily={"body"}
@@ -343,7 +310,7 @@ function MyAccount() {
                     isError={formik.errors.mobileNumber2}
                   />
                   <Button
-                    type="submit"
+                    type="button"
                     border={"10px"}
                     colorScheme="blue"
                     bgGradient={
@@ -351,6 +318,7 @@ function MyAccount() {
                     }
                     boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
                     loading={formik.isSubmitting}
+                    onClick={() => formik.submitForm()}
                   >
                     <Text
                       fontFamily={"body"}

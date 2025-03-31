@@ -8,6 +8,8 @@ import { TbCameraPlus } from "react-icons/tb";
 
 import { FormValues } from "../../pages/MyAccount";
 import { Field } from "../ui/field";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 interface BannerProps {
   hiddenInputRef: RefObject<HTMLInputElement | null>;
@@ -19,16 +21,23 @@ interface BannerProps {
   selectedFile: File;
   preview: string | undefined;
   onClick: () => void;
+  isTouched: boolean | undefined;
+  isError: string | undefined;
 }
 
 function ProfileBanner({
   hiddenInputRef,
   profilehandleChange,
   formik,
-  selectedFile,
+  isTouched,
+  isError,
   preview,
   onClick,
 }: BannerProps) {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+
+  const NameArray = userInfo?.full_name?.trim().split(" ") ?? ["", ""];
+
   return (
     <Flex
       className="profileBanner"
@@ -43,21 +52,17 @@ function ProfileBanner({
         justify="center"
         flexDirection={["column", "column", "row"]}
       >
-        <Box
-          className="Avater-box"
-          rounded={"full"}
-          bg="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
-          p={"4px"}
-        >
-          <Field htmlFor="profileImage">
-            <Input
-              id="profileImage"
-              ref={hiddenInputRef}
-              onChange={(event) => profilehandleChange(event, formik)}
-              type={"file"}
-              onBlur={formik.handleBlur}
-              hidden
-            />
+        <Flex flexDirection={"column"} align={"center"} justify={"center"}>
+          <Box
+            className="Avater-box"
+            rounded={"full"}
+            bg={
+              isTouched && !!isError
+                ? "red.400"
+                : "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
+            }
+            p={"4px"}
+          >
             <Avatar.Root
               boxSize={"20"}
               _hover={{ cursor: "pointer" }}
@@ -71,11 +76,25 @@ function ProfileBanner({
               </Avatar.Fallback>
               <Avatar.Image src={preview} />
             </Avatar.Root>
+          </Box>
+          <Field
+            invalid={isTouched && !!isError}
+            errorText={isError}
+            htmlFor="profileImage"
+          >
+            <Input
+              id="profileImage"
+              ref={hiddenInputRef}
+              onChange={(event) => profilehandleChange(event, formik)}
+              type={"file"}
+              onBlur={formik.handleBlur}
+              hidden
+            />
           </Field>
-        </Box>
+        </Flex>
 
         <Flex
-          ml={5}
+          ml={4}
           flexDirection={"column"}
           align={["center", "start"]}
           justify={"center"}
@@ -87,7 +106,7 @@ function ProfileBanner({
             fontSize={["24px", "24px", "24px", "36px"]}
             fontFamily={"body"}
           >
-            Hashan{" "}
+            {NameArray?.[0] + " "}
             <Text
               as={"span"}
               color="#636363"
@@ -95,7 +114,7 @@ function ProfileBanner({
               fontSize={["24px", "24px", "24px", "36px"]}
               fontFamily={"body"}
             >
-              Maduranga
+              {NameArray?.[1]}
             </Text>
           </Heading>
           <Flex gap={5}>

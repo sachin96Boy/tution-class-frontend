@@ -3,6 +3,7 @@ import { createAdvertisment, getAllAdvertisments, getCompanyMainBanner } from ".
 import { toaster } from "@/components/ui/toaster";
 
 export type Iadvertisment = {
+    id: string,
     advertisment_id: string;
     file_name: string;
     advertisment_img_path
