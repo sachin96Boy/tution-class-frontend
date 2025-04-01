@@ -6,6 +6,7 @@ export type IcreateCourseProps = {
     subject_id: string;
     grade_id: string;
     teacher_id: string;
+    title: string;
     description: string;
     year: number;
 }
@@ -17,12 +18,13 @@ export type IgetCourseProps = {
     subject_id: string;
     grade_id: string;
     teacher_id: string;
+    title: string;
     description: string;
     year: number;
     status: boolean
 }
 
-const handleGetAllCourses = async ({ rejectWithValue }: any) => {
+const handleGetAllCourses = async (_: unknown, { rejectWithValue }: any) => {
     try {
 
         const response = await axiosInstance.get(
@@ -39,7 +41,7 @@ const handleGetAllCourses = async ({ rejectWithValue }: any) => {
 const handleCreateCourse = async (values: IcreateCourseProps, { rejectWithValue }: any) => {
     try {
 
-        const { course_img, description, grade_id, subject_id, teacher_id, year } = values;
+        const { course_img, title, description, grade_id, subject_id, teacher_id, year } = values;
 
         const formData = new FormData();
 
@@ -49,7 +51,8 @@ const handleCreateCourse = async (values: IcreateCourseProps, { rejectWithValue 
         }
 
 
-        formData.append("description", description);
+        formData.append("title", title.trim());
+        formData.append("description", description.trim());
         formData.append("grade_id", grade_id);
         formData.append("subject_id", subject_id);
         formData.append("teacher_id", teacher_id);

@@ -6,17 +6,18 @@ import { BsShieldFillExclamation } from "react-icons/bs";
 import { MdVerifiedUser } from "react-icons/md";
 import { TbCameraPlus } from "react-icons/tb";
 
-import { FormValues } from "../../pages/MyAccount";
+
 import { Field } from "../ui/field";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { IUpdateStudentAdditionalDataProps } from "@/features/student/studentAction";
 
 interface BannerProps {
   hiddenInputRef: RefObject<HTMLInputElement | null>;
-  formik: FormikProps<FormValues>;
+  formik: FormikProps<IUpdateStudentAdditionalDataProps>;
   profilehandleChange: (
     element1: React.ChangeEvent<HTMLInputElement>,
-    element2: FormikHelpers<FormValues>
+    element2: FormikHelpers<IUpdateStudentAdditionalDataProps>
   ) => void;
   selectedFile: File;
   preview: string | undefined;

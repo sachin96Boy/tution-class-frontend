@@ -24,7 +24,7 @@ function App() {
   );
 
   useEffect(() => {
-    dispatch(getCompanyDetails(""));
+    dispatch(getCompanyDetails());
     dispatch(getAllTeachers(""));
     dispatch(getAllSubjects(""));
     dispatch(getAllGrades(""));

@@ -20,28 +20,23 @@ import ProfileBanner from "../components/myAccount/ProfileBanner";
 import InputComponent from "@/components/formcontrol/customInput/InputComponent";
 import { QrCode } from "@/components/ui/qr-code";
 import Logo from "@/components/Logo";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
-
-export interface FormValues {
-  school: string;
-  examAttempt: string;
-  examYear: string;
-  district: string;
-  city: string;
-  nic: string;
-  address: string;
-  mobileNumber1: string;
-  mobileNumber2: string;
-  profileImage: File | any;
-}
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import {
+  IUpdateStudentAdditionalDataProps,
+  updateAdditionalStudentData,
+} from "@/features/student/studentAction";
 
 function MyAccount() {
   const [preview, setPreview] = useState<string>();
   const [selectedFile, setSelectedFile] = useState<any>();
   const hiddenInputRef = useRef<HTMLInputElement>(null);
 
-  const initialValues: FormValues = {
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading, userInfo } = useSelector((state: RootState) => state.auth);
+
+  const initialValues: IUpdateStudentAdditionalDataProps = {
+    enc_student_id: userInfo ? userInfo.student_id : "",
     school: "",
     examAttempt: "",
     examYear: "",
@@ -51,12 +46,20 @@ function MyAccount() {
     address: "",
     mobileNumber1: "",
     mobileNumber2: "",
-    profileImage: "",
+    profileImage: null,
   };
 
-  const onSubmit = (values: FormValues, actions: any) => {
+  const onSubmit = async (
+    values: IUpdateStudentAdditionalDataProps,
+    actions: any
+  ) => {
     console.log(values);
+
+    const res = await dispatch(updateAdditionalStudentData(values));
+
     actions.setSubmitting(false);
+    actions.resetForm();
+
     setSelectedFile(undefined);
     setPreview(undefined);
   };
@@ -69,10 +72,9 @@ function MyAccount() {
     city: yup.string().required("City is required"),
     nic: yup.string().required("NIC is required"),
     address: yup.string().required("Address is required"),
-    mobileNumber: yup.string().required("Mobile Number is required"),
     mobileNumber1: yup.string().required("Mobile Number 1 is required"),
     mobileNumber2: yup.string().required("Mobile Number 2 is required"),
-    profileImage: yup.mixed().required("Profile Image is required"),
+    profileImage: yup.mixed().nullable(),
   });
 
   const onClick = () => {
@@ -84,7 +86,7 @@ function MyAccount() {
   // for profile image clic to change trigger
   const profilehandleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    formik: FormikHelpers<FormValues>
+    formik: FormikHelpers<IUpdateStudentAdditionalDataProps>
   ) => {
     // image path set to undefined
     if (!event.target.files || event.target.files.length === 0) {
@@ -110,8 +112,6 @@ function MyAccount() {
     // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
-
-  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   return (
     <Box mx={[5, 5, 10]} w="full">

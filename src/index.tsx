@@ -16,6 +16,7 @@ import {PhotoProvider} from 'react-photo-view';
 
 import "react-photo-view/dist/react-photo-view.css";
 
+
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <UIProvider>

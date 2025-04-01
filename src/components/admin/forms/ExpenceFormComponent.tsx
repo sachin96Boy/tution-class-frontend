@@ -1,25 +1,47 @@
 import InputComponent from "@/components/formcontrol/customInput/InputComponent";
 import InputWithSelect from "@/components/formcontrol/customInput/InputWithSelect";
 import { Field } from "@/components/ui/field";
+import { IListItemProp } from "@/features/config/configAction";
 import { Button, Input, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import DatePicker from "react-datepicker";
 
 import * as Yup from "yup";
 
-function ExpenceFormComponent(props: any) {
+type IExpenceFormProps = {
+  expenceTypeList: Array<IListItemProp>;
+  teacherList: Array<IListItemProp>;
+}
+
+function ExpenceFormComponent(props: IExpenceFormProps) {
   const { expenceTypeList, teacherList } = props;
 
   const initialValues = {
-    expenceTypeId: "",
-    teacherId: "",
+    expenceTypeId: {
+      key: "",
+      value: "",
+      image_path: null,
+    },
+    teacherId: {
+      key: "",
+      value: "",
+      image_path: null,
+    },
     amount: 0,
     date: null,
   };
 
   const validationSchema = Yup.object({
-    expenceTypeId: Yup.string().required("Expence Type is required"),
-    teacherId: Yup.string().required("Teacher is required"),
+    expenceTypeId: Yup.object().shape({
+          key: Yup.string().required("Expence Type is not valid"),
+          value: Yup.string().required("Expence Type name is required"),
+          image_path: Yup.mixed().nullable(),
+        }),
+    teacherId: Yup.object().shape({
+          key: Yup.string().required("Teacher is not valid"),
+          value: Yup.string().required("Teacher name is required"),
+          image_path: Yup.mixed().nullable(),
+        }),
     date: Yup.date()
       .required("Date is required")
       .typeError("Invalid Date")
@@ -53,11 +75,11 @@ function ExpenceFormComponent(props: any) {
                 htmlFor={"expencetype"}
                 labelText={"Expence Type"}
                 InputType={"text"}
-                InputValue={formik.values.expenceTypeId}
+                InputValue={formik.values.expenceTypeId.value}
                 onBlur={formik.handleBlur}
                 placeHolder={"ExpenceType"}
-                isTouched={formik.touched.expenceTypeId}
-                isError={formik.errors.expenceTypeId}
+                isTouched={formik.touched.expenceTypeId?.value || formik.touched.expenceTypeId?.key}
+                isError={formik.errors.expenceTypeId?.value || formik.errors.expenceTypeId?.key}  
                 formik={formik}
                 fieldValue={"expenceTypeId"}
                 dataList={expenceTypeList}
@@ -66,11 +88,11 @@ function ExpenceFormComponent(props: any) {
                 htmlFor={"teacherId"}
                 labelText={"Teacher"}
                 InputType={"text"}
-                InputValue={formik.values.teacherId}
+                InputValue={formik.values.teacherId.value}
                 onBlur={formik.handleBlur}
                 placeHolder={"Teacher"}
-                isTouched={formik.touched.teacherId}
-                isError={formik.errors.teacherId}
+                isTouched={formik.touched.teacherId?.value || formik.touched.teacherId?.key}
+                isError={formik.errors.teacherId?.value || formik.errors.teacherId?.key}
                 formik={formik}
                 fieldValue={"teacherId"}
                 dataList={teacherList}

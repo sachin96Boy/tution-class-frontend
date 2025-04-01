@@ -27,6 +27,8 @@ interface Values {
   year: string;
 }
 
+import * as Yup from "yup";
+
 function MyCourses() {
   const [teacherName, setTeacherName] = useState("");
   const [subjectName, setSubjectName] = useState("");
@@ -139,6 +141,21 @@ function MyCourses() {
     },
     year: "",
   };
+
+  const validationSchema = Yup.object().shape({
+    teacherName: Yup.object().shape({
+      key: Yup.string().required("Teacher is not valid"),
+      value: Yup.string().required("Teacher name is required"),
+      image_path: Yup.mixed().nullable(),
+    }),
+    subjectName: Yup.object().shape({
+      key: Yup.string().required("Subject is not valid"),
+      value: Yup.string().required("Subject name is required"),
+      image_path: Yup.mixed().nullable(),
+    }),
+    year: Yup.string().required("Year is required"),
+  });
+
   const onSubmit: any = (values: Values, action: FormikHelpers<Values>) => {
     setSubjectName(values.subjectName.value);
     setTeacherName(values.teacherName.value);
@@ -232,7 +249,11 @@ function MyCourses() {
       <Box className="filter" my={[4, 6, 8, 10]}>
         {" "}
         {/* Responsive margin */}
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
           {(formik) => (
             <Form autoComplete="off">
               <Flex
@@ -253,8 +274,14 @@ function MyCourses() {
                     InputValue={formik.values.teacherName.value}
                     onBlur={formik.handleBlur}
                     placeHolder={"Select Teacher"}
-                    isTouched={formik.touched.teacherName?.value}
-                    isError={formik.errors.teacherName?.value}
+                    isTouched={
+                      formik.touched.teacherName?.value ||
+                      formik.touched.teacherName?.key
+                    }
+                    isError={
+                      formik.errors.teacherName?.value ||
+                      formik.errors.teacherName?.key
+                    }
                     formik={formik}
                     fieldValue={"teacherName"}
                     dataList={teachersSelectList}
@@ -266,8 +293,14 @@ function MyCourses() {
                     InputValue={formik.values.subjectName.value}
                     onBlur={formik.handleBlur}
                     placeHolder={"Select Subject"}
-                    isTouched={formik.touched.subjectName?.value}
-                    isError={formik.errors.subjectName?.value}
+                    isTouched={
+                      formik.touched.subjectName?.value ||
+                      formik.touched.subjectName?.key
+                    }
+                    isError={
+                      formik.errors.subjectName?.value ||
+                      formik.errors.subjectName?.key
+                    }
                     formik={formik}
                     fieldValue={"subjectName"}
                     dataList={subjectSelectList}

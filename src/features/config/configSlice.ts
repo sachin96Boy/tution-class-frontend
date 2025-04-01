@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getCompanyDetails } from "./configAction";
+import { toaster } from "@/components/ui/toaster";
 
 type IcompanyInfo = {
     id: string;
@@ -46,7 +47,15 @@ export const configSlice = createSlice({
             getCompanyDetails.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
-                state.errorMsg = (action.payload as any).error || ''
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
             }
         )
     },
