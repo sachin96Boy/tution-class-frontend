@@ -1,6 +1,6 @@
 import Logo from "@/components/Logo";
-import { Box, Button, Flex, GridItem, Icon, Text } from "@chakra-ui/react";
-import { useRef } from "react";
+import { Box, Button, Flex, Icon, Text } from "@chakra-ui/react";
+
 import { BsBookHalf, BsFillPeopleFill } from "react-icons/bs";
 import {
   FaBookReader,
@@ -21,8 +21,6 @@ function AdminSidebar() {
   let variantChange = "0.2s linear";
 
   let location = useLocation();
-
-  const panel = useRef<HTMLDivElement | null>(null);
 
   const checkActive = (route: string) => {
     return location.pathname === route ? "active" : "";
@@ -92,7 +90,7 @@ function AdminSidebar() {
   ];
 
   return (
-    <Box ref={panel}>
+    <Box>
       <Box
         display={{ base: "none", md: "block" }}
         position={"fixed"}

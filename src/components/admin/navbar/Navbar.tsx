@@ -30,9 +30,6 @@ import { TbReport } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
-interface Props {
-  children: React.ReactNode;
-}
 
 const navLinks = [
   {
@@ -162,7 +159,7 @@ export default function Navbar() {
                 placement: "top-end",
               }}
             >
-              <Menu.Trigger outline={"none"} pt={[0, 0, 8]}>
+              <Menu.Trigger outline={"none"} pt={[0, 0, 8]} asChild>
                 <Box as={"button"} outline={"none"} cursor={"pointer"}>
                   <Avatar.Root size={"md"}>
                     <Avatar.Fallback name={coporateInfo?.userName} />

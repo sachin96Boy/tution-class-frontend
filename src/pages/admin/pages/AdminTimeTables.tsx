@@ -1,62 +1,45 @@
-import ExpenceTableBody from "@/components/admin/expence/ExpenceTableBody";
-import TimetableFormComponent from "@/components/admin/forms/TimetableFormComponent";
+import TimeTableYearPicker from "@/components/admin/forms/TimeTableYearPicker";
 import Modalsheet from "@/components/admin/modal/Modalsheet";
 import OverlayTable from "@/components/admin/tables/OverlayTable";
-import { IListItemProp } from "@/features/config/configAction";
-import { getAllCourses } from "@/features/course/courseAction";
+import TimeTableYearlyTableBody from "@/components/admin/timetable/TimeTableYearlyBody";
+import Spinner from "@/components/spinner/Spinner";
+import { getAllTimeTableData } from "@/features/timetable/timetableAction";
 import { AppDispatch, RootState } from "@/store";
 import { Box, Flex } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 function AdminTimeTables() {
-
   const dispatch = useDispatch<AppDispatch>();
 
-  const { teachers } = useSelector((state: RootState) => state.teacher);
-  const { courses } = useSelector((state: RootState) => state.course);
-
-  let coursesSelectList: Array<IListItemProp> = courses?.map((course) => {
-    return {
-      key: course.course_id,
-      value: course.title,
-      image_path: course.course_img_path,
-    };
-  });
-
-  let teacherSelectList: Array<IListItemProp> = teachers?.map((teacher) => {
-    return {
-      key: teacher.teacher_id,
-      value: teacher.full_name,
-      image_path: teacher.profile_img,
-    };
-  });
+  const { loading, timeTables } = useSelector(
+    (state: RootState) => state.timetable
+  );
 
   useEffect(() => {
-    dispatch(getAllCourses(""));
+    dispatch(getAllTimeTableData(""));
   }, []);
 
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Box>
         <Modalsheet
-          buttonText={"Add Timetable"}
-          formComponent={
-            <TimetableFormComponent
-              courseTypeList={coursesSelectList}
-              teacherList={teacherSelectList}
-            />
-          }
-          modalTitle={"Add Timetable Data"}
+          buttonText={"Add Timetable Year"}
+          formComponent={<TimeTableYearPicker />}
+          modalTitle={"Add Timetable year Data"}
         />
       </Box>
       <Box>
-        <OverlayTable
-          title={"Timetable Data"}
-          captions={["Id",  "Teacher", "Action"]}
-          tableBodyComponent={<ExpenceTableBody data={[]} />}
-          data={[]}
-        />
+        {loading ? (
+          <Spinner />
+        ) : (
+          <OverlayTable
+            title={"Timetable Year Data"}
+            captions={["Id", "Year", "Action"]}
+            tableBodyComponent={<TimeTableYearlyTableBody data={timeTables} />}
+            data={timeTables}
+          />
+        )}
       </Box>
     </Flex>
   );
