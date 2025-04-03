@@ -3,6 +3,7 @@ import {
   createGrade,
   createSubject,
   IcreateGradeProps,
+  IcreateSubjectProps,
 } from "@/features/comon/commonAction";
 import { AppDispatch } from "@/store";
 import { Button, createListCollection, Select, VStack } from "@chakra-ui/react";
@@ -15,7 +16,7 @@ import * as Yup from "yup";
 function SubjectForm() {
   const dispatch = useDispatch<AppDispatch>();
 
-  const initialValues = {
+  const initialValues: IcreateSubjectProps = {
     subject_name: "",
   };
 
@@ -23,7 +24,7 @@ function SubjectForm() {
     subjet_name: Yup.string().required("subject is Required"),
   });
 
-  const onSubmit = async (values: any, action: any) => {
+  const onSubmit = async (values: IcreateSubjectProps, action: any) => {
     await dispatch(createSubject(values));
 
     action.setSubmitting(false);
