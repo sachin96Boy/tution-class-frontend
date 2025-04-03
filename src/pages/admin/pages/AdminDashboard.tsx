@@ -90,6 +90,11 @@ function AdminDashboard() {
           <Button colorPalette={"blue"} size={"2xl"}>
             Statistics
           </Button>
+          <NavLink to={"/admin/common"}>
+            <Button colorPalette={"blue"} size={"2xl"}>
+              Common
+            </Button>
+          </NavLink>
         </Wrap>
       </Grid>
 

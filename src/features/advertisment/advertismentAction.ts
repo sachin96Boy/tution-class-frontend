@@ -60,11 +60,9 @@ const handleCreatAdvertisment = async (values: IcreateAdvertismentProps, { rejec
 const handlegetCompanyMainBanner = async (values: IgetCompnyBanerProps, { rejectWithValue }: any) => {
     try {
 
-        const {enc_company_id} = values;
-
         const response = await axiosInstance.post(
             'config/getMainAdvertisment',
-            enc_company_id,
+            values,
         );
 
         return response.data;

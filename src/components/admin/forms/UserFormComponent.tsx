@@ -11,9 +11,7 @@ import {
   createListCollection,
   Icon,
   Input,
-  Portal,
   Select,
-  Text,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";

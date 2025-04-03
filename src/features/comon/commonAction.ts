@@ -7,6 +7,7 @@ export type IcreateGradeProps = {
 }
 
 export type IgradeProps = {
+    id: string;
     grade_id: string;
     grade: string;
     grade_type: string
@@ -16,6 +17,7 @@ export type IcreateSubjectProps = {
 }
 
 export type IsubjectProps = {
+    id: string;
     subject_id: string;
     subject_name: string;
 }

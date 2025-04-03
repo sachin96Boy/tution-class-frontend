@@ -8,7 +8,7 @@ export type IcommonInitialState = {
     subjects: Array<IsubjectProps>;
     grades: Array<IgradeProps>;
     error: boolean | null;
-    errorMsg: string;
+    errorMsg: string | object;
     success: boolean;
 }
 
@@ -35,6 +35,10 @@ export const commonSlice = createSlice({
             createGrade.fulfilled, (state, action) => {
                 state.loading = false
                 state.error = null
+
+                const newGrade = action.payload.grade;
+
+                state.grades.push(newGrade);
 
                 toaster.create({
                     type: 'success',
@@ -88,6 +92,10 @@ export const commonSlice = createSlice({
             createSubject.fulfilled, (state, action) => {
                 state.loading = false
                 state.error = null
+
+                const newSub = action.payload.subject;
+                state.subjects.push(newSub);
+
 
                 toaster.create({
                     type: 'success',
