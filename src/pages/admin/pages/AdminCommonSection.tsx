@@ -2,8 +2,12 @@ import { Flex, Tabs } from "@chakra-ui/react";
 import React from "react";
 import AdminGrade from "./AdminGrade";
 import AdminSubject from "./AdminSubject";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 function AdminCommonSection() {
+  const { grades, subjects } = useSelector((state: RootState) => state.common);
+
   return (
     <Flex gap={4} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Tabs.Root
@@ -18,10 +22,10 @@ function AdminCommonSection() {
           <Tabs.Trigger value="subject">Subjects</Tabs.Trigger>
         </Tabs.List>
         <Tabs.Content value="grade">
-          <AdminGrade />
+          <AdminGrade grades={grades} />
         </Tabs.Content>
         <Tabs.Content value="subject">
-          <AdminSubject />
+          <AdminSubject subjects={subjects} />
         </Tabs.Content>
       </Tabs.Root>
     </Flex>

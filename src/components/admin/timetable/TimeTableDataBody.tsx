@@ -1,9 +1,7 @@
-import { Igettimetableyear } from "@/features/timetable/timetableAction";
 import { Itimetabledata } from "@/features/timetable/timeTableSlice";
-import { Badge, Button, Icon, Table, Text } from "@chakra-ui/react";
+import { Badge, Icon, Table, Text } from "@chakra-ui/react";
 import React from "react";
 import { MdOutlineFmdGood } from "react-icons/md";
-import { Link, NavLink } from "react-router-dom";
 
 type ITiimeTableYearlyTableBody = {
   data: Array<Itimetabledata>;

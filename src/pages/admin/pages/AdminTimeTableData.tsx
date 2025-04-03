@@ -2,13 +2,15 @@ import TimetableDataFormComponent from "@/components/admin/forms/TimetableFormCo
 import TimeTableYearPicker from "@/components/admin/forms/TimeTableYearPicker";
 import Modalsheet from "@/components/admin/modal/Modalsheet";
 import OverlayTable from "@/components/admin/tables/OverlayTable";
+import TimeTableBody from "@/components/admin/timetable/TimeTableDataBody";
 import TimeTableYearlyTableBody from "@/components/admin/timetable/TimeTableYearlyBody";
 import { IListItemProp } from "@/features/config/configAction";
 import { getAllCourses } from "@/features/course/courseAction";
 import { getTimeTableDataById } from "@/features/timetable/timetableAction";
+import { Itimetabledata } from "@/features/timetable/timeTableSlice";
 import { AppDispatch, RootState } from "@/store";
 import { Box, Flex, Spinner } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 
@@ -34,6 +36,24 @@ function AdminTimeTableData() {
       image_path: course.course_img_path,
     };
   });
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [items, setItems] = useState<Array<Itimetabledata>>(timeTableData);
+
+  const handleChange = (details: { page: number }) => {
+    const start = (details.page - 1) * 10;
+    const newItems = timeTableData.slice(start, start + 10);
+
+    setItems(newItems);
+    setCurrentPage(details.page);
+  };
+
+  useEffect(() => {
+    handleChange({
+      page: 1,
+    });
+  }, [timeTableData]);
 
   useEffect(() => {
     dispatch(
@@ -61,10 +81,12 @@ function AdminTimeTableData() {
           <Spinner />
         ) : (
           <OverlayTable
+            currentPage={currentPage}
+            handlePageChange={handleChange}
             title={"Timetable Data"}
             captions={["#", "day", "course", "start", "end"]}
-            tableBodyComponent={<TimeTableYearlyTableBody data={[]} />}
-            data={[]}
+            tableBodyComponent={<TimeTableBody data={items} />}
+            data={timeTableData}
           />
         )}
       </Box>

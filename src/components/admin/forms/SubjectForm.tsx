@@ -1,13 +1,11 @@
 import InputComponent from "@/components/formcontrol/customInput/InputComponent";
 import {
-  createGrade,
   createSubject,
-  IcreateGradeProps,
   IcreateSubjectProps,
 } from "@/features/comon/commonAction";
 import { AppDispatch } from "@/store";
-import { Button, createListCollection, Select, VStack } from "@chakra-ui/react";
-import { Field, Form, Formik } from "formik";
+import { Button, VStack } from "@chakra-ui/react";
+import { Form, Formik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
 
@@ -21,7 +19,7 @@ function SubjectForm() {
   };
 
   const validationSchema = Yup.object({
-    subjet_name: Yup.string().required("subject is Required"),
+    subject_name: Yup.string().required("subject is Required"),
   });
 
   const onSubmit = async (values: IcreateSubjectProps, action: any) => {
