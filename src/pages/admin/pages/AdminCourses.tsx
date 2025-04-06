@@ -1,4 +1,5 @@
 import AdvertismentTabeBody from "@/components/admin/advertisment/AdvertismentTabeBody";
+import CourseTablebody from "@/components/admin/course/CourseTablebody";
 import CourseCreateForm from "@/components/admin/forms/CourseCreateForm";
 import Modalsheet from "@/components/admin/modal/Modalsheet";
 import OverlayTable from "@/components/admin/tables/OverlayTable";
@@ -83,8 +84,17 @@ function AdminCourses() {
             currentPage={currentPage}
             handlePageChange={handleChange}
             title={"Course Data"}
-            captions={["id", "title", "teacher"]}
-            tableBodyComponent={<AdvertismentTabeBody data={[]} />}
+            captions={[
+              "id",
+              "title",
+              "Teacher",
+              "Grade",
+              "Subject",
+              "Status",
+              "year",
+              "Actions",
+            ]}
+            tableBodyComponent={<CourseTablebody data={items} />}
             data={courses}
           />
         )}

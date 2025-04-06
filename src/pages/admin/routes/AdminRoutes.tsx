@@ -15,6 +15,7 @@ import AdminRoute from "@/utils/AdminRoutes";
 import AdminAdvertiments from "../pages/AdminAdvertiments";
 import AdminTimeTableData from "../pages/AdminTimeTableData";
 import AdminCommonSection from "../pages/AdminCommonSection";
+import AdminCoursesData from "../pages/AdminCoursesData";
 
 function AdminRoutes() {
   return (
@@ -32,6 +33,7 @@ function AdminRoutes() {
           <Route path="/students" element={<Students />} />
           <Route path="/assignments" element={<Assignments />} />
           <Route path="/courses" element={<AdminCourses />} />
+          <Route path="/courses/data" element={<AdminCoursesData />} />
           <Route path="/common" element={<AdminCommonSection />} />
           <Route path="/accounting" element={<AdminAccounting />} />
           <Route

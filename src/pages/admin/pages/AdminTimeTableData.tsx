@@ -71,7 +71,7 @@ function AdminTimeTableData() {
         <Modalsheet
           buttonText={"Add Timetable Data"}
           formComponent={
-            <TimetableDataFormComponent courseTypeList={coursesSelectList} />
+            <TimetableDataFormComponent enc_timetable_id={enc_id} courseTypeList={coursesSelectList} />
           }
           modalTitle={"Add Timetable Data"}
         />

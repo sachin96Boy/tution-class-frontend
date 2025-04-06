@@ -29,9 +29,14 @@ const TimeTableYearlyTableCell = (payDataProps: Igettimetableyear) => {
       </Table.Cell>
       <Table.Cell pl="0px">
         <Link to={`/admin/time-table/data?id=${time_table_id}`}>
-          <Text fontSize="sm" color="gray.400" fontWeight="normal">
+          <Button
+            variant={"ghost"}
+            fontSize="sm"
+            color="gray.400"
+            fontWeight="normal"
+          >
             Visit
-          </Text>
+          </Button>
         </Link>
       </Table.Cell>
     </Table.Row>

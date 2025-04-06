@@ -17,10 +17,12 @@ import React, { useState } from "react";
 import * as yup from "yup";
 
 type ITimetableFormProps = {
+  enc_timetable_id: string | null;
   courseTypeList: Array<IListItemProp>;
 };
 
 type ItdataProps = {
+  enc_timetable_id: string | null;
   course: IListItemProp;
   startTime: string | null;
   endTime: string | null;
@@ -28,7 +30,7 @@ type ItdataProps = {
 };
 
 function TimetableDataFormComponent(props: ITimetableFormProps) {
-  const { courseTypeList } = props;
+  const { courseTypeList, enc_timetable_id } = props;
 
   const dayTypes = {
     MONDAY: "MONDAY",
@@ -53,6 +55,7 @@ function TimetableDataFormComponent(props: ITimetableFormProps) {
   });
 
   const initialValues: ItdataProps = {
+    enc_timetable_id: enc_timetable_id,
     course: {
       key: "",
       value: "",
@@ -70,6 +73,7 @@ function TimetableDataFormComponent(props: ITimetableFormProps) {
       image_path: yup.mixed().nullable(),
     }),
     startTime: yup.string().required("Start time is required"),
+    enc_timetable_id: yup.string().required("id is reqired"),
     endTime: yup
       .string()
       .required("End time is required")

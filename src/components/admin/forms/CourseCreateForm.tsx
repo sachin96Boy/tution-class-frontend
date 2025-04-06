@@ -26,7 +26,9 @@ function CourseCreateForm(props: ICourseCreateForm) {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const initialValues = {
+  const currentYear = new Date().getFullYear();
+
+  const initialValues: IcreateCourseProps = {
     title: "",
     description: "",
     subject_id: {
@@ -45,6 +47,7 @@ function CourseCreateForm(props: ICourseCreateForm) {
       image_path: null,
     },
     course_img: null,
+    year: currentYear,
   };
 
   const validationSchema = Yup.object({
@@ -58,7 +61,7 @@ function CourseCreateForm(props: ICourseCreateForm) {
       value: Yup.string().required("Grade is required"),
       image_path: Yup.mixed().nullable(),
     }),
-    teacherId: Yup.object().shape({
+    teacher_id: Yup.object().shape({
       key: Yup.string().required("Teacher is not valid"),
       value: Yup.string().required("Teacher name is required"),
       image_path: Yup.mixed().nullable(),
@@ -80,11 +83,12 @@ function CourseCreateForm(props: ICourseCreateForm) {
           "image/webp",
         ].includes((value as File).type); // Allowed file types
       }),
+    year: Yup.number().required("Year is required"),
   });
 
-  const onSubmit = async (values: any, action: any) => {
+  const onSubmit = async (values: IcreateCourseProps, action: any) => {
     try {
-      //   const result = await dispatch(createCourse(values));
+      const result = await dispatch(createCourse(values));
       action.setSubmitting(false);
       action.resetForm();
     } catch (err) {
@@ -100,11 +104,7 @@ function CourseCreateForm(props: ICourseCreateForm) {
     >
       {(formik) => (
         <>
-          <Form
-            onSubmit={(e) => e.preventDefault()}
-            autoComplete="off"
-            encType="multipart/form-data"
-          >
+          <Form autoComplete="off" encType="multipart/form-data">
             <VStack gap={4} width={"full"}>
               <InputComponent
                 htmlFor={"title"}
@@ -196,9 +196,20 @@ function CourseCreateForm(props: ICourseCreateForm) {
                 handleBlur={formik.handleBlur}
               />
 
+              <InputComponent
+                htmlFor={"year"}
+                labelText={"Year"}
+                InputType={"number"}
+                InputValue={formik.values.year}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeHolder={"Enter Year"}
+                isTouched={formik.touched.year}
+                isError={formik.errors.year}
+              />
+
               <Button
-                type="button"
-                onClick={() => formik.handleSubmit()}
+                type="submit"
                 colorPalette={"blue"}
                 loading={formik.isSubmitting}
               >
