@@ -75,7 +75,6 @@ const handleGetTimetableDatabyTID = async (values: ItimetablebyId, { rejectWithV
             values,
 
         );
-
         return response.data;
     } catch (err: any) {
         return rejectWithValue(err.response.data);

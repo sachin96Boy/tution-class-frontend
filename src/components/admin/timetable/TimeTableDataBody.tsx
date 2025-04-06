@@ -10,8 +10,6 @@ type ITiimeTableYearlyTableBody = {
 const TimeTableCell = (payDataProps: Itimetabledata) => {
   const { id, Courses, day, start_time, end_time } = payDataProps;
 
-  const newId = +id;
-
   return (
     <Table.Row>
       <Table.Cell pl="0px">
@@ -33,11 +31,11 @@ const TimeTableCell = (payDataProps: Itimetabledata) => {
       <Table.Cell pl="0px">
         <Flex gap={2} align={"center"}>
           <Avatar.Root shape="full" size="lg">
-            <Avatar.Fallback name={Courses[newId].title} />
-            <Avatar.Image src={Courses[newId].course_img_path} />
+            <Avatar.Fallback name={Courses[0].title} />
+            <Avatar.Image src={Courses[0].course_img_path} />
           </Avatar.Root>
           <Text fontSize="sm" color="gray.400" fontWeight="normal">
-            {Courses[newId].title}
+            {Courses[0].title}
           </Text>
         </Flex>
       </Table.Cell>
@@ -63,7 +61,7 @@ function TimeTableBody(props: ITiimeTableYearlyTableBody) {
         return (
           <TimeTableCell
             key={index}
-            id={index.toString()}
+            id={item.id}
             Courses={item.Courses}
             enc_timetable_id={item.enc_timetable_id}
             start_time={item.start_time}
