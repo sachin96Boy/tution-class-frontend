@@ -28,7 +28,7 @@ export type IinitialState = {
     coporateInfo: ICoporateUserInfo | null;
     token: string | null;
     error: boolean | null;
-    errorMsg: string;
+    errorMsg: object | string;
     success: boolean;
 
 }
@@ -85,7 +85,7 @@ export const authSlice = createSlice({
 
                 toaster.create({
                     type: 'error',
-                    title: state.errorMsg
+                    title: state.errorMsg.toString()
                 });
             }
         ).addCase(
@@ -113,7 +113,7 @@ export const authSlice = createSlice({
 
                 toaster.create({
                     type: 'error',
-                    title: state.errorMsg
+                    title: state.errorMsg.toString()
                 });
             }
         ).addCase(
@@ -146,7 +146,7 @@ export const authSlice = createSlice({
 
                 toaster.create({
                     type: 'error',
-                    title: state.errorMsg
+                    title: state.errorMsg.toString()
                 });
             }
         ).addCase(
@@ -181,7 +181,7 @@ export const authSlice = createSlice({
 
                 toaster.create({
                     type: 'error',
-                    title: state.errorMsg
+                    title: state.errorMsg.toString()
                 });
             }
         )

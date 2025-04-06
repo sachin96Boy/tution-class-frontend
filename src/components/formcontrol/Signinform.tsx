@@ -19,6 +19,7 @@ import InputComponent from "./customInput/InputComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { IloginProps, loginUser } from "@/features/auth/authAction";
+import { PasswordInput, PasswordStrengthMeter } from "../ui/password-input";
 
 function Signinform() {
   const navigate = useNavigate();
@@ -89,7 +90,7 @@ function Signinform() {
               htmlFor="password"
               errorText={formik.errors.password}
             >
-              <InputGroup
+              {/* <InputGroup
                 width={"full"}
                 ref={inputRef}
                 endElement={
@@ -123,7 +124,28 @@ function Signinform() {
                   rounded={"10px"}
                   autoComplete="off"
                 />
-              </InputGroup>
+              </InputGroup> */}
+
+              <PasswordInput
+                rootProps={{
+                  width: "full",
+                }}
+                id="password"
+                colorPalette={"blue"}
+                css={{ "--focus-color": "colors.primary_color" }}
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                borderColor={
+                  formik.touched.password && formik.errors.password
+                    ? "red"
+                    : "#636363"
+                }
+                borderWidth={"1px"}
+                placeholder="Password"
+                rounded={"10px"}
+                autoComplete="off"
+              />
             </Field>
             <Text
               fontFamily={"body"}

@@ -27,9 +27,9 @@ import InputComponent from "./customInput/InputComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { IregisterProps, registerUser } from "@/features/auth/authAction";
+import { PasswordInput } from "../ui/password-input";
 
 function RegisterForm() {
-
   const dispatch = useDispatch<AppDispatch>();
 
   const { loading, error } = useSelector((state: RootState) => state.auth);
@@ -73,7 +73,6 @@ function RegisterForm() {
     const result = await dispatch(registerUser(values));
 
     actions.setSubmitting(false);
-
   };
 
   const handleThis = (e: any) => {
@@ -187,7 +186,7 @@ function RegisterForm() {
                       helperText="Password must be at least 8 characters long,  contain
                         letters and numbers, and must not contain spaces"
                     >
-                      <InputGroup
+                      {/* <InputGroup
                         endElement={
                           <Icon
                             aria-label={
@@ -221,7 +220,27 @@ function RegisterForm() {
                           placeholder="Password"
                           rounded={"10px"}
                         />
-                      </InputGroup>
+                      </InputGroup> */}
+                      <PasswordInput
+                        rootProps={{
+                          width: "full",
+                        }}
+                        id="password"
+                        colorPalette={"blue"}
+                        css={{ "--focus-color": "colors.primary_color" }}
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        borderColor={
+                          formik.touched.password && formik.errors.password
+                            ? "red"
+                            : "#636363"
+                        }
+                        borderWidth={"1px"}
+                        placeholder="Password"
+                        rounded={"10px"}
+                        autoComplete="off"
+                      />
                     </Field>
                     <Button
                       type="button"

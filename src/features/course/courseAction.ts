@@ -76,6 +76,7 @@ const handleGetCourseDataByCourseId = async (values: getCourseDataByIdProps, { r
         return response.data;
 
     } catch (err: any) {
+
         return rejectWithValue(err.response.data);
     }
 }

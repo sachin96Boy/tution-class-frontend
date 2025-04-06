@@ -23,7 +23,7 @@ export type IloginProps = {
 
 
 
-const handleRegisterCoporateUser = async (value: ICoporateregisterProps,{ rejectWithValue }: any) => {
+const handleRegisterCoporateUser = async (value: ICoporateregisterProps, { rejectWithValue }: any) => {
     try {
 
         const { userName, email, userType, password } = value;

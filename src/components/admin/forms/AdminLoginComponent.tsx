@@ -18,6 +18,7 @@ import { Field } from "@/components/ui/field";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
+import { PasswordInput } from "@/components/ui/password-input";
 
 function AdminLoginComponent() {
   const navigate = useNavigate();
@@ -90,7 +91,7 @@ function AdminLoginComponent() {
               htmlFor="password"
               errorText={formik.errors.password}
             >
-              <InputGroup
+              {/* <InputGroup
                 width={"full"}
                 ref={inputRef}
                 endElement={
@@ -124,7 +125,27 @@ function AdminLoginComponent() {
                   rounded={"10px"}
                   autoComplete="off"
                 />
-              </InputGroup>
+              </InputGroup> */}
+              <PasswordInput
+                rootProps={{
+                  width: "full",
+                }}
+                id="password"
+                colorPalette={"blue"}
+                css={{ "--focus-color": "colors.primary_color" }}
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                borderColor={
+                  formik.touched.password && formik.errors.password
+                    ? "red"
+                    : "#636363"
+                }
+                borderWidth={"1px"}
+                placeholder="Password"
+                rounded={"10px"}
+                autoComplete="off"
+              />
             </Field>
             <Button
               type="submit"

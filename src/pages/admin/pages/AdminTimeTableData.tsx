@@ -22,6 +22,9 @@ function AdminTimeTableData() {
   const queryString = location.search;
   const params = new URLSearchParams(queryString);
   const enc_id = params.get("id");
+  const real_enc_id = enc_id
+    ? decodeURIComponent(enc_id.replace(/ /g, "+"))
+    : ""; // Fix spaces back to +
 
   const { courses } = useSelector((state: RootState) => state.course);
 
@@ -56,11 +59,13 @@ function AdminTimeTableData() {
   }, [timeTableData]);
 
   useEffect(() => {
-    dispatch(
-      getTimeTableDataById({
-        enc_timetable_id: enc_id,
-      })
-    );
+    if (enc_id != null) {
+      dispatch(
+        getTimeTableDataById({
+          enc_timetable_id: real_enc_id,
+        })
+      );
+    }
 
     dispatch(getAllCourses(""));
   }, [enc_id, dispatch]);
@@ -71,7 +76,10 @@ function AdminTimeTableData() {
         <Modalsheet
           buttonText={"Add Timetable Data"}
           formComponent={
-            <TimetableDataFormComponent enc_timetable_id={enc_id} courseTypeList={coursesSelectList} />
+            <TimetableDataFormComponent
+              enc_timetable_id={real_enc_id}
+              courseTypeList={coursesSelectList}
+            />
           }
           modalTitle={"Add Timetable Data"}
         />

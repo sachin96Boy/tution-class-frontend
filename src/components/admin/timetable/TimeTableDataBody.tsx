@@ -1,5 +1,5 @@
 import { Itimetabledata } from "@/features/timetable/timeTableSlice";
-import { Badge, Icon, Table, Text } from "@chakra-ui/react";
+import { Avatar, Badge, Flex, Icon, Table, Text } from "@chakra-ui/react";
 import React from "react";
 import { MdOutlineFmdGood } from "react-icons/md";
 
@@ -8,7 +8,10 @@ type ITiimeTableYearlyTableBody = {
 };
 
 const TimeTableCell = (payDataProps: Itimetabledata) => {
-  const { enc_timetable_id, course, day, start_time, end_time } = payDataProps;
+  const { id, Courses, day, start_time, end_time } = payDataProps;
+
+  const newId = +id;
+
   return (
     <Table.Row>
       <Table.Cell pl="0px">
@@ -28,9 +31,15 @@ const TimeTableCell = (payDataProps: Itimetabledata) => {
         </Badge>
       </Table.Cell>
       <Table.Cell pl="0px">
-        <Text fontSize="sm" color="gray.400" fontWeight="normal">
-          {course}
-        </Text>
+        <Flex gap={2} align={"center"}>
+          <Avatar.Root shape="full" size="lg">
+            <Avatar.Fallback name={Courses[newId].title} />
+            <Avatar.Image src={Courses[newId].course_img_path} />
+          </Avatar.Root>
+          <Text fontSize="sm" color="gray.400" fontWeight="normal">
+            {Courses[newId].title}
+          </Text>
+        </Flex>
       </Table.Cell>
       <Table.Cell pl="0px">
         <Text fontSize="sm" color="gray.400" fontWeight="normal">
@@ -54,12 +63,13 @@ function TimeTableBody(props: ITiimeTableYearlyTableBody) {
         return (
           <TimeTableCell
             key={index}
-            id={item.id}
-            course={item.course}
+            id={index.toString()}
+            Courses={item.Courses}
             enc_timetable_id={item.enc_timetable_id}
             start_time={item.start_time}
             day={item.day}
             end_time={item.end_time}
+            course_id={item.course_id}
           />
         );
       })}

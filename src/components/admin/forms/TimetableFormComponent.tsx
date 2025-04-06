@@ -1,6 +1,8 @@
 import InputWithSelect from "@/components/formcontrol/customInput/InputWithSelect";
 import { Field } from "@/components/ui/field";
 import { IListItemProp } from "@/features/config/configAction";
+import { createTimetableData } from "@/features/timetable/timetableAction";
+import { AppDispatch } from "@/store";
 import {
   Box,
   Button,
@@ -13,6 +15,7 @@ import {
 import { Input } from "@chakra-ui/react";
 import { FieldArray, Form, Formik } from "formik";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import * as yup from "yup";
 
@@ -21,7 +24,7 @@ type ITimetableFormProps = {
   courseTypeList: Array<IListItemProp>;
 };
 
-type ItdataProps = {
+export type ItdataProps = {
   enc_timetable_id: string | null;
   course: IListItemProp;
   startTime: string | null;
@@ -31,6 +34,8 @@ type ItdataProps = {
 
 function TimetableDataFormComponent(props: ITimetableFormProps) {
   const { courseTypeList, enc_timetable_id } = props;
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const dayTypes = {
     MONDAY: "MONDAY",
@@ -92,10 +97,13 @@ function TimetableDataFormComponent(props: ITimetableFormProps) {
     day: yup.string().required("Day is required"),
   });
 
-  const onSubmit = async (values: any, action: any) => {
+  const onSubmit = async (values: ItdataProps, action: any) => {
     try {
-      console.log(values);
+
+      await dispatch(createTimetableData(values));
+
       action.setSubmitting(false);
+      action.resetForm();
     } catch (err) {
       console.log(err);
     }

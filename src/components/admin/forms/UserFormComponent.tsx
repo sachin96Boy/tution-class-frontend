@@ -1,6 +1,7 @@
 import InputComponent from "@/components/formcontrol/customInput/InputComponent";
 import { Field } from "@/components/ui/field";
 import { InputGroup } from "@/components/ui/input-group";
+import { PasswordInput } from "@/components/ui/password-input";
 import {
   ICoporateregisterProps,
   registerCoporateUser,
@@ -76,7 +77,6 @@ function UserFormComponent() {
   });
 
   const onSubmit = async (values: ICoporateregisterProps, actions: any) => {
-
     const result = await dispatch(registerCoporateUser(values));
 
     actions.setSubmitting(false);
@@ -120,7 +120,7 @@ function UserFormComponent() {
               htmlFor="password"
               errorText={formik.errors.password}
             >
-              <InputGroup
+              {/* <InputGroup
                 width={"full"}
                 ref={inputRef}
                 endElement={
@@ -154,7 +154,27 @@ function UserFormComponent() {
                   rounded={"10px"}
                   autoComplete="off"
                 />
-              </InputGroup>
+              </InputGroup> */}
+              <PasswordInput
+                rootProps={{
+                  width: "full",
+                }}
+                id="password"
+                colorPalette={"blue"}
+                css={{ "--focus-color": "colors.primary_color" }}
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                borderColor={
+                  formik.touched.password && formik.errors.password
+                    ? "red"
+                    : "#636363"
+                }
+                borderWidth={"1px"}
+                placeholder="Password"
+                rounded={"10px"}
+                autoComplete="off"
+              />
             </Field>
             <Field
               invalid={formik.touched.userType || !!formik.errors.userType}

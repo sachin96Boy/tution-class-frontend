@@ -10,6 +10,9 @@ type ICourseTableBody = {
 const CourseTableCell = (courseDataProps: IgetCourseProps) => {
   const { id, course_id, title, year, status, Teacher, Grade, Subject } =
     courseDataProps;
+
+    const encodedId = encodeURIComponent(course_id);
+
   return (
     <Table.Row>
       <Table.Cell pl="0px">
@@ -60,7 +63,7 @@ const CourseTableCell = (courseDataProps: IgetCourseProps) => {
         </Text>
       </Table.Cell>
       <Table.Cell pl="0px">
-        <Link to={`/admin/courses/data?id=${course_id}`}>
+        <Link to={`/admin/courses/data?id=${encodedId}`}>
           <Button
             variant={"ghost"}
             fontSize="sm"

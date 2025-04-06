@@ -9,6 +9,8 @@ type ITiimeTableYearlyTableBody = {
 
 const TimeTableYearlyTableCell = (payDataProps: Igettimetableyear) => {
   const { id, time_table_id, year } = payDataProps;
+
+  const encodedId = encodeURIComponent(time_table_id);
   return (
     <Table.Row>
       <Table.Cell pl="0px">
@@ -28,7 +30,7 @@ const TimeTableYearlyTableCell = (payDataProps: Igettimetableyear) => {
         </Badge>
       </Table.Cell>
       <Table.Cell pl="0px">
-        <Link to={`/admin/time-table/data?id=${time_table_id}`}>
+        <Link to={`/admin/time-table/data?id=${encodedId}`}>
           <Button
             variant={"ghost"}
             fontSize="sm"

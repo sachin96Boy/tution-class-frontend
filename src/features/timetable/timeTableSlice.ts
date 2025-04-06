@@ -2,13 +2,20 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createTimetable, createTimetableData, getAllTimeTableData, getTimeTableDataById, Igettimetableyear } from "./timetableAction";
 import { toaster } from "@/components/ui/toaster";
 
+type IcourseProps = {
+    course_id: string;
+    title: string;
+    course_img_path: string;
+}
+
 export type Itimetabledata = {
     id: string;
     enc_timetable_id: string;
     start_time: string;
     end_time: string;
     day: string;
-    course: string;
+    course_id: string;
+    Courses: Array<IcourseProps>
 }
 
 
@@ -84,7 +91,7 @@ export const timeTableSlice = createSlice({
 
                 toaster.create({
                     type: 'error',
-                    title: state.errorMsg
+                    title: state.errorMsg?.toString()
                 })
             }
         ).addCase(
@@ -116,7 +123,7 @@ export const timeTableSlice = createSlice({
 
                 toaster.create({
                     type: 'error',
-                    title: state.errorMsg
+                    title: state.errorMsg?.toString()
                 })
             }
         ).addCase(
@@ -128,11 +135,7 @@ export const timeTableSlice = createSlice({
             getTimeTableDataById.fulfilled, (state, action) => {
                 state.loading = false;
                 state.success = true;
-                const newTimeTableData = action.payload.timeTableData;
-
-                state.timeTableData = newTimeTableData;
-
-
+                state.timeTableData = action.payload.timeTableData;
             }
         ).addCase(
             getTimeTableDataById.rejected, (state, action) => {
@@ -142,6 +145,11 @@ export const timeTableSlice = createSlice({
                 const errorData = (action.payload as any)?.error || action.error.message;
 
                 state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg?.toString()
+                })
             }
         )
     }

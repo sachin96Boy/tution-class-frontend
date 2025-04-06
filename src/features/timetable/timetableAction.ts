@@ -1,6 +1,7 @@
 import axiosInstance from "@/utils/AxiosInstans";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Itimetabledata } from "./timeTableSlice";
+import { ItdataProps } from "@/components/admin/forms/TimetableFormComponent";
 
 export type Itimetableyear = {
     year: Date | null;
@@ -44,18 +45,25 @@ const handleCreateTimetable = async (values: Itimetableyear, { rejectWithValue }
         return rejectWithValue(err.response.data);
     }
 }
-const handleCreateTimetableData = async (values: Itimetabledata, { rejectWithValue }: any) => {
+const handleCreateTimetableData = async (values: ItdataProps, { rejectWithValue }: any) => {
     try {
 
-        const { enc_timetable_id, course, day, start_time, end_time } = values;
+        const { course, day, enc_timetable_id, endTime, startTime } = values;
 
         const response = await axiosInstance.post(
             'timetable/createTimeTableData',
-            values,
+            {
+                "enc_timetable_id": enc_timetable_id,
+                "course": course.key,
+                "day": day,
+                "start_time": startTime,
+                "end_time": endTime
+            },
 
         );
         return response.data;
     } catch (err: any) {
+        console.log(err);
         return rejectWithValue(err.response.data);
     }
 }
@@ -67,6 +75,7 @@ const handleGetTimetableDatabyTID = async (values: ItimetablebyId, { rejectWithV
             values,
 
         );
+
         return response.data;
     } catch (err: any) {
         return rejectWithValue(err.response.data);
