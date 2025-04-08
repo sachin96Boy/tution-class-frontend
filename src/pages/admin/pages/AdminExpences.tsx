@@ -2,9 +2,16 @@ import ExpenceTableBody from "@/components/admin/expence/ExpenceTableBody";
 import ExpenceFormComponent from "@/components/admin/forms/ExpenceFormComponent";
 import Modalsheet from "@/components/admin/modal/Modalsheet";
 import OverlayTable from "@/components/admin/tables/OverlayTable";
+import Spinner from "@/components/spinner/Spinner";
+import {
+  getAllExpences,
+  IgetExpence,
+} from "@/features/accounting/accountingAction";
 import { IListItemProp } from "@/features/config/configAction";
+import { AppDispatch, RootState } from "@/store";
 import { Box, Flex } from "@chakra-ui/react";
-import React, { useEffect,  useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 type IAdminExpencesProps = {
   expenceTypeList: Array<IListItemProp>;
@@ -14,12 +21,18 @@ type IAdminExpencesProps = {
 function AdminExpences(props: IAdminExpencesProps) {
   const { expenceTypeList, teacherList } = props;
 
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { loading, expences } = useSelector(
+    (state: RootState) => state.account
+  );
+
   const [currentPage, setCurrentPage] = useState(1);
-  const [items, setItems] = useState<Array<IAdminExpencesProps>>([]);
+  const [items, setItems] = useState<Array<IgetExpence>>([]);
 
   const handleChange = (details: { page: number }) => {
     const start = (details.page - 1) * 10;
-    const newItems = [].slice(start, start + 10);
+    const newItems = expences.slice(start, start + 10);
 
     setItems(newItems);
     setCurrentPage(details.page);
@@ -29,6 +42,10 @@ function AdminExpences(props: IAdminExpencesProps) {
     handleChange({
       page: 1,
     });
+  }, []);
+
+  useEffect(() => {
+    dispatch(getAllExpences(""));
   }, []);
 
   return (
@@ -46,14 +63,18 @@ function AdminExpences(props: IAdminExpencesProps) {
         />
       </Box>
       <Box>
-        <OverlayTable
-          currentPage={currentPage}
-          handlePageChange={handleChange}
-          title={"Expences Data"}
-          captions={["ExpencesId", "Type", "Amount", "Teacher", "Date"]}
-          tableBodyComponent={<ExpenceTableBody data={[]} />}
-          data={[]}
-        />
+        {loading ? (
+          <Spinner />
+        ) : (
+          <OverlayTable
+            currentPage={currentPage}
+            handlePageChange={handleChange}
+            title={"Expences Data"}
+            captions={["ExpencesId", "Type", "Amount", "Teacher", "Date"]}
+            tableBodyComponent={<ExpenceTableBody data={items} />}
+            data={expences}
+          />
+        )}
       </Box>
     </Flex>
   );

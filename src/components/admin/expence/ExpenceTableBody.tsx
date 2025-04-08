@@ -1,30 +1,23 @@
-import { Badge, Table, Text } from "@chakra-ui/react";
+import { IgetExpence } from "@/features/accounting/accountingAction";
+import { Avatar, Badge, Flex, Table, Text } from "@chakra-ui/react";
 import React from "react";
 
-type Iexpence = {
-  expenceId: string;
-  expenceType: string;
-  teacher: string;
-  amount: number;
-  date: Date;
-};
-
 type IExpenceTableBody = {
-  data: Array<Iexpence>;
+  data: Array<IgetExpence>;
 };
 
-const ExpenceTableCell = (payDataProps: Iexpence) => {
-  const { amount, expenceType, date, teacher, expenceId } = payDataProps;
+const ExpenceTableCell = (payDataProps: IgetExpence) => {
+  const { Expencetype, Teacher, date, expence_amount, id } = payDataProps;
   return (
     <Table.Row>
       <Table.Cell pl="0px">
         <Text fontSize="sm" color="gray.400" fontWeight="normal">
-          {expenceId}
+          {id}
         </Text>
       </Table.Cell>
       <Table.Cell pl="0px">
         <Text fontSize="sm" color="gray.400" fontWeight="normal">
-          {expenceType}
+          {Expencetype.expence_type}
         </Text>
       </Table.Cell>
       <Table.Cell>
@@ -35,17 +28,23 @@ const ExpenceTableCell = (payDataProps: Iexpence) => {
           p="3px 10px"
           borderRadius="8px"
         >
-          {amount}
+          Rs {expence_amount}
         </Badge>
       </Table.Cell>
       <Table.Cell pl="0px">
-        <Text fontSize="sm" color="gray.400" fontWeight="normal">
-          {teacher}
-        </Text>
+        <Flex gap={2} align={"center"}>
+          <Avatar.Root shape="full" size="lg">
+            <Avatar.Fallback name={Teacher.full_name} />
+            <Avatar.Image src={Teacher.profile_img} />
+          </Avatar.Root>
+          <Text fontSize="sm" color="gray.400" fontWeight="normal">
+            {Teacher.full_name}
+          </Text>
+        </Flex>
       </Table.Cell>
       <Table.Cell pl="0px">
         <Text fontSize="sm" color="gray.400" fontWeight="normal">
-          {date.toLocaleDateString()}
+          {date}
         </Text>
       </Table.Cell>
     </Table.Row>
@@ -60,11 +59,14 @@ function ExpenceTableBody(props: IExpenceTableBody) {
         return (
           <ExpenceTableCell
             key={index}
-            expenceId={expenceItem.expenceId}
-            expenceType={expenceItem.expenceType}
-            teacher={expenceItem.teacher}
-            amount={expenceItem.amount}
+            Expencetype={expenceItem.Expencetype}
+            Teacher={expenceItem.Teacher}
             date={expenceItem.date}
+            expence_amount={expenceItem.expence_amount}
+            expence_id={expenceItem.expence_id}
+            expence_type={expenceItem.expence_type}
+            id={expenceItem.id}
+            teacher_id={expenceItem.teacher_id}
           />
         );
       })}
