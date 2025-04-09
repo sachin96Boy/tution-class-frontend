@@ -17,17 +17,17 @@ import sipsaclassBannerrow3 from "../assets/home/class-banner/sipsa-banner-row3.
 import sipsaclassBannerrow4 from "../assets/home/class-banner/sipsa-banner-row4.jpg";
 import sipsaLogo from "../assets/header/logos/Sipsa_logo.png";
 
-import Slider from "react-slick";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
-import { PhotoView } from "react-photo-view";
 import {
   getAllAdvertisments,
   getCompanyMainBanner,
 } from "@/features/advertisment/advertismentAction";
 import Spinner from "@/components/spinner/Spinner";
-import { Iadvertisment } from "@/features/advertisment/advertismentSlice";
+
+import CarousaComponent from "@/components/carousel/CarousaComponent";
+import { EmblaOptionsType } from "embla-carousel";
 
 const bannerList: Array<string> = [
   sipsaclassbanner1,
@@ -61,28 +61,6 @@ function HomePage() {
 
   const navigate = useNavigate();
 
-  const settings: any = {
-    dots: true,
-    autoplay: true,
-    vertical: vertical,
-    verticalSwiping: verticalSwiping,
-    autoplaySpeed: 4000,
-    arrows: false,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 768, // Adjust for smaller screens
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          vertical: false,
-          verticalSwiping: false,
-        },
-      },
-    ],
-  };
-
   const handlenavigtetoSupport = () => {
     navigate("/dashboard/support");
   };
@@ -97,6 +75,8 @@ function HomePage() {
     }
     dispatch(getAllAdvertisments(""));
   }, [dispatch, company]);
+
+  const OPTIONS: EmblaOptionsType = { loop: true,  };
 
   return (
     <Box w={"full"} px={[4, 6, 10]}>
@@ -185,8 +165,8 @@ function HomePage() {
           අපගේ පාඨමාලා
         </Text>
         <Flex
-          align={"center"}
-          justify={"center"}
+          alignItems={"center"}
+          justifyContent={"center"}
           px={[2, 4, 6]}
           rounded="10px"
           bg="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
@@ -196,23 +176,8 @@ function HomePage() {
               <Spinner />
             </Center>
           ) : advertisments && advertisments.length > 0 ? (
-            <Slider {...settings}>
-              {advertisments.map((item: Iadvertisment, index: number) => (
-                <Box key={index}>
-                  <Center p={1} bg={"yellow.400"} rounded="5px" m={[2, 4]}>
-                    <PhotoView key={index} src={item.advertisment_img_path}>
-                      <Image
-                        borderRadius={"12px"}
-                        src={item.advertisment_img_path}
-                        alt={item.file_name}
-                        objectFit="fill"
-                        boxSize={["150px", "180px", "220px"]}
-                      />
-                    </PhotoView>
-                  </Center>
-                </Box>
-              ))}
-            </Slider>
+            <CarousaComponent slides={advertisments} options={OPTIONS} />
+            // <Box></Box>
           ) : (
             <Center boxSize={["150px", "180px", "220px"]}>
               <Heading textAlign={"center"} color={"gray.200"} size={"lg"}>

@@ -17,6 +17,10 @@ export type ICoporateregisterProps = {
 
 
 export type IloginProps = {
+    emailOrMobile: string,
+    password: string
+}
+export type IloginPropsAdmin = {
     email: string,
     password: string
 }
@@ -41,7 +45,7 @@ const handleRegisterCoporateUser = async (value: ICoporateregisterProps, { rejec
 
     }
 }
-const handleLoginCoporateUser = async (value: IloginProps, { rejectWithValue }: any) => {
+const handleLoginCoporateUser = async (value: IloginPropsAdmin, { rejectWithValue }: any) => {
 
     try {
 
@@ -82,16 +86,17 @@ const handleLoginUser = async (value: IloginProps, { rejectWithValue }: any) => 
 
     try {
 
-        const { email, password } = value;
+        const { emailOrMobile, password } = value;
 
         const response = await axiosInstance.post(
             'auth/login-student',
-            { email, password }
+            { emailOrMobile, password }
         );
 
         return response.data
 
     } catch (err: any) {
+        console.log(err);
         return rejectWithValue(err.response.data);
 
     }

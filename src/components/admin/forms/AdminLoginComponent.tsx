@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 
 import * as Yup from "yup";
-import { IloginProps, loginCoporateUser } from "@/features/auth/authAction";
+import { IloginProps, IloginPropsAdmin, loginCoporateUser } from "@/features/auth/authAction";
 import {
   Button,
   Icon,
@@ -39,7 +39,7 @@ function AdminLoginComponent() {
     }
   };
 
-  const initialValues: IloginProps = {
+  const initialValues: IloginPropsAdmin = {
     email: "",
     password: "",
   };
@@ -56,7 +56,7 @@ function AdminLoginComponent() {
       ),
   });
 
-  const onSubmit = async (values: IloginProps, actions: any) => {
+  const onSubmit = async (values: IloginPropsAdmin, actions: any) => {
     const result = await dispatch(loginCoporateUser(values));
     if (result.payload?.token) {
       navigate("/admin");

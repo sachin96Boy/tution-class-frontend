@@ -55,8 +55,8 @@ function AdminAdvertiments() {
             currentPage={currentPage}
             handlePageChange={handleChange}
             title={"Advertisment Data"}
-            captions={["AdvertismentId", "Amount", "file"]}
-            tableBodyComponent={<AdvertismentTabeBody data={advertisments} />}
+            captions={["AdvertismentId", "Amount", "status", "file"]}
+            tableBodyComponent={<AdvertismentTabeBody data={items} />}
             data={advertisments}
           />
         )}

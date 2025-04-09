@@ -31,13 +31,13 @@ const AdvertismentTableCell = (advertismentDataProps: Iadvertisment) => {
       <Table.Cell pl="0px">
         <Text fontSize="sm" color="gray.400" fontWeight="normal" truncate>
           <Badge
-            bg={"green.400"}
+            bg={status == true ? "green.600" : "red.200"}
             color={"white"}
             fontSize="16px"
             p="3px 10px"
             borderRadius="8px"
           >
-            {status}
+            {status == true ? "Active" : "Expired"}
           </Badge>
         </Text>
       </Table.Cell>
@@ -45,7 +45,7 @@ const AdvertismentTableCell = (advertismentDataProps: Iadvertisment) => {
         <Box>
           <Image
             src={advertisment_img_path}
-            boxSize="150px"
+            boxSize="80px"
             borderRadius="full"
             fit="cover"
             alt={file_name}

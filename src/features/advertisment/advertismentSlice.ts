@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAdvertisment, getAllAdvertisments, getCompanyMainBanner } from "./advertismentAction";
 import { toaster } from "@/components/ui/toaster";
+import { act } from "react";
 
 export type Iadvertisment = {
     id: string,
@@ -44,6 +45,10 @@ export const advertismentSlice = createSlice({
             createAdvertisment.fulfilled, (state, action) => {
                 state.loading = false
                 state.error = null
+
+                const newAd = action.payload.advertisment;
+
+                state.advertisments.push(newAd);
 
                 toaster.create({
                     type: 'success',
