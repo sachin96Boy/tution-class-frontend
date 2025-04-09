@@ -66,6 +66,7 @@ function PaymentsFormComponent(props: IpaymentFormComponent) {
       const result = await dispatch(createPayment(values));
 
       action.setSubmitting(false);
+      action.resetForm();
     } catch (err) {
       console.log(err);
     }

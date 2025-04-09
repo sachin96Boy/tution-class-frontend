@@ -3,12 +3,12 @@ import { createExpence, createPayment, getAllExpences, getAllPayments, IgetExpen
 import { toaster } from "@/components/ui/toaster";
 
 export type IaccountInitialState = {
-        loading: boolean;
-        payments: Array<IgetPayment>;
-        expences: Array<IgetExpence>
-        error: boolean | null;
-        errorMsg: object | string;
-        success: boolean;
+    loading: boolean;
+    payments: Array<IgetPayment>;
+    expences: Array<IgetExpence>
+    error: boolean | null;
+    errorMsg: object | string;
+    success: boolean;
 }
 
 const initialState: IaccountInitialState = {

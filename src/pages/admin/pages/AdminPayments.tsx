@@ -40,11 +40,11 @@ function AdminPayments(props: IAdminPaymentsProps) {
     handleChange({
       page: 1,
     });
-  }, []);
+  }, [payments]);
 
   useEffect(() => {
     dispatch(getAllPayments(""));
-  }, []);
+  }, [dispatch]);
 
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>

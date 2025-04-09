@@ -7,7 +7,8 @@ type IPaymentTableBody = {
 };
 
 const PaymentTableCell = (payDataProps: IgetPayment) => {
-  const { Course, Student, date, id, paid_amount } = payDataProps;
+  const { Course, Student, paid_date, id, paid_amount } = payDataProps;
+  const localDate = new Date(paid_date);
   return (
     <Table.Row>
       <Table.Cell pl="0px">
@@ -49,7 +50,7 @@ const PaymentTableCell = (payDataProps: IgetPayment) => {
       </Table.Cell>
       <Table.Cell pl="0px">
         <Text fontSize="sm" color="gray.400" fontWeight="normal">
-          {date}
+          {localDate.toLocaleDateString()}
         </Text>
       </Table.Cell>
     </Table.Row>
@@ -67,7 +68,7 @@ function PaymentTableBody(props: IPaymentTableBody) {
             Course={paymentItem.Course}
             Student={paymentItem.Student}
             course_id={paymentItem.course_id}
-            date={paymentItem.date}
+            paid_date={paymentItem.paid_date}
             id={paymentItem.id}
             paid_amount={paymentItem.paid_amount}
             payment_id={paymentItem.payment_id}

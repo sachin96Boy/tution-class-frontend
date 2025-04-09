@@ -3,16 +3,35 @@ import Modalsheet from "@/components/admin/modal/Modalsheet";
 import OverlayTable from "@/components/admin/tables/OverlayTable";
 import UsersTableBody from "@/components/admin/users/UsersTableBody";
 import Spinner from "@/components/spinner/Spinner";
+import { ICoporateUserInfo } from "@/features/auth/authSlice";
 import { getAllUsers } from "@/features/users/userAction";
 import { AppDispatch, RootState } from "@/store";
 import { Box, Flex } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 function AdminUsers() {
   const dispatch = useDispatch<AppDispatch>();
 
   const { loading, users } = useSelector((state: RootState) => state.user);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [items, setItems] = useState<Array<ICoporateUserInfo>>([]);
+
+  const handleChange = (details: { page: number }) => {
+    const start = (details.page - 1) * 10;
+    const newItems = users.slice(start, start + 10);
+
+    setItems(newItems);
+    setCurrentPage(details.page);
+  };
+
+  useEffect(() => {
+    handleChange({
+      page: 1,
+    });
+  }, [users]);
 
   useEffect(() => {
     dispatch(getAllUsers(""));
@@ -34,8 +53,10 @@ function AdminUsers() {
           <OverlayTable
             title={"Users Data"}
             captions={["UserId", "Usernme", "Role", "email", "Status"]}
-            tableBodyComponent={<UsersTableBody data={users} />}
+            tableBodyComponent={<UsersTableBody data={items} />}
             data={users}
+            currentPage={currentPage}
+            handlePageChange={handleChange}
           />
         )}
       </Box>

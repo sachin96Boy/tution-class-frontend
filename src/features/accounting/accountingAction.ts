@@ -32,7 +32,7 @@ export type IgetPayment = {
     paid_amount: number,
     Student: IStudentProp,
     Course: IcourseProps
-    date: string
+    paid_date: string
 }
 
 export type ICreateExpence = {
@@ -46,7 +46,7 @@ export type IgetExpence = {
     expence_id: string,
     expence_type: string,
     teacher_id: string,
-    expence_amount: number,
+    amount: number,
     date: string,
     Teacher: ITeacherProps,
     Expencetype: IExpenceType

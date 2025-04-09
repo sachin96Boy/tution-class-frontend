@@ -1,5 +1,5 @@
 import { boolean } from "yup";
-import { createGrade, createSubject, getAllGrades, getAllSubjects, IgradeProps, IsubjectProps } from "./commonAction";
+import { createExpenceType, createGrade, createSubject, getAllExpenceTypes, getAllGrades, getAllSubjects, IexpenceTypeProps, IgradeProps, IsubjectProps } from "./commonAction";
 import { createSlice } from "@reduxjs/toolkit";
 import { toaster } from "@/components/ui/toaster";
 
@@ -7,6 +7,7 @@ export type IcommonInitialState = {
     loading: boolean;
     subjects: Array<IsubjectProps>;
     grades: Array<IgradeProps>;
+    expenceTypes: Array<IexpenceTypeProps>
     error: boolean | null;
     errorMsg: string | object;
     success: boolean;
@@ -16,6 +17,7 @@ const initialState: IcommonInitialState = {
     loading: false,
     subjects: [],
     grades: [],
+    expenceTypes: [],
     error: null,
     errorMsg: '',
     success: false
@@ -128,6 +130,63 @@ export const commonSlice = createSlice({
             }
         ).addCase(
             getAllSubjects.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
+        ).addCase(
+            createExpenceType.pending, (state) => {
+                state.loading = true
+                state.error = false
+            }
+        ).addCase(
+            createExpenceType.fulfilled, (state, action) => {
+                state.loading = false
+                state.error = null
+
+                const expenceType = action.payload.expencetype;
+                state.expenceTypes.push(expenceType);
+
+
+                toaster.create({
+                    type: 'success',
+                    title: action.payload.message
+                });
+            }
+        ).addCase(
+            createExpenceType.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
+        ).addCase(
+            getAllExpenceTypes.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            }
+        ).addCase(
+            getAllExpenceTypes.fulfilled, (state, action) => {
+                state.loading = false;
+                state.expenceTypes = action.payload.expenceTypes;
+            }
+        ).addCase(
+            getAllExpenceTypes.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
 

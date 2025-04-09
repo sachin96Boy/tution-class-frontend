@@ -51,6 +51,7 @@ function AttandanceMarkForm(props: IattandanceMarksForm) {
     try {
       console.log(values);
       action.setSubmitting(false);
+      action.resetForm();
     } catch (err) {
       console.log(err);
     }

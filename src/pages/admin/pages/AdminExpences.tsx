@@ -42,7 +42,7 @@ function AdminExpences(props: IAdminExpencesProps) {
     handleChange({
       page: 1,
     });
-  }, []);
+  }, [expences]);
 
   useEffect(() => {
     dispatch(getAllExpences(""));

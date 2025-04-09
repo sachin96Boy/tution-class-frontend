@@ -45,16 +45,6 @@ function UserFormComponent() {
     ],
   });
 
-  const onClickReveal = () => {
-    onToggle();
-
-    if (inputRef.current) {
-      inputRef.current.focus({
-        preventScroll: true,
-      });
-    }
-  };
-
   const initialValues: ICoporateregisterProps = {
     email: "",
     userName: "",
@@ -80,7 +70,7 @@ function UserFormComponent() {
     const result = await dispatch(registerCoporateUser(values));
 
     actions.setSubmitting(false);
-    console.log(result);
+    actions.resetForm();
   };
 
   return (

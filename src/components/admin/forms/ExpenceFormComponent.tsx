@@ -65,6 +65,7 @@ function ExpenceFormComponent(props: IExpenceFormProps) {
       const result = await dispatch(createExpence(values));
 
       action.setSubmitting(false);
+      action.resetForm();
     } catch (err) {
       console.log(err);
     }

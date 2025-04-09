@@ -7,7 +7,10 @@ type IExpenceTableBody = {
 };
 
 const ExpenceTableCell = (payDataProps: IgetExpence) => {
-  const { Expencetype, Teacher, date, expence_amount, id } = payDataProps;
+  const { Expencetype, Teacher, date, amount, id } = payDataProps;
+
+  const localDate = new Date(date);
+
   return (
     <Table.Row>
       <Table.Cell pl="0px">
@@ -28,7 +31,7 @@ const ExpenceTableCell = (payDataProps: IgetExpence) => {
           p="3px 10px"
           borderRadius="8px"
         >
-          Rs {expence_amount}
+          Rs {amount}
         </Badge>
       </Table.Cell>
       <Table.Cell pl="0px">
@@ -44,7 +47,7 @@ const ExpenceTableCell = (payDataProps: IgetExpence) => {
       </Table.Cell>
       <Table.Cell pl="0px">
         <Text fontSize="sm" color="gray.400" fontWeight="normal">
-          {date}
+          {localDate.toLocaleDateString()}
         </Text>
       </Table.Cell>
     </Table.Row>
@@ -62,7 +65,7 @@ function ExpenceTableBody(props: IExpenceTableBody) {
             Expencetype={expenceItem.Expencetype}
             Teacher={expenceItem.Teacher}
             date={expenceItem.date}
-            expence_amount={expenceItem.expence_amount}
+            amount={expenceItem.amount}
             expence_id={expenceItem.expence_id}
             expence_type={expenceItem.expence_type}
             id={expenceItem.id}

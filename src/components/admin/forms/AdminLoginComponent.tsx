@@ -63,6 +63,7 @@ function AdminLoginComponent() {
     }
 
     actions.setSubmitting(false);
+    actions.resetForm();
   };
 
   return (

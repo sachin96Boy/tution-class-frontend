@@ -14,6 +14,7 @@ function AdminAccounting() {
   const { courses } = useSelector((state: RootState) => state.course);
   const { students } = useSelector((state: RootState) => state.student);
   const { teachers } = useSelector((state: RootState) => state.teacher);
+  const { expenceTypes } = useSelector((state: RootState) => state.common);
 
   let coursesSelectList: Array<IListItemProp> = courses?.map((course) => {
     return {
@@ -29,6 +30,15 @@ function AdminAccounting() {
       image_path: null,
     };
   });
+  let expenceTypeSelectList: Array<IListItemProp> = expenceTypes?.map(
+    (expenceType) => {
+      return {
+        key: expenceType.id,
+        value: expenceType.expence_type,
+        image_path: null,
+      };
+    }
+  );
   let teacherSelectList: Array<IListItemProp> = teachers?.map((teacher) => {
     return {
       key: teacher.teacher_id,
@@ -62,7 +72,10 @@ function AdminAccounting() {
           />
         </Tabs.Content>
         <Tabs.Content value="expences">
-          <AdminExpences expenceTypeList={[]} teacherList={teacherSelectList} />
+          <AdminExpences
+            expenceTypeList={expenceTypeSelectList}
+            teacherList={teacherSelectList}
+          />
         </Tabs.Content>
       </Tabs.Root>
     </Flex>
