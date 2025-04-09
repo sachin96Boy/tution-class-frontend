@@ -1,6 +1,6 @@
 import axiosInstance from "@/utils/AxiosInstans";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Itimetabledata } from "./timeTableSlice";
+
 import { ItdataProps } from "@/components/admin/forms/TimetableFormComponent";
 
 export type Itimetableyear = {

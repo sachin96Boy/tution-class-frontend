@@ -32,19 +32,6 @@ import { PasswordInput } from "../ui/password-input";
 function RegisterForm() {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { loading, error } = useSelector((state: RootState) => state.auth);
-
-  const { open, onToggle } = useDisclosure();
-  const inputRef = useRef<HTMLInputElement>(null);
-  const onClickReveal = () => {
-    onToggle();
-
-    if (inputRef.current) {
-      inputRef.current.focus({
-        preventScroll: true,
-      });
-    }
-  };
   const steps = [
     { label: "Step 1", description: "Name and Email Address" },
     { label: "Step 2", description: "Mobile Number Verification" },
@@ -63,7 +50,10 @@ function RegisterForm() {
   const validationSchema = Yup.object({
     fullName: Yup.string().required("Full Name is required"),
     email: Yup.string().email("Email is invalid").required("Email is required"),
-    mobile: Yup.string().required("Mobile is required"),
+    mobile: Yup.string().matches(
+      /^(?:\+94|0)(7)(0|1|2|5|6|7|8)\d{7}$/,
+      "Please enter a valid Sri Lankan mobile number"
+    ),
     otpNumber: Yup.string().required("OTP is required"),
     password: Yup.string()
       .required("Password is required")

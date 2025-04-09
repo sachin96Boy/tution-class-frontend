@@ -10,6 +10,7 @@ import commonReducer from './features/comon/commonSlice'
 import studentReducer from './features/student/studentSlice'
 import timeTableReducer from './features/timetable/timeTableSlice'
 import accountReducer from './features/accounting/accountingSlice'
+import assignmentReducer from './features/assignment/assignmentSlice'
 
 export const store = configureStore({
   reducer: {
@@ -22,7 +23,8 @@ export const store = configureStore({
     course: coursereducer,
     common: commonReducer,
     timetable: timeTableReducer,
-    account: accountReducer
+    account: accountReducer,
+    assignment: assignmentReducer
   },
 })
 
