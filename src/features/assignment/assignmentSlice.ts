@@ -35,6 +35,7 @@ export const assignmentSlice = createSlice({
             getAllAssignmentData.fulfilled, (state, action) => {
                 state.loading = false;
                 state.assignments = action.payload.assignments;
+
             }
         ).addCase(
             getAllAssignmentData.rejected, (state, action) => {

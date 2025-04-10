@@ -20,7 +20,7 @@ export type ICreateAssignment ={
     course_id: IListItemProp
 }
 export type ICreateAssignmentData ={
-    assignment_id: string;
+    assignment_id: string | null;
     student_id: IListItemProp;
     marks: string;
 }

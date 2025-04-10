@@ -3,7 +3,7 @@ import AddAssignmentFormComponent from "@/components/admin/forms/AddAssignmentFo
 import Modalsheet from "@/components/admin/modal/Modalsheet";
 import OverlayTable from "@/components/admin/tables/OverlayTable";
 import { getAllAdvertisments } from "@/features/advertisment/advertismentAction";
-import { IAssignmentProps } from "@/features/assignment/assignmentAction";
+import { getAllAssignmentData, IAssignmentProps } from "@/features/assignment/assignmentAction";
 import { IListItemProp } from "@/features/config/configAction";
 import { getAllCourses } from "@/features/course/courseAction";
 import { AppDispatch, RootState } from "@/store";
@@ -30,7 +30,7 @@ function Assignments() {
 
   useEffect(() => {
     dispatch(getAllCourses(""));
-    dispatch(getAllAdvertisments(""));
+    dispatch(getAllAssignmentData(""));
   }, [dispatch]);
 
   const [currentPage, setCurrentPage] = useState(1);

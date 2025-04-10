@@ -54,7 +54,7 @@ const AssignmentTableCell = (assignnmentProps: IAssignmentProps) => {
         </VisitLink>
       </Table.Cell>
       <Table.Cell pl="0px">
-        <Link to={`/admin/assignment/data?id=${encodedId}`}>
+        <Link to={`/admin/assignments/data?id=${encodedId}`}>
           <Button
             variant={"ghost"}
             fontSize="sm"

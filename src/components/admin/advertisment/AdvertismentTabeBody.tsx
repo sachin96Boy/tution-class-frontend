@@ -25,7 +25,7 @@ const AdvertismentTableCell = (advertismentDataProps: Iadvertisment) => {
 
       <Table.Cell pl="0px">
         <Text fontSize="sm" color="gray.400" fontWeight="normal" truncate>
-          {duration}
+          RS {duration}
         </Text>
       </Table.Cell>
       <Table.Cell pl="0px">
