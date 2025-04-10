@@ -18,54 +18,14 @@ import { IoMdDocument } from "react-icons/io";
 
 import bgImg from "@/assets/signin/class-2.webp";
 import { NavLink } from "react-router-dom";
+import StaticTiles from "@/components/admin/dashboard/StaticTiles";
 
 function AdminDashboard() {
   const iconBoxInside = "white";
 
   return (
     <Flex gap={4} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
-      <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} gap="24px">
-        <MiniStatTile
-          title={"Today's Income"}
-          amount={"$53,000"}
-          percentage={55}
-          icon={
-            <FaWallet height={"24px"} width={"24px"} color={iconBoxInside} />
-          }
-        />
-        <MiniStatTile
-          title={"Today's Students"}
-          amount={"2,300"}
-          percentage={5}
-          icon={
-            <FaGlobe height={"24px"} width={"24px"} color={iconBoxInside} />
-          }
-        />
-        <MiniStatTile
-          title={"New Students"}
-          amount={"+3,020"}
-          percentage={-14}
-          icon={
-            <IoMdDocument
-              height={"24px"}
-              width={"24px"}
-              color={iconBoxInside}
-            />
-          }
-        />
-        <MiniStatTile
-          title={"Total Sales"}
-          amount={"$173,000"}
-          percentage={8}
-          icon={
-            <FiShoppingCart
-              height={"24px"}
-              width={"24px"}
-              color={iconBoxInside}
-            />
-          }
-        />
-      </SimpleGrid>
+      <StaticTiles />
 
       <Grid
         templateColumns={{ md: "1fr", lg: "1.8fr 1.2fr" }}
