@@ -1,6 +1,6 @@
 export const barChartData = [
   {
-    name: "Sales",
+    name: "Payments",
     data: [330, 250, 110, 300, 490, 350, 270, 130, 425],
   },
 ];

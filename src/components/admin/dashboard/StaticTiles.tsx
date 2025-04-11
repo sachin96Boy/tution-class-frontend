@@ -1,12 +1,12 @@
 import { Box, SimpleGrid, Skeleton } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import MiniStatTile from "../stats/MiniStatTile";
-import { FaGlobe, FaWallet } from "react-icons/fa";
-import { IoMdDocument } from "react-icons/io";
-import { FiShoppingCart } from "react-icons/fi";
+
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { getDashboardStatistics } from "@/features/statistics/statisticsAction";
+
+import { FileUser, Globe, ShoppingCart, Wallet } from "lucide-react";
 
 function StaticTiles() {
   const iconBoxInside = "white";
@@ -18,8 +18,6 @@ function StaticTiles() {
   useEffect(() => {
     dispatch(getDashboardStatistics(""));
   }, []);
-
-
 
   const SkelitonGrid = () => {
     return (
@@ -40,38 +38,38 @@ function StaticTiles() {
         <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} gap="24px">
           <MiniStatTile
             title={"Today's Income"}
-            amount={`RS ${dashboard?.todayIncome}`}
-            percentage={parseInt(dashboard?.todayIncomePresentage ?? '0')}
+            amount={
+              dashboard?.todayIncome != null
+                ? `Rs ${dashboard?.todayIncome}`
+                : "Rs 0"
+            }
+            percentage={parseInt(dashboard?.todayIncomePresentage ?? "0")}
             icon={
-              <FaWallet height={"24px"} width={"24px"} color={iconBoxInside} />
+              <Wallet height={"24px"} width={"24px"} color={iconBoxInside} />
             }
           />
           <MiniStatTile
             title={"Today's Students"}
-            amount={dashboard?.newStudents ?? '0'}
-            percentage={parseInt(dashboard?.attandancePresentage ?? '0')}
+            amount={dashboard?.newStudents ?? "0"}
+            percentage={parseInt(dashboard?.attandancePresentage ?? "0")}
             icon={
-              <FaGlobe height={"24px"} width={"24px"} color={iconBoxInside} />
+              <Globe height={"24px"} width={"24px"} color={iconBoxInside} />
             }
           />
           <MiniStatTile
             title={"New Students"}
-            amount={dashboard?.newStudents ?? '0'}
-            percentage={parseInt(dashboard?.newStudentPresentage ?? '0')}
+            amount={dashboard?.newStudents ?? "0"}
+            percentage={parseInt(dashboard?.newStudentPresentage ?? "0")}
             icon={
-              <IoMdDocument
-                height={"24px"}
-                width={"24px"}
-                color={iconBoxInside}
-              />
+              <FileUser height={"24px"} width={"24px"} color={iconBoxInside} />
             }
           />
           <MiniStatTile
             title={"Total Sales"}
             amount={`Rs ${dashboard?.todaySales}`}
-            percentage={parseInt(dashboard?.todaySalesPrecentage ?? '0')}
+            percentage={parseInt(dashboard?.todaySalesPrecentage ?? "0")}
             icon={
-              <FiShoppingCart
+              <ShoppingCart
                 height={"24px"}
                 width={"24px"}
                 color={iconBoxInside}

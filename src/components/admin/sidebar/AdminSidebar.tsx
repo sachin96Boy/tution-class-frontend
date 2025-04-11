@@ -1,17 +1,9 @@
 import Logo from "@/components/Logo";
 import { Box, Button, Flex, Icon, Text } from "@chakra-ui/react";
+import { Banknote, BookA, BookOpen, CalendarCheck, ClipboardPlus, GraduationCap, House, Sheet, UserRoundPen, Users } from "lucide-react";
 
-import { BsBookHalf, BsFillPeopleFill } from "react-icons/bs";
-import {
-  FaBookReader,
-  FaChalkboardTeacher,
-  FaHome,
-  FaMoneyBillAlt,
-  FaRegCalendarCheck,
-  FaTable,
-} from "react-icons/fa";
-import { TbReport } from "react-icons/tb";
-import { PiStudentBold } from "react-icons/pi";
+
+
 import { NavLink, useLocation } from "react-router-dom";
 
 function AdminSidebar() {
@@ -29,61 +21,61 @@ function AdminSidebar() {
   const navLinks = [
     {
       title: "Dashboard",
-      icon: <FaHome />,
+      icon: <House />,
       path: "/admin/dashboard",
       route: "dashboard",
     },
     {
       title: "Attandance",
-      icon: <FaRegCalendarCheck />,
+      icon: <CalendarCheck />,
       path: "/admin/attandance",
       route: "attandance",
     },
     {
       title: "Accounting",
-      icon: <FaMoneyBillAlt />,
+      icon: <Banknote />,
       path: "/admin/accounting",
       route: "accounting",
     },
     {
       title: "Reports",
-      icon: <TbReport />,
+      icon: <ClipboardPlus />,
       path: "/admin/reports",
       route: "reports",
     },
     {
       title: "Users",
-      icon: <BsFillPeopleFill />,
+      icon: <Users />,
       path: "/admin/users",
       route: "users",
     },
     {
       title: "Students",
-      icon: <PiStudentBold />,
+      icon: <GraduationCap />,
       path: "/admin/students",
       route: "students",
     },
     {
       title: "Teachers",
-      icon: <FaChalkboardTeacher />,
+      icon: <UserRoundPen />,
       path: "/admin/teachers",
       route: "teachers",
     },
     {
       title: "Time Table",
-      icon: <FaTable />,
+      icon: <Sheet />,
       path: "/admin/time-table",
       route: "time-table",
     },
     {
       title: "Assignments",
-      icon: <FaBookReader />,
+      icon: <BookA />,
       path: "/admin/assignments",
       route: "assignments",
     },
     {
       title: "Courses",
-      icon: <BsBookHalf />,
+      icon: <BookOpen />,
       path: "/admin/courses",
       route: "courses",
     },

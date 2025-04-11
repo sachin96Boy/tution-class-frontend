@@ -18,22 +18,22 @@ function Students() {
   );
 
   const [currentPage, setCurrentPage] = useState(1);
-  
-    const [items, setItems] = useState<Array<IUserInfo>>([]);
-  
-    const handleChange = (details: { page: number }) => {
-      const start = (details.page - 1) * 10;
-      const newItems = students.slice(start, start + 10);
-  
-      setItems(newItems);
-      setCurrentPage(details.page);
-    };
-  
-    useEffect(() => {
-      handleChange({
-        page: 1,
-      });
-    }, [students]);
+
+  const [items, setItems] = useState<Array<IUserInfo>>([]);
+
+  const handleChange = (details: { page: number }) => {
+    const start = (details.page - 1) * 10;
+    const newItems = students.slice(start, start + 10);
+
+    setItems(newItems);
+    setCurrentPage(details.page);
+  };
+
+  useEffect(() => {
+    handleChange({
+      page: 1,
+    });
+  }, [students]);
 
   useEffect(() => {
     dispatch(getAllStudents(""));
@@ -47,7 +47,7 @@ function Students() {
         ) : (
           <OverlayTable
             title={"Student Data"}
-            captions={["UserId", "Fullname", "Role", "email", "Status"]}
+            captions={["UserId", "Fullname", "Role", "email", "QR", "Status"]}
             tableBodyComponent={<StudentsTableBody data={items} />}
             data={students}
             currentPage={currentPage}

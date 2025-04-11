@@ -5,9 +5,9 @@ import { getAllCourses } from "@/features/course/courseAction";
 import { getAllStudents } from "@/features/student/studentAction";
 import { AppDispatch, RootState } from "@/store";
 import { Button, Card, Center, Flex, Icon, Tabs, Text } from "@chakra-ui/react";
+import { Pen, QrCode } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { BsQrCode } from "react-icons/bs";
-import { LuUserPen } from "react-icons/lu";
+
 import { useDispatch, useSelector } from "react-redux";
 
 function AdminAttandance() {
@@ -76,13 +76,13 @@ function AdminAttandance() {
         <Tabs.List bg={"gray.200"} rounded={"2xl"} padding={"2"} width={"full"}>
           <Tabs.Trigger value="qr">
             <Icon>
-              <BsQrCode />
+              <QrCode />
             </Icon>
             Mark Attandance based on QR
           </Tabs.Trigger>
           <Tabs.Trigger value="manual">
             <Icon>
-              <LuUserPen />
+              <Pen />
             </Icon>
             Manual Attandance Mark
           </Tabs.Trigger>

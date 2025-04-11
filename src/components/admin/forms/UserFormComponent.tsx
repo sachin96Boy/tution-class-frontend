@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React, { useRef } from "react";
-import { HiEye, HiEyeOff } from "react-icons/hi";
+
 import { useDispatch, useSelector } from "react-redux";
 
 import * as Yup from "yup";

@@ -2,15 +2,11 @@ import React, { RefObject } from "react";
 import { Avatar, Box, Flex, Heading, Input, Text } from "@chakra-ui/react";
 import { ErrorMessage, FormikProps, FormikHelpers } from "formik";
 
-import { BsShieldFillExclamation } from "react-icons/bs";
-import { MdVerifiedUser } from "react-icons/md";
-import { TbCameraPlus } from "react-icons/tb";
-
-
 import { Field } from "../ui/field";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { IUpdateStudentAdditionalDataProps } from "@/features/student/studentAction";
+import { ShieldCheck, ShieldQuestion, UserRoundPlus } from "lucide-react";
 
 interface BannerProps {
   hiddenInputRef: RefObject<HTMLInputElement | null>;
@@ -72,7 +68,7 @@ function ProfileBanner({
             >
               <Avatar.Fallback>
                 <Avatar.Icon>
-                  <TbCameraPlus size={"28"} style={{ color: "#ffffffff" }} />
+                  <UserRoundPlus  size={"28"} style={{ color: "#ffffffff" }} />
                 </Avatar.Icon>
               </Avatar.Fallback>
               <Avatar.Image src={preview} />
@@ -121,7 +117,7 @@ function ProfileBanner({
           <Flex gap={5}>
             <Flex align={"center"} gap={1}>
               {" "}
-              <MdVerifiedUser style={{ color: "#2ECC71" }} />
+              <ShieldCheck style={{ color: "#2ECC71" }} />
               <Text
                 fontFamily={"body"}
                 color="#2ECC71"
@@ -133,7 +129,7 @@ function ProfileBanner({
             </Flex>
             <Flex align={"center"} gap={1}>
               {" "}
-              <BsShieldFillExclamation style={{ color: "#F1C40F" }} />
+              <ShieldQuestion style={{ color: "#F1C40F" }} />
               <Text
                 fontFamily={"body"}
                 color="#F1C40F"

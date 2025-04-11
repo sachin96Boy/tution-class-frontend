@@ -12,8 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import InputComponent from "../../formcontrol/customInput/InputComponent";
-import { InputGroup } from "@/components/ui/input-group";
-import { HiEye, HiEyeOff } from "react-icons/hi";
+
 import { Field } from "@/components/ui/field";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";

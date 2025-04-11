@@ -1,7 +1,8 @@
 import { IAssignmentDataProps } from "@/features/assignment/assignmentAction";
 import { Avatar, Flex, Icon, Table, Text } from "@chakra-ui/react";
+import { Hexagon } from "lucide-react";
 import React from "react";
-import { MdOutlineFmdGood } from "react-icons/md";
+
 
 type IassignmentMarksTableBody = {
   data: Array<IAssignmentDataProps>;
@@ -16,7 +17,7 @@ const AssignmentMarksTableCell = (
     <Table.Row>
       <Table.Cell pl="0px">
         <Icon>
-          <MdOutlineFmdGood />
+        <Hexagon />
         </Icon>
       </Table.Cell>
       <Table.Cell pl="0px">

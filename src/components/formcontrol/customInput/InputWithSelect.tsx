@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import InputComponent from "./InputComponent";
 import { FormikProps } from "formik";
 import { IListItemProp } from "@/features/config/configAction";
-import { FaDotCircle } from "react-icons/fa";
+import { CircleEllipsis } from "lucide-react";
+
 
 type InputWithSelectProps = {
   htmlFor: string;
@@ -120,7 +121,7 @@ function InputWithSelect(props: InputWithSelectProps) {
                     </Avatar.Root>
                   ) : (
                     <Icon size="lg" color="tomato">
-                      <FaDotCircle />
+                      <CircleEllipsis />
                     </Icon>
                   )}
                 </List.Indicator>

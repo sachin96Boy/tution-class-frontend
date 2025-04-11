@@ -12,9 +12,6 @@ import {
 import * as yup from "yup";
 import { Form, Formik, FormikHelpers } from "formik";
 
-import { MdVerifiedUser } from "react-icons/md";
-import { BsShieldFillExclamation } from "react-icons/bs";
-
 import NicVerification from "../components/myAccount/NicVerification";
 import ProfileBanner from "../components/myAccount/ProfileBanner";
 import InputComponent from "@/components/formcontrol/customInput/InputComponent";
@@ -26,6 +23,7 @@ import {
   IUpdateStudentAdditionalDataProps,
   updateAdditionalStudentData,
 } from "@/features/student/studentAction";
+import { ShieldCheck, ShieldEllipsis } from "lucide-react";
 
 function MyAccount() {
   const [preview, setPreview] = useState<string>();
@@ -260,6 +258,7 @@ function MyAccount() {
                         colorPalette={"blue"}
                         value={userInfo.student_id}
                         size={"lg"}
+                        name={'QR.png'}
                       >
                         <Logo linkPath="/" boxSize="24" fitType="cover" />
                       </QrCode>
@@ -343,7 +342,7 @@ function MyAccount() {
         <Flex gap={5}>
           <Flex align={"center"} gap={1}>
             {" "}
-            <MdVerifiedUser style={{ color: "#2ECC71" }} />
+            <ShieldCheck  style={{ color: "#2ECC71" }} />
             <Text
               fontFamily={"body"}
               color="verified_green_text"
@@ -355,7 +354,7 @@ function MyAccount() {
           </Flex>
           <Flex align={"center"} gap={1}>
             {" "}
-            <BsShieldFillExclamation style={{ color: "#F1C40F" }} />
+            <ShieldEllipsis style={{ color: "#F1C40F" }} />
             <Text
               fontFamily={"body"}
               color="#F1C40F"

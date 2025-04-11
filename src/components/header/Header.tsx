@@ -10,18 +10,13 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { MdDashboard } from "react-icons/md";
-import { GiBookshelf } from "react-icons/gi";
-import { BsHeadset } from "react-icons/bs";
-import { FaUser } from "react-icons/fa";
-import { FiLogOut } from "react-icons/fi";
-import { AiOutlineClose } from "react-icons/ai";
+
 import Logo from "../Logo";
-import { TbCameraPlus } from "react-icons/tb";
+
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { logout } from "@/features/auth/authSlice";
+import { CircleX, Headset, LayoutDashboard, LibraryBig, LogOut, Menu, User, UserRound } from "lucide-react";
 
 function Header() {
   const { open, onToggle } = useDisclosure(); // Handles mobile menu state
@@ -43,25 +38,25 @@ function Header() {
 
   const menuItems = [
     {
-      icon: <MdDashboard size="28px" />,
+      icon: <LayoutDashboard size="28px" />,
       path: "/dashboard",
       label: "Dashboard",
       key: "dashboard",
     },
     {
-      icon: <GiBookshelf size="28px" />,
+      icon: <LibraryBig size="28px" />,
       label: "My Courses",
       path: "/dashboard/myCourses",
       key: "myCourses",
     },
     {
-      icon: <BsHeadset size="28px" />,
+      icon: <Headset size="28px" />,
       path: "/dashboard/support",
       label: "Support",
       key: "support",
     },
     {
-      icon: <FaUser size="28px" />,
+      icon: <User size="28px" />,
       path: "/dashboard/myAccount",
       label: "My Account",
       key: "myAccount",
@@ -81,7 +76,7 @@ function Header() {
     >
       <Flex m={5} align="center" justify="space-between">
         <Icon
-          as={AiOutlineClose}
+          as={CircleX}
           boxSize="25"
           color="red.400"
           onClick={onToggle}
@@ -110,7 +105,7 @@ function Header() {
             <Avatar.Root size="lg">
               <Avatar.Fallback>
                 <Avatar.Icon>
-                  <TbCameraPlus size={"28"} style={{ color: "#ffffffff" }} />
+                  <UserRound  size={"28"} style={{ color: "#ffffffff" }} />
                 </Avatar.Icon>
               </Avatar.Fallback>
             </Avatar.Root>
@@ -178,7 +173,7 @@ function Header() {
                 _hover={{ color: "#F4BB4E", cursor: "pointer" }}
                 onClick={handleLogout}
               >
-                <FiLogOut size="28px" />
+                <LogOut size="28px" />
                 <Text ml={2} fontSize="18px" fontWeight="600">
                   Logout
                 </Text>
@@ -201,7 +196,7 @@ function Header() {
       >
         {token ? (
           <Icon
-            as={GiHamburgerMenu}
+            as={Menu}
             boxSize="25"
             color="blue.400"
             onClick={onToggle}

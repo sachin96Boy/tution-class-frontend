@@ -6,8 +6,8 @@ import {
   Table,
   Text,
 } from "@chakra-ui/react";
+import { CircleChevronLeft, CircleChevronRight } from "lucide-react";
 import React, { useState } from "react";
-import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 
 type IoverlayTable = {
   title: string;
@@ -63,7 +63,7 @@ function OverlayTable(props: IoverlayTable) {
           <ButtonGroup variant="ghost" size="sm" wrap="wrap">
             <Pagination.PrevTrigger asChild>
               <IconButton>
-                <LuChevronLeft />
+                <CircleChevronLeft />
               </IconButton>
             </Pagination.PrevTrigger>
             <Pagination.Items
@@ -76,7 +76,7 @@ function OverlayTable(props: IoverlayTable) {
 
             <Pagination.NextTrigger asChild>
               <IconButton>
-                <LuChevronRight />
+                <CircleChevronRight />
               </IconButton>
             </Pagination.NextTrigger>
           </ButtonGroup>

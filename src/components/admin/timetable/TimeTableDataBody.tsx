@@ -1,7 +1,7 @@
 import { Itimetabledata } from "@/features/timetable/timeTableSlice";
 import { Avatar, Badge, Flex, Icon, Table, Text } from "@chakra-ui/react";
+import { Circle } from "lucide-react";
 import React from "react";
-import { MdOutlineFmdGood } from "react-icons/md";
 
 type ITiimeTableYearlyTableBody = {
   data: Array<Itimetabledata>;
@@ -14,7 +14,7 @@ const TimeTableCell = (payDataProps: Itimetabledata) => {
     <Table.Row>
       <Table.Cell pl="0px">
         <Icon>
-          <MdOutlineFmdGood />
+          <Circle />
         </Icon>
       </Table.Cell>
       <Table.Cell>

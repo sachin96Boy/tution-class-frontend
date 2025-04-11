@@ -5,11 +5,12 @@ export interface QrCodeProps
   extends Omit<ChakraQrCode.RootProps, "fill" | "overlay"> {
   fill?: string;
   overlay?: React.ReactNode;
+  name: string;
 }
 
 export const QrCode = React.forwardRef<HTMLDivElement, QrCodeProps>(
   function QrCode(props, ref) {
-    const { children, fill, overlay, ...rest } = props;
+    const { children, fill, name, overlay, ...rest } = props;
     return (
       <ChakraQrCode.Root ref={ref} {...rest}>
         <ChakraQrCode.Frame style={{ fill }}>
@@ -19,7 +20,7 @@ export const QrCode = React.forwardRef<HTMLDivElement, QrCodeProps>(
         {children && <ChakraQrCode.Overlay>{children}</ChakraQrCode.Overlay>}
         <ChakraQrCode.DownloadTrigger
           asChild
-          fileName="qr-code.png"
+          fileName={name}
           mimeType="image/png"
           quality={100}
         >
