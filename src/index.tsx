@@ -12,9 +12,11 @@ import "@fontsource/noto-sans-sinhala";
 import { store } from "./store";
 import { Toaster } from "./components/ui/toaster";
 
-import {PhotoProvider} from 'react-photo-view';
-
+import { PhotoProvider } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

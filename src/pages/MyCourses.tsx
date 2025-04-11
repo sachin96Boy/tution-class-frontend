@@ -6,6 +6,7 @@ import {
   Grid,
   GridItem,
   Heading,
+  Image,
   Input,
   Text,
 } from "@chakra-ui/react";
@@ -14,19 +15,42 @@ import React, { useState } from "react";
 import CourseCard, {
   CourseCardProps,
 } from "../components/mycourse/courseard/CourseCard";
-import { Field } from "@/components/ui/field";
-import InputComponent from "@/components/formcontrol/customInput/InputComponent";
 
+import courseSearch from "@/assets/home/course/search_course_1.svg";
+import InputWithSelect from "@/components/formcontrol/customInput/InputWithSelect";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { IListItemProp } from "@/features/config/configAction";
 interface Values {
-  teacherName: string;
-  subjectName: string;
+  teacherName: IListItemProp;
+  subjectName: IListItemProp;
   year: string;
 }
+
+import * as Yup from "yup";
 
 function MyCourses() {
   const [teacherName, setTeacherName] = useState("");
   const [subjectName, setSubjectName] = useState("");
   const [year, setYear] = useState("");
+
+  const { teachers } = useSelector((state: RootState) => state.teacher);
+  const { subjects } = useSelector((state: RootState) => state.common);
+
+  let teachersSelectList: Array<IListItemProp> = teachers?.map((teacher) => {
+    return {
+      key: teacher.teacher_id,
+      value: teacher.full_name,
+      image_path: teacher.profile_img,
+    };
+  });
+  let subjectSelectList: Array<IListItemProp> = subjects?.map((subject) => {
+    return {
+      key: subject.subject_id,
+      value: subject.subject_name,
+      image_path: null,
+    };
+  });
 
   let currentYear = new Date().getFullYear();
 
@@ -105,13 +129,36 @@ function MyCourses() {
     },
   ];
   const initialValues: Values = {
-    teacherName: "",
-    subjectName: "",
+    teacherName: {
+      key: "",
+      value: "",
+      image_path: null,
+    },
+    subjectName: {
+      key: "",
+      value: "",
+      image_path: null,
+    },
     year: "",
   };
+
+  const validationSchema = Yup.object().shape({
+    teacherName: Yup.object().shape({
+      key: Yup.string().required("Teacher is not valid"),
+      value: Yup.string().required("Teacher name is required"),
+      image_path: Yup.mixed().nullable(),
+    }),
+    subjectName: Yup.object().shape({
+      key: Yup.string().required("Subject is not valid"),
+      value: Yup.string().required("Subject name is required"),
+      image_path: Yup.mixed().nullable(),
+    }),
+    year: Yup.string().required("Year is required"),
+  });
+
   const onSubmit: any = (values: Values, action: FormikHelpers<Values>) => {
-    setSubjectName(values.subjectName);
-    setTeacherName(values.teacherName);
+    setSubjectName(values.subjectName.value);
+    setTeacherName(values.teacherName.value);
     setYear(values.year);
     action.setSubmitting(false);
     action.resetForm();
@@ -125,8 +172,12 @@ function MyCourses() {
 
   let filteredCourseData = (
     <Box>
-      <Flex alignItems={"center"}>
-        <Heading as={"h2"}>Item not Found, What Do you want me to do?</Heading>
+      <Flex direction={"column"} alignItems={"center"}>
+        <Image
+          boxSize={["200px", "300px", "450px"]}
+          src={courseSearch}
+          alt="Course not found"
+        />
       </Flex>
     </Box>
   );
@@ -198,7 +249,11 @@ function MyCourses() {
       <Box className="filter" my={[4, 6, 8, 10]}>
         {" "}
         {/* Responsive margin */}
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
           {(formik) => (
             <Form autoComplete="off">
               <Flex
@@ -212,27 +267,43 @@ function MyCourses() {
                   gap={[2, 3, 4]}
                   w={["full", "full", "auto"]}
                 >
-                  <InputComponent
+                  <InputWithSelect
                     htmlFor={"teacherName"}
                     labelText={"Teacher Name"}
                     InputType={"text"}
-                    InputValue={formik.values.teacherName}
-                    onChange={formik.handleChange}
+                    InputValue={formik.values.teacherName.value}
                     onBlur={formik.handleBlur}
                     placeHolder={"Select Teacher"}
-                    isTouched={formik.touched.teacherName}
-                    isError={formik.errors.teacherName}
+                    isTouched={
+                      formik.touched.teacherName?.value ||
+                      formik.touched.teacherName?.key
+                    }
+                    isError={
+                      formik.errors.teacherName?.value ||
+                      formik.errors.teacherName?.key
+                    }
+                    formik={formik}
+                    fieldValue={"teacherName"}
+                    dataList={teachersSelectList}
                   />
-                  <InputComponent
+                  <InputWithSelect
                     htmlFor={"subjectName"}
                     labelText={"Subject Name"}
                     InputType={"text"}
-                    InputValue={formik.values.subjectName}
-                    onChange={formik.handleChange}
+                    InputValue={formik.values.subjectName.value}
                     onBlur={formik.handleBlur}
                     placeHolder={"Select Subject"}
-                    isTouched={formik.touched.subjectName}
-                    isError={formik.errors.subjectName}
+                    isTouched={
+                      formik.touched.subjectName?.value ||
+                      formik.touched.subjectName?.key
+                    }
+                    isError={
+                      formik.errors.subjectName?.value ||
+                      formik.errors.subjectName?.key
+                    }
+                    formik={formik}
+                    fieldValue={"subjectName"}
+                    dataList={subjectSelectList}
                   />
                 </Flex>
                 <ButtonGroup

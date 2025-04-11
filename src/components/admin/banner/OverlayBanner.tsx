@@ -8,9 +8,8 @@ import {
   Spacer,
   Text,
 } from "@chakra-ui/react";
+import { ArrowRight } from "lucide-react";
 import React, { useRef } from "react";
-
-import { BsArrowRight } from "react-icons/bs";
 
 type IoverlayBanner = {
   title: string;
@@ -75,7 +74,7 @@ function OverlayBanner(props: IoverlayBanner) {
                   _hover={{ transform: "translateX(20%)" }}
                   pt="4px"
                 >
-                  <BsArrowRight />
+                  <ArrowRight />
                 </Icon>
               </Button>
             </Flex>

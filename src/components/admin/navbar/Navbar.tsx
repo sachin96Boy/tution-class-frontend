@@ -2,100 +2,95 @@
 
 import Logo from "@/components/Logo";
 import { logout } from "@/features/auth/authSlice";
-import { AppDispatch } from "@/store";
+import { AppDispatch, RootState } from "@/store";
 import {
   Box,
   Flex,
   Avatar,
-  HStack,
   Text,
   IconButton,
-  Button,
   Menu,
-  MenuItem,
   useDisclosure,
   Stack,
-  Portal,
   Icon,
   Spacer,
 } from "@chakra-ui/react";
-import { BsBookHalf, BsFillPeopleFill } from "react-icons/bs";
 import {
-  FaBookReader,
-  FaChalkboardTeacher,
-  FaHome,
-  FaMoneyBillAlt,
-  FaRegCalendarCheck,
-  FaTable,
-} from "react-icons/fa";
-import { IoMdClose, IoMdMenu } from "react-icons/io";
-import { PiStudentBold } from "react-icons/pi";
-import { TbReport } from "react-icons/tb";
-import { useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
+  Banknote,
+  BookA,
+  BookOpen,
+  CalendarCheck,
+  ClipboardPlus,
+  GraduationCap,
+  House,
+  MenuIcon,
+  Sheet,
+  UserRoundPen,
+  Users,
+  X,
+} from "lucide-react";
 
-interface Props {
-  children: React.ReactNode;
-}
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 const navLinks = [
   {
     title: "Dashboard",
-    icon: <FaHome />,
+    icon: <House />,
     path: "/admin/dashboard",
     route: "dashboard",
   },
   {
     title: "Attandance",
-    icon: <FaRegCalendarCheck />,
+    icon: <CalendarCheck />,
     path: "/admin/attandance",
     route: "attandance",
   },
   {
     title: "Accounting",
-    icon: <FaMoneyBillAlt />,
+    icon: <Banknote />,
     path: "/admin/accounting",
     route: "accounting",
   },
   {
     title: "Reports",
-    icon: <TbReport />,
+    icon: <ClipboardPlus />,
     path: "/admin/reports",
     route: "reports",
   },
   {
     title: "Users",
-    icon: <BsFillPeopleFill />,
+    icon: <Users />,
     path: "/admin/users",
     route: "users",
   },
   {
     title: "Students",
-    icon: <PiStudentBold />,
+    icon: <GraduationCap />,
     path: "/admin/students",
     route: "students",
   },
   {
     title: "Teachers",
-    icon: <FaChalkboardTeacher />,
+    icon: <UserRoundPen />,
     path: "/admin/teachers",
     route: "teachers",
   },
   {
     title: "Time Table",
-    icon: <FaTable />,
+    icon: <Sheet />,
     path: "/admin/time-table",
     route: "time-table",
   },
   {
     title: "Assignments",
-    icon: <FaBookReader />,
+    icon: <BookA />,
     path: "/admin/assignments",
     route: "assignments",
   },
   {
     title: "Courses",
-    icon: <BsBookHalf />,
+    icon: <BookOpen />,
     path: "/admin/courses",
     route: "courses",
   },
@@ -103,6 +98,8 @@ const navLinks = [
 
 export default function Navbar() {
   const dispatch = useDispatch<AppDispatch>();
+
+  const { token, coporateInfo } = useSelector((state: RootState) => state.auth);
 
   const { open, onOpen, onClose } = useDisclosure();
 
@@ -152,7 +149,7 @@ export default function Navbar() {
             display={{ md: "none" }}
             onClick={open ? onClose : onOpen}
           >
-            {open ? <IoMdClose /> : <IoMdMenu />}
+            {open ? <X /> : <MenuIcon />}
           </IconButton>
           <Box display={["block", "block", "none"]}>
             <Logo boxSize="24" linkPath="/admin/dashboard" fitType="cover" />
@@ -164,11 +161,11 @@ export default function Navbar() {
                 placement: "top-end",
               }}
             >
-              <Menu.Trigger outline={"none"} pt={[0, 0, 8]}>
+              <Menu.Trigger outline={"none"} pt={[0, 0, 8]} asChild>
                 <Box as={"button"} outline={"none"} cursor={"pointer"}>
                   <Avatar.Root size={"md"}>
-                    <Avatar.Fallback name="Oshigaki Kisame" />
-                    <Avatar.Image src="https://bit.ly/broken-link" />
+                    <Avatar.Fallback name={coporateInfo?.userName} />
+                    <Avatar.Image src={coporateInfo?.userName} />
                   </Avatar.Root>
                 </Box>
               </Menu.Trigger>

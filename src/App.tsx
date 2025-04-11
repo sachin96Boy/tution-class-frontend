@@ -12,6 +12,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "./store";
 import { Box, Center, Flex, ProgressCircle, Text } from "@chakra-ui/react";
 import { getCompanyDetails } from "./features/config/configAction";
+import { getAllTeachers } from "./features/teacher/teacherAction";
+import { getAllCourses } from "./features/course/courseAction";
+import {
+  getAllExpenceTypes,
+  getAllGrades,
+  getAllSubjects,
+} from "./features/comon/commonAction";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,14 +28,18 @@ function App() {
   );
 
   useEffect(() => {
-    dispatch(getCompanyDetails(""));
+    dispatch(getCompanyDetails());
+    dispatch(getAllTeachers(""));
+    dispatch(getAllSubjects(""));
+    dispatch(getAllExpenceTypes(""));
+    dispatch(getAllGrades(""));
   }, []);
 
   return (
     <>
       {" "}
       {loading ? (
-        <Flex minH={"100vh"} align={'center'} justify={'center'}>
+        <Flex minH={"100vh"} align={"center"} justify={"center"}>
           <Center>
             <ProgressCircle.Root value={null}>
               <ProgressCircle.Circle>

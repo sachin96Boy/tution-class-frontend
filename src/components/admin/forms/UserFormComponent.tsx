@@ -1,6 +1,7 @@
 import InputComponent from "@/components/formcontrol/customInput/InputComponent";
 import { Field } from "@/components/ui/field";
 import { InputGroup } from "@/components/ui/input-group";
+import { PasswordInput } from "@/components/ui/password-input";
 import {
   ICoporateregisterProps,
   registerCoporateUser,
@@ -11,15 +12,13 @@ import {
   createListCollection,
   Icon,
   Input,
-  Portal,
   Select,
-  Text,
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React, { useRef } from "react";
-import { HiEye, HiEyeOff } from "react-icons/hi";
+
 import { useDispatch, useSelector } from "react-redux";
 
 import * as Yup from "yup";
@@ -46,16 +45,6 @@ function UserFormComponent() {
     ],
   });
 
-  const onClickReveal = () => {
-    onToggle();
-
-    if (inputRef.current) {
-      inputRef.current.focus({
-        preventScroll: true,
-      });
-    }
-  };
-
   const initialValues: ICoporateregisterProps = {
     email: "",
     userName: "",
@@ -78,12 +67,10 @@ function UserFormComponent() {
   });
 
   const onSubmit = async (values: ICoporateregisterProps, actions: any) => {
-    console.log(values);
-
     const result = await dispatch(registerCoporateUser(values));
 
     actions.setSubmitting(false);
-    console.log(result);
+    actions.resetForm();
   };
 
   return (
@@ -123,7 +110,7 @@ function UserFormComponent() {
               htmlFor="password"
               errorText={formik.errors.password}
             >
-              <InputGroup
+              {/* <InputGroup
                 width={"full"}
                 ref={inputRef}
                 endElement={
@@ -157,7 +144,27 @@ function UserFormComponent() {
                   rounded={"10px"}
                   autoComplete="off"
                 />
-              </InputGroup>
+              </InputGroup> */}
+              <PasswordInput
+                rootProps={{
+                  width: "full",
+                }}
+                id="password"
+                colorPalette={"blue"}
+                css={{ "--focus-color": "colors.primary_color" }}
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                borderColor={
+                  formik.touched.password && formik.errors.password
+                    ? "red"
+                    : "#636363"
+                }
+                borderWidth={"1px"}
+                placeholder="Password"
+                rounded={"10px"}
+                autoComplete="off"
+              />
             </Field>
             <Field
               invalid={formik.touched.userType || !!formik.errors.userType}
@@ -194,25 +201,8 @@ function UserFormComponent() {
                 </Select.Positioner>
               </Select.Root>
             </Field>
-            <Button
-              type="submit"
-              width={"full"}
-              border={"10px"}
-              colorScheme="blue"
-              bgGradient={
-                "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
-              }
-              boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
-              loading={loading}
-            >
-              <Text
-                fontFamily={"body"}
-                fontSize="21px"
-                color="white"
-                fontWeight={"400"}
-              >
-                Create User
-              </Text>
+            <Button type="submit" colorPalette={"blue"} loading={loading}>
+              Create User
             </Button>
           </VStack>
         </Form>

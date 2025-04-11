@@ -1,7 +1,14 @@
 import axiosInstance from "@/utils/AxiosInstans";
-import { createAsyncThunk } from "@reduxjs/toolkit"
+import { createAsyncThunk, AsyncThunkPayloadCreator } from "@reduxjs/toolkit"
 
-const handleGetCompanyDetails = async ({ rejectWithValue }: any) => {
+
+export type IListItemProp = {
+    key: string;
+    value: string;
+    image_path: string | null
+}
+
+const handleGetCompanyDetails: AsyncThunkPayloadCreator<any, void> = async (_, { rejectWithValue }) => {
     try {
 
         const response = await axiosInstance.get(

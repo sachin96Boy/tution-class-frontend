@@ -18,16 +18,6 @@ function SalesOverview(props: IsalesOverview) {
           <Text fontSize="lg" color={textColor} fontWeight="bold" mb="6px">
             {title}
           </Text>
-          <Text fontSize="md" fontWeight="medium" color="gray.400">
-            <Text
-              as="span"
-              color={percentage > 0 ? "green.400" : "red.400"}
-              fontWeight="bold"
-            >
-              {`${percentage}%`} more
-            </Text>{" "}
-            in 2025
-          </Text>
         </Flex>
       </Card.Header>
       <Box w="100%" h={{ sm: "300px" }} ps="8px">

@@ -1,31 +1,30 @@
-import { Badge, List, Table, Text } from "@chakra-ui/react";
+import { IgetPayment } from "@/features/accounting/accountingAction";
+import { Avatar, Badge, Flex, List, Table, Text } from "@chakra-ui/react";
 import React from "react";
 
-type Ipayment = {
-  paymentId: string;
-  course: string;
-  student: string;
-  amount: number;
-  paid_date: Date;
-};
-
 type IPaymentTableBody = {
-  data: Array<Ipayment>;
+  data: Array<IgetPayment>;
 };
 
-const PaymentTableCell = (payDataProps: Ipayment) => {
-  const { amount, course, paid_date, student, paymentId } = payDataProps;
+const PaymentTableCell = (payDataProps: IgetPayment) => {
+  const { Course, Student, paid_date, id, paid_amount } = payDataProps;
+  const localDate = new Date(paid_date);
   return (
     <Table.Row>
       <Table.Cell pl="0px">
         <Text fontSize="sm" color="gray.400" fontWeight="normal">
-          {paymentId}
+          {id}
         </Text>
       </Table.Cell>
       <Table.Cell pl="0px">
-        <Text fontSize="sm" color="gray.400" fontWeight="normal">
-          {student}
-        </Text>
+        <Flex gap={2} align={"center"}>
+          <Avatar.Root shape="full" size="lg">
+            <Avatar.Fallback name={Student.full_name} />
+          </Avatar.Root>
+          <Text fontSize="sm" color="gray.400" fontWeight="normal">
+            {Student.full_name}
+          </Text>
+        </Flex>
       </Table.Cell>
       <Table.Cell>
         <Badge
@@ -35,17 +34,23 @@ const PaymentTableCell = (payDataProps: Ipayment) => {
           p="3px 10px"
           borderRadius="8px"
         >
-          {amount}
+          RS {paid_amount}
         </Badge>
       </Table.Cell>
       <Table.Cell pl="0px">
-        <Text fontSize="sm" color="gray.400" fontWeight="normal">
-          {course}
-        </Text>
+        <Flex gap={2} align={"center"}>
+          <Avatar.Root shape="full" size="lg">
+            <Avatar.Fallback name={Course.title} />
+            <Avatar.Image src={Course.course_img_path} />
+          </Avatar.Root>
+          <Text fontSize="sm" color="gray.400" fontWeight="normal">
+            {Course.title}
+          </Text>
+        </Flex>
       </Table.Cell>
       <Table.Cell pl="0px">
         <Text fontSize="sm" color="gray.400" fontWeight="normal">
-          {paid_date.toLocaleDateString()}
+          {localDate.toLocaleDateString()}
         </Text>
       </Table.Cell>
     </Table.Row>
@@ -60,11 +65,14 @@ function PaymentTableBody(props: IPaymentTableBody) {
         return (
           <PaymentTableCell
             key={index}
-            paymentId={paymentItem.paymentId}
-            course={paymentItem.course}
-            student={paymentItem.student}
-            amount={paymentItem.amount}
+            Course={paymentItem.Course}
+            Student={paymentItem.Student}
+            course_id={paymentItem.course_id}
             paid_date={paymentItem.paid_date}
+            id={paymentItem.id}
+            paid_amount={paymentItem.paid_amount}
+            payment_id={paymentItem.payment_id}
+            student_id={paymentItem.payment_id}
           />
         );
       })}

@@ -12,37 +12,29 @@ import {
 import * as yup from "yup";
 import { Form, Formik, FormikHelpers } from "formik";
 
-import { MdVerifiedUser } from "react-icons/md";
-import { BsShieldFillExclamation } from "react-icons/bs";
-
 import NicVerification from "../components/myAccount/NicVerification";
 import ProfileBanner from "../components/myAccount/ProfileBanner";
 import InputComponent from "@/components/formcontrol/customInput/InputComponent";
-
-export interface FormValues {
-  fullName: string;
-  school: string;
-  examAttempt: string;
-  examYear: string;
-  district: string;
-  city: string;
-  nic: string;
-  address: string;
-  mobileNumber: string;
-  email: string;
-  barcode: string;
-  mobileNumber1: string;
-  mobileNumber2: string;
-  profileImage: File | any;
-}
+import { QrCode } from "@/components/ui/qr-code";
+import Logo from "@/components/Logo";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import {
+  IUpdateStudentAdditionalDataProps,
+  updateAdditionalStudentData,
+} from "@/features/student/studentAction";
+import { ShieldCheck, ShieldEllipsis } from "lucide-react";
 
 function MyAccount() {
   const [preview, setPreview] = useState<string>();
   const [selectedFile, setSelectedFile] = useState<any>();
   const hiddenInputRef = useRef<HTMLInputElement>(null);
 
-  const initialValues: FormValues = {
-    fullName: "",
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading, userInfo } = useSelector((state: RootState) => state.auth);
+
+  const initialValues: IUpdateStudentAdditionalDataProps = {
+    enc_student_id: userInfo ? userInfo.student_id : "",
     school: "",
     examAttempt: "",
     examYear: "",
@@ -50,23 +42,27 @@ function MyAccount() {
     city: "",
     nic: "",
     address: "",
-    mobileNumber: "",
-    email: "",
-    barcode: "",
     mobileNumber1: "",
     mobileNumber2: "",
-    profileImage: "",
+    profileImage: null,
   };
 
-  const onSubmit = (values: FormValues, actions: any) => {
+  const onSubmit = async (
+    values: IUpdateStudentAdditionalDataProps,
+    actions: any
+  ) => {
     console.log(values);
+
+    const res = await dispatch(updateAdditionalStudentData(values));
+
     actions.setSubmitting(false);
+    actions.resetForm();
+
     setSelectedFile(undefined);
     setPreview(undefined);
   };
 
   const validationSchema = yup.object({
-    fullName: yup.string().required("Full Name is required"),
     school: yup.string().required("School is required"),
     examAttempt: yup.string().required("Exam Attempt is required"),
     examYear: yup.string().required("Exam Year is required"),
@@ -74,12 +70,9 @@ function MyAccount() {
     city: yup.string().required("City is required"),
     nic: yup.string().required("NIC is required"),
     address: yup.string().required("Address is required"),
-    mobileNumber: yup.string().required("Mobile Number is required"),
-    email: yup.string().required("Email is required"),
-    barcode: yup.string().required("Barcode is required"),
     mobileNumber1: yup.string().required("Mobile Number 1 is required"),
     mobileNumber2: yup.string().required("Mobile Number 2 is required"),
-    profileImage: yup.mixed().required("Profile Image is required"),
+    profileImage: yup.mixed().nullable(),
   });
 
   const onClick = () => {
@@ -91,7 +84,7 @@ function MyAccount() {
   // for profile image clic to change trigger
   const profilehandleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    formik: FormikHelpers<FormValues>
+    formik: FormikHelpers<IUpdateStudentAdditionalDataProps>
   ) => {
     // image path set to undefined
     if (!event.target.files || event.target.files.length === 0) {
@@ -129,7 +122,7 @@ function MyAccount() {
         validationSchema={validationSchema}
       >
         {(formik) => (
-          <Form autoComplete="off">
+          <Form autoComplete="off" onSubmit={(e) => e.preventDefault()}>
             <ProfileBanner
               formik={formik}
               hiddenInputRef={hiddenInputRef}
@@ -137,6 +130,8 @@ function MyAccount() {
               preview={preview}
               profilehandleChange={profilehandleChange}
               selectedFile={selectedFile}
+              isTouched={!!formik.touched.profileImage}
+              isError={formik.errors.profileImage as string}
             />
             <Flex flexDirection={"column"} gap={5} className="details-of-form">
               <Heading as={"h5"} fontSize="25px">
@@ -161,17 +156,6 @@ function MyAccount() {
                     gap={1}
                     mr={5}
                   >
-                    <InputComponent
-                      htmlFor={"fullName"}
-                      labelText={"Full Name"}
-                      InputType={"text"}
-                      InputValue={formik.values.fullName}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      placeHolder={"Enter Full Name"}
-                      isTouched={formik.touched.fullName}
-                      isError={formik.errors.fullName}
-                    />
                     <InputComponent
                       htmlFor={"examAttempt"}
                       labelText={"Exam Attempt"}
@@ -204,17 +188,6 @@ function MyAccount() {
                       placeHolder={"Enter NIC Number"}
                       isTouched={formik.touched.nic}
                       isError={formik.errors.nic}
-                    />
-                    <InputComponent
-                      htmlFor={"mobileNumber"}
-                      labelText={"Mobile Number"}
-                      InputType={"text"}
-                      InputValue={formik.values.mobileNumber}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      placeHolder={"Enter Mobbile Nmuber"}
-                      isTouched={formik.touched.mobileNumber}
-                      isError={formik.errors.mobileNumber}
                     />
                   </Flex>
                   <Flex
@@ -268,17 +241,6 @@ function MyAccount() {
                       isTouched={formik.touched.address}
                       isError={formik.errors.address}
                     />
-                    <InputComponent
-                      htmlFor={"email"}
-                      labelText={"Email Address"}
-                      InputType={"email"}
-                      InputValue={formik.values.email}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      placeHolder={"Enter Email"}
-                      isTouched={formik.touched.email}
-                      isError={formik.errors.email}
-                    />
                   </Flex>
                 </Flex>
                 <Separator
@@ -289,17 +251,21 @@ function MyAccount() {
                   colorPalette={"blue"}
                 />
                 <Flex flexDirection={"column"} gap={5} ml={[-5, -5, 5]}>
-                  <InputComponent
-                    htmlFor={"barcode"}
-                    labelText={"Barcode Number"}
-                    InputType={"text"}
-                    InputValue={formik.values.barcode}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    placeHolder={"Enter Barcode"}
-                    isTouched={formik.touched.barcode}
-                    isError={formik.errors.barcode}
-                  />
+                  <Box>
+                    <Text>QR Code</Text>
+                    {userInfo != null ? (
+                      <QrCode
+                        colorPalette={"blue"}
+                        value={userInfo.student_id}
+                        size={"lg"}
+                        name={'QR.png'}
+                      >
+                        <Logo linkPath="/" boxSize="24" fitType="cover" />
+                      </QrCode>
+                    ) : (
+                      <Box />
+                    )}
+                  </Box>
                   <Box w={["50vw", "50vw", "50vw", "full"]}>
                     <Text
                       fontFamily={"body"}
@@ -343,7 +309,7 @@ function MyAccount() {
                     isError={formik.errors.mobileNumber2}
                   />
                   <Button
-                    type="submit"
+                    type="button"
                     border={"10px"}
                     colorScheme="blue"
                     bgGradient={
@@ -351,6 +317,7 @@ function MyAccount() {
                     }
                     boxShadow="0px 10px 10px rgba(0,0,0,0.1)"
                     loading={formik.isSubmitting}
+                    onClick={() => formik.submitForm()}
                   >
                     <Text
                       fontFamily={"body"}
@@ -375,7 +342,7 @@ function MyAccount() {
         <Flex gap={5}>
           <Flex align={"center"} gap={1}>
             {" "}
-            <MdVerifiedUser style={{ color: "#2ECC71" }} />
+            <ShieldCheck  style={{ color: "#2ECC71" }} />
             <Text
               fontFamily={"body"}
               color="verified_green_text"
@@ -387,7 +354,7 @@ function MyAccount() {
           </Flex>
           <Flex align={"center"} gap={1}>
             {" "}
-            <BsShieldFillExclamation style={{ color: "#F1C40F" }} />
+            <ShieldEllipsis style={{ color: "#F1C40F" }} />
             <Text
               fontFamily={"body"}
               color="#F1C40F"

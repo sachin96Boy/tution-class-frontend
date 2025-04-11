@@ -24,7 +24,12 @@ function InputTextAreaComponent({
   isError,
 }: InputProps) {
   return (
-    <Field label={labelText} htmlFor={htmlFor} invalid={isTouched && !!isError}>
+    <Field
+      label={labelText}
+      htmlFor={htmlFor}
+      invalid={isTouched && !!isError}
+      errorText={isError}
+    >
       <Textarea
         value={InputValue}
         colorPalette={"blue"}

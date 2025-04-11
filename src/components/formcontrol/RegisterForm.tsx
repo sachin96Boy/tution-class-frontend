@@ -16,9 +16,8 @@ import { Form, Formik } from "formik";
 import React, { useRef, useState } from "react";
 
 import * as Yup from "yup";
-import { HiEye, HiEyeOff } from "react-icons/hi";
 
-import useToastResponse from "../toast/ToastResponse";
+
 
 import { Field } from "../ui/field";
 import { InputGroup } from "../ui/input-group";
@@ -27,24 +26,11 @@ import InputComponent from "./customInput/InputComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { IregisterProps, registerUser } from "@/features/auth/authAction";
+import { PasswordInput } from "../ui/password-input";
 
 function RegisterForm() {
-
   const dispatch = useDispatch<AppDispatch>();
 
-  const { loading, error } = useSelector((state: RootState) => state.auth);
-
-  const { open, onToggle } = useDisclosure();
-  const inputRef = useRef<HTMLInputElement>(null);
-  const onClickReveal = () => {
-    onToggle();
-
-    if (inputRef.current) {
-      inputRef.current.focus({
-        preventScroll: true,
-      });
-    }
-  };
   const steps = [
     { label: "Step 1", description: "Name and Email Address" },
     { label: "Step 2", description: "Mobile Number Verification" },
@@ -63,7 +49,10 @@ function RegisterForm() {
   const validationSchema = Yup.object({
     fullName: Yup.string().required("Full Name is required"),
     email: Yup.string().email("Email is invalid").required("Email is required"),
-    mobile: Yup.string().required("Mobile is required"),
+    mobile: Yup.string().matches(
+      /^(?:\+94|0)(7)(0|1|2|5|6|7|8)\d{7}$/,
+      "Please enter a valid Sri Lankan mobile number"
+    ),
     otpNumber: Yup.string().required("OTP is required"),
     password: Yup.string()
       .required("Password is required")
@@ -73,7 +62,6 @@ function RegisterForm() {
     const result = await dispatch(registerUser(values));
 
     actions.setSubmitting(false);
-
   };
 
   const handleThis = (e: any) => {
@@ -187,7 +175,7 @@ function RegisterForm() {
                       helperText="Password must be at least 8 characters long,  contain
                         letters and numbers, and must not contain spaces"
                     >
-                      <InputGroup
+                      {/* <InputGroup
                         endElement={
                           <Icon
                             aria-label={
@@ -221,7 +209,27 @@ function RegisterForm() {
                           placeholder="Password"
                           rounded={"10px"}
                         />
-                      </InputGroup>
+                      </InputGroup> */}
+                      <PasswordInput
+                        rootProps={{
+                          width: "full",
+                        }}
+                        id="password"
+                        colorPalette={"blue"}
+                        css={{ "--focus-color": "colors.primary_color" }}
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        borderColor={
+                          formik.touched.password && formik.errors.password
+                            ? "red"
+                            : "#636363"
+                        }
+                        borderWidth={"1px"}
+                        placeholder="Password"
+                        rounded={"10px"}
+                        autoComplete="off"
+                      />
                     </Field>
                     <Button
                       type="button"

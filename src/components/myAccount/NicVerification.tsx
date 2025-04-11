@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button, Center, Flex, Input, Text, Image } from "@chakra-ui/react";
 import * as yup from "yup";
 import { Form, Formik, FormikHelpers } from "formik";
-import { BsCameraFill } from "react-icons/bs";
+
 import { Field } from "../ui/field";
+import { Camera } from "lucide-react";
 
 interface NicValues {
   frontNic: File | any;
@@ -28,7 +29,6 @@ function NicVerification() {
     selfieNic: "",
   };
   const onSubmit2 = (values: NicValues, actions: any) => {
-
     actions.setSubmitting(false);
     setSelectedFileNic(undefined);
     setSelectedFileNicBack(undefined);
@@ -190,7 +190,7 @@ function NicVerification() {
                   />
                 ) : (
                   <Center zIndex="2">
-                    <BsCameraFill
+                    <Camera
                       size={"48"}
                       style={{
                         color: "#205EAA",
@@ -235,7 +235,7 @@ function NicVerification() {
                   />
                 ) : (
                   <Center zIndex="2">
-                    <BsCameraFill
+                    <Camera
                       size={"48"}
                       style={{
                         color: "#205EAA",
@@ -280,7 +280,7 @@ function NicVerification() {
                   />
                 ) : (
                   <Center zIndex="2">
-                    <BsCameraFill
+                    <Camera
                       size={"48"}
                       style={{
                         color: "#205EAA",

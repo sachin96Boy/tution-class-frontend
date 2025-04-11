@@ -3,7 +3,9 @@ import { loginUser, registerUser, loginCoporateUser, registerCoporateUser } from
 import { toaster } from "@/components/ui/toaster";
 
 
-type IUserInfo = {
+
+
+export type IUserInfo = {
     id: number
     student_id: string;
     full_name: string;
@@ -11,7 +13,7 @@ type IUserInfo = {
     isVerified: boolean;
     pay_role: string;
 }
-type ICoporateUserInfo = {
+export type ICoporateUserInfo = {
     id: number
     user_id: string;
     email: string;
@@ -26,7 +28,7 @@ export type IinitialState = {
     coporateInfo: ICoporateUserInfo | null;
     token: string | null;
     error: boolean | null;
-    errorMsg: string;
+    errorMsg: object | string;
     success: boolean;
 
 }
@@ -64,6 +66,8 @@ export const authSlice = createSlice({
                 state.loading = false
                 state.error = null
 
+
+
                 toaster.create({
                     type: 'success',
                     title: action.payload.message
@@ -81,7 +85,7 @@ export const authSlice = createSlice({
 
                 toaster.create({
                     type: 'error',
-                    title: state.errorMsg
+                    title: state.errorMsg.toString()
                 });
             }
         ).addCase(
@@ -93,7 +97,6 @@ export const authSlice = createSlice({
             registerCoporateUser.fulfilled, (state, action) => {
                 state.loading = false;
                 state.error = null;
-
                 toaster.create({
                     type: 'success',
                     title: action.payload.message
@@ -110,7 +113,7 @@ export const authSlice = createSlice({
 
                 toaster.create({
                     type: 'error',
-                    title: state.errorMsg
+                    title: state.errorMsg.toString()
                 });
             }
         ).addCase(
@@ -143,7 +146,7 @@ export const authSlice = createSlice({
 
                 toaster.create({
                     type: 'error',
-                    title: state.errorMsg
+                    title: state.errorMsg.toString()
                 });
             }
         ).addCase(
@@ -178,7 +181,7 @@ export const authSlice = createSlice({
 
                 toaster.create({
                     type: 'error',
-                    title: state.errorMsg
+                    title: state.errorMsg.toString()
                 });
             }
         )

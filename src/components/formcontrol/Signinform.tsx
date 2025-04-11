@@ -19,6 +19,7 @@ import InputComponent from "./customInput/InputComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { IloginProps, loginUser } from "@/features/auth/authAction";
+import { PasswordInput, PasswordStrengthMeter } from "../ui/password-input";
 
 function Signinform() {
   const navigate = useNavigate();
@@ -38,14 +39,30 @@ function Signinform() {
     }
   };
   const initialValues: IloginProps = {
-    email: "",
+    emailOrMobile: "",
     password: "",
   };
 
   const validationSchema = Yup.object({
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
+    emailOrMobile: Yup.string()
+      .required("Emailor Mobile Phone number is required")
+      .test(
+        "is-email-or-phone",
+        "Invalid email address or Sri Lankan phone number",
+        (value) => {
+          // Check if it's a valid email
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          const isEmail = emailRegex.test(value);
+
+          // Check if it's a valid Sri Lankan phone number
+          // Sri Lankan phone numbers typically start with 0 or +94 followed by 9 digits
+          const phoneRegex =
+            /^(?:\+94|0)(?:7[0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9]|6[0-9]|7[0-9]|8[1-9]|9[0-9])[0-9]{6}$/;
+          const isPhone = phoneRegex.test(value);
+
+          return isEmail || isPhone;
+        }
+      ),
     password: Yup.string()
       .required("Password is required")
       .matches(
@@ -72,15 +89,15 @@ function Signinform() {
         <Form autoComplete="off">
           <VStack gap={4} m={4} p={8}>
             <InputComponent
-              htmlFor={"email"}
-              labelText={"Email Address"}
-              InputType={"email"}
-              InputValue={formik.values.email}
+              htmlFor={"emailOrMobile"}
+              labelText={"Email Address or Mobile"}
+              InputType={"text"}
+              InputValue={formik.values.emailOrMobile}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              placeHolder={"Email"}
-              isTouched={formik.touched.email}
-              isError={formik.errors.email}
+              placeHolder={"Email/Mobile"}
+              isTouched={formik.touched.emailOrMobile}
+              isError={formik.errors.emailOrMobile}
             />
 
             <Field
@@ -89,7 +106,7 @@ function Signinform() {
               htmlFor="password"
               errorText={formik.errors.password}
             >
-              <InputGroup
+              {/* <InputGroup
                 width={"full"}
                 ref={inputRef}
                 endElement={
@@ -123,7 +140,28 @@ function Signinform() {
                   rounded={"10px"}
                   autoComplete="off"
                 />
-              </InputGroup>
+              </InputGroup> */}
+
+              <PasswordInput
+                rootProps={{
+                  width: "full",
+                }}
+                id="password"
+                colorPalette={"blue"}
+                css={{ "--focus-color": "colors.primary_color" }}
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                borderColor={
+                  formik.touched.password && formik.errors.password
+                    ? "red"
+                    : "#636363"
+                }
+                borderWidth={"1px"}
+                placeholder="Password"
+                rounded={"10px"}
+                autoComplete="off"
+              />
             </Field>
             <Text
               fontFamily={"body"}

@@ -13,7 +13,7 @@ function Support() {
       w="full"
     >
       {/* Sipsa Logo */}
-      <Logo boxSize={"48"} linkPath={"/"} fitType={"Cover"} />
+      <Logo boxSize={"48"} linkPath={"/"} fitType={"cover"} />
       {/* contact Us Section */}
       <Flex
         flexDirection={"column"}

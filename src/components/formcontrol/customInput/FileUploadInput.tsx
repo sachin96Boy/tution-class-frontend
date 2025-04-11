@@ -6,8 +6,8 @@ import {
   Float,
   useFileUploadContext,
 } from "@chakra-ui/react";
+import { CircleX, File } from "lucide-react";
 import React from "react";
-import { LuFileImage, LuX } from "react-icons/lu";
 
 type IFileUpoad = {
   htmlFor: string;
@@ -41,7 +41,7 @@ function FileUploadInput(props: IFileUpoad) {
             <FileUpload.ItemPreviewImage />
             <Float placement="middle-start">
               <FileUpload.ItemDeleteTrigger boxSize="4" layerStyle="fill.solid">
-                <LuX />
+                <CircleX />
               </FileUpload.ItemDeleteTrigger>
             </Float>
           </FileUpload.Item>
@@ -68,14 +68,14 @@ function FileUploadInput(props: IFileUpoad) {
           "application/webp",
         ]}
       >
-        <FileUpload.HiddenInput  />
+        <FileUpload.HiddenInput />
         <FileUpload.Trigger asChild>
           <Button type="button" variant="outline" size="sm">
-            <LuFileImage /> Upload Images
+            <File /> Upload Images
           </Button>
         </FileUpload.Trigger>
-        <FileUploadList />
-        {/* <FileUpload.List  /> */}
+        {/* <FileUploadList /> */}
+        <FileUpload.List />
       </FileUpload.Root>
     </Field>
   );

@@ -1,39 +1,71 @@
 import InputComponent from "@/components/formcontrol/customInput/InputComponent";
 import InputWithSelect from "@/components/formcontrol/customInput/InputWithSelect";
 import { Field } from "@/components/ui/field";
+import {
+  createExpence,
+  ICreateExpence,
+} from "@/features/accounting/accountingAction";
+import { IListItemProp } from "@/features/config/configAction";
+import { AppDispatch } from "@/store";
 import { Button, Input, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import DatePicker from "react-datepicker";
+import { useDispatch } from "react-redux";
 
 import * as Yup from "yup";
 
-function ExpenceFormComponent(props: any) {
+type IExpenceFormProps = {
+  expenceTypeList: Array<IListItemProp>;
+  teacherList: Array<IListItemProp>;
+};
+
+function ExpenceFormComponent(props: IExpenceFormProps) {
   const { expenceTypeList, teacherList } = props;
 
-  const initialValues = {
-    expenceTypeId: "",
-    teacherId: "",
-    amount: 0,
+  const dispatch = useDispatch<AppDispatch>();
+
+  const initialValues: ICreateExpence = {
+    expence_type: {
+      key: "",
+      value: "",
+      image_path: null,
+    },
+    teacher_id: {
+      key: "",
+      value: "",
+      image_path: null,
+    },
+    expence_amount: 0,
     date: null,
   };
 
   const validationSchema = Yup.object({
-    expenceTypeId: Yup.string().required("Expence Type is required"),
-    teacherId: Yup.string().required("Teacher is required"),
+    expence_type: Yup.object().shape({
+      key: Yup.string().required("Expence Type is not valid"),
+      value: Yup.string().required("Expence Type name is required"),
+      image_path: Yup.mixed().nullable(),
+    }),
+    teacher_id: Yup.object().shape({
+      key: Yup.string().required("Teacher is not valid"),
+      value: Yup.string().required("Teacher name is required"),
+      image_path: Yup.mixed().nullable(),
+    }),
     date: Yup.date()
       .required("Date is required")
       .typeError("Invalid Date")
       .max(new Date(), "Date Can't be in Future"),
-    amount: Yup.number()
+    expence_amount: Yup.number()
       .required("Amount is Required")
       .typeError("Invalid amount")
       .min(0, "amount can't be Nagative"),
   });
 
-  const onSubmit = async (values: any, action: any) => {
+  const onSubmit = async (values: ICreateExpence, action: any) => {
     try {
-      console.log(values);
+      const result = await dispatch(createExpence(values));
+
       action.setSubmitting(false);
+      action.resetForm();
     } catch (err) {
       console.log(err);
     }
@@ -50,42 +82,54 @@ function ExpenceFormComponent(props: any) {
           <Form autoComplete="off">
             <VStack gap={4} width={"full"}>
               <InputWithSelect
-                htmlFor={"expencetype"}
+                htmlFor={"expence_type"}
                 labelText={"Expence Type"}
                 InputType={"text"}
-                InputValue={formik.values.expenceTypeId}
+                InputValue={formik.values.expence_type.value}
                 onBlur={formik.handleBlur}
                 placeHolder={"ExpenceType"}
-                isTouched={formik.touched.expenceTypeId}
-                isError={formik.errors.expenceTypeId}
+                isTouched={
+                  formik.touched.expence_type?.value ||
+                  formik.touched.expence_type?.key
+                }
+                isError={
+                  formik.errors.expence_type?.value ||
+                  formik.errors.expence_type?.key
+                }
                 formik={formik}
-                fieldValue={"expenceTypeId"}
+                fieldValue={"expence_type"}
                 dataList={expenceTypeList}
               />
               <InputWithSelect
-                htmlFor={"teacherId"}
+                htmlFor={"teacher_id"}
                 labelText={"Teacher"}
                 InputType={"text"}
-                InputValue={formik.values.teacherId}
+                InputValue={formik.values.teacher_id.value}
                 onBlur={formik.handleBlur}
                 placeHolder={"Teacher"}
-                isTouched={formik.touched.teacherId}
-                isError={formik.errors.teacherId}
+                isTouched={
+                  formik.touched.teacher_id?.value ||
+                  formik.touched.teacher_id?.key
+                }
+                isError={
+                  formik.errors.teacher_id?.value ||
+                  formik.errors.teacher_id?.key
+                }
                 formik={formik}
-                fieldValue={"teacherId"}
+                fieldValue={"teacher_id"}
                 dataList={teacherList}
               />
 
               <InputComponent
-                htmlFor={"amount"}
+                htmlFor={"expence_amount"}
                 labelText={"Expence Amount"}
                 InputType={"text"}
-                InputValue={formik.values.amount}
+                InputValue={formik.values.expence_amount}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeHolder={"Enter Amount"}
-                isTouched={formik.touched.amount}
-                isError={formik.errors.amount}
+                isTouched={formik.touched.expence_amount}
+                isError={formik.errors.expence_amount}
               />
 
               <Field

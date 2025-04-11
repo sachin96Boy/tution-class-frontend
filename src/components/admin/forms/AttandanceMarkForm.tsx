@@ -6,10 +6,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Form, Formik } from "formik";
 import { Field } from "@/components/ui/field";
 import InputWithSelect from "@/components/formcontrol/customInput/InputWithSelect";
+import { IListItemProp } from "@/features/config/configAction";
 
 type IattandanceMarksForm = {
-  studentList: Array<string>;
-  courseList: Array<string>;
+  studentList: Array<IListItemProp>;
+  courseList: Array<IListItemProp>;
 };
 
 function AttandanceMarkForm(props: IattandanceMarksForm) {
@@ -17,13 +18,29 @@ function AttandanceMarkForm(props: IattandanceMarksForm) {
 
   const initialValues = {
     date: null,
-    studentId: "",
-    courseId: "",
+    studentId: {
+      key: "",
+      value: "",
+      image_path: null,
+    },
+    courseId: {
+      key: "",
+      value: "",
+      image_path: null,
+    },
   };
 
   const validationSchema = Yup.object({
-    studentId: Yup.string().required("Student is required"),
-    courseId: Yup.string().required("Course is required"),
+    studentId: Yup.object().shape({
+      key: Yup.string().required("Student is not valid"),
+      value: Yup.string().required("Student name is required"),
+      image_path: Yup.mixed().nullable(),
+    }),
+    courseId: Yup.object().shape({
+      key: Yup.string().required("Course is not valid"),
+      value: Yup.string().required("Course name is required"),
+      image_path: Yup.mixed().nullable(),
+    }),
     date: Yup.date()
       .required("Date is required")
       .typeError("Invalid Date")
@@ -34,6 +51,7 @@ function AttandanceMarkForm(props: IattandanceMarksForm) {
     try {
       console.log(values);
       action.setSubmitting(false);
+      action.resetForm();
     } catch (err) {
       console.log(err);
     }
@@ -53,11 +71,16 @@ function AttandanceMarkForm(props: IattandanceMarksForm) {
                 htmlFor={"studentId"}
                 labelText={"Student"}
                 InputType={"text"}
-                InputValue={formik.values.studentId}
+                InputValue={formik.values.studentId.value}
                 onBlur={formik.handleBlur}
                 placeHolder={"student"}
-                isTouched={formik.touched.studentId}
-                isError={formik.errors.studentId}
+                isTouched={
+                  formik.touched.studentId?.value ||
+                  formik.touched.studentId?.key
+                }
+                isError={
+                  formik.errors.studentId?.value || formik.errors.studentId?.key
+                }
                 formik={formik}
                 fieldValue={"studentId"}
                 dataList={studentList}
@@ -66,11 +89,11 @@ function AttandanceMarkForm(props: IattandanceMarksForm) {
                 htmlFor={"courseId"}
                 labelText={"Course"}
                 InputType={"text"}
-                InputValue={formik.values.courseId}
+                InputValue={formik.values.courseId.value}
                 onBlur={formik.handleBlur}
                 placeHolder={"course"}
-                isTouched={formik.touched.courseId}
-                isError={formik.errors.courseId}
+                isTouched={formik.touched.courseId?.value || formik.touched.courseId?.key}
+                isError={formik.errors.courseId?.value || formik.errors.courseId?.key}
                 formik={formik}
                 fieldValue={"courseId"}
                 dataList={courseList}

@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 
 import * as Yup from "yup";
-import { IloginProps, loginCoporateUser } from "@/features/auth/authAction";
+import { IloginProps, IloginPropsAdmin, loginCoporateUser } from "@/features/auth/authAction";
 import {
   Button,
   Icon,
@@ -12,12 +12,12 @@ import {
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import InputComponent from "../../formcontrol/customInput/InputComponent";
-import { InputGroup } from "@/components/ui/input-group";
-import { HiEye, HiEyeOff } from "react-icons/hi";
+
 import { Field } from "@/components/ui/field";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
+import { PasswordInput } from "@/components/ui/password-input";
 
 function AdminLoginComponent() {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ function AdminLoginComponent() {
     }
   };
 
-  const initialValues: IloginProps = {
+  const initialValues: IloginPropsAdmin = {
     email: "",
     password: "",
   };
@@ -55,13 +55,14 @@ function AdminLoginComponent() {
       ),
   });
 
-  const onSubmit = async (values: IloginProps, actions: any) => {
+  const onSubmit = async (values: IloginPropsAdmin, actions: any) => {
     const result = await dispatch(loginCoporateUser(values));
     if (result.payload?.token) {
       navigate("/admin");
     }
 
     actions.setSubmitting(false);
+    actions.resetForm();
   };
 
   return (
@@ -90,7 +91,7 @@ function AdminLoginComponent() {
               htmlFor="password"
               errorText={formik.errors.password}
             >
-              <InputGroup
+              {/* <InputGroup
                 width={"full"}
                 ref={inputRef}
                 endElement={
@@ -124,7 +125,27 @@ function AdminLoginComponent() {
                   rounded={"10px"}
                   autoComplete="off"
                 />
-              </InputGroup>
+              </InputGroup> */}
+              <PasswordInput
+                rootProps={{
+                  width: "full",
+                }}
+                id="password"
+                colorPalette={"blue"}
+                css={{ "--focus-color": "colors.primary_color" }}
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                borderColor={
+                  formik.touched.password && formik.errors.password
+                    ? "red"
+                    : "#636363"
+                }
+                borderWidth={"1px"}
+                placeholder="Password"
+                rounded={"10px"}
+                autoComplete="off"
+              />
             </Field>
             <Button
               type="submit"

@@ -1,38 +1,33 @@
-import { Avatar, Flex, Table, Text } from "@chakra-ui/react";
+import { IteacherGetProps } from "@/features/teacher/teacherAction";
+import { Avatar, Box, Flex, Table, Text } from "@chakra-ui/react";
 import React from "react";
 
-type Iteacher = {
-  teacherId: string;
-  fullName: string;
-  description: string;
-  profileImg: string;
-};
-
 type ITeacherTableBody = {
-  data: Array<Iteacher>;
+  data: Array<IteacherGetProps>;
 };
 
-const TeacherTableCell = (teacherDataProps: Iteacher) => {
-  const { teacherId, fullName, description, profileImg } = teacherDataProps;
+const TeacherTableCell = (teacherDataProps: IteacherGetProps) => {
+  const { id, full_name, description, profile_img } = teacherDataProps;
+
   return (
     <Table.Row>
-      <Table.Cell pl="0px">
+      <Table.Cell>
         <Text fontSize="sm" color="gray.400" fontWeight="normal">
-          {teacherId}
+          {id}
         </Text>
       </Table.Cell>
-      <Table.Cell pl="0px">
-        <Flex>
-          <Avatar.Root shape="square" size="lg">
-            <Avatar.Fallback name={fullName} />
-            <Avatar.Image src={profileImg} />
+      <Table.Cell>
+        <Flex gap={2} align={"center"}>
+          <Avatar.Root shape="full" size="lg">
+            <Avatar.Fallback name={full_name} />
+            <Avatar.Image src={profile_img} />
           </Avatar.Root>
           <Text fontSize="sm" color="gray.400" fontWeight="normal">
-            {fullName}
+            {full_name}
           </Text>
         </Flex>
       </Table.Cell>
-      <Table.Cell pl="0px">
+      <Table.Cell>
         <Text fontSize="sm" color="gray.400" fontWeight="normal" truncate>
           {description}
         </Text>
@@ -44,19 +39,28 @@ const TeacherTableCell = (teacherDataProps: Iteacher) => {
 function TeacherTableBody(props: ITeacherTableBody) {
   const { data } = props;
   return (
-    <Table.Body>
-      {data.map((item, index) => {
-        return (
-          <TeacherTableCell
-            key={index}
-            fullName={item.fullName}
-            description={item.description}
-            teacherId={item.teacherId}
-            profileImg={item.profileImg}
-          />
-        );
-      })}
-    </Table.Body>
+    <>
+      {data.length > 0 ? (
+        <Table.Body>
+          {data.map((item, index) => {
+            return (
+              <TeacherTableCell
+                key={index}
+                id={item.id}
+                full_name={item.full_name}
+                description={item.description}
+                teacher_id={item.teacher_id}
+                profile_img={item.profile_img}
+                intro_image1=""
+                intro_image2=""
+              />
+            );
+          })}
+        </Table.Body>
+      ) : (
+        <Table.Body></Table.Body>
+      )}
+    </>
   );
 }
 

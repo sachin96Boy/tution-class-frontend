@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Button,
   Center,
   Flex,
+  Heading,
   Image,
   Spacer,
   Text,
@@ -16,11 +17,17 @@ import sipsaclassBannerrow3 from "../assets/home/class-banner/sipsa-banner-row3.
 import sipsaclassBannerrow4 from "../assets/home/class-banner/sipsa-banner-row4.jpg";
 import sipsaLogo from "../assets/header/logos/Sipsa_logo.png";
 
-import Slider from "react-slick";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
-import { PhotoView } from "react-photo-view";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import {
+  getAllAdvertisments,
+  getCompanyMainBanner,
+} from "@/features/advertisment/advertismentAction";
+import Spinner from "@/components/spinner/Spinner";
+
+import CarousaComponent from "@/components/carousel/CarousaComponent";
+import { EmblaOptionsType } from "embla-carousel";
 
 const bannerList: Array<string> = [
   sipsaclassbanner1,
@@ -40,7 +47,13 @@ function HomePage() {
     { ssr: false }
   );
 
+  const dispatch = useDispatch<AppDispatch>();
+
   const { company } = useSelector((state: RootState) => state.config);
+
+  const { loading, advertisments, companyMainAd } = useSelector(
+    (state: RootState) => state.advertisment
+  );
 
   const logoPath = `${import.meta.env.VITE_BACKEND_STATIC}/logo/${
     company[0]?.logo
@@ -48,31 +61,22 @@ function HomePage() {
 
   const navigate = useNavigate();
 
-  const settings: any = {
-    dots: true,
-    autoplay: true,
-    vertical: vertical,
-    verticalSwiping: verticalSwiping,
-    autoplaySpeed: 4000,
-    arrows: false,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 768, // Adjust for smaller screens
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          vertical: false,
-          verticalSwiping: false,
-        },
-      },
-    ],
-  };
-
   const handlenavigtetoSupport = () => {
     navigate("/dashboard/support");
   };
+
+  useEffect(() => {
+    if (company && company.length > 0) {
+      dispatch(
+        getCompanyMainBanner({
+          enc_company_id: company[0].id,
+        })
+      );
+    }
+    dispatch(getAllAdvertisments(""));
+  }, [dispatch, company]);
+
+  const OPTIONS: EmblaOptionsType = { loop: true,  };
 
   return (
     <Box w={"full"} px={[4, 6, 10]}>
@@ -132,11 +136,21 @@ function HomePage() {
           w={["full", "full", "35%"]}
           p={[2, 4]}
         >
-          <Image
-            src={sipsaclassbanner1}
-            objectFit="fill"
-            boxSize={["200px", "250px", "350px"]}
-          />
+          {loading ? (
+            <Center boxSize={["200px", "250px", "350px"]}>
+              <Spinner />
+            </Center>
+          ) : (
+            <Image
+              src={
+                companyMainAd != null
+                  ? companyMainAd.advertisment_img_path
+                  : sipsaLogo
+              }
+              objectFit="fill"
+              boxSize={["200px", "250px", "350px"]}
+            />
+          )}
         </Flex>
       </Flex>
       {/* Courses Section */}
@@ -150,29 +164,28 @@ function HomePage() {
         >
           අපගේ පාඨමාලා
         </Text>
-        <Box
+        <Flex
           alignItems={"center"}
+          justifyContent={"center"}
           px={[2, 4, 6]}
           rounded="10px"
           bg="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
         >
-          <Slider {...settings}>
-            {bannerList.map((item: string, index: number) => (
-              <Box key={index}>
-                <Center p={1} bg={"yellow.400"} rounded="5px" m={[2, 4]}>
-                  <PhotoView key={index} src={item}>
-                    <Image
-                      borderRadius={"12px"}
-                      src={item}
-                      objectFit="fill"
-                      boxSize={["150px", "180px", "220px"]}
-                    />
-                  </PhotoView>
-                </Center>
-              </Box>
-            ))}
-          </Slider>
-        </Box>
+          {loading ? (
+            <Center>
+              <Spinner />
+            </Center>
+          ) : advertisments && advertisments.length > 0 ? (
+            <CarousaComponent slides={advertisments} options={OPTIONS} />
+            // <Box></Box>
+          ) : (
+            <Center boxSize={["150px", "180px", "220px"]}>
+              <Heading textAlign={"center"} color={"gray.200"} size={"lg"}>
+                No Details to Display
+              </Heading>
+            </Center>
+          )}
+        </Flex>
       </Box>
       {/* Support Section */}
       <Flex

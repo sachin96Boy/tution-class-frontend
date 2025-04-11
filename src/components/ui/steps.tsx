@@ -1,6 +1,7 @@
 import { Box, Steps as ChakraSteps } from "@chakra-ui/react";
+import { CircleCheckBig } from "lucide-react";
 import * as React from "react";
-import { LuCheck } from "react-icons/lu";
+
 
 interface StepInfoProps {
   title?: React.ReactNode;
@@ -22,7 +23,7 @@ export const StepsItem = React.forwardRef<HTMLDivElement, StepsItemProps>(
         <ChakraSteps.Trigger>
           <ChakraSteps.Indicator colorPalette={"blue"}>
             <ChakraSteps.Status
-              complete={completedIcon || <LuCheck />}
+              complete={completedIcon || <CircleCheckBig />}
               incomplete={icon || <ChakraSteps.Number />}
             />
           </ChakraSteps.Indicator>

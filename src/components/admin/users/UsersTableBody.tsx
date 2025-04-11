@@ -1,25 +1,18 @@
+import { ICoporateUserInfo } from "@/features/auth/authSlice";
 import { Badge, Table, Text } from "@chakra-ui/react";
 
-
-type Iuser = {
-  userId: string;
-  userName: string;
-  email: string;
-  role: string;
-  verified: boolean;
-};
-
 type IuserTableBody = {
-  data: Array<Iuser>;
+  data: Array<ICoporateUserInfo>;
 };
 
-const UserTableCell = (payDataProps: Iuser) => {
-  const { verified, role, email, userName, userId } = payDataProps;
+const UserTableCell = (payDataProps: ICoporateUserInfo) => {
+  const { isVerified, user_role_id, email, userName, user_id, id } =
+    payDataProps;
   return (
-    <Table.Row>
+    <Table.Row p={2}>
       <Table.Cell pl="0px">
         <Text fontSize="sm" color="gray.400" fontWeight="normal">
-          {userId}
+          {id}
         </Text>
       </Table.Cell>
       <Table.Cell pl="0px">
@@ -35,7 +28,7 @@ const UserTableCell = (payDataProps: Iuser) => {
           p="3px 10px"
           borderRadius="8px"
         >
-          {role}
+          {user_role_id}
         </Badge>
       </Table.Cell>
       <Table.Cell pl="0px">
@@ -45,11 +38,11 @@ const UserTableCell = (payDataProps: Iuser) => {
       </Table.Cell>
       <Table.Cell pl="0px">
         <Text
-          fontSize="sm"
-          color={verified ? "green.400" : "yellow.400"}
-          fontWeight="normal"
+          fontSize="md"
+          color={isVerified ? "green.700" : "yellow.700"}
+          fontWeight="black"
         >
-          {verified ? "Verified" : "Pending"}
+          {isVerified ? "Verified" : "Pending"}
         </Text>
       </Table.Cell>
     </Table.Row>
@@ -65,11 +58,12 @@ function UsersTableBody(props: IuserTableBody) {
         return (
           <UserTableCell
             key={index}
-            userId={item.userId}
+            id={item.id}
+            user_id={item.user_id}
             userName={item.userName}
             email={item.email}
-            role={item.role}
-            verified={item.verified}
+            user_role_id={item.user_role_id}
+            isVerified={item.isVerified}
           />
         );
       })}

@@ -1,44 +1,72 @@
 import InputComponent from "@/components/formcontrol/customInput/InputComponent";
 import InputWithSelect from "@/components/formcontrol/customInput/InputWithSelect";
 import { Field } from "@/components/ui/field";
+import {
+  createPayment,
+  ICreatePayment,
+} from "@/features/accounting/accountingAction";
+import { IListItemProp } from "@/features/config/configAction";
+import { AppDispatch } from "@/store";
 import { Button, Input, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React from "react";
 import DatePicker from "react-datepicker";
+import { useDispatch } from "react-redux";
 
 import * as Yup from "yup";
 
 type IpaymentFormComponent = {
-  studentList: Array<string>;
-  courseList: Array<string>;
+  studentList: Array<IListItemProp>;
+  courseList: Array<IListItemProp>;
 };
 
 function PaymentsFormComponent(props: IpaymentFormComponent) {
   const { studentList, courseList } = props;
-  const initialValues = {
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const initialValues: ICreatePayment = {
     date: null,
-    studentId: "",
-    courseId: "",
-    paidAmount: 0,
+    student_id: {
+      key: "",
+      value: "",
+      image_path: null,
+    },
+    course_id: {
+      key: "",
+      value: "",
+      image_path: null,
+    },
+    paid_amount: 0,
   };
 
   const validationSchema = Yup.object({
-    studentId: Yup.string().required("Student is required"),
-    courseId: Yup.string().required("Course is required"),
+    student_id: Yup.object().shape({
+      key: Yup.string().required("Student is not valid"),
+      value: Yup.string().required("Student name is required"),
+      image_path: Yup.mixed().nullable(),
+    }),
+    course_id: Yup.object().shape({
+      key: Yup.string().required("Course is not valid"),
+      value: Yup.string().required("Course name is required"),
+      image_path: Yup.mixed().nullable(),
+    }),
     date: Yup.date()
       .required("Date is required")
       .typeError("Invalid Date")
       .max(new Date(), "Date Can't be in Future"),
-    paidAmount: Yup.number()
+    paid_amount: Yup.number()
       .required("Amount is Required")
       .typeError("Invalid amount")
       .min(0, "amount can't be Nagative"),
   });
 
-  const onSubmit = async (values: any, action: any) => {
+  const onSubmit = async (values: ICreatePayment, action: any) => {
     try {
-      console.log(values);
+      const result = await dispatch(createPayment(values));
+
       action.setSubmitting(false);
+      action.resetForm();
     } catch (err) {
       console.log(err);
     }
@@ -55,42 +83,53 @@ function PaymentsFormComponent(props: IpaymentFormComponent) {
           <Form autoComplete="off">
             <VStack gap={4} width={"full"}>
               <InputWithSelect
-                htmlFor={"studentId"}
+                htmlFor={"student_id"}
                 labelText={"Student"}
                 InputType={"text"}
-                InputValue={formik.values.studentId}
+                InputValue={formik.values.student_id.value}
                 onBlur={formik.handleBlur}
                 placeHolder={"student"}
-                isTouched={formik.touched.studentId}
-                isError={formik.errors.studentId}
+                isTouched={
+                  formik.touched.student_id?.value ||
+                  formik.touched.student_id?.key
+                }
+                isError={
+                  formik.errors.student_id?.value ||
+                  formik.errors.student_id?.key
+                }
                 formik={formik}
-                fieldValue={"studentId"}
+                fieldValue={"student_id"}
                 dataList={studentList}
               />
               <InputWithSelect
-                htmlFor={"courseId"}
+                htmlFor={"course_id"}
                 labelText={"Course"}
                 InputType={"text"}
-                InputValue={formik.values.courseId}
+                InputValue={formik.values.course_id.value}
                 onBlur={formik.handleBlur}
                 placeHolder={"course"}
-                isTouched={formik.touched.courseId}
-                isError={formik.errors.courseId}
+                isTouched={
+                  formik.touched.course_id?.value ||
+                  formik.touched.course_id?.key
+                }
+                isError={
+                  formik.errors.course_id?.value || formik.errors.course_id?.key
+                }
                 formik={formik}
-                fieldValue={"courseId"}
+                fieldValue={"course_id"}
                 dataList={courseList}
               />
 
               <InputComponent
-                htmlFor={"paidAmount"}
+                htmlFor={"paid_amount"}
                 labelText={"Paid amount"}
                 InputType={"text"}
-                InputValue={formik.values.paidAmount}
+                InputValue={formik.values.paid_amount}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 placeHolder={"Paid Amount"}
-                isTouched={formik.touched.paidAmount}
-                isError={formik.errors.paidAmount}
+                isTouched={formik.touched.paid_amount}
+                isError={formik.errors.paid_amount}
               />
 
               <Field

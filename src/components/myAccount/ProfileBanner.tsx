@@ -2,33 +2,39 @@ import React, { RefObject } from "react";
 import { Avatar, Box, Flex, Heading, Input, Text } from "@chakra-ui/react";
 import { ErrorMessage, FormikProps, FormikHelpers } from "formik";
 
-import { BsShieldFillExclamation } from "react-icons/bs";
-import { MdVerifiedUser } from "react-icons/md";
-import { TbCameraPlus } from "react-icons/tb";
-
-import { FormValues } from "../../pages/MyAccount";
 import { Field } from "../ui/field";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { IUpdateStudentAdditionalDataProps } from "@/features/student/studentAction";
+import { ShieldCheck, ShieldQuestion, UserRoundPlus } from "lucide-react";
 
 interface BannerProps {
   hiddenInputRef: RefObject<HTMLInputElement | null>;
-  formik: FormikProps<FormValues>;
+  formik: FormikProps<IUpdateStudentAdditionalDataProps>;
   profilehandleChange: (
     element1: React.ChangeEvent<HTMLInputElement>,
-    element2: FormikHelpers<FormValues>
+    element2: FormikHelpers<IUpdateStudentAdditionalDataProps>
   ) => void;
   selectedFile: File;
   preview: string | undefined;
   onClick: () => void;
+  isTouched: boolean | undefined;
+  isError: string | undefined;
 }
 
 function ProfileBanner({
   hiddenInputRef,
   profilehandleChange,
   formik,
-  selectedFile,
+  isTouched,
+  isError,
   preview,
   onClick,
 }: BannerProps) {
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+
+  const NameArray = userInfo?.full_name?.trim().split(" ") ?? ["", ""];
+
   return (
     <Flex
       className="profileBanner"
@@ -43,21 +49,17 @@ function ProfileBanner({
         justify="center"
         flexDirection={["column", "column", "row"]}
       >
-        <Box
-          className="Avater-box"
-          rounded={"full"}
-          bg="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
-          p={"4px"}
-        >
-          <Field htmlFor="profileImage">
-            <Input
-              id="profileImage"
-              ref={hiddenInputRef}
-              onChange={(event) => profilehandleChange(event, formik)}
-              type={"file"}
-              onBlur={formik.handleBlur}
-              hidden
-            />
+        <Flex flexDirection={"column"} align={"center"} justify={"center"}>
+          <Box
+            className="Avater-box"
+            rounded={"full"}
+            bg={
+              isTouched && !!isError
+                ? "red.400"
+                : "linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
+            }
+            p={"4px"}
+          >
             <Avatar.Root
               boxSize={"20"}
               _hover={{ cursor: "pointer" }}
@@ -66,16 +68,30 @@ function ProfileBanner({
             >
               <Avatar.Fallback>
                 <Avatar.Icon>
-                  <TbCameraPlus size={"28"} style={{ color: "#ffffffff" }} />
+                  <UserRoundPlus  size={"28"} style={{ color: "#ffffffff" }} />
                 </Avatar.Icon>
               </Avatar.Fallback>
               <Avatar.Image src={preview} />
             </Avatar.Root>
+          </Box>
+          <Field
+            invalid={isTouched && !!isError}
+            errorText={isError}
+            htmlFor="profileImage"
+          >
+            <Input
+              id="profileImage"
+              ref={hiddenInputRef}
+              onChange={(event) => profilehandleChange(event, formik)}
+              type={"file"}
+              onBlur={formik.handleBlur}
+              hidden
+            />
           </Field>
-        </Box>
+        </Flex>
 
         <Flex
-          ml={5}
+          ml={4}
           flexDirection={"column"}
           align={["center", "start"]}
           justify={"center"}
@@ -87,7 +103,7 @@ function ProfileBanner({
             fontSize={["24px", "24px", "24px", "36px"]}
             fontFamily={"body"}
           >
-            Hashan{" "}
+            {NameArray?.[0] + " "}
             <Text
               as={"span"}
               color="#636363"
@@ -95,13 +111,13 @@ function ProfileBanner({
               fontSize={["24px", "24px", "24px", "36px"]}
               fontFamily={"body"}
             >
-              Maduranga
+              {NameArray?.[1]}
             </Text>
           </Heading>
           <Flex gap={5}>
             <Flex align={"center"} gap={1}>
               {" "}
-              <MdVerifiedUser style={{ color: "#2ECC71" }} />
+              <ShieldCheck style={{ color: "#2ECC71" }} />
               <Text
                 fontFamily={"body"}
                 color="#2ECC71"
@@ -113,7 +129,7 @@ function ProfileBanner({
             </Flex>
             <Flex align={"center"} gap={1}>
               {" "}
-              <BsShieldFillExclamation style={{ color: "#F1C40F" }} />
+              <ShieldQuestion style={{ color: "#F1C40F" }} />
               <Text
                 fontFamily={"body"}
                 color="#F1C40F"

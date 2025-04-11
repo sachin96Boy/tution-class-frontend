@@ -1,15 +1,12 @@
 import { Avatar, Box, Flex, Spacer, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { MdDashboard } from "react-icons/md";
-import { GiBookshelf } from "react-icons/gi";
-import { BsHeadset } from "react-icons/bs";
-import { FaUser } from "react-icons/fa";
-import { FiLogOut } from "react-icons/fi";
+
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { TbCameraPlus } from "react-icons/tb";
+
 import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/features/auth/authSlice";
+import { Headset, LayoutDashboard, LibraryBig, LogOut, User, UserRound } from "lucide-react";
 
 function SideBar() {
   const dispatch = useDispatch<AppDispatch>();
@@ -27,25 +24,25 @@ function SideBar() {
 
   const sideBarMenuList = [
     {
-      icon: <MdDashboard size={"28px"} />,
+      icon: <LayoutDashboard size={"28px"} />,
       label: "Dashboard",
       path: "/dashboard",
       key: "dashboard",
     },
     {
-      icon: <GiBookshelf size={"28px"} />,
+      icon: <LibraryBig size={"28px"} />,
       label: "My Courses",
       path: "/dashboard/myCourses",
       key: "myCourses",
     },
     {
-      icon: <BsHeadset size={"28px"} />,
+      icon: <Headset size={"28px"} />,
       label: "Support",
       path: "/dashboard/support",
       key: "support",
     },
     {
-      icon: <FaUser size={"28px"} />,
+      icon: <User size={"28px"} />,
       label: "My Account",
       path: "/dashboard/myAccount",
       key: "myAccount",
@@ -75,7 +72,7 @@ function SideBar() {
               <Avatar.Root>
                 <Avatar.Fallback>
                   <Avatar.Icon>
-                    <TbCameraPlus size={"28"} style={{ color: "#ffffffff" }} />
+                    <UserRound size={"28"} style={{ color: "#ffffffff" }} />
                   </Avatar.Icon>
                 </Avatar.Fallback>
               </Avatar.Root>
@@ -213,7 +210,7 @@ function SideBar() {
               }}
               onClick={handleLogout}
             >
-              <FiLogOut size={"28px"} />
+              <LogOut size={"28px"} />
               <Text
                 ml={2}
                 fontFamily={"body"}

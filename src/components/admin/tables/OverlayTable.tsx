@@ -6,18 +6,27 @@ import {
   Table,
   Text,
 } from "@chakra-ui/react";
-import React from "react";
-import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
+import { CircleChevronLeft, CircleChevronRight } from "lucide-react";
+import React, { useState } from "react";
 
 type IoverlayTable = {
   title: string;
   captions: Array<String>;
   tableBodyComponent: React.ReactNode;
   data: Array<any>;
+  currentPage: number;
+  handlePageChange: (details: { page: number }) => void;
 };
 
 function OverlayTable(props: IoverlayTable) {
-  const { title, captions, tableBodyComponent, data } = props;
+  const {
+    title,
+    captions,
+    tableBodyComponent,
+    data,
+    currentPage,
+    handlePageChange,
+  } = props;
 
   return (
     <Card.Root overflowX={{ base: "scroll", xl: "hidden" }}>
@@ -45,36 +54,29 @@ function OverlayTable(props: IoverlayTable) {
           {tableBodyComponent}
         </Table.Root>
         {/* pagination */}
-        <Pagination.Root count={data.length} pageSize={5} page={1}>
+        <Pagination.Root
+          count={data.length}
+          pageSize={10}
+          page={currentPage}
+          onPageChange={handlePageChange}
+        >
           <ButtonGroup variant="ghost" size="sm" wrap="wrap">
             <Pagination.PrevTrigger asChild>
               <IconButton>
-                <LuChevronLeft />
+                <CircleChevronLeft />
               </IconButton>
             </Pagination.PrevTrigger>
-            <Pagination.Context>
-              {({ pages }) =>
-                pages.map((page, index) => {
-                  // console.log(page);
-                  return page.type === "page" ? (
-                    <Pagination.Item key={index} {...page} />
-                  ) : (
-                    <Pagination.Ellipsis key={index} index={index} />
-                  );
-                })
-              }
-            </Pagination.Context>
-            {/* <Pagination.Items
+            <Pagination.Items
               render={(page) => (
                 <IconButton variant={{ base: "ghost", _selected: "outline" }}>
                   {page.value}
                 </IconButton>
               )}
-            /> */}
+            />
 
             <Pagination.NextTrigger asChild>
               <IconButton>
-                <LuChevronRight />
+                <CircleChevronRight />
               </IconButton>
             </Pagination.NextTrigger>
           </ButtonGroup>
