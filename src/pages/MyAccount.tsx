@@ -23,7 +23,7 @@ import {
   IUpdateStudentAdditionalDataProps,
   updateAdditionalStudentData,
 } from "@/features/student/studentAction";
-import { ShieldCheck, ShieldEllipsis } from "lucide-react";
+import { ShieldCheck, ShieldEllipsis, ShieldQuestion } from "lucide-react";
 
 function MyAccount() {
   const [preview, setPreview] = useState<string>();
@@ -354,7 +354,7 @@ function MyAccount() {
           </Flex>
           <Flex align={"center"} gap={1}>
             {" "}
-            <ShieldEllipsis style={{ color: "#F1C40F" }} />
+            <ShieldQuestion style={{ color: "#F1C40F" }} />
             <Text
               fontFamily={"body"}
               color="#F1C40F"

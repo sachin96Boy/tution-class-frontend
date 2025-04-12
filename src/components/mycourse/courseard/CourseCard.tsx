@@ -24,6 +24,8 @@ function CourseCard({
   courseImg,
 }: CourseCardProps) {
   const navigate = useNavigate();
+
+  const encodedId = encodeURIComponent(courseId);
   return (
     <Box
       my={5}
@@ -32,7 +34,7 @@ function CourseCard({
       bg="light_bg_card"
       rounded={"16px"}
       cursor={"pointer"}
-      onClick={() => navigate(`/dashboard/course/${year}/${courseId}`)}
+      onClick={() => navigate(`/dashboard/course/${encodedId}`)}
     >
       <Flex align={"center"} justify="space-around">
         <Image
@@ -45,7 +47,9 @@ function CourseCard({
         <Box ml={3}>
           <Flex flexDirection={"column"} align="start" gap={1}>
             <Button
-              bgGradient={" linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"}
+              bgGradient={
+                " linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"
+              }
               color="white"
               rounded={"10px"}
               colorScheme="yellow"
@@ -53,7 +57,7 @@ function CourseCard({
               h={"26px"}
             >
               <Text fontFamily={"body"} fontWeight="600" fontSize={"12px"}>
-                Grade {grade}
+                {grade}
               </Text>
             </Button>
             <Heading
@@ -80,8 +84,7 @@ function CourseCard({
               fontWeight={"600"}
               color="#545454"
               h={"44px"}
-              
-               lineClamp="3"
+              lineClamp="3"
             >
               {description}
             </Text>

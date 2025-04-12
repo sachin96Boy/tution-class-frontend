@@ -61,8 +61,17 @@ export type IgetCourseDataProps = {
     course_attachment: string;
 }
 
+export type IstudentCourses = {
+    enc_student_id: string;
+}
+
 type getCourseDataByIdProps = {
     enc_course_id: string
+}
+export type getCourseDataByTeacherandSubjectProps = {
+    teacher_id: IListItemProp
+    subject_id: IListItemProp
+    year: string
 }
 
 const handleGetCourseDataByCourseId = async (values: getCourseDataByIdProps, { rejectWithValue }: any) => {
@@ -71,6 +80,29 @@ const handleGetCourseDataByCourseId = async (values: getCourseDataByIdProps, { r
         const response = await axiosInstance.post(
             'course/getCourseDataByCourseId',
             values
+        );
+
+        return response.data;
+
+    } catch (err: any) {
+
+        return rejectWithValue(err.response.data);
+    }
+}
+const handleGetCourseDataByTeacherandSubject = async (values: getCourseDataByTeacherandSubjectProps, { rejectWithValue }: any) => {
+    try {
+
+        const { subject_id, teacher_id, year } = values;
+
+        const dataObj = {
+            'enc_teacher_id': teacher_id.key,
+            'subject_id': subject_id.key,
+            'year': year
+        }
+
+        const response = await axiosInstance.post(
+            'course/getCourseDataByTeacherandSubject',
+            dataObj
         );
 
         return response.data;
@@ -90,6 +122,21 @@ const handleGetAllCourses = async (_: unknown, { rejectWithValue }: any) => {
         return response.data;
 
     } catch (err: any) {
+        return rejectWithValue(err.response.data);
+    }
+}
+const handleGetStudentCourses = async (values: IstudentCourses, { rejectWithValue }: any) => {
+    try {
+
+        const response = await axiosInstance.post(
+            'course/getStudentCourses',
+            values
+        );
+
+        return response.data;
+
+    } catch (err: any) {
+        console.log(err);
         return rejectWithValue(err.response.data);
     }
 }
@@ -182,7 +229,9 @@ const handleCreateCourseData = async (values: IcreateCourseDataProps, { rejectWi
 }
 
 const getAllCourses = createAsyncThunk('course/getAllCourses', handleGetAllCourses);
+const getStudentCourses = createAsyncThunk('course/getStudentCourses', handleGetStudentCourses);
 const getcourseDatabyCourseId = createAsyncThunk('course/getCourseDataByCourseId', handleGetCourseDataByCourseId);
+const getcourseDatabyTeacherandSubject = createAsyncThunk('course/getCourseDataByTeacherandSubject', handleGetCourseDataByTeacherandSubject);
 const createCourse = createAsyncThunk('course/createCourse', handleCreateCourse);
 const createCourseData = createAsyncThunk('course/createCourseData', handleCreateCourseData);
 
@@ -190,5 +239,7 @@ export {
     getAllCourses,
     createCourse,
     createCourseData,
-    getcourseDatabyCourseId
+    getcourseDatabyCourseId,
+    getStudentCourses,
+    getcourseDatabyTeacherandSubject
 }
