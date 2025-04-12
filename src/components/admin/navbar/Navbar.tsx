@@ -32,6 +32,7 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import AdminDrawer from "../drawer/AdminDrawer";
 
 const navLinks = [
   {
@@ -142,17 +143,9 @@ export default function Navbar() {
     <>
       <Box bg={"gray.100"} px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <IconButton
-            size={"md"}
-            aria-label={"Open Menu"}
-            variant={"ghost"}
-            display={{ md: "none" }}
-            onClick={open ? onClose : onOpen}
-          >
-            {open ? <X /> : <MenuIcon />}
-          </IconButton>
+          <AdminDrawer onClose={onClose} onOpen={onOpen} open={open} />
           <Box display={["block", "block", "none"]}>
-            <Logo boxSize="24" linkPath="/admin/dashboard" fitType="cover" />
+            <Logo boxSize="16" linkPath="/admin/dashboard" fitType="cover" />
           </Box>
           <Spacer display={["none", "none", "block"]} />
           <Flex align={"end"}>
@@ -184,8 +177,6 @@ export default function Navbar() {
             </Menu.Root>
           </Flex>
         </Flex>
-
-        {open && renderMobileView()}
       </Box>
     </>
   );

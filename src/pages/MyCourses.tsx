@@ -178,6 +178,7 @@ function MyCourses() {
           src={courseSearch}
           alt="Course not found"
         />
+        <Text>Course not Found</Text>
       </Flex>
     </Box>
   );
@@ -318,9 +319,14 @@ function MyCourses() {
                   {yearArray.map((yr) => (
                     <Button
                       key={yr}
-                      color={"#CDCDCD"}
+                      color={formik.values.year == yr.toString() ? "white" :"#CDCDCD"}
+                      bgColor={
+                        formik.values.year == yr.toString()
+                          ? "border_focus_color"
+                          : "light_bg_card"
+                      }
                       border={"1px"}
-                      borderColor="#B6D7FF"
+                      borderColor={"border_focus_color"}
                       onClick={() => {
                         formik.setFieldValue("year", yr);
                       }}
