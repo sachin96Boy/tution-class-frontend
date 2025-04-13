@@ -27,17 +27,18 @@ const TeacherDetails = ({
   imageUrl2,
 }: ITeacherDetails) => {
   return (
-    <Box maxW="6xl" divideX="2px" mx="auto" p={6}>
+    <Box maxW="6xl" divideY="4px" mx="auto" p={6} gap={6}>
       <Box>
         {/* Header Section */}
-        <Flex
-          border="4px solid"
-          borderColor="white"
-          boxShadow="lg"
-          mr={{ base: 0, md: 8 }}
-          mb={{ base: 4, md: 0 }}
-        >
-          <Avatar.Root shape="full" size="lg">
+        <Flex direction={{ base: "column", md: "row" }} align="center" mb={10}>
+          <Avatar.Root
+            border="4px solid"
+            borderColor="white"
+            boxShadow="lg"
+            mr={{ base: 0, md: 8 }}
+            mb={{ base: 4, md: 0 }}
+            size="2xl"
+          >
             <Avatar.Fallback name={title} />
             <Avatar.Image src={profileImageUrl} />
           </Avatar.Root>
@@ -62,20 +63,20 @@ const TeacherDetails = ({
                 colorScheme="blue"
                 mr={2}
               >
-                Photographer
+                Educator
               </Badge>
               <Badge px={3} py={1} borderRadius="full" colorScheme="green">
-                Designer
+                Teacher
               </Badge>
             </Flex>
           </Box>
         </Flex>
       </Box>
 
-      <Box>
+      <Box gap={4}>
         {/* Gallery Section */}
-        <Heading as="h2" size="lg" mb={6} fontWeight="semibold">
-          Featured Work
+        <Heading as="h2" size="lg" my={6} fontWeight="semibold">
+          Featured
         </Heading>
 
         <Grid
@@ -145,33 +146,6 @@ const TeacherDetails = ({
             </Box>
           </GridItem>
         </Grid>
-
-        {/* Stats Section */}
-        <Box bg="gray.50" borderRadius="xl" p={6} mt={10}>
-          <Heading as="h3" size="md" mb={4} color="gray.700">
-            Activity Stats
-          </Heading>
-          <Flex justify="space-around" textAlign="center">
-            <Box>
-              <Text fontSize="3xl" fontWeight="bold" color="teal.500">
-                1,234
-              </Text>
-              <Text color="gray.600">Followers</Text>
-            </Box>
-            <Box>
-              <Text fontSize="3xl" fontWeight="bold" color="teal.500">
-                567
-              </Text>
-              <Text color="gray.600">Following</Text>
-            </Box>
-            <Box>
-              <Text fontSize="3xl" fontWeight="bold" color="teal.500">
-                89
-              </Text>
-              <Text color="gray.600">Projects</Text>
-            </Box>
-          </Flex>
-        </Box>
       </Box>
     </Box>
   );
