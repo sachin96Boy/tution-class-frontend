@@ -1,3 +1,4 @@
+import { RootState } from "@/store";
 import {
   Box,
   Flex,
@@ -10,6 +11,9 @@ import {
   Grid,
   GridItem,
 } from "@chakra-ui/react";
+
+import { Helmet } from "react-helmet";
+import { useSelector } from "react-redux";
 
 type ITeacherDetails = {
   title: string;
@@ -26,8 +30,16 @@ const TeacherDetails = ({
   imageUrl1,
   imageUrl2,
 }: ITeacherDetails) => {
+  const { company } = useSelector((state: RootState) => state.config);
+
   return (
     <Box maxW="6xl" divideY="4px" mx="auto" p={6} gap={6}>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta name="keywords" content={`${title} ${company[0].name}`}></meta>
+      </Helmet>
       <Box>
         {/* Header Section */}
         <Flex direction={{ base: "column", md: "row" }} align="center" mb={10}>

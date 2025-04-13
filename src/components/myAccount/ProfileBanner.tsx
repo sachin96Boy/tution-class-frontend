@@ -68,10 +68,16 @@ function ProfileBanner({
             >
               <Avatar.Fallback>
                 <Avatar.Icon>
-                  <UserRoundPlus  size={"28"} style={{ color: "#ffffffff" }} />
+                  <UserRoundPlus size={"28"} style={{ color: "#ffffffff" }} />
                 </Avatar.Icon>
               </Avatar.Fallback>
-              <Avatar.Image src={preview} />
+              <Avatar.Image
+                src={
+                  preview != undefined
+                    ? preview
+                    : userInfo?.AdditionalStudentDatum.profile_image
+                }
+              />
             </Avatar.Root>
           </Box>
           <Field

@@ -2,8 +2,9 @@ import { createSlice } from "@reduxjs/toolkit"
 import { loginUser, registerUser, loginCoporateUser, registerCoporateUser } from "./authAction";
 import { toaster } from "@/components/ui/toaster";
 
-
-
+type IadditionlStudent={
+    profile_image:string
+}
 
 export type IUserInfo = {
     id: number
@@ -12,6 +13,7 @@ export type IUserInfo = {
     email: string;
     isVerified: boolean;
     pay_role: string;
+    AdditionalStudentDatum:IadditionlStudent;
 }
 export type ICoporateUserInfo = {
     id: number
