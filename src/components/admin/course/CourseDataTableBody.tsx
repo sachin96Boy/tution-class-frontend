@@ -10,7 +10,8 @@ type ICourseTableBody = {
 };
 
 const CourseDataTableCell = (courseDataProps: IgetCourseDataProps) => {
-  const { id, course_attachment, course_month, course_video } = courseDataProps;
+  const { id, course_attachment, course_month, course_video, title } =
+    courseDataProps;
   return (
     <Table.Row>
       <Table.Cell pl="0px">
@@ -21,6 +22,11 @@ const CourseDataTableCell = (courseDataProps: IgetCourseDataProps) => {
       <Table.Cell pl="0px">
         <Text fontSize="sm" color="gray.400" fontWeight="normal">
           {course_month}
+        </Text>
+      </Table.Cell>
+      <Table.Cell pl="0px">
+        <Text fontSize="sm" color="gray.400" fontWeight="normal">
+          {title}
         </Text>
       </Table.Cell>
       <Table.Cell pl="0px">
@@ -56,6 +62,7 @@ function CourseDataTablebody(props: ICourseTableBody) {
           <CourseDataTableCell
             key={index}
             id={courseDataItem.id}
+            title={courseDataItem.title}
             enc_course_id={courseDataItem.enc_course_id}
             course_month={courseDataItem.course_month}
             course_attachment={courseDataItem.course_attachment}

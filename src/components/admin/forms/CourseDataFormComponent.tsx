@@ -7,9 +7,10 @@ import {
   IcreateCourseDataProps,
 } from "@/features/course/courseAction";
 import { AppDispatch } from "@/store";
-import { Button, createListCollection, Select, VStack } from "@chakra-ui/react";
+import { Button, createListCollection, Input, Select, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React from "react";
+import DatePicker from "react-datepicker";
 import { useDispatch } from "react-redux";
 
 import * as Yup from "yup";
@@ -57,14 +58,17 @@ function CourseDataFormComponent(props: CourseDataFormProps) {
 
   const initialValues: IcreateCourseDataProps = {
     enc_course_id: enc_course_id,
+    title: "",
     course_month: "",
     course_content: "",
     course_video: "",
+    date: null,
     course_attachment: null,
   };
 
   const validationSchema = Yup.object().shape({
     enc_course_id: Yup.string().required("Course ID is required"),
+    title: Yup.string().required("Title is required"),
 
     course_month: Yup.string().required("Month is required"),
 
@@ -75,6 +79,11 @@ function CourseDataFormComponent(props: CourseDataFormProps) {
     course_video: Yup.string()
       .required("Video URL is required")
       .url("Must be a valid URL"),
+
+    date: Yup.date()
+      .required("Date is required")
+      .typeError("Invalid Date")
+      .max(new Date(), "Date Can't be in Future"),
 
     course_attachment: Yup.mixed()
       .required("Attachment required")
@@ -122,6 +131,17 @@ function CourseDataFormComponent(props: CourseDataFormProps) {
             encType="multipart/form-data"
           >
             <VStack gap={4} width={"full"}>
+              <InputComponent
+                htmlFor={"titile"}
+                labelText={"Title"}
+                InputType={"text"}
+                InputValue={formik.values.title}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeHolder={"Enter TitleL"}
+                isTouched={formik.touched.title}
+                isError={formik.errors.title}
+              />
               <InputComponent
                 htmlFor={"course_video"}
                 labelText={"Course video"}
@@ -199,6 +219,39 @@ function CourseDataFormComponent(props: CourseDataFormProps) {
                     </Select.Content>
                   </Select.Positioner>
                 </Select.Root>
+              </Field>
+
+              <Field
+                width={"full"}
+                invalid={formik.touched.date && !!formik.errors.date}
+                label="Select Date"
+                htmlFor="date"
+                errorText={formik.errors.date}
+              >
+                <DatePicker
+                  selected={formik.values.date}
+                  onBlur={formik.handleBlur}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="Select a date"
+                  onChange={(date) => formik.setFieldValue("date", date)}
+                  customInput={
+                    <Input
+                      as={Input}
+                      css={{ "--focus-color": "colors.primary_color" }}
+                      type="text"
+                      borderColor={
+                        formik.touched.date && formik.errors.date
+                          ? "red"
+                          : "#636363"
+                      }
+                      borderWidth={"1px"}
+                      rounded={"10px"}
+                      autoComplete="off"
+                      colorPalette={"blue"}
+                      width={"full"}
+                    />
+                  }
+                />
               </Field>
 
               <Button

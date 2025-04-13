@@ -3,7 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export type IcreateAdvertismentProps = {
     file_name: File | null;
-    amount: number;
+    amount: string;
 }
 export type IgetCompnyBanerProps = {
     enc_company_id: string
@@ -35,7 +35,7 @@ const handleCreatAdvertisment = async (values: IcreateAdvertismentProps, { rejec
         }
 
 
-        formData.append("duration", amount.toString());
+        formData.append("duration", amount);
 
 
 

@@ -21,8 +21,9 @@ function AdminCoursesData() {
   const queryString = location.search;
   const params = new URLSearchParams(queryString);
   const enc_id = params.get("id");
-  const real_enc_id = enc_id ? decodeURIComponent(enc_id.replace(/ /g, '+')) : ''; // Fix spaces back to +
-
+  const real_enc_id = enc_id
+    ? decodeURIComponent(enc_id.replace(/ /g, "+"))
+    : ""; // Fix spaces back to +
 
   const { loading, courseData } = useSelector(
     (state: RootState) => state.course
@@ -61,7 +62,9 @@ function AdminCoursesData() {
       <Box>
         <Modalsheet
           buttonText={"Add Course Data"}
-          formComponent={<CourseDataFormComponent enc_course_id={real_enc_id} />}
+          formComponent={
+            <CourseDataFormComponent enc_course_id={real_enc_id} />
+          }
           modalTitle={"Add Course Data"}
         />
       </Box>
@@ -72,8 +75,8 @@ function AdminCoursesData() {
           <OverlayTable
             currentPage={currentPage}
             handlePageChange={handleChange}
-            title={"Timetable Data"}
-            captions={["#", "Month", "Video", "Attachments"]}
+            title={"Course Data"}
+            captions={["#", "Month", "Title", "Video", "Attachments"]}
             tableBodyComponent={<CourseDataTablebody data={items} />}
             data={courseData}
           />

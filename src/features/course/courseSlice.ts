@@ -1,4 +1,4 @@
-import { createCourse, createCourseData, getAllCourses, getcourseDatabyCourseId, getcourseDatabyTeacherandSubject, getStudentCourses, IgetCourseDataProps, IgetCourseProps } from "./courseAction";
+import { createCourse, createCourseData, getAllCourses, getcoursebyCourseId, getcourseDatabyCourseId, getcourseDatabyTeacherandSubject, getStudentcourseDatabyCourseId, getStudentCourses, IgetCourseDataProps, IgetCourseProps } from "./courseAction";
 import { createSlice } from "@reduxjs/toolkit";
 import { toaster } from "@/components/ui/toaster";
 
@@ -8,6 +8,8 @@ export type ICourseInitialState = {
     studentGrantedCourses: Array<IgetCourseProps>;
     studentSearchedCourses: Array<IgetCourseProps>;
     courseData: Array<IgetCourseDataProps>
+    selectedCourse: IgetCourseProps | null;
+    studentCourseData: Array<any>
     error: boolean | null;
     errorMsg: object | string;
     success: boolean;
@@ -19,6 +21,8 @@ const initialState: ICourseInitialState = {
     courseData: [],
     studentGrantedCourses: [],
     studentSearchedCourses: [],
+    selectedCourse: null,
+    studentCourseData: [],
     error: null,
     errorMsg: {},
     success: false
@@ -184,6 +188,58 @@ export const courseSlie = createSlice({
             }
         ).addCase(
             getcourseDatabyTeacherandSubject.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg.toString()
+                });
+            }
+        ).addCase(
+            getStudentcourseDatabyCourseId.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            }
+        ).addCase(
+            getStudentcourseDatabyCourseId.fulfilled, (state, action) => {
+                state.loading = false;
+                state.success = true;
+                state.studentCourseData = action.payload.courseData;
+            }
+        ).addCase(
+            getStudentcourseDatabyCourseId.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg.toString()
+                });
+            }
+        ).addCase(
+            getcoursebyCourseId.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            }
+        ).addCase(
+            getcoursebyCourseId.fulfilled, (state, action) => {
+                state.loading = false;
+                state.success = true;
+                state.selectedCourse = action.payload.course;
+            }
+        ).addCase(
+            getcoursebyCourseId.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
 

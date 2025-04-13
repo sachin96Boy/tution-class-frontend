@@ -19,7 +19,7 @@ function AdvertismentFormComponent() {
 
   const initialValues: IcreateAdvertismentProps = {
     file_name: null,
-    amount: 0,
+    amount: "",
   };
 
   const validationSchema = Yup.object({
@@ -38,7 +38,7 @@ function AdvertismentFormComponent() {
           "image/webp",
         ].includes((value as File).type); // Allowed file types
       }),
-    amount: Yup.number().required("Enter a valid amount"),
+    amount: Yup.string().required("Enter a valid amount"),
   });
 
   const onSubmit = async (values: IcreateAdvertismentProps, action: any) => {
@@ -79,22 +79,14 @@ function AdvertismentFormComponent() {
                 handleBlur={formik.handleBlur}
               />
 
-              {/* <input
-                type="file"
-                name="file_name"
-                onChange={(e) =>
-                  formik.setFieldValue("file_name", e.target.files?.[0])
-                }
-              /> */}
-
               <InputComponent
                 htmlFor={"amount"}
-                labelText={"Amount"}
-                InputType={"number"}
+                labelText={"Title"}
+                InputType={"text"}
                 InputValue={formik.values.amount}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                placeHolder={"Enter Amount"}
+                placeHolder={"Enter Title"}
                 isTouched={formik.touched.amount}
                 isError={formik.errors.amount}
               />

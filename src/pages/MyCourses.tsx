@@ -32,7 +32,6 @@ import {
 } from "@/features/course/courseAction";
 
 function MyCourses() {
-
   const [items, setItems] = useState<IgetCourseProps[]>([]);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -166,10 +165,7 @@ function MyCourses() {
     values: getCourseDataByTeacherandSubjectProps,
     action: any
   ) => {
-
     await dispatch(getcourseDatabyTeacherandSubject(values));
-
-    setItems(studentSearchedCourses);
 
     action.setSubmitting(false);
     action.resetForm();
@@ -183,8 +179,15 @@ function MyCourses() {
         })
       );
     }
-    setItems(studentGrantedCourses)
   }, [dispatch, userInfo]);
+
+  useEffect(() => {
+    setItems(studentSearchedCourses);
+  }, [studentSearchedCourses]);
+
+  useEffect(() => {
+    setItems(studentGrantedCourses);
+  }, [studentGrantedCourses]);
 
   const handleClearFilter = () => {
     setItems([]);

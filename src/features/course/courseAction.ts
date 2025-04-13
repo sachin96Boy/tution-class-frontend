@@ -13,9 +13,11 @@ export type IcreateCourseProps = {
 }
 export type IcreateCourseDataProps = {
     enc_course_id: string | null;
+    title: string;
     course_month: string;
     course_content: string;
     course_video: string;
+    date: null | Date
     course_attachment: File | null;
 }
 
@@ -55,6 +57,7 @@ export type IgetCourseProps = {
 export type IgetCourseDataProps = {
     id: string;
     enc_course_id: string;
+    title: string;
     course_month: string;
     course_content: string;
     course_video: string;
@@ -79,6 +82,37 @@ const handleGetCourseDataByCourseId = async (values: getCourseDataByIdProps, { r
 
         const response = await axiosInstance.post(
             'course/getCourseDataByCourseId',
+            values
+        );
+
+        return response.data;
+
+    } catch (err: any) {
+
+        return rejectWithValue(err.response.data);
+    }
+}
+const handleGetCourseByCourseId = async (values: getCourseDataByIdProps, { rejectWithValue }: any) => {
+    try {
+
+        const response = await axiosInstance.post(
+            'course/getCourseByCourseId',
+            values
+        );
+
+        return response.data;
+
+    } catch (err: any) {
+        console.log(err);
+
+        return rejectWithValue(err.response.data);
+    }
+}
+const handleGetStudentCourseDataByCourseId = async (values: getCourseDataByIdProps, { rejectWithValue }: any) => {
+    try {
+
+        const response = await axiosInstance.post(
+            'course/getStudentCourseDataByCourseId',
             values
         );
 
@@ -230,7 +264,9 @@ const handleCreateCourseData = async (values: IcreateCourseDataProps, { rejectWi
 
 const getAllCourses = createAsyncThunk('course/getAllCourses', handleGetAllCourses);
 const getStudentCourses = createAsyncThunk('course/getStudentCourses', handleGetStudentCourses);
+const getcoursebyCourseId = createAsyncThunk('course/getCourseByCourseId', handleGetCourseByCourseId);
 const getcourseDatabyCourseId = createAsyncThunk('course/getCourseDataByCourseId', handleGetCourseDataByCourseId);
+const getStudentcourseDatabyCourseId = createAsyncThunk('course/getStudentCourseDataByCourseId', handleGetStudentCourseDataByCourseId);
 const getcourseDatabyTeacherandSubject = createAsyncThunk('course/getCourseDataByTeacherandSubject', handleGetCourseDataByTeacherandSubject);
 const createCourse = createAsyncThunk('course/createCourse', handleCreateCourse);
 const createCourseData = createAsyncThunk('course/createCourseData', handleCreateCourseData);
@@ -241,5 +277,7 @@ export {
     createCourseData,
     getcourseDatabyCourseId,
     getStudentCourses,
-    getcourseDatabyTeacherandSubject
+    getcourseDatabyTeacherandSubject,
+    getStudentcourseDatabyCourseId,
+    getcoursebyCourseId
 }

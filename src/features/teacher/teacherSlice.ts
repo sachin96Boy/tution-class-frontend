@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { createTeacher, getAllTeachers, IteacherGetProps } from "./teacherAction";
+import { createTeacher, getAllTeachers, getTeacherById, IteacherGetProps } from "./teacherAction";
 import { toaster } from "@/components/ui/toaster";
 
 export type IteachersInitialState = {
     loading: boolean;
     teachers: Array<IteacherGetProps>;
+    selectedTeacher: IteacherGetProps | null;
     error: boolean | null;
     errorMsg: string;
     success: boolean;
@@ -13,6 +14,7 @@ export type IteachersInitialState = {
 const initialState: IteachersInitialState = {
     loading: false,
     teachers: [],
+    selectedTeacher: null,
     error: null,
     errorMsg: '',
     success: false
@@ -71,6 +73,35 @@ export const teacherSlice = createSlice({
             }
         ).addCase(
             createTeacher.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
+        ).addCase(
+            getTeacherById.pending, (state) => {
+                state.loading = true
+                state.error = false
+            }
+        ).addCase(
+            getTeacherById.fulfilled, (state, action) => {
+                state.loading = false
+                state.error = null
+
+                const newTeacher = action.payload.teacher;
+
+                state.selectedTeacher = newTeacher;
+                
+            }
+        ).addCase(
+            getTeacherById.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
 

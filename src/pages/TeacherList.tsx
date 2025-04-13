@@ -5,75 +5,15 @@ import CourseCard, {
 } from "../components/mycourse/courseard/CourseCard";
 import { Field } from "@/components/ui/field";
 import InputComponent from "@/components/formcontrol/customInput/InputComponent";
+import { RootState } from "@/store";
+import { useSelector } from "react-redux";
+import TeacherProfileCard from "@/components/profilecard/ProfileCard";
+import { NavLink } from "react-router-dom";
 
 function TeacherList() {
   const [teacherName, setTeacherName] = useState("");
 
-  const courseArray: Array<CourseCardProps> = [
-    {
-      courseId: "1",
-      grade: "10",
-      subject: "Math",
-      subjectName: "Mathamatics",
-      teacherName: "Mr. John",
-      description:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even",
-      courseImg: "https://picsum.photos/200",
-      year: "2020",
-    },
-    {
-      courseId: "2",
-      grade: "11",
-      subject: "Tamil",
-      subjectName: "Tamil for biginers",
-      teacherName: "Mr. Smith",
-      description: "This is a description",
-      courseImg: "https://picsum.photos/200",
-      year: "2020",
-    },
-    {
-      courseId: "3",
-      grade: "12",
-      subject: "Math",
-      subjectName: "Mathamatics",
-      teacherName: "Mr. Matta",
-      description: "This is a description",
-      courseImg: "https://picsum.photos/200",
-      year: "2020",
-    },
-    {
-      courseId: "4",
-      grade: "06",
-      subject: "Math",
-      subjectName: "Mathamatics for biginers",
-      teacherName: "Mr. John",
-      description:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even",
-      courseImg: "https://picsum.photos/200",
-      year: "2022",
-    },
-    {
-      courseId: "5",
-      grade: "06",
-      subject: "Science",
-      subjectName: "Science for biginers",
-      teacherName: "Mr. John",
-      description: "This is a description",
-      courseImg: "https://picsum.photos/200",
-      year: "2021",
-    },
-    {
-      courseId: "6",
-      grade: "10",
-      subject: "Science",
-      subjectName: "Science and Technology",
-      teacherName: "Mr. Abraham",
-      description:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even",
-      courseImg: "https://picsum.photos/200",
-      year: "2021",
-    },
-  ];
+  const { teachers } = useSelector((state: RootState) => state.teacher);
 
   return (
     <Box mx={10} w="full">
@@ -104,32 +44,20 @@ function TeacherList() {
           ]}
           gap={3}
         >
-          {courseArray
-            .filter((teacherElement: CourseCardProps) => {
-              if (
-                teacherElement.teacherName
-                  .toLowerCase()
-                  .includes(teacherName.toLowerCase())
-              ) {
-                return teacherElement;
-              } else {
-                return null;
-              }
-            })
-            .map((teacherElement, index) => (
+          {teachers.map((teacherElement, index) => {
+            const encodedId = encodeURIComponent(teacherElement.teacher_id);
+            return (
               <GridItem key={index}>
-                <CourseCard
-                  courseId={teacherElement.courseId}
-                  grade={teacherElement.grade}
-                  subject={teacherElement.subject}
-                  subjectName={teacherElement.subjectName}
-                  teacherName={teacherElement.teacherName}
-                  description={teacherElement.description}
-                  courseImg={teacherElement.courseImg}
-                  year={teacherElement.year}
-                />
+                <NavLink to={`/dashboard/teacher/${encodedId}`}>
+                  <TeacherProfileCard
+                    imageUrl={teacherElement.profile_img}
+                    name={teacherElement.full_name}
+                    role="Teacher"
+                  />
+                </NavLink>
               </GridItem>
-            ))}
+            );
+          })}
         </Grid>
       </Box>
     </Box>

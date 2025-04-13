@@ -11,6 +11,8 @@ import HomePage from "./HomePage";
 import Support from "./Support";
 import DashBoardOutlet from "@/components/outlet/Dashboard_outlet";
 import ProtectedRoute from "@/utils/ProtectedRoute";
+import TeacherDetails from "./TeacherDetails";
+import TeacherData from "./TeacherData";
 
 function DashBoard() {
   return (
@@ -22,6 +24,7 @@ function DashBoard() {
           <Route path="/myAccount" element={<MyAccount />} />
           <Route path="/myCourses" element={<MyCourses />} />
           <Route path="/teacherList" element={<TeacherList />} />
+          <Route path="/teacher/:id" element={<TeacherData />} />
           <Route path="/support" element={<Support />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/*" element={<Navigate to={"/dashboard"} replace />} />
