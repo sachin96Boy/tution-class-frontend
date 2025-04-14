@@ -1,6 +1,23 @@
+import AlertDialog from "@/components/alertDialog/AlertDialog";
+import { Tooltip } from "@/components/ui/tooltip";
 import { Iadvertisment } from "@/features/advertisment/advertismentSlice";
-import { Badge, Box, Image, Table, Text } from "@chakra-ui/react";
+import {
+  Badge,
+  Box,
+  Flex,
+  IconButton,
+  Image,
+  Table,
+  Text,
+  Wrap,
+} from "@chakra-ui/react";
+import { Pencil, RefreshCw, Trash2 } from "lucide-react";
 import React from "react";
+import Modalsheet from "../modal/Modalsheet";
+import AdvertismentEditFormComponent from "@/components/edit/AdvertismentEditFormComponent";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store";
+import { changeAdStatus } from "@/features/advertisment/advertismentAction";
 
 type IAdvertismentTableBody = {
   data: Array<Iadvertisment>;
@@ -15,6 +32,17 @@ const AdvertismentTableCell = (advertismentDataProps: Iadvertisment) => {
     file_name,
     status,
   } = advertismentDataProps;
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleChangeStatus = () => {
+    dispatch(
+      changeAdStatus({
+        advertisment_id: advertisment_id,
+      })
+    );
+  };
+
   return (
     <Table.Row>
       <Table.Cell pl="0px">
@@ -51,6 +79,43 @@ const AdvertismentTableCell = (advertismentDataProps: Iadvertisment) => {
             alt={file_name}
           />
         </Box>
+      </Table.Cell>
+      <Table.Cell pl="0px">
+        <Wrap align={"center"} gap={2}>
+          <Modalsheet
+            buttonText={"Edit Advertisment"}
+            modalTitle={"Edit Advertisment Data"}
+            formComponent={
+              <AdvertismentEditFormComponent data={advertismentDataProps} />
+            }
+          >
+            <IconButton aria-label="Edit" variant={"ghost"}>
+              <Tooltip content="Edit">
+                <Pencil />
+              </Tooltip>
+            </IconButton>
+          </Modalsheet>
+          <IconButton
+            onClick={handleChangeStatus}
+            aria-label="Change Status"
+            variant={"ghost"}
+          >
+            <Tooltip content="Change Status">
+              <RefreshCw />
+            </Tooltip>
+          </IconButton>
+          <AlertDialog handleDelete={() => {}} id="">
+            <IconButton
+              colorPalette={"red"}
+              aria-label="Edit"
+              variant={"ghost"}
+            >
+              <Tooltip content="Delete">
+                <Trash2 />
+              </Tooltip>
+            </IconButton>
+          </AlertDialog>
+        </Wrap>
       </Table.Cell>
     </Table.Row>
   );

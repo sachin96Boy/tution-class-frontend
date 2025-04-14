@@ -9,7 +9,7 @@ import {
 } from "@/features/accounting/accountingAction";
 import { IListItemProp } from "@/features/config/configAction";
 import { AppDispatch, RootState } from "@/store";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -48,6 +48,8 @@ function AdminExpences(props: IAdminExpencesProps) {
     dispatch(getAllExpences(""));
   }, []);
 
+  const handleSearch = (value: string) => {};
+
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Box>
@@ -60,7 +62,9 @@ function AdminExpences(props: IAdminExpencesProps) {
             />
           }
           modalTitle={"Add Expence Data"}
-        />
+        >
+          <Button colorPalette={"blue"}>Add Expences</Button>
+        </Modalsheet>
       </Box>
       <Box>
         {loading ? (
@@ -73,6 +77,7 @@ function AdminExpences(props: IAdminExpencesProps) {
             captions={["ExpencesId", "Type", "Amount", "Teacher", "Date"]}
             tableBodyComponent={<ExpenceTableBody data={items} />}
             data={expences}
+            handleSearch={handleSearch}
           />
         )}
       </Box>

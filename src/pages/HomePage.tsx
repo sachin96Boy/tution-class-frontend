@@ -24,11 +24,11 @@ import CarousaComponent from "@/components/carousel/CarousaComponent";
 import { EmblaOptionsType } from "embla-carousel";
 
 // Motion components
-const MotionBox = motion(Box);
-const MotionFlex = motion(Flex);
-const MotionImage = motion(Image);
-const MotionText = motion(Text);
-const MotionButton = motion(Button);
+const MotionBox = motion.create(Box);
+const MotionFlex = motion.create(Flex);
+const MotionImage = motion.create(Image);
+const MotionText = motion.create(Text);
+const MotionButton = motion.create(Button);
 
 function HomePage() {
   const vertical = useBreakpointValue(

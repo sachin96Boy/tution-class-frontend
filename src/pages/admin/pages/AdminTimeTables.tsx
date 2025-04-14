@@ -8,7 +8,7 @@ import {
   Igettimetableyear,
 } from "@/features/timetable/timetableAction";
 import { AppDispatch, RootState } from "@/store";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -41,6 +41,8 @@ function AdminTimeTables() {
     });
   }, [timeTables]);
 
+  const handleSearch = (value: string) => {};
+
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Box>
@@ -48,7 +50,9 @@ function AdminTimeTables() {
           buttonText={"Add Timetable Year"}
           formComponent={<TimeTableYearPicker />}
           modalTitle={"Add Timetable year Data"}
-        />
+        >
+          <Button colorPalette={"blue"}>Add TimeTable</Button>
+        </Modalsheet>
       </Box>
       <Box>
         {loading ? (
@@ -61,6 +65,7 @@ function AdminTimeTables() {
             captions={["Id", "Year", "Action"]}
             tableBodyComponent={<TimeTableYearlyTableBody data={items} />}
             data={timeTables}
+            handleSearch={handleSearch}
           />
         )}
       </Box>

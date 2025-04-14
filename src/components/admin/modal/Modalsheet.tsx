@@ -5,9 +5,10 @@ type ImodelSheet = {
   buttonText: string;
   modalTitle: string;
   formComponent: React.ReactNode;
+  children: React.ReactNode;
 };
 
-function Modalsheet({ buttonText, modalTitle, formComponent }: ImodelSheet) {
+function Modalsheet({ buttonText, modalTitle, formComponent, children }: ImodelSheet) {
   return (
     <Dialog.Root
       motionPreset="slide-in-bottom"
@@ -15,7 +16,7 @@ function Modalsheet({ buttonText, modalTitle, formComponent }: ImodelSheet) {
       placement={["bottom", "bottom", "center"]}
     >
       <Dialog.Trigger asChild>
-        <Button colorPalette={"blue"}>{buttonText}</Button>
+        {children}
       </Dialog.Trigger>
       <Portal>
         <Dialog.Backdrop />

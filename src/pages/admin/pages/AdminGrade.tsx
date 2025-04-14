@@ -3,7 +3,7 @@ import GradeForm from "@/components/admin/forms/GradeInfoForm";
 import Modalsheet from "@/components/admin/modal/Modalsheet";
 import OverlayTable from "@/components/admin/tables/OverlayTable";
 import { IgradeProps } from "@/features/comon/commonAction";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
 type IAdminGradeProps = {
@@ -25,11 +25,13 @@ function AdminGrade(props: IAdminGradeProps) {
     setCurrentPage(details.page);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     handleChange({
-      page: 1
-    })
-  },[grades]);
+      page: 1,
+    });
+  }, [grades]);
+
+  const handleSearch = (value: string) => {};
 
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
@@ -38,16 +40,19 @@ function AdminGrade(props: IAdminGradeProps) {
           buttonText={"Add Grade"}
           modalTitle={"Add Data on Grade"}
           formComponent={<GradeForm />}
-        />
+        >
+          <Button colorPalette={"blue"}>Add Grade</Button>
+        </Modalsheet>
       </Box>
       <Box>
         <OverlayTable
           title={"Grade Data"}
           captions={["id", "grade", "gradeType"]}
           currentPage={currentPage}
-          handlePageChange= {handleChange}
+          handlePageChange={handleChange}
           tableBodyComponent={<GradeTableBody data={items} />}
           data={grades}
+          handleSearch={handleSearch}
         />
       </Box>
     </Flex>

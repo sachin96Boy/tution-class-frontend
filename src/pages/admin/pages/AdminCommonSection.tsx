@@ -7,7 +7,9 @@ import { RootState } from "@/store";
 import AdminExpenceTypes from "./AdminExpenceTypes";
 
 function AdminCommonSection() {
-  const { grades, subjects, expenceTypes } = useSelector((state: RootState) => state.common);
+  const { grades, subjects, expenceTypes } = useSelector(
+    (state: RootState) => state.common
+  );
 
   return (
     <Flex gap={4} flexDirection="column" pt={{ base: "120px", md: "75px" }}>

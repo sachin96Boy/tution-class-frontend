@@ -38,7 +38,7 @@ function AdvertismentFormComponent() {
           "image/webp",
         ].includes((value as File).type); // Allowed file types
       }),
-    amount: Yup.string().required("Enter a valid amount"),
+    amount: Yup.string().required("Enter a valid Title"),
   });
 
   const onSubmit = async (values: IcreateAdvertismentProps, action: any) => {

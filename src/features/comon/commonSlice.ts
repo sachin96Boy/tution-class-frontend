@@ -1,5 +1,5 @@
 import { boolean } from "yup";
-import { createExpenceType, createGrade, createSubject, getAllExpenceTypes, getAllGrades, getAllSubjects, IexpenceTypeProps, IgradeProps, IsubjectProps } from "./commonAction";
+import { createExpenceType, createGrade, createSubject, getAllExpenceTypes, getAllGrades, getAllSubjects, IexpenceTypeProps, IgradeProps, IsubjectProps, updateExpenceType } from "./commonAction";
 import { createSlice } from "@reduxjs/toolkit";
 import { toaster } from "@/components/ui/toaster";
 
@@ -163,6 +163,43 @@ export const commonSlice = createSlice({
             }
         ).addCase(
             createExpenceType.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
+        ).addCase(
+            updateExpenceType.pending, (state) => {
+                state.loading = true
+                state.error = false
+            }
+        ).addCase(
+            updateExpenceType.fulfilled, (state, action) => {
+                state.loading = false
+                state.error = null
+
+                const expenceType = action.payload.expencetype;
+                
+                let findex = state.expenceTypes.findIndex((exp) => exp.id === expenceType.id);
+
+                if (findex !== -1) {
+                    state.expenceTypes[findex] = expenceType;
+                }
+
+                toaster.create({
+                    type: 'success',
+                    title: action.payload.message
+                });
+            }
+        ).addCase(
+            updateExpenceType.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
 

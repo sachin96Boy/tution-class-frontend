@@ -6,8 +6,9 @@ import OverlayTable from "@/components/admin/tables/OverlayTable";
 import Spinner from "@/components/spinner/Spinner";
 import { IListItemProp } from "@/features/config/configAction";
 import { getAllCourses, IgetCourseProps } from "@/features/course/courseAction";
+import { applyCoursesearch } from "@/features/course/courseSlice";
 import { AppDispatch, RootState } from "@/store";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -61,6 +62,10 @@ function AdminCourses() {
     });
   }, [courses]);
 
+  const handleSearch = (value: string) => {
+    dispatch(applyCoursesearch(value));
+  };
+
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Box>
@@ -74,7 +79,9 @@ function AdminCourses() {
               teacherSelectList={teacherSelectList}
             />
           }
-        />
+        >
+          <Button colorPalette={"blue"}>Create Course</Button>
+        </Modalsheet>
       </Box>
       <Box>
         {loading ? (
@@ -96,6 +103,7 @@ function AdminCourses() {
             ]}
             tableBodyComponent={<CourseTablebody data={items} />}
             data={courses}
+            handleSearch={handleSearch}
           />
         )}
       </Box>

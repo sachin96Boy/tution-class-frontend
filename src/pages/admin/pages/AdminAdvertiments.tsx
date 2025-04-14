@@ -4,9 +4,12 @@ import Modalsheet from "@/components/admin/modal/Modalsheet";
 import OverlayTable from "@/components/admin/tables/OverlayTable";
 import Spinner from "@/components/spinner/Spinner";
 import { getAllAdvertisments } from "@/features/advertisment/advertismentAction";
-import { Iadvertisment } from "@/features/advertisment/advertismentSlice";
+import {
+  applyAdvsearch,
+  Iadvertisment,
+} from "@/features/advertisment/advertismentSlice";
 import { AppDispatch, RootState } from "@/store";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -38,6 +41,10 @@ function AdminAdvertiments() {
     });
   }, [advertisments]);
 
+  const handleSearch = (value: string) => {
+    dispatch(applyAdvsearch(value));
+  };
+
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Box>
@@ -45,7 +52,9 @@ function AdminAdvertiments() {
           buttonText={"Create Advertisment"}
           modalTitle={"Add Advertisment Data"}
           formComponent={<AdvertismentFormComponent />}
-        />
+        >
+          <Button colorPalette={"blue"}>Create Advertisment</Button>
+        </Modalsheet>
       </Box>
       <Box>
         {loading ? (
@@ -55,9 +64,10 @@ function AdminAdvertiments() {
             currentPage={currentPage}
             handlePageChange={handleChange}
             title={"Advertisment Data"}
-            captions={["AdvertismentId", "Title", "status", "file"]}
+            captions={["#", "Title", "status", "file", "Action"]}
             tableBodyComponent={<AdvertismentTabeBody data={items} />}
             data={advertisments}
+            handleSearch={handleSearch}
           />
         )}
       </Box>
