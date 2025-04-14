@@ -105,7 +105,7 @@ const handleUpdateExpencetype = async (values: IUpdateExpenceTypeProps, { reject
     try {
 
         const response = await axiosInstance.put(
-            'account/updateExpennceType',
+            'account/updateExpenceType',
             values,
         );
 
