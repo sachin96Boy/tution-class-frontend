@@ -49,8 +49,6 @@ function App() {
             </ProgressCircle.Root>
           </Center>
         </Flex>
-      ) : error ? (
-        <Text>{errorMsg}</Text>
       ) : (
         <Routes>
           {/* add different routes that need to be loade for different pages */}
