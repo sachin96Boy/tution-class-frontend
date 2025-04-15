@@ -6,7 +6,7 @@ import Spinner from "@/components/spinner/Spinner";
 import { ICoporateUserInfo } from "@/features/auth/authSlice";
 import { getAllUsers } from "@/features/users/userAction";
 import { AppDispatch, RootState } from "@/store";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -37,6 +37,8 @@ function AdminUsers() {
     dispatch(getAllUsers(""));
   }, [dispatch]);
 
+  const handleSearch = (value: string) => {};
+
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Box>
@@ -44,7 +46,9 @@ function AdminUsers() {
           buttonText={"Create User"}
           modalTitle={"Create User Data"}
           formComponent={<UserFormComponent />}
-        />
+        >
+          <Button colorPalette={"blue"}>Create User</Button>
+        </Modalsheet>
       </Box>
       <Box>
         {loading ? (
@@ -57,6 +61,7 @@ function AdminUsers() {
             data={users}
             currentPage={currentPage}
             handlePageChange={handleChange}
+            handleSearch={handleSearch}
           />
         )}
       </Box>

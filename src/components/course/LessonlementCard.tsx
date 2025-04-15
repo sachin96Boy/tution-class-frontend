@@ -71,7 +71,7 @@ function LessonlementCard({
               mb={2}
             >
               <Text fontFamily={"body"} fontWeight="400" fontSize={"12px"}>
-                Grade {grade}
+                {grade}
               </Text>
             </Button>
             <Heading
@@ -105,7 +105,7 @@ function LessonlementCard({
           </Box>
 
           {/* Right Section (Attend Now Button) */}
-          <Flex align={"center"} justify={"center"} ml={[-2,-2,-2,0]}>
+          <Flex align={"center"} justify={"center"} ml={[-2, -2, -2, 0]}>
             <Button
               w={["100%", "100%", "75px"]} // Full width on small screens
               h={"52px"}

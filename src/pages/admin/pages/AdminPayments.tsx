@@ -3,7 +3,10 @@ import Modalsheet from "@/components/admin/modal/Modalsheet";
 import PaymentTableBody from "@/components/admin/payments/PaymentTableBody";
 import OverlayTable from "@/components/admin/tables/OverlayTable";
 import Spinner from "@/components/spinner/Spinner";
-import { getAllPayments, IgetPayment } from "@/features/accounting/accountingAction";
+import {
+  getAllPayments,
+  IgetPayment,
+} from "@/features/accounting/accountingAction";
 import { IListItemProp } from "@/features/config/configAction";
 import { AppDispatch, RootState } from "@/store";
 import { Box, Button, Flex } from "@chakra-ui/react";
@@ -46,6 +49,8 @@ function AdminPayments(props: IAdminPaymentsProps) {
     dispatch(getAllPayments(""));
   }, [dispatch]);
 
+  const handleSearch = (value: string) => {};
+
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Box>
@@ -58,7 +63,9 @@ function AdminPayments(props: IAdminPaymentsProps) {
               courseList={coursesSelectList}
             />
           }
-        />
+        >
+          <Button colorPalette={"blue"}>Add Payment</Button>
+        </Modalsheet>
       </Box>
       <Box>
         {loading ? (
@@ -71,6 +78,7 @@ function AdminPayments(props: IAdminPaymentsProps) {
             captions={["PaymentId", "Student", "Amount", "Course", "Paid Date"]}
             tableBodyComponent={<PaymentTableBody data={items} />}
             data={payments}
+            handleSearch={handleSearch}
           />
         )}
       </Box>

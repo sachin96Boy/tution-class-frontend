@@ -75,6 +75,7 @@ function SideBar() {
                     <UserRound size={"28"} style={{ color: "#ffffffff" }} />
                   </Avatar.Icon>
                 </Avatar.Fallback>
+                <Avatar.Image src={userInfo?.AdditionalStudentDatum.profile_image} />
               </Avatar.Root>
             </Box>
           </Box>

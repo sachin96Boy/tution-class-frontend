@@ -8,6 +8,7 @@ import {
   AccordionRoot,
 } from "../ui/accordion";
 import Slider from "react-slick";
+import { MonthGroup } from "@/pages/CourseDetails";
 
 export interface LessonContent {
   week: string;
@@ -126,9 +127,23 @@ const lessonList: Array<LessonDetailsListProps> = [
     ],
   },
 ];
+type IlessionAccordian = {
+  year: string;
+  lessonList: MonthGroup[];
+};
 
-function LessonlistAccordian() {
+function getMonthName(monthNumber: number): string {
+  const date = new Date();
+  date.setMonth(monthNumber - 1); // -1 because months are 0-indexed in Date
+
+  return date.toLocaleString("default", { month: "short" });
+  // For short names (Jan, Feb), use { month: 'short' }
+}
+
+function LessonlistAccordian(props: IlessionAccordian) {
   const isMobile = useBreakpointValue({ base: true, md: false });
+
+  const { lessonList, year } = props;
 
   const sliderSettings = {
     dots: false,
@@ -152,48 +167,55 @@ function LessonlistAccordian() {
 
   return (
     <Box>
-      <AccordionRoot my={2} multiple maxW="80vw">
-        {lessonList.map((lessonContent, index) => (
-          <AccordionItem key={index} value={lessonContent.subject}>
-            <AccordionItemTrigger
-              bgGradient="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
-              _hover={{ bg: "#2B2D4E" }}
-              rounded="2xl"
-              aria-expanded="false"
+      {!lessonList.length ? (
+        <Box>No Data Available</Box>
+      ) : (
+        <AccordionRoot my={2} multiple maxW="80vw">
+          {lessonList.map((lessonContent, index) => (
+            <AccordionItem
+              key={index}
+              value={getMonthName(lessonContent.month)}
             >
-              <Box
-                color="white"
-                fontFamily="body"
-                fontWeight="500"
-                fontSize="24px"
-                rounded="10px"
-                p={5}
+              <AccordionItemTrigger
+                bgGradient="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
+                _hover={{ bg: "#2B2D4E" }}
+                rounded="2xl"
+                aria-expanded="false"
               >
-                {lessonContent.month} {lessonContent.year}
-              </Box>
-            </AccordionItemTrigger>
+                <Box
+                  color="white"
+                  fontFamily="body"
+                  fontWeight="500"
+                  fontSize="24px"
+                  rounded="10px"
+                  p={5}
+                >
+                  {getMonthName(lessonContent.month)} {year}
+                </Box>
+              </AccordionItemTrigger>
 
-            <AccordionItemContent>
-              <Box bg="light_bg_card" p={2} rounded="2xl">
-                <Slider {...sliderSettings}>
-                  {lessonContent.content.map((lesson, index) => (
-                    <Box key={index} px={2}>
-                      <LessonlementCard
-                        grade={lessonContent.grade}
-                        date={lesson.date}
-                        imgSrc={lesson.imgSrc}
-                        lessonName={lesson.lessonName}
-                        attendNow={lesson.AttendNow}
-                        viewResource={lesson.viewResource}
-                      />
-                    </Box>
-                  ))}
-                </Slider>
-              </Box>
-            </AccordionItemContent>
-          </AccordionItem>
-        ))}
-      </AccordionRoot>
+              <AccordionItemContent>
+                <Box bg="light_bg_card" p={2} rounded="2xl">
+                  <Slider {...sliderSettings}>
+                    {lessonContent.data.map((lesson, index) => (
+                      <Box key={index} px={2}>
+                        <LessonlementCard
+                          grade={lesson.Course.Grade.grade}
+                          date={lesson.course_month}
+                          imgSrc={lesson.Course.course_img_path}
+                          lessonName={lesson.title}
+                          attendNow={lesson.id.toString()}
+                          viewResource={lesson.course_attachment}
+                        />
+                      </Box>
+                    ))}
+                  </Slider>
+                </Box>
+              </AccordionItemContent>
+            </AccordionItem>
+          ))}
+        </AccordionRoot>
+      )}
     </Box>
   );
 }

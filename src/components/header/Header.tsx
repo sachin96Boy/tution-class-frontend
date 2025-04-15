@@ -108,6 +108,7 @@ function Header() {
                   <UserRound  size={"28"} style={{ color: "#ffffffff" }} />
                 </Avatar.Icon>
               </Avatar.Fallback>
+              <Avatar.Image src={userInfo?.AdditionalStudentDatum.profile_image} />
             </Avatar.Root>
             <Flex direction="column">
               <Text color="#215DA7" fontSize="15px" fontWeight="bold">

@@ -5,11 +5,26 @@ import { Field } from "@/components/ui/field";
 import {
   createCourseData,
   IcreateCourseDataProps,
+  IgetCourseDataProps,
+  IgetCourseProps,
+  IUpdateCourseDataProps,
+  updateCourseData,
 } from "@/features/course/courseAction";
 import { AppDispatch } from "@/store";
-import { Button, createListCollection, Input, Select, VStack } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Button,
+  createListCollection,
+  Icon,
+  IconButton,
+  Input,
+  Select,
+  VStack,
+} from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import React from "react";
+import { File, X } from "lucide-react";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import { useDispatch } from "react-redux";
 
@@ -17,10 +32,13 @@ import * as Yup from "yup";
 
 type CourseDataFormProps = {
   enc_course_id: string | null;
+  courseData: IgetCourseDataProps;
 };
 
-function CourseDataFormComponent(props: CourseDataFormProps) {
-  const { enc_course_id } = props;
+function CourseDataEditFormComponent(props: CourseDataFormProps) {
+  const { enc_course_id, courseData } = props;
+
+  const [dataItem, setDataItem] = useState<IgetCourseDataProps>(courseData);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -56,17 +74,19 @@ function CourseDataFormComponent(props: CourseDataFormProps) {
     ],
   });
 
-  const initialValues: IcreateCourseDataProps = {
+  const initialValues: IUpdateCourseDataProps = {
+    courseData_id: courseData.id,
     enc_course_id: enc_course_id,
-    title: "",
-    course_month: "",
-    course_content: "",
-    course_video: "",
-    date: null,
+    title: courseData.title,
+    course_month: courseData.course_month,
+    course_content: courseData.course_contnt,
+    course_video: courseData.Course_video,
+    date: new Date(courseData.date),
     course_attachment: null,
   };
 
   const validationSchema = Yup.object().shape({
+    courseData_id: Yup.string().required("id is required"),
     enc_course_id: Yup.string().required("Course ID is required"),
     title: Yup.string().required("Title is required"),
 
@@ -86,7 +106,7 @@ function CourseDataFormComponent(props: CourseDataFormProps) {
       .max(new Date(), "Date Can't be in Future"),
 
     course_attachment: Yup.mixed()
-      .required("Attachment required")
+      .nullable()
       .test(
         "fileSize",
         "File is too large",
@@ -106,15 +126,22 @@ function CourseDataFormComponent(props: CourseDataFormProps) {
       ),
   });
 
-  const onSubmit = async (values: IcreateCourseDataProps, action: any) => {
+  const onSubmit = async (values: IUpdateCourseDataProps, action: any) => {
     try {
       //   console.log(values);
-      const result = await dispatch(createCourseData(values));
+      const result = await dispatch(updateCourseData(values));
       action.setSubmitting(false);
       action.resetForm();
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const removeLogo = () => {
+    setDataItem((prv) => ({
+      ...prv,
+      course_attachment: "",
+    }));
   };
 
   return (
@@ -132,7 +159,7 @@ function CourseDataFormComponent(props: CourseDataFormProps) {
           >
             <VStack gap={4} width={"full"}>
               <InputComponent
-                htmlFor={"titile"}
+                htmlFor={"title"}
                 labelText={"Title"}
                 InputType={"text"}
                 InputValue={formik.values.title}
@@ -164,24 +191,47 @@ function CourseDataFormComponent(props: CourseDataFormProps) {
                 isTouched={formik.touched.course_content}
                 isError={formik.errors.course_content}
               />
-
-              <FileUploadInput
-                htmlFor={"course_attachment"}
-                labelText={"Attachments"}
-                isInvalid={
-                  formik.touched.course_attachment &&
-                  !!formik.errors.course_attachment
-                }
-                isTouched={formik.touched.course_attachment}
-                errorText={formik.errors.course_attachment}
-                handleChange={(details) =>
-                  formik.setFieldValue(
-                    "course_attachment",
-                    details.acceptedFiles[0]
-                  )
-                }
-                handleBlur={formik.handleBlur}
-              />
+              {dataItem.course_attachment != "" ? (
+                <Box position="relative">
+                  <Avatar.Root size={"2xl"} variant={"subtle"}>
+                    <Avatar.Fallback>
+                      <Icon>
+                        <File />
+                      </Icon>
+                    </Avatar.Fallback>
+                  </Avatar.Root>
+                  <IconButton
+                    aria-label="Remove logo"
+                    position="absolute"
+                    top={-2}
+                    right={-2}
+                    size="sm"
+                    colorPalette="red"
+                    borderRadius="full"
+                    onClick={removeLogo}
+                  >
+                    <X />
+                  </IconButton>
+                </Box>
+              ) : (
+                <FileUploadInput
+                  htmlFor={"course_attachment"}
+                  labelText={"Attachments"}
+                  isInvalid={
+                    formik.touched.course_attachment &&
+                    !!formik.errors.course_attachment
+                  }
+                  isTouched={formik.touched.course_attachment}
+                  errorText={formik.errors.course_attachment}
+                  handleChange={(details) =>
+                    formik.setFieldValue(
+                      "course_attachment",
+                      details.acceptedFiles[0]
+                    )
+                  }
+                  handleBlur={formik.handleBlur}
+                />
+              )}
 
               <Field
                 invalid={
@@ -270,4 +320,4 @@ function CourseDataFormComponent(props: CourseDataFormProps) {
   );
 }
 
-export default CourseDataFormComponent;
+export default CourseDataEditFormComponent;

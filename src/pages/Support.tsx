@@ -1,9 +1,10 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Tabs, Text } from "@chakra-ui/react";
 import React from "react";
 import ContactUsForm from "../components/formcontrol/ContactUsForm";
 import Logo from "../components/Logo";
+import ServicesSection from "./ServiceSection";
 
-function Support() {
+const SupportContent = () => {
   return (
     <Flex
       align={"center"}
@@ -28,6 +29,29 @@ function Support() {
         <ContactUsForm />
       </Flex>
     </Flex>
+  );
+};
+
+function Support() {
+  return (
+    <Tabs.Root
+      width={"full"}
+      variant="enclosed"
+      fitted
+      defaultValue={"tab-1"}
+      padding={"4"}
+    >
+      <Tabs.List>
+        <Tabs.Trigger value="support">Support</Tabs.Trigger>
+        <Tabs.Trigger value="feedback">Feedback</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value="support">
+        <ServicesSection />
+      </Tabs.Content>
+      <Tabs.Content value="feedback">
+        <SupportContent />
+      </Tabs.Content>
+    </Tabs.Root>
   );
 }
 

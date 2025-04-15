@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createAdvertisment, getAllAdvertisments, getCompanyMainBanner } from "./advertismentAction";
+import { changeAdStatus, createAdvertisment, getAllAdvertisments, getCompanyMainBanner, updateAdvertisment } from "./advertismentAction";
 import { toaster } from "@/components/ui/toaster";
 import { act } from "react";
 
@@ -34,7 +34,20 @@ const initialState: IadvertismentInitilState = {
 export const advertismentSlice = createSlice({
     name: 'advertisment',
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        applyAdvsearch(state, action) {
+            const searchPhrase = action.payload;
+            if (searchPhrase.trim() != '') {
+                const searchTerm = searchPhrase.toLowerCase();
+
+                const filteredData = state.advertisments.filter(data => {
+                    return data.duration.toLowerCase().includes(searchTerm)
+                })
+
+                state.advertisments = filteredData;
+            }
+        }
+    },
     extraReducers(builder) {
         builder.addCase(
             createAdvertisment.pending, (state) => {
@@ -108,8 +121,59 @@ export const advertismentSlice = createSlice({
                 state.loading = false;
                 state.error = true;
             }
+        ).addCase(
+            updateAdvertisment.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            }
+        ).addCase(
+            updateAdvertisment.fulfilled, (state, action) => {
+                state.loading = false;
+                const updatedAd = action.payload.advertisment;
+
+                let findex = state.advertisments.findIndex((adv) => adv.id === updatedAd.id);
+
+                if (findex !== -1) {
+                    state.advertisments[findex] = updatedAd;
+                }
+
+                toaster.create({
+                    type: 'success',
+                    title: action.payload.message
+                });
+
+            }
+        ).addCase(
+            updateAdvertisment.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+            }
+        ).addCase(
+            changeAdStatus.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            }
+        ).addCase(
+            changeAdStatus.fulfilled, (state, action) => {
+                state.loading = false;
+                const updatedAd = action.payload.advertisment;
+
+                let findex = state.advertisments.findIndex((adv) => adv.id === updatedAd.id);
+
+                if (findex !== -1) {
+                    state.advertisments[findex] = updatedAd;
+                }
+
+            }
+        ).addCase(
+            changeAdStatus.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+            }
         )
     },
 });
+
+export const { applyAdvsearch } = advertismentSlice.actions;
 
 export default advertismentSlice.reducer

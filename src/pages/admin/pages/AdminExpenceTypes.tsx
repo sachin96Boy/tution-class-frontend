@@ -3,7 +3,7 @@ import ExpenceTypeForm from "@/components/admin/forms/ExpenceTypeForm";
 import Modalsheet from "@/components/admin/modal/Modalsheet";
 import OverlayTable from "@/components/admin/tables/OverlayTable";
 import { IexpenceTypeProps } from "@/features/comon/commonAction";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
 type IAdminExpencetypeProps = {
@@ -31,6 +31,8 @@ function AdminExpenceTypes(props: IAdminExpencetypeProps) {
     });
   }, [expenceTypes]);
 
+  const handleSearch = (value: string) => {};
+
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Box>
@@ -38,16 +40,19 @@ function AdminExpenceTypes(props: IAdminExpencetypeProps) {
           buttonText={"Add Expene Type"}
           modalTitle={"Add Expence Type"}
           formComponent={<ExpenceTypeForm />}
-        />
+        >
+          <Button colorPalette={"blue"}>Add Expence type</Button>
+        </Modalsheet>
       </Box>
       <Box>
         <OverlayTable
           currentPage={currentPage}
           handlePageChange={handleChange}
           title={"ExpenceType Data"}
-          captions={["id", "ExpenceType"]}
+          captions={["id", "ExpenceType", "Actions"]}
           tableBodyComponent={<ExpenceTypeTableBody data={items} />}
           data={expenceTypes}
+          handleSearch={handleSearch}
         />
       </Box>
     </Flex>

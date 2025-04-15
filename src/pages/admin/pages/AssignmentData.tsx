@@ -9,7 +9,7 @@ import {
 import { IListItemProp } from "@/features/config/configAction";
 import { getAllStudents } from "@/features/student/studentAction";
 import { AppDispatch, RootState } from "@/store";
-import { Box, Flex, Spinner } from "@chakra-ui/react";
+import { Box, Button, Flex, Spinner } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -71,6 +71,8 @@ function AssignmentData() {
     dispatch(getAllStudents(""));
   }, [enc_id, dispatch]);
 
+  const handleSearch = (value: string) => {};
+
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Box>
@@ -83,7 +85,9 @@ function AssignmentData() {
             />
           }
           modalTitle={"Add Assignment Marks Data"}
-        />
+        >
+          <Button colorPalette={"blue"}>Add Assignment Mark Data</Button>
+        </Modalsheet>
       </Box>
       <Box>
         {loading ? (
@@ -96,6 +100,7 @@ function AssignmentData() {
             captions={["#", "Student", "Marks"]}
             tableBodyComponent={<AssignmentMarksTablBody data={items} />}
             data={assignmentData}
+            handleSearch={handleSearch}
           />
         )}
       </Box>

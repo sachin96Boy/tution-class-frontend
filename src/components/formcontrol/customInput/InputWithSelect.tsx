@@ -69,7 +69,7 @@ function InputWithSelect(props: InputWithSelectProps) {
   };
 
   const filteredItems =
-    filter.length > 2
+    filter.length > 0
       ? dataList.filter((item) =>
           item.value.toLowerCase().includes(filter.toLowerCase())
         )

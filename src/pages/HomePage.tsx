@@ -10,13 +10,8 @@ import {
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import sipsaclassbanner1 from "../assets/home/class-banner/sipsa-class-1.jpg";
-import sipsaclassBannerrow2 from "../assets/home/class-banner/sipsa-banner-row-2.jpg";
-import sipsaclassBannerrow1 from "../assets/home/class-banner/sipsa-banner-row1.jpg";
-import sipsaclassBannerrow3 from "../assets/home/class-banner/sipsa-banner-row3.jpg";
-import sipsaclassBannerrow4 from "../assets/home/class-banner/sipsa-banner-row4.jpg";
+import { motion } from "framer-motion"; // Import Framer Motion
 import sipsaLogo from "../assets/header/logos/Sipsa_logo.png";
-
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
@@ -25,17 +20,15 @@ import {
   getCompanyMainBanner,
 } from "@/features/advertisment/advertismentAction";
 import Spinner from "@/components/spinner/Spinner";
-
 import CarousaComponent from "@/components/carousel/CarousaComponent";
 import { EmblaOptionsType } from "embla-carousel";
 
-const bannerList: Array<string> = [
-  sipsaclassbanner1,
-  sipsaclassBannerrow2,
-  sipsaclassBannerrow1,
-  sipsaclassBannerrow3,
-  sipsaclassBannerrow4,
-];
+// Motion components
+const MotionBox = motion.create(Box);
+const MotionFlex = motion.create(Flex);
+const MotionImage = motion.create(Image);
+const MotionText = motion.create(Text);
+const MotionButton = motion.create(Button);
 
 function HomePage() {
   const vertical = useBreakpointValue(
@@ -76,21 +69,52 @@ function HomePage() {
     dispatch(getAllAdvertisments(""));
   }, [dispatch, company]);
 
-  const OPTIONS: EmblaOptionsType = { loop: true,  };
+  const OPTIONS: EmblaOptionsType = { loop: true };
+
+  // Animation variants
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+
+  const fadeIn = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 0.8 } },
+  };
+
+  const scaleUp = {
+    hidden: { scale: 0.9, opacity: 0 },
+    show: { scale: 1, opacity: 1, transition: { duration: 0.5 } },
+  };
 
   return (
-    <Box w={"full"} px={[4, 6, 10]}>
-      {" "}
-      {/* Responsive padding */}
+    <MotionBox
+      w={"full"}
+      px={[4, 6, 10]}
+      initial="hidden"
+      animate="show"
+      variants={container}
+    >
       {/* Top Section */}
-      <Flex
+      <MotionFlex
         flexDirection={["column", "column", "row"]}
         gap={[4, 6, 8]}
         align={"center"}
         justify="space-between"
         my={[4, 6, 8]}
+        variants={container}
       >
-        <Flex
+        <MotionFlex
           bg={"light_bg_card"}
           align={"center"}
           justify="center"
@@ -98,23 +122,28 @@ function HomePage() {
           borderRadius="16px"
           w={["full", "full", "60%"]}
           p={[4, 6]}
+          variants={item}
+          whileHover={{ scale: 1.01 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
-          <Image
+          <MotionImage
             src={company && company.length > 0 ? logoPath : sipsaLogo}
             objectFit="contain"
             w={["200px", "300px", "421px"]}
             h={["100px", "150px", "210px"]}
+            variants={scaleUp}
           />
-          <Text
+          <MotionText
             fontFamily={"fantasy"}
             fontWeight="400"
             color="secondary_title_color"
             fontSize={["14px", "16px", "18px"]}
             textAlign="center"
+            variants={item}
           >
             ඔබෙ සිහින වලට නිවහනක් වන අපේ කාලයේ
-          </Text>
-          <Text
+          </MotionText>
+          <MotionText
             fontFamily={"fantasy"}
             fontWeight={"400"}
             fontSize={["24px", "36px", "52px", "80px"]}
@@ -123,25 +152,29 @@ function HomePage() {
             }
             bgClip={"text"}
             text-fill-color="transparent"
+            variants={item}
+            whileHover={{ scale: 1.05 }}
           >
             තක්සලාව
-          </Text>
-        </Flex>
+          </MotionText>
+        </MotionFlex>
         <Spacer />
-        <Flex
+        <MotionFlex
           borderRadius="16px"
           align={"center"}
           justify="center"
           bg={"yellow.400"}
           w={["full", "full", "35%"]}
           p={[2, 4]}
+          variants={item}
+          whileHover={{ scale: 1.02 }}
         >
           {loading ? (
             <Center boxSize={["200px", "250px", "350px"]}>
               <Spinner />
             </Center>
           ) : (
-            <Image
+            <MotionImage
               src={
                 companyMainAd != null
                   ? companyMainAd.advertisment_img_path
@@ -149,27 +182,32 @@ function HomePage() {
               }
               objectFit="fill"
               boxSize={["200px", "250px", "350px"]}
+              variants={scaleUp}
+              whileHover={{ scale: 1.03 }}
             />
           )}
-        </Flex>
-      </Flex>
+        </MotionFlex>
+      </MotionFlex>
+
       {/* Courses Section */}
-      <Box>
-        <Text
+      <MotionBox variants={fadeIn}>
+        <MotionText
           bgClip={"text"}
           bgGradient="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
           fontSize={["18px", "20px", "24px"]}
           fontFamily="fantasy"
           my={[2, 4]}
+          variants={item}
         >
           අපගේ පාඨමාලා
-        </Text>
-        <Flex
+        </MotionText>
+        <MotionFlex
           alignItems={"center"}
           justifyContent={"center"}
           px={[2, 4, 6]}
           rounded="10px"
           bg="linear-gradient(94.5deg, #205EAA 0.53%, #2B2D4E 99.79%)"
+          variants={item}
         >
           {loading ? (
             <Center>
@@ -177,7 +215,6 @@ function HomePage() {
             </Center>
           ) : advertisments && advertisments.length > 0 ? (
             <CarousaComponent slides={advertisments} options={OPTIONS} />
-            // <Box></Box>
           ) : (
             <Center boxSize={["150px", "180px", "220px"]}>
               <Heading textAlign={"center"} color={"gray.200"} size={"lg"}>
@@ -185,10 +222,11 @@ function HomePage() {
               </Heading>
             </Center>
           )}
-        </Flex>
-      </Box>
+        </MotionFlex>
+      </MotionBox>
+
       {/* Support Section */}
-      <Flex
+      <MotionFlex
         my={[4, 6]}
         p={[3, 4, 6]}
         flexDirection={["column", "column", "row"]}
@@ -196,14 +234,17 @@ function HomePage() {
         justify="space-between"
         bg="light_bg_card"
         rounded={"16px"}
+        variants={item}
+        whileHover={{ scale: 1.01 }}
       >
-        <Text
+        <MotionText
           color={"text_secondary_color"}
           fontFamily="fantasy"
           fontSize={["12px", "14px", "18px"]}
           fontWeight="bold"
           m={[1, 2]}
           textAlign="center"
+          variants={item}
         >
           <Text as={"span"} fontFamily="body">
             {company && company.length > 0 ? company[0].name : ""} Web
@@ -213,24 +254,28 @@ function HomePage() {
             Support
           </Text>{" "}
           පිටුවට පිවිසෙන්න
-        </Text>
-        <Button
+        </MotionText>
+        <MotionButton
           colorPalette={"yellow"}
           bgGradient={" linear-gradient(94.16deg, #F4BB4E 2.33%, #A06D3A 100%)"}
           size={["sm", "md"]}
           mt={[2, 0]}
           onClick={handlenavigtetoSupport}
+          variants={item}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           <Text color={"white"} fontSize={["14px", "16px", "21px"]}>
             Support Page
           </Text>
-        </Button>
-      </Flex>
+        </MotionButton>
+      </MotionFlex>
+
       {/* Hidden Section */}
-      <Box my={2} visibility="hidden">
+      <MotionBox my={2} visibility="hidden" variants={item}>
         Dont show this
-      </Box>
-    </Box>
+      </MotionBox>
+    </MotionBox>
   );
 }
 

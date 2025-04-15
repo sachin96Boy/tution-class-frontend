@@ -1,7 +1,23 @@
+import AlertDialog from "@/components/alertDialog/AlertDialog";
+import { Tooltip } from "@/components/ui/tooltip";
 import { IgetCourseProps } from "@/features/course/courseAction";
-import { Avatar, Badge, Button, Flex, Table, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Badge,
+  Button,
+  Flex,
+  IconButton,
+  Table,
+  Text,
+} from "@chakra-ui/react";
+import { LogIn, Pencil, RefreshCw, Trash2 } from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
+import Modalsheet from "../modal/Modalsheet";
+import CourseEditFormComponent from "@/components/edit/CourseEditFormComponent";
+import { IListItemProp } from "@/features/config/configAction";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 type ICourseTableBody = {
   data: Array<IgetCourseProps>;
@@ -11,7 +27,32 @@ const CourseTableCell = (courseDataProps: IgetCourseProps) => {
   const { id, course_id, title, year, status, Teacher, Grade, Subject } =
     courseDataProps;
 
-    const encodedId = encodeURIComponent(course_id);
+  const { teachers } = useSelector((state: RootState) => state.teacher);
+  const { subjects, grades } = useSelector((state: RootState) => state.common);
+
+  let gradeSelectList: Array<IListItemProp> = grades?.map((grade) => {
+    return {
+      key: grade.grade_id,
+      value: grade.grade,
+      image_path: null,
+    };
+  });
+  let subjectSelectList: Array<IListItemProp> = subjects?.map((subject) => {
+    return {
+      key: subject.subject_id,
+      value: subject.subject_name,
+      image_path: null,
+    };
+  });
+  let teacherSelectList: Array<IListItemProp> = teachers?.map((teacher) => {
+    return {
+      key: teacher.teacher_id,
+      value: teacher.full_name,
+      image_path: teacher.profile_img,
+    };
+  });
+
+  const encodedId = encodeURIComponent(course_id);
 
   return (
     <Table.Row>
@@ -64,15 +105,47 @@ const CourseTableCell = (courseDataProps: IgetCourseProps) => {
       </Table.Cell>
       <Table.Cell pl="0px">
         <Link to={`/admin/courses/data?id=${encodedId}`}>
-          <Button
+          <IconButton
             variant={"ghost"}
             fontSize="sm"
             color="gray.400"
             fontWeight="normal"
           >
-            Visit
-          </Button>
+            <Tooltip content="Visit">
+              <LogIn />
+            </Tooltip>
+          </IconButton>
         </Link>
+        <Modalsheet
+          buttonText={"Edit Course"}
+          modalTitle={"Edit Course Data"}
+          formComponent={
+            <CourseEditFormComponent
+              data={courseDataProps}
+              gradeSelectList={gradeSelectList}
+              subjectSelectList={subjectSelectList}
+              teacherSelectList={teacherSelectList}
+            />
+          }
+        >
+          <IconButton aria-label="Edit" variant={"ghost"}>
+            <Tooltip content="Edit">
+              <Pencil />
+            </Tooltip>
+          </IconButton>
+        </Modalsheet>
+        <IconButton aria-label="Change Status" variant={"ghost"}>
+          <Tooltip content="Change Status">
+            <RefreshCw />
+          </Tooltip>
+        </IconButton>
+        <AlertDialog handleDelete={() => {}} id="">
+          <IconButton colorPalette={"red"} aria-label="Edit" variant={"ghost"}>
+            <Tooltip content="Delete">
+              <Trash2 />
+            </Tooltip>
+          </IconButton>
+        </AlertDialog>
       </Table.Cell>
     </Table.Row>
   );

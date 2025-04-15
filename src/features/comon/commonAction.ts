@@ -25,6 +25,10 @@ export type IcreateExpenceTypeProps = {
     expence_type: string;
 }
 
+export type IUpdateExpenceTypeProps = {
+    id: string;
+    expence_type: string;
+}
 export type IexpenceTypeProps = {
     id: string;
     expence_type: string;
@@ -97,6 +101,20 @@ const handleCreateExpencetype = async (values: IcreateExpenceTypeProps, { reject
         return rejectWithValue(err.response.data);
     }
 }
+const handleUpdateExpencetype = async (values: IUpdateExpenceTypeProps, { rejectWithValue }: any) => {
+    try {
+
+        const response = await axiosInstance.put(
+            'account/updateExpenceType',
+            values,
+        );
+
+        return response.data;
+
+    } catch (err: any) {
+        return rejectWithValue(err.response.data);
+    }
+}
 const handleCreateSubject = async (values: IcreateSubjectProps, { rejectWithValue }: any) => {
     try {
 
@@ -117,6 +135,7 @@ const getAllExpenceTypes = createAsyncThunk('common/getAllExpenceTypes', handleG
 const getAllGrades = createAsyncThunk('common/getAllGrades', handleGetAllGrades);
 const createSubject = createAsyncThunk('common/createSubject', handleCreateSubject);
 const createExpenceType = createAsyncThunk('common/createExpencetype', handleCreateExpencetype);
+const updateExpenceType = createAsyncThunk('common/updateExpencetype', handleUpdateExpencetype);
 const createGrade = createAsyncThunk('common/creategrade', handleCreateGrade);
 
 export {
@@ -125,6 +144,7 @@ export {
     getAllExpenceTypes,
     createSubject,
     createGrade,
-    createExpenceType
+    createExpenceType,
+    updateExpenceType
 
 }

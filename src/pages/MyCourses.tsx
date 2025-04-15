@@ -11,31 +11,38 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Form, Formik, FormikHelpers } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CourseCard, {
   CourseCardProps,
 } from "../components/mycourse/courseard/CourseCard";
 
 import courseSearch from "@/assets/home/course/search_course_1.svg";
 import InputWithSelect from "@/components/formcontrol/customInput/InputWithSelect";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
 import { IListItemProp } from "@/features/config/configAction";
-interface Values {
-  teacherName: IListItemProp;
-  subjectName: IListItemProp;
-  year: string;
-}
 
 import * as Yup from "yup";
+import Spinner from "@/components/spinner/Spinner";
+import {
+  getcourseDatabyTeacherandSubject,
+  getCourseDataByTeacherandSubjectProps,
+  getStudentCourses,
+  IgetCourseProps,
+} from "@/features/course/courseAction";
 
 function MyCourses() {
-  const [teacherName, setTeacherName] = useState("");
-  const [subjectName, setSubjectName] = useState("");
-  const [year, setYear] = useState("");
+  const [items, setItems] = useState<IgetCourseProps[]>([]);
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   const { teachers } = useSelector((state: RootState) => state.teacher);
   const { subjects } = useSelector((state: RootState) => state.common);
+
+  const { loading, studentSearchedCourses, studentGrantedCourses } =
+    useSelector((state: RootState) => state.course);
 
   let teachersSelectList: Array<IListItemProp> = teachers?.map((teacher) => {
     return {
@@ -55,86 +62,84 @@ function MyCourses() {
   let currentYear = new Date().getFullYear();
 
   let yearArray = [
-    currentYear - 5,
-    currentYear - 4,
     currentYear - 3,
     currentYear - 2,
     currentYear - 1,
     currentYear,
   ];
 
-  const courseArray: Array<CourseCardProps> = [
-    {
-      courseId: "1",
-      grade: "10",
-      subject: "Math",
-      subjectName: "Mathamatics",
-      teacherName: "Mr. John",
-      description:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even",
-      courseImg: "https://picsum.photos/200",
-      year: "2020",
-    },
-    {
-      courseId: "2",
-      grade: "11",
-      subject: "Tamil",
-      subjectName: "Tamil for biginers",
-      teacherName: "Mr. Smith",
-      description: "This is a description",
-      courseImg: "https://picsum.photos/200",
-      year: "2020",
-    },
-    {
-      courseId: "3",
-      grade: "12",
-      subject: "Math",
-      subjectName: "Mathamatics",
-      teacherName: "Mr. Matta",
-      description: "This is a description",
-      courseImg: "https://picsum.photos/200",
-      year: "2020",
-    },
-    {
-      courseId: "4",
-      grade: "06",
-      subject: "Math",
-      subjectName: "Mathamatics for biginers",
-      teacherName: "Mr. John",
-      description:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even",
-      courseImg: "https://picsum.photos/200",
-      year: "2022",
-    },
-    {
-      courseId: "5",
-      grade: "06",
-      subject: "Science",
-      subjectName: "Science for biginers",
-      teacherName: "Mr. John",
-      description: "This is a description",
-      courseImg: "https://picsum.photos/200",
-      year: "2021",
-    },
-    {
-      courseId: "6",
-      grade: "10",
-      subject: "Science",
-      subjectName: "Science and Technology",
-      teacherName: "Mr. Abraham",
-      description:
-        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even",
-      courseImg: "https://picsum.photos/200",
-      year: "2021",
-    },
-  ];
-  const initialValues: Values = {
-    teacherName: {
+  // const courseArray: Array<CourseCardProps> = [
+  //   {
+  //     courseId: "1",
+  //     grade: "10",
+  //     subject: "Math",
+  //     subjectName: "Mathamatics",
+  //     teacherName: "Mr. John",
+  //     description:
+  //       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even",
+  //     courseImg: "https://picsum.photos/200",
+  //     year: "2020",
+  //   },
+  //   {
+  //     courseId: "2",
+  //     grade: "11",
+  //     subject: "Tamil",
+  //     subjectName: "Tamil for biginers",
+  //     teacherName: "Mr. Smith",
+  //     description: "This is a description",
+  //     courseImg: "https://picsum.photos/200",
+  //     year: "2020",
+  //   },
+  //   {
+  //     courseId: "3",
+  //     grade: "12",
+  //     subject: "Math",
+  //     subjectName: "Mathamatics",
+  //     teacherName: "Mr. Matta",
+  //     description: "This is a description",
+  //     courseImg: "https://picsum.photos/200",
+  //     year: "2020",
+  //   },
+  //   {
+  //     courseId: "4",
+  //     grade: "06",
+  //     subject: "Math",
+  //     subjectName: "Mathamatics for biginers",
+  //     teacherName: "Mr. John",
+  //     description:
+  //       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even",
+  //     courseImg: "https://picsum.photos/200",
+  //     year: "2022",
+  //   },
+  //   {
+  //     courseId: "5",
+  //     grade: "06",
+  //     subject: "Science",
+  //     subjectName: "Science for biginers",
+  //     teacherName: "Mr. John",
+  //     description: "This is a description",
+  //     courseImg: "https://picsum.photos/200",
+  //     year: "2021",
+  //   },
+  //   {
+  //     courseId: "6",
+  //     grade: "10",
+  //     subject: "Science",
+  //     subjectName: "Science and Technology",
+  //     teacherName: "Mr. Abraham",
+  //     description:
+  //       "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even",
+  //     courseImg: "https://picsum.photos/200",
+  //     year: "2021",
+  //   },
+  // ];
+  const initialValues: getCourseDataByTeacherandSubjectProps = {
+    teacher_id: {
       key: "",
       value: "",
       image_path: null,
     },
-    subjectName: {
+    subject_id: {
       key: "",
       value: "",
       image_path: null,
@@ -143,12 +148,12 @@ function MyCourses() {
   };
 
   const validationSchema = Yup.object().shape({
-    teacherName: Yup.object().shape({
+    teacher_id: Yup.object().shape({
       key: Yup.string().required("Teacher is not valid"),
       value: Yup.string().required("Teacher name is required"),
       image_path: Yup.mixed().nullable(),
     }),
-    subjectName: Yup.object().shape({
+    subject_id: Yup.object().shape({
       key: Yup.string().required("Subject is not valid"),
       value: Yup.string().required("Subject name is required"),
       image_path: Yup.mixed().nullable(),
@@ -156,21 +161,39 @@ function MyCourses() {
     year: Yup.string().required("Year is required"),
   });
 
-  const onSubmit: any = (values: Values, action: FormikHelpers<Values>) => {
-    setSubjectName(values.subjectName.value);
-    setTeacherName(values.teacherName.value);
-    setYear(values.year);
+  const onSubmit: any = async (
+    values: getCourseDataByTeacherandSubjectProps,
+    action: any
+  ) => {
+    await dispatch(getcourseDatabyTeacherandSubject(values));
+
     action.setSubmitting(false);
     action.resetForm();
   };
 
+  useEffect(() => {
+    if (userInfo && userInfo != null) {
+      dispatch(
+        getStudentCourses({
+          enc_student_id: userInfo?.student_id,
+        })
+      );
+    }
+  }, [dispatch, userInfo]);
+
+  useEffect(() => {
+    setItems(studentSearchedCourses);
+  }, [studentSearchedCourses]);
+
+  useEffect(() => {
+    setItems(studentGrantedCourses);
+  }, [studentGrantedCourses]);
+
   const handleClearFilter = () => {
-    setSubjectName("");
-    setTeacherName("");
-    setYear("");
+    setItems([]);
   };
 
-  let filteredCourseData = (
+  const EmptydCourseData = () => (
     <Box>
       <Flex direction={"column"} alignItems={"center"}>
         <Image
@@ -178,60 +201,47 @@ function MyCourses() {
           src={courseSearch}
           alt="Course not found"
         />
+        <Text>Course not Found</Text>
       </Flex>
     </Box>
   );
 
-  if (teacherName || subjectName || year) {
-    filteredCourseData = (
-      <Grid
-        templateColumns={[
-          "repeat(1, 1fr)",
-          "repeat(1, 1fr)",
-          "repeat(2, 1fr)",
-          "repeat(3, 1fr)",
-        ]}
-        gap={3}
-      >
-        {courseArray
-          .filter((courseElement: CourseCardProps) => {
-            if (
-              courseElement.teacherName
-                .toLowerCase()
-                .includes(teacherName.toLowerCase()) &&
-              courseElement.subjectName
-                .toLowerCase()
-                .includes(subjectName.toLowerCase()) &&
-              courseElement.year.includes(year)
-            ) {
-              return courseElement;
-            } else if (
-              teacherName === "" &&
-              subjectName === "" &&
-              year === ""
-            ) {
-              return courseElement;
-            } else {
-              return null;
-            }
-          })
-          .map((course, index) => (
-            <GridItem key={index}>
-              <CourseCard
-                courseId={course.courseId}
-                grade={course.grade}
-                subject={course.subject}
-                subjectName={course.subjectName}
-                teacherName={course.teacherName}
-                description={course.description}
-                year={course.year}
-                courseImg={course.courseImg}
-              />
-            </GridItem>
-          ))}
-      </Grid>
+  const ResultData = () => {
+    return (
+      <>
+        {loading ? (
+          <Spinner />
+        ) : items.length <= 0 ? (
+          <EmptydCourseData />
+        ) : (
+          <Grid
+            templateColumns={[
+              "repeat(1, 1fr)",
+              "repeat(1, 1fr)",
+              "repeat(2, 1fr)",
+              "repeat(3, 1fr)",
+            ]}
+            gap={3}
+          >
+            {items.map((course, index) => (
+              <GridItem key={index}>
+                <CourseCard
+                  courseId={course.course_id}
+                  grade={course.Grade.grade}
+                  subject={course.Subject.subject_id}
+                  subjectName={course.Subject.subject_name}
+                  teacherName={course.Teacher.full_name}
+                  description={course.description}
+                  year={course.year.toString()}
+                  courseImg={course.course_img_path}
+                />
+              </GridItem>
+            ))}
+          </Grid>
+        )}
+      </>
     );
-  }
+  };
 
   return (
     <Box mx={[2, 4, 6, 10]} w="full">
@@ -255,7 +265,7 @@ function MyCourses() {
           onSubmit={onSubmit}
         >
           {(formik) => (
-            <Form autoComplete="off">
+            <Form autoComplete="off" onSubmit={(e) => e.preventDefault()}>
               <Flex
                 align={"center"}
                 flexDirection={["column", "column", "row"]}
@@ -268,41 +278,41 @@ function MyCourses() {
                   w={["full", "full", "auto"]}
                 >
                   <InputWithSelect
-                    htmlFor={"teacherName"}
+                    htmlFor={"teacher_id"}
                     labelText={"Teacher Name"}
                     InputType={"text"}
-                    InputValue={formik.values.teacherName.value}
+                    InputValue={formik.values.teacher_id.value}
                     onBlur={formik.handleBlur}
                     placeHolder={"Select Teacher"}
                     isTouched={
-                      formik.touched.teacherName?.value ||
-                      formik.touched.teacherName?.key
+                      formik.touched.teacher_id?.value ||
+                      formik.touched.teacher_id?.key
                     }
                     isError={
-                      formik.errors.teacherName?.value ||
-                      formik.errors.teacherName?.key
+                      formik.errors.teacher_id?.value ||
+                      formik.errors.teacher_id?.key
                     }
                     formik={formik}
-                    fieldValue={"teacherName"}
+                    fieldValue={"teacher_id"}
                     dataList={teachersSelectList}
                   />
                   <InputWithSelect
-                    htmlFor={"subjectName"}
+                    htmlFor={"subject_id"}
                     labelText={"Subject Name"}
                     InputType={"text"}
-                    InputValue={formik.values.subjectName.value}
+                    InputValue={formik.values.subject_id.value}
                     onBlur={formik.handleBlur}
                     placeHolder={"Select Subject"}
                     isTouched={
-                      formik.touched.subjectName?.value ||
-                      formik.touched.subjectName?.key
+                      formik.touched.subject_id?.value ||
+                      formik.touched.subject_id?.key
                     }
                     isError={
-                      formik.errors.subjectName?.value ||
-                      formik.errors.subjectName?.key
+                      formik.errors.subject_id?.value ||
+                      formik.errors.subject_id?.key
                     }
                     formik={formik}
-                    fieldValue={"subjectName"}
+                    fieldValue={"subject_id"}
                     dataList={subjectSelectList}
                   />
                 </Flex>
@@ -318,9 +328,18 @@ function MyCourses() {
                   {yearArray.map((yr) => (
                     <Button
                       key={yr}
-                      color={"#CDCDCD"}
+                      color={
+                        formik.values.year == yr.toString()
+                          ? "white"
+                          : "#CDCDCD"
+                      }
+                      bgColor={
+                        formik.values.year == yr.toString()
+                          ? "border_focus_color"
+                          : "light_bg_card"
+                      }
                       border={"1px"}
-                      borderColor="#B6D7FF"
+                      borderColor={"border_focus_color"}
                       onClick={() => {
                         formik.setFieldValue("year", yr);
                       }}
@@ -339,7 +358,8 @@ function MyCourses() {
                   w={["full", "full", "auto"]}
                 >
                   <Button
-                    type="submit"
+                    type="button"
+                    onClick={() => formik.handleSubmit()}
                     mt={[4, 7]}
                     loading={formik.isSubmitting}
                     bgGradient={
@@ -384,7 +404,7 @@ function MyCourses() {
       <Box className="course-list" my={[4, 6, 8, 10]}>
         {" "}
         {/* Responsive margin */}
-        {filteredCourseData}
+        <ResultData />
       </Box>
     </Box>
   );

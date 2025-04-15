@@ -3,7 +3,7 @@ import SubjectForm from "@/components/admin/forms/SubjectForm";
 import Modalsheet from "@/components/admin/modal/Modalsheet";
 import OverlayTable from "@/components/admin/tables/OverlayTable";
 import { IsubjectProps } from "@/features/comon/commonAction";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
 type IAdminSubjectProps = {
@@ -31,6 +31,8 @@ function AdminSubject(props: IAdminSubjectProps) {
     });
   }, [subjects]);
 
+  const handleSearch = (value: String) => {};
+
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Box>
@@ -38,7 +40,9 @@ function AdminSubject(props: IAdminSubjectProps) {
           buttonText={"Add Subject"}
           modalTitle={"Add Subject"}
           formComponent={<SubjectForm />}
-        />
+        >
+          <Button colorPalette={"blue"}>Add Subject</Button>
+        </Modalsheet>
       </Box>
       <Box>
         <OverlayTable
@@ -48,6 +52,7 @@ function AdminSubject(props: IAdminSubjectProps) {
           captions={["id", "subject"]}
           tableBodyComponent={<SubjectTableBody data={items} />}
           data={subjects}
+          handleSearch={handleSearch}
         />
       </Box>
     </Flex>

@@ -45,37 +45,12 @@ const year = new Date().getFullYear()
             </Text>
           </Stack>
           <Stack align={"flex-start"}>
-            <ListHeader>Product</ListHeader>
-            <Link href={"#"}>Overview</Link>
-            <Link as="a" href={"#"}>
-              Features
-            </Link>
-            <Link as="a" href={"#"}>
-              Tutorials
-            </Link>
-            <Link as="a" href={"#"}>
-              Pricing
-            </Link>
-            <Link as="a" href={"#"}>
-              Releases
-            </Link>
-          </Stack>
-          <Stack align={"flex-start"}>
             <ListHeader>Company</ListHeader>
             <Link as="a" href={"#"}>
               About
             </Link>
             <Link as="a" href={"#"}>
-              Press
-            </Link>
-            <Link as="a" href={"#"}>
-              Careers
-            </Link>
-            <Link as="a" href={"#"}>
               Contact
-            </Link>
-            <Link as="a" href={"#"}>
-              Partners
             </Link>
           </Stack>
           <Stack align={"flex-start"}>
@@ -92,9 +67,6 @@ const year = new Date().getFullYear()
             <Link as="a" href={"#"}>
               Privacy Policy
             </Link>
-            <Link as="a" href={"#"}>
-              Status
-            </Link>
           </Stack>
           <Stack align={"flex-start"}>
             <ListHeader>Follow Us</ListHeader>
@@ -103,9 +75,6 @@ const year = new Date().getFullYear()
             </Link>
             <Link as="a" href={"#"}>
               Twitter
-            </Link>
-            <Link as="a" href={"#"}>
-              Dribbble
             </Link>
             <Link as="a" href={"#"}>
               Instagram

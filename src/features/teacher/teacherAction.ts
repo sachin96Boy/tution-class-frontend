@@ -18,6 +18,24 @@ export type IteacherGetProps = {
     intro_image2: string;
 }
 
+type getTeacherByIdProps = {
+    enc_teacher_id: string
+}
+
+const handleGetTeacherById = async (values: getTeacherByIdProps, { rejectWithValue }: any) => {
+    try {
+
+        const response = await axiosInstance.post(
+            'teacher/getTeacherbyId',
+            values
+        );
+
+        return response.data;
+
+    } catch (err: any) {
+        return rejectWithValue(err.response.data);
+    }
+}
 const handleGetAllTeachers = async ({ rejectWithValue }: any) => {
     try {
 
@@ -79,10 +97,12 @@ const handleCreteTeacher = async (values: IteacherRegisterProps, { rejectWithVal
 
 const getAllTeachers = createAsyncThunk('teacher/getAllTeachers', handleGetAllTeachers);
 const createTeacher = createAsyncThunk('teacher/createTeacher', handleCreteTeacher);
+const getTeacherById = createAsyncThunk('teacher/getTeacherById', handleGetTeacherById);
 
 export {
     getAllTeachers,
-    createTeacher
+    createTeacher,
+    getTeacherById
 }
 
 

@@ -1,7 +1,11 @@
 import {
+  Box,
   ButtonGroup,
   Card,
+  Field,
+  Flex,
   IconButton,
+  Input,
   Pagination,
   Table,
   Text,
@@ -15,6 +19,7 @@ type IoverlayTable = {
   tableBodyComponent: React.ReactNode;
   data: Array<any>;
   currentPage: number;
+  handleSearch: Function;
   handlePageChange: (details: { page: number }) => void;
 };
 
@@ -25,15 +30,41 @@ function OverlayTable(props: IoverlayTable) {
     tableBodyComponent,
     data,
     currentPage,
+    handleSearch,
     handlePageChange,
   } = props;
+
+  const [searchText, setSearchedText] = useState("");
+
+  const handleSearchChange = (e:any) => {
+    const value = e.target.value;
+    setSearchedText(value);
+    handleSearch(value)
+  };
 
   return (
     <Card.Root overflowX={{ base: "scroll", xl: "hidden" }}>
       <Card.Header>
-        <Card.Title>
-          <Text>{title}</Text>
-        </Card.Title>
+        <Flex alignItems={"center"} justifyContent={"space-between"}>
+          <Card.Title>
+            <Text>{title}</Text>
+          </Card.Title>
+          <Box>
+            <Field.Root>
+              <Input
+                colorPalette={"blue"}
+                type="text"
+                css={{ "--focus-color": "colors.primary_color" }}
+                placeholder="Search"
+                value={searchText}
+                borderWidth={"1px"}
+                borderColor={"border_color"}
+                rounded={"10px"}
+                onChange={handleSearchChange}
+              />
+            </Field.Root>
+          </Box>
+        </Flex>
       </Card.Header>
       <Card.Body>
         <Table.Root variant={"outline"} color={"gray.700"}>

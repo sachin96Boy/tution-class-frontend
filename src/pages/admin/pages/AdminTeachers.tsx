@@ -5,7 +5,7 @@ import TeacherTableBody from "@/components/admin/teacher/TeacherTableBody";
 import Spinner from "@/components/spinner/Spinner";
 import { IteacherGetProps } from "@/features/teacher/teacherAction";
 import { RootState } from "@/store";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -32,6 +32,8 @@ function AdminTeachers() {
     });
   }, [teachers]);
 
+  const handleSearh = () => {};
+
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Box>
@@ -39,7 +41,9 @@ function AdminTeachers() {
           buttonText={"Create Teacher"}
           modalTitle={"Add Teacher Data"}
           formComponent={<TeacherFormComponent />}
-        />
+        >
+          <Button colorPalette={"blue"}>Create Teacher</Button>
+        </Modalsheet>
       </Box>
       <Box>
         {loading ? (
@@ -52,6 +56,7 @@ function AdminTeachers() {
             captions={["TeacherId", "Full Name", "description"]}
             tableBodyComponent={<TeacherTableBody data={items} />}
             data={teachers}
+            handleSearch={handleSearh}
           />
         )}
       </Box>

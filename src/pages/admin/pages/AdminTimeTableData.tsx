@@ -9,7 +9,7 @@ import { getAllCourses } from "@/features/course/courseAction";
 import { getTimeTableDataById } from "@/features/timetable/timetableAction";
 import { Itimetabledata } from "@/features/timetable/timeTableSlice";
 import { AppDispatch, RootState } from "@/store";
-import { Box, Flex, Spinner } from "@chakra-ui/react";
+import { Box, Button, Flex, Spinner } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
@@ -70,6 +70,8 @@ function AdminTimeTableData() {
     dispatch(getAllCourses(""));
   }, [enc_id, dispatch]);
 
+  const handleSearch = (value: string) => {};
+
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Box>
@@ -82,7 +84,9 @@ function AdminTimeTableData() {
             />
           }
           modalTitle={"Add Timetable Data"}
-        />
+        >
+          <Button colorPalette={"blue"}>Add TimeTableData</Button>
+        </Modalsheet>
       </Box>
       <Box>
         {loading ? (
@@ -95,6 +99,7 @@ function AdminTimeTableData() {
             captions={["#", "day", "course", "start", "end"]}
             tableBodyComponent={<TimeTableBody data={items} />}
             data={timeTableData}
+            handleSearch={handleSearch}
           />
         )}
       </Box>

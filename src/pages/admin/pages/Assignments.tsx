@@ -3,11 +3,14 @@ import AddAssignmentFormComponent from "@/components/admin/forms/AddAssignmentFo
 import Modalsheet from "@/components/admin/modal/Modalsheet";
 import OverlayTable from "@/components/admin/tables/OverlayTable";
 import { getAllAdvertisments } from "@/features/advertisment/advertismentAction";
-import { getAllAssignmentData, IAssignmentProps } from "@/features/assignment/assignmentAction";
+import {
+  getAllAssignmentData,
+  IAssignmentProps,
+} from "@/features/assignment/assignmentAction";
 import { IListItemProp } from "@/features/config/configAction";
 import { getAllCourses } from "@/features/course/courseAction";
 import { AppDispatch, RootState } from "@/store";
-import { Box, Flex, Spinner } from "@chakra-ui/react";
+import { Box, Button, Flex, Spinner } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -50,6 +53,9 @@ function Assignments() {
       page: 1,
     });
   }, [assignments]);
+
+  const handleSearch = (value: string) => {};
+
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Box>
@@ -59,7 +65,9 @@ function Assignments() {
             <AddAssignmentFormComponent courseList={coursesSelectList} />
           }
           modalTitle={"Add Assignment"}
-        />
+        >
+          <Button colorPalette={"blue"}>Add Assignment</Button>
+        </Modalsheet>
       </Box>
       <Box>
         {loading ? (
@@ -72,6 +80,7 @@ function Assignments() {
             captions={["Id", "title", "Course", "File", "Action"]}
             tableBodyComponent={<AssignmentTableBody data={items} />}
             data={assignments}
+            handleSearch={handleSearch}
           />
         )}
       </Box>

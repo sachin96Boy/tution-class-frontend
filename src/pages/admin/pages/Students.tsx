@@ -39,6 +39,8 @@ function Students() {
     dispatch(getAllStudents(""));
   }, [dispatch]);
 
+  const handleSearch = (value: string) => {};
+
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Box>
@@ -52,6 +54,7 @@ function Students() {
             data={students}
             currentPage={currentPage}
             handlePageChange={handleChange}
+            handleSearch={handleSearch}
           />
         )}
       </Box>

@@ -15,7 +15,7 @@ export type IcompanyInitialState = {
     loading: boolean;
     company: Array<IcompanyInfo>;
     error: boolean | null;
-    errorMsg: string;
+    errorMsg: object;
     success: boolean;
 }
 
@@ -23,7 +23,7 @@ const initialState: IcompanyInitialState = {
     loading: false,
     company: [],
     error: null,
-    errorMsg: '',
+    errorMsg: {},
     success: false
 }
 
@@ -54,7 +54,7 @@ export const configSlice = createSlice({
 
                 toaster.create({
                     type: 'error',
-                    title: state.errorMsg
+                    title: state.errorMsg.toString()
                 });
             }
         )
