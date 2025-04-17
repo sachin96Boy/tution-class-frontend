@@ -57,9 +57,6 @@ function AdminDashboard() {
               Advertisments
             </Button>
           </NavLink>
-          <Button colorPalette={"blue"} size={"2xl"}>
-            Company
-          </Button>
           <NavLink to={"/admin/common"}>
             <Button colorPalette={"blue"} size={"2xl"}>
               Common

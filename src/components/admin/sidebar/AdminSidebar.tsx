@@ -1,8 +1,18 @@
 import Logo from "@/components/Logo";
 import { Box, Button, Flex, Icon, Text } from "@chakra-ui/react";
-import { Banknote, BookA, BookOpen, CalendarCheck, ClipboardPlus, GraduationCap, House, Sheet, UserRoundPen, Users } from "lucide-react";
-
-
+import {
+  Banknote,
+  BookA,
+  BookOpen,
+  CalendarCheck,
+  ClipboardPlus,
+  GraduationCap,
+  House,
+  Settings,
+  Sheet,
+  UserRoundPen,
+  Users,
+} from "lucide-react";
 
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -79,6 +89,12 @@ function AdminSidebar() {
       path: "/admin/courses",
       route: "courses",
     },
+    {
+      title: "Settings",
+      icon: <Settings />,
+      path: "/admin/settings",
+      route: "settings",
+    },
   ];
 
   return (
@@ -105,7 +121,7 @@ function AdminSidebar() {
           m={sidebarMargins}
           borderRadius={sidebarRadius}
         >
-          <Logo boxSize="24" linkPath="/admin" fitType="cover" />
+          <Logo boxSize="14" linkPath="/admin" fitType="cover" />
 
           {navLinks.map((item, index) => (
             <NavLink to={item.path} key={index}>

@@ -108,44 +108,13 @@ export default function Navbar() {
     dispatch(logout());
   };
 
-  const renderMobileView = () => {
-    return (
-      <Box pb={4} display={{ md: "none" }}>
-        <Stack as={"nav"} gap={4}>
-          {navLinks.map((link, index) => (
-            <NavLink to={link.path} key={index}>
-              <Flex gap={2} alignItems={"center"} justify={"space-around"}>
-                <Box
-                  padding={2}
-                  rounded={"xl"}
-                  bg={"white"}
-                  color={"primary_color"}
-                >
-                  <Icon size={"lg"}>{link.icon}</Icon>
-                </Box>
-                <Text
-                  my="auto"
-                  fontSize="md"
-                  fontWeight={"bold"}
-                  color={"GrayText"}
-                >
-                  {link.title}
-                </Text>
-              </Flex>
-            </NavLink>
-          ))}
-        </Stack>
-      </Box>
-    );
-  };
-
   return (
     <>
       <Box bg={"gray.100"} px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <AdminDrawer onClose={onClose} onOpen={onOpen} open={open} />
           <Box display={["block", "block", "none"]}>
-            <Logo boxSize="16" linkPath="/admin/dashboard" fitType="cover" />
+            <Logo boxSize="14" linkPath="/admin/dashboard" fitType="cover" />
           </Box>
           <Spacer display={["none", "none", "block"]} />
           <Flex align={"end"}>
@@ -154,9 +123,9 @@ export default function Navbar() {
                 placement: "top-end",
               }}
             >
-              <Menu.Trigger outline={"none"} pt={[0, 0, 8]} asChild>
+              <Menu.Trigger outline={"none"} pt={[0, 0, 4]} asChild>
                 <Box as={"button"} outline={"none"} cursor={"pointer"}>
-                  <Avatar.Root size={"md"}>
+                  <Avatar.Root size={["sm", "md"]}>
                     <Avatar.Fallback name={coporateInfo?.userName} />
                     <Avatar.Image src={coporateInfo?.userName} />
                   </Avatar.Root>
