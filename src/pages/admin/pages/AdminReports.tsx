@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Flex,
@@ -17,7 +17,6 @@ import {
   Spinner,
   Badge,
   HStack,
-  VStack,
   createListCollection,
 } from "@chakra-ui/react";
 
@@ -29,6 +28,7 @@ import "react-date-range/dist/theme/default.css";
 import {
   ArrowDownToLine,
   BanknoteArrowDown,
+  BanknoteArrowUp,
   Calendar,
   CalendarCheck2,
   Printer,
@@ -36,8 +36,21 @@ import {
   Sparkles,
 } from "lucide-react";
 import { toaster } from "@/components/ui/toaster";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { getAllCourses } from "@/features/course/courseAction";
+import {
+  getDailyAtandance,
+  getDailyExpences,
+  getDailyPayments,
+  getMonthlyAttandance,
+  getMonthlyExpences,
+  getMonthlyPayments,
+} from "@/features/reports/reportAction";
 
 const ReportPage = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const [activeTab, setActiveTab] = useState("payments");
   const [isLoading, setIsLoading] = useState(false);
   const [dateRange, setDateRange] = useState([
@@ -49,41 +62,39 @@ const ReportPage = () => {
   ]);
   const [selectedCourse, setSelectedCourse] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
 
   // Color mode values
   const cardBg = "white";
   const borderColor = "gray.200";
-  const headingColor = "teal.600";
-  const totalPositiveColor = "teal.600";
+  const headingColor = "blue.600";
+  const totalPositiveColor = "blue.600";
   const totalNegativeColor = "red.600";
 
-  // Mock data - in a real app, this would come from an API
-  const coursesList = [
-    "Web Development",
-    "Data Science",
-    "Graphic Design",
-    "Digital Marketing",
-    "English Language",
-  ];
+  const { courses: corseData } = useSelector(
+    (state: RootState) => state.course
+  );
+
+  useEffect(() => {
+    dispatch(getAllCourses(""));
+  }, []);
 
   const courses = createListCollection({
-    items: coursesList,
+    items: corseData,
   });
 
   const monthsList = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    { id: 1, month: "January" },
+    { id: 2, month: "February" },
+    { id: 3, month: "March" },
+    { id: 4, month: "April" },
+    { id: 5, month: "May" },
+    { id: 6, month: "June" },
+    { id: 7, month: "July" },
+    { id: 8, month: "August" },
+    { id: 9, month: "September" },
+    { id: 10, month: "October" },
+    { id: 11, month: "November" },
+    { id: 12, month: "December" },
   ];
 
   const months = createListCollection({
@@ -270,16 +281,65 @@ const ReportPage = () => {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "Paid":
-        return <Badge colorScheme="green">Paid</Badge>;
+        return <Badge colorPalette="green">Paid</Badge>;
       case "Partial":
-        return <Badge colorScheme="yellow">Partial</Badge>;
+        return <Badge colorPalette="yellow">Partial</Badge>;
       case "Present":
-        return <Badge colorScheme="green">Present</Badge>;
+        return <Badge colorPalette="green">Present</Badge>;
       case "Absent":
-        return <Badge colorScheme="red">Absent</Badge>;
+        return <Badge colorPalette="red">Absent</Badge>;
       default:
         return <Badge>{status}</Badge>;
     }
+  };
+
+  const generateDailyPaymentData = async () => {
+    await dispatch(
+      getDailyPayments({
+        course_id: selectedCourse,
+        start_date: dateRange[0].startDate.toLocaleDateString(),
+        end_date: dateRange[0].endDate.toLocaleDateString(),
+      })
+    );
+  };
+  const generateDailyExpencesData = async () => {
+    await dispatch(
+      getDailyExpences({
+        start_date: dateRange[0].startDate.toLocaleDateString(),
+        end_date: dateRange[0].endDate.toLocaleDateString(),
+      })
+    );
+  };
+  const generateDailyAttandance = async () => {
+    await dispatch(
+      getDailyAtandance({
+        course_id: selectedCourse,
+        date: dateRange[0].startDate.toLocaleDateString(),
+      })
+    );
+  };
+  const generateMonthlyPaymentData = async () => {
+    await dispatch(
+      getMonthlyPayments({
+        course_id: selectedCourse,
+        month: selectedMonth,
+      })
+    );
+  };
+  const generateMonthlyExpencesData = async () => {
+    await dispatch(
+      getMonthlyExpences({
+        month: selectedMonth,
+      })
+    );
+  };
+  const generateMonthlyAttandance = async () => {
+    await dispatch(
+      getMonthlyAttandance({
+        course_id: selectedCourse,
+        month: selectedMonth,
+      })
+    );
   };
 
   return (
@@ -290,13 +350,13 @@ const ReportPage = () => {
         </Heading>
         <HStack gap={4}>
           <Button
-            colorScheme="teal"
+            colorPalette="blue"
             variant="outline"
             onClick={() => exportReport("CSV")}
           >
             <ArrowDownToLine /> Export CSV
           </Button>
-          <Button colorScheme="teal" onClick={() => exportReport("PDF")}>
+          <Button colorPalette="blue" onClick={() => exportReport("PDF")}>
             <Printer /> Print
           </Button>
         </HStack>
@@ -309,7 +369,7 @@ const ReportPage = () => {
       >
         <Tabs.List>
           <Tabs.Trigger value="payments">
-            <BanknoteArrowDown />
+            <BanknoteArrowUp />
             Payments
           </Tabs.Trigger>
           <Tabs.Trigger value="expenses">
@@ -327,7 +387,7 @@ const ReportPage = () => {
           <Tabs.Root
             variant="outline"
             defaultValue={"daily"}
-            colorScheme="teal"
+            colorPalette="blue"
           >
             <Tabs.List>
               <Tabs.Trigger value="daily">Daily Payments</Tabs.Trigger>
@@ -378,7 +438,6 @@ const ReportPage = () => {
                           }
                         }}
                         moveRangeOnFirstSelection={false}
-                        months={2}
                         direction="horizontal"
                       />
                     </Box>
@@ -403,8 +462,8 @@ const ReportPage = () => {
                         <Select.Positioner>
                           <Select.Content>
                             {courses.items.map((course, index) => (
-                              <Select.Item item={course} key={index}>
-                                {course}
+                              <Select.Item item={course.course_id} key={index}>
+                                {course.title}
                                 <Select.ItemIndicator />
                               </Select.Item>
                             ))}
@@ -413,16 +472,9 @@ const ReportPage = () => {
                       </Select.Root>
                     </Box>
                   </Flex>
-                  <InputGroup startElement={<Search />} mb={6}>
-                    <Input
-                      placeholder="Search payments..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                  </InputGroup>
                   <Button
-                    colorScheme="teal"
-                    onClick={generateReport}
+                    colorPalette="blue"
+                    onClick={generateDailyPaymentData}
                     loading={isLoading}
                     loadingText="Generating..."
                   >
@@ -445,7 +497,7 @@ const ReportPage = () => {
                     <Flex justify="space-between" align="center">
                       <Heading size="md">Daily Payment Details</Heading>
                       <Text fontWeight="bold" color={totalPositiveColor}>
-                        Total: ₹
+                        Total: Rs
                         {dailyPayments.reduce(
                           (sum, item) => sum + item.amount,
                           0
@@ -517,8 +569,8 @@ const ReportPage = () => {
                         <Select.Positioner>
                           <Select.Content>
                             {months.items.map((month, index) => (
-                              <Select.Item item={month} key={index}>
-                                {month}
+                              <Select.Item item={month.id} key={index}>
+                                {month.month}
                                 <Select.ItemIndicator />
                               </Select.Item>
                             ))}
@@ -545,8 +597,8 @@ const ReportPage = () => {
                         <Select.Positioner>
                           <Select.Content>
                             {courses.items.map((course, index) => (
-                              <Select.Item item={course} key={index}>
-                                {course}
+                              <Select.Item item={course.course_id} key={index}>
+                                {course.title}
                                 <Select.ItemIndicator />
                               </Select.Item>
                             ))}
@@ -556,8 +608,8 @@ const ReportPage = () => {
                     </Box>
                   </Flex>
                   <Button
-                    colorScheme="teal"
-                    onClick={generateReport}
+                    colorPalette="blue"
+                    onClick={generateMonthlyPaymentData}
                     loading={isLoading}
                     loadingText="Generating..."
                   >
@@ -580,7 +632,7 @@ const ReportPage = () => {
                     <Flex justify="space-between" align="center">
                       <Heading size="md">Monthly Payment Details</Heading>
                       <Text fontWeight="bold" color={totalPositiveColor}>
-                        Total: ₹
+                        Total: Rs
                         {monthlyPayments.reduce(
                           (sum, item) => sum + item.amount,
                           0
@@ -622,7 +674,11 @@ const ReportPage = () => {
 
         {/* Expenses Tab */}
         <Tabs.Content value={"expenses"}>
-          <Tabs.Root variant="outline" colorScheme="teal">
+          <Tabs.Root
+            defaultValue={"daily"}
+            variant="outline"
+            colorPalette="blue"
+          >
             <Tabs.List>
               <Tabs.Trigger value="daily">Daily Expenses</Tabs.Trigger>
               <Tabs.Trigger value="monthly">Monthly Expenses</Tabs.Trigger>
@@ -652,23 +708,27 @@ const ReportPage = () => {
                       <DateRangePicker
                         ranges={dateRange}
                         onChange={(item) => {
-                          if (item.selection.startDate && item.selection.endDate) {
-                            setDateRange([{
-                              startDate: item.selection.startDate,
-                              endDate: item.selection.endDate,
-                              key: "selection"
-                            }]);
+                          if (
+                            item.selection.startDate &&
+                            item.selection.endDate
+                          ) {
+                            setDateRange([
+                              {
+                                startDate: item.selection.startDate,
+                                endDate: item.selection.endDate,
+                                key: "selection",
+                              },
+                            ]);
                           }
                         }}
                         moveRangeOnFirstSelection={false}
-                        months={2}
                         direction="horizontal"
                       />
                     </Box>
                   </Flex>
                   <Button
-                    colorScheme="teal"
-                    onClick={generateReport}
+                    colorPalette="blue"
+                    onClick={generateDailyExpencesData}
                     loading={isLoading}
                     loadingText="Generating..."
                   >
@@ -691,7 +751,7 @@ const ReportPage = () => {
                     <Flex justify="space-between" align="center">
                       <Heading size="md">Daily Expense Details</Heading>
                       <Text fontWeight="bold" color={totalNegativeColor}>
-                        Total: ₹
+                        Total: Rs
                         {dailyExpenses.reduce(
                           (sum, item) => sum + item.amount,
                           0
@@ -761,8 +821,8 @@ const ReportPage = () => {
                         <Select.Positioner>
                           <Select.Content>
                             {months.items.map((month, index) => (
-                              <Select.Item item={month} key={index}>
-                                {month}
+                              <Select.Item item={month.id} key={index}>
+                                {month.month}
                                 <Select.ItemIndicator />
                               </Select.Item>
                             ))}
@@ -772,8 +832,8 @@ const ReportPage = () => {
                     </Box>
                   </Flex>
                   <Button
-                    colorScheme="teal"
-                    onClick={generateReport}
+                    colorPalette="blue"
+                    onClick={generateMonthlyExpencesData}
                     loading={isLoading}
                     loadingText="Generating..."
                   >
@@ -796,7 +856,7 @@ const ReportPage = () => {
                     <Flex justify="space-between" align="center">
                       <Heading size="md">Monthly Expense Details</Heading>
                       <Text fontWeight="bold" color={totalNegativeColor}>
-                        Total: ₹
+                        Total: Rs
                         {monthlyExpenses.reduce(
                           (sum, item) => sum + item.amount,
                           0
@@ -834,7 +894,11 @@ const ReportPage = () => {
 
         {/* Attendance Tab */}
         <Tabs.Content value={"attandance"}>
-          <Tabs.Root variant="outline" colorScheme="teal">
+          <Tabs.Root
+            defaultValue={"daily"}
+            variant="outline"
+            colorPalette="blue"
+          >
             <Tabs.List>
               <Tabs.Trigger value="daily">Daily Attendance</Tabs.Trigger>
               <Tabs.Trigger value="monthly">Monthly Attendance</Tabs.Trigger>
@@ -896,8 +960,8 @@ const ReportPage = () => {
                         <Select.Positioner>
                           <Select.Content>
                             {courses.items.map((course, index) => (
-                              <Select.Item item={course} key={index}>
-                                {course}
+                              <Select.Item item={course.course_id} key={index}>
+                                {course.title}
                                 <Select.ItemIndicator />
                               </Select.Item>
                             ))}
@@ -907,8 +971,8 @@ const ReportPage = () => {
                     </Box>
                   </Flex>
                   <Button
-                    colorScheme="teal"
-                    onClick={generateReport}
+                    colorPalette="blue"
+                    onClick={generateDailyAttandance}
                     loading={isLoading}
                     loadingText="Generating..."
                   >
@@ -986,9 +1050,6 @@ const ReportPage = () => {
                     mb={6}
                   >
                     <Box flex={1}>
-                      <Text mb={2} fontWeight="medium">
-                        Month
-                      </Text>
                       <Select.Root
                         collection={months}
                         value={[selectedMonth]}
@@ -1007,8 +1068,8 @@ const ReportPage = () => {
                         <Select.Positioner>
                           <Select.Content>
                             {months.items.map((month, index) => (
-                              <Select.Item item={month} key={index}>
-                                {month}
+                              <Select.Item item={month.id} key={index}>
+                                {month.month}
                                 <Select.ItemIndicator />
                               </Select.Item>
                             ))}
@@ -1017,16 +1078,13 @@ const ReportPage = () => {
                       </Select.Root>
                     </Box>
                     <Box flex={1}>
-                      <Text mb={2} fontWeight="medium">
-                        Course
-                      </Text>
                       <Select.Root
                         collection={courses}
                         value={[selectedCourse]}
                         onValueChange={(e) => setSelectedCourse(e.value[0])}
                       >
                         <Select.HiddenSelect />
-                        <Select.Label>SCourse</Select.Label>
+                        <Select.Label>Course</Select.Label>
                         <Select.Control>
                           <Select.Trigger>
                             <Select.ValueText placeholder="Select course" />
@@ -1038,8 +1096,8 @@ const ReportPage = () => {
                         <Select.Positioner>
                           <Select.Content>
                             {courses.items.map((course, index) => (
-                              <Select.Item item={course} key={index}>
-                                {course}
+                              <Select.Item item={course.course_id} key={index}>
+                                {course.title}
                                 <Select.ItemIndicator />
                               </Select.Item>
                             ))}
@@ -1049,8 +1107,8 @@ const ReportPage = () => {
                     </Box>
                   </Flex>
                   <Button
-                    colorScheme="teal"
-                    onClick={generateReport}
+                    colorPalette="blue"
+                    onClick={generateMonthlyAttandance}
                     loading={isLoading}
                     loadingText="Generating..."
                   >
@@ -1108,7 +1166,7 @@ const ReportPage = () => {
                               <Table.Cell>{record.absent}</Table.Cell>
                               <Table.Cell>
                                 <Badge
-                                  colorScheme={
+                                  colorPalette={
                                     percentage > 80
                                       ? "green"
                                       : percentage > 60
