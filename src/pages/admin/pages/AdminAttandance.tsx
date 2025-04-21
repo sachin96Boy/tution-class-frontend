@@ -18,6 +18,14 @@ function AdminAttandance() {
   const { courses } = useSelector((state: RootState) => state.course);
   const { students } = useSelector((state: RootState) => state.student);
 
+  const {
+    loading,
+    studennt,
+    error,
+    courses: stCourses,
+    success,
+  } = useSelector((state: RootState) => state.attandance);
+
   let coursesSelectList: Array<IListItemProp> = courses?.map((course) => {
     return {
       key: course.course_id,

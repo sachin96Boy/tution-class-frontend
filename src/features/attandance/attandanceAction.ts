@@ -13,7 +13,7 @@ export type IgetCoursesBasedOnTime = {
 export type IMarkAttandance = {
     student_id: string;
     course_id: string;
-    date: Date;
+    date: Date | null;
 }
 
 const handleGetStudentDatabasedOnScannedId = async (values: IgetStudentBasedOnScannedCode, { rejectWithValue }: any) => {

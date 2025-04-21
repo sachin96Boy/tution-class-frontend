@@ -98,37 +98,39 @@ export const attandanceSlice = createSlice({
                 });
             }
         )
-        .addCase(
-            markAttandance.pending, (state) => {
-                state.loading = true
-                state.error = false
-            }
-        ).addCase(
-            markAttandance.fulfilled, (state, action) => {
-                state.loading = false
-                state.error = null
-                state.success = true;
+            .addCase(
+                markAttandance.pending, (state) => {
+                    state.loading = true
+                    state.error = false
+                }
+            ).addCase(
+                markAttandance.fulfilled, (state, action) => {
+                    state.loading = false
+                    state.error = null
+                    state.success = true;
 
-                toaster.create({
-                    type: 'success',
-                    title: action.payload.message
-                });
-            }
-        ).addCase(
-            markAttandance.rejected, (state, action) => {
-                state.loading = false;
-                state.error = true;
+                    toaster.create({
+                        type: 'success',
+                        title: action.payload.message
+                    });
+                }
+            ).addCase(
+                markAttandance.rejected, (state, action) => {
+                    state.loading = false;
+                    state.error = true;
 
-                const errorData = (action.payload as any)?.error || action.error.message;
+                    const errorData = (action.payload as any)?.error || action.error.message;
 
-                state.errorMsg = errorData;
+                    state.errorMsg = errorData;
 
-                toaster.create({
-                    type: 'error',
-                    title: state.errorMsg
-                });
-            }
-        )
+                    toaster.create({
+                        type: 'error',
+                        title: state.errorMsg
+                    });
+                }
+            )
 
     },
 });
+
+export default attandanceSlice.reducer

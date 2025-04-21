@@ -7,23 +7,34 @@ import { Form, Formik } from "formik";
 import { Field } from "@/components/ui/field";
 import InputWithSelect from "@/components/formcontrol/customInput/InputWithSelect";
 import { IListItemProp } from "@/features/config/configAction";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store";
+import { markAttandance } from "@/features/attandance/attandanceAction";
 
 type IattandanceMarksForm = {
   studentList: Array<IListItemProp>;
   courseList: Array<IListItemProp>;
 };
 
+type IinitialState = {
+  student_id: IListItemProp;
+  course_id: IListItemProp;
+  date: Date | null;
+};
+
 function AttandanceMarkForm(props: IattandanceMarksForm) {
+  const dispatch = useDispatch<AppDispatch>();
+
   const { studentList, courseList } = props;
 
-  const initialValues = {
+  const initialValues: IinitialState = {
     date: null,
-    studentId: {
+    student_id: {
       key: "",
       value: "",
       image_path: null,
     },
-    courseId: {
+    course_id: {
       key: "",
       value: "",
       image_path: null,
@@ -47,9 +58,16 @@ function AttandanceMarkForm(props: IattandanceMarksForm) {
       .max(new Date(), "Date Can't be in Future"),
   });
 
-  const onSubmit = async (values: any, action: any) => {
+  const onSubmit = async (values: IinitialState, action: any) => {
     try {
-      console.log(values);
+      await dispatch(
+        markAttandance({
+          course_id: values.course_id.key,
+          student_id: values.student_id.key,
+          date: values.date,
+        })
+      );
+
       action.setSubmitting(false);
       action.resetForm();
     } catch (err) {
@@ -68,34 +86,40 @@ function AttandanceMarkForm(props: IattandanceMarksForm) {
           <Form autoComplete="off">
             <VStack gap={4} width={"full"}>
               <InputWithSelect
-                htmlFor={"studentId"}
+                htmlFor={"student_id"}
                 labelText={"Student"}
                 InputType={"text"}
-                InputValue={formik.values.studentId.value}
+                InputValue={formik.values.student_id.value}
                 onBlur={formik.handleBlur}
                 placeHolder={"student"}
                 isTouched={
-                  formik.touched.studentId?.value ||
-                  formik.touched.studentId?.key
+                  formik.touched.student_id?.value ||
+                  formik.touched.student_id?.key
                 }
                 isError={
-                  formik.errors.studentId?.value || formik.errors.studentId?.key
+                  formik.errors.student_id?.value ||
+                  formik.errors.student_id?.key
                 }
                 formik={formik}
-                fieldValue={"studentId"}
+                fieldValue={"student_id"}
                 dataList={studentList}
               />
               <InputWithSelect
-                htmlFor={"courseId"}
+                htmlFor={"course_id"}
                 labelText={"Course"}
                 InputType={"text"}
-                InputValue={formik.values.courseId.value}
+                InputValue={formik.values.course_id.value}
                 onBlur={formik.handleBlur}
                 placeHolder={"course"}
-                isTouched={formik.touched.courseId?.value || formik.touched.courseId?.key}
-                isError={formik.errors.courseId?.value || formik.errors.courseId?.key}
+                isTouched={
+                  formik.touched.course_id?.value ||
+                  formik.touched.course_id?.key
+                }
+                isError={
+                  formik.errors.course_id?.value || formik.errors.course_id?.key
+                }
                 formik={formik}
-                fieldValue={"courseId"}
+                fieldValue={"course_id"}
                 dataList={courseList}
               />
 

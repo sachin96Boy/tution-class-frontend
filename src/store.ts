@@ -13,6 +13,7 @@ import accountReducer from './features/accounting/accountingSlice'
 import assignmentReducer from './features/assignment/assignmentSlice'
 import statReducer from './features/statistics/statisticsSlice'
 import reportReducer from './features/reports/reportSlice'
+import attandanceReducer from './features/attandance/attandanceSlice'
 
 export const store = configureStore({
   reducer: {
@@ -28,7 +29,8 @@ export const store = configureStore({
     account: accountReducer,
     assignment: assignmentReducer,
     stat: statReducer,
-    report: reportReducer
+    report: reportReducer,
+    attandance: attandanceReducer
   },
 })
 
