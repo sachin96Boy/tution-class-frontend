@@ -18,6 +18,8 @@ import {
   Badge,
   HStack,
   createListCollection,
+  Portal,
+  Field,
 } from "@chakra-ui/react";
 
 import { DateRangePicker } from "react-date-range";
@@ -50,6 +52,7 @@ import {
 
 const ReportPage = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const currentYear = new Date().getFullYear();
 
   const [activeTab, setActiveTab] = useState("payments");
   const [isLoading, setIsLoading] = useState(false);
@@ -62,6 +65,7 @@ const ReportPage = () => {
   ]);
   const [selectedCourse, setSelectedCourse] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedYear, setSelectedYear] = useState(currentYear);
 
   // Color mode values
   const cardBg = "white";
@@ -73,32 +77,53 @@ const ReportPage = () => {
   const { courses: corseData } = useSelector(
     (state: RootState) => state.course
   );
+  const {
+    loading,
+    dailyPayments: dp,
+    monthlyPayments: mp,
+    dailyExpences,
+    monthlyExpences,
+    dailyAttandance,
+    monthlyAttandance,
+  } = useSelector((state: RootState) => state.report);
+
+  console.log(monthlyExpences);
+
+  const getMonthName = (monthNumber: number) => {
+    const date = new Date();
+    date.setMonth(monthNumber - 1); // Months are 0-indexed in JS (0=Jan, 11=Dec)
+    return date.toLocaleString("default", { month: "long" }); // 'long' = full name (e.g., "January")
+  };
 
   useEffect(() => {
     dispatch(getAllCourses(""));
-  }, []);
+  }, [dispatch]);
 
   const courses = createListCollection({
     items: corseData,
+    itemToValue: (item) => item.course_id,
+    itemToString: (item) => item.title,
   });
 
   const monthsList = [
-    { id: 1, month: "January" },
-    { id: 2, month: "February" },
-    { id: 3, month: "March" },
-    { id: 4, month: "April" },
-    { id: 5, month: "May" },
-    { id: 6, month: "June" },
-    { id: 7, month: "July" },
-    { id: 8, month: "August" },
-    { id: 9, month: "September" },
-    { id: 10, month: "October" },
-    { id: 11, month: "November" },
-    { id: 12, month: "December" },
+    { id: "1", month: "January" },
+    { id: "2", month: "February" },
+    { id: "3", month: "March" },
+    { id: "4", month: "April" },
+    { id: "5", month: "May" },
+    { id: "6", month: "June" },
+    { id: "7", month: "July" },
+    { id: "8", month: "August" },
+    { id: "9", month: "September" },
+    { id: "10", month: "October" },
+    { id: "11", month: "November" },
+    { id: "12", month: "December" },
   ];
 
   const months = createListCollection({
     items: monthsList,
+    itemToValue: (item) => item.id,
+    itemToString: (item) => item.month,
   });
 
   const generateReport = () => {
@@ -123,109 +148,6 @@ const ReportPage = () => {
       duration: 2000,
     });
   };
-
-  // Mock report data
-  const dailyPayments = [
-    {
-      id: 1,
-      student: "John Doe",
-      course: "Web Development",
-      amount: 1500,
-      date: "2023-05-01",
-      method: "Cash",
-    },
-    {
-      id: 2,
-      student: "Jane Smith",
-      course: "Data Science",
-      amount: 2000,
-      date: "2023-05-01",
-      method: "Bank Transfer",
-    },
-    {
-      id: 3,
-      student: "Mike Johnson",
-      course: "Graphic Design",
-      amount: 1200,
-      date: "2023-05-01",
-      method: "Credit Card",
-    },
-  ];
-
-  const monthlyPayments = [
-    {
-      id: 1,
-      student: "John Doe",
-      course: "Web Development",
-      amount: 4500,
-      month: "April 2023",
-      status: "Paid",
-    },
-    {
-      id: 2,
-      student: "Jane Smith",
-      course: "Data Science",
-      amount: 6000,
-      month: "April 2023",
-      status: "Paid",
-    },
-    {
-      id: 3,
-      student: "Mike Johnson",
-      course: "Graphic Design",
-      amount: 3600,
-      month: "April 2023",
-      status: "Partial",
-    },
-  ];
-
-  const dailyExpenses = [
-    {
-      id: 1,
-      category: "Salaries",
-      amount: 5000,
-      date: "2023-05-01",
-      description: "Teaching staff",
-    },
-    {
-      id: 2,
-      category: "Utilities",
-      amount: 1200,
-      date: "2023-05-01",
-      description: "Electricity bill",
-    },
-    {
-      id: 3,
-      category: "Supplies",
-      amount: 800,
-      date: "2023-05-01",
-      description: "Stationery",
-    },
-  ];
-
-  const monthlyExpenses = [
-    {
-      id: 1,
-      category: "Salaries",
-      amount: 15000,
-      month: "April 2023",
-      description: "All staff",
-    },
-    {
-      id: 2,
-      category: "Rent",
-      amount: 10000,
-      month: "April 2023",
-      description: "Building rent",
-    },
-    {
-      id: 3,
-      category: "Marketing",
-      amount: 5000,
-      month: "April 2023",
-      description: "Online ads",
-    },
-  ];
 
   const dailyAttendance = [
     {
@@ -319,17 +241,35 @@ const ReportPage = () => {
     );
   };
   const generateMonthlyPaymentData = async () => {
+    if (selectedMonth == "" || selectedYear > currentYear) {
+      toaster.create({
+        type: "error",
+        title: "Please Select a valid Month or Year",
+      });
+      return;
+    }
+
     await dispatch(
       getMonthlyPayments({
         course_id: selectedCourse,
-        month: selectedMonth,
+        year: selectedYear,
+        month: parseInt(selectedMonth),
       })
     );
   };
   const generateMonthlyExpencesData = async () => {
+    if (selectedMonth == "" || selectedYear > currentYear) {
+      toaster.create({
+        type: "error",
+        title: "Please Select a valid Month or Year",
+      });
+      return;
+    }
+
     await dispatch(
       getMonthlyExpences({
-        month: selectedMonth,
+        month: parseInt(selectedMonth),
+        year: selectedYear,
       })
     );
   };
@@ -341,6 +281,15 @@ const ReportPage = () => {
       })
     );
   };
+
+  let LKRS = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "LKR",
+  });
+
+  let formatter = new Intl.DateTimeFormat("en-US", {
+    dateStyle: "full",
+  });
 
   return (
     <Box p={6}>
@@ -445,9 +394,9 @@ const ReportPage = () => {
                       <Select.Root
                         collection={courses}
                         value={[selectedCourse]}
-                        onValueChange={(e) =>
-                          setSelectedCourse(e.value[0] || "")
-                        }
+                        onValueChange={(e) => {
+                          setSelectedCourse(e.value[0]);
+                        }}
                       >
                         <Select.HiddenSelect />
                         <Select.Label>Course</Select.Label>
@@ -459,16 +408,18 @@ const ReportPage = () => {
                             <Select.Indicator />
                           </Select.IndicatorGroup>
                         </Select.Control>
-                        <Select.Positioner>
-                          <Select.Content>
-                            {courses.items.map((course, index) => (
-                              <Select.Item item={course.course_id} key={index}>
-                                {course.title}
-                                <Select.ItemIndicator />
-                              </Select.Item>
-                            ))}
-                          </Select.Content>
-                        </Select.Positioner>
+                        <Portal>
+                          <Select.Positioner>
+                            <Select.Content>
+                              {courses.items.map((course, index) => (
+                                <Select.Item item={course} key={index}>
+                                  {course.title}
+                                  <Select.ItemIndicator />
+                                </Select.Item>
+                              ))}
+                            </Select.Content>
+                          </Select.Positioner>
+                        </Portal>
                       </Select.Root>
                     </Box>
                   </Flex>
@@ -497,10 +448,9 @@ const ReportPage = () => {
                     <Flex justify="space-between" align="center">
                       <Heading size="md">Daily Payment Details</Heading>
                       <Text fontWeight="bold" color={totalPositiveColor}>
-                        Total: Rs
-                        {dailyPayments.reduce(
-                          (sum, item) => sum + item.amount,
-                          0
+                        Total : &nbsp;
+                        {LKRS.format(
+                          dp.reduce((sum, item) => sum + item.paid_amount, 0)
                         )}
                       </Text>
                     </Flex>
@@ -517,15 +467,23 @@ const ReportPage = () => {
                         </Table.Row>
                       </Table.Header>
                       <Table.Body>
-                        {dailyPayments.map((payment) => (
-                          <Table.Row key={payment.id}>
-                            <Table.Cell>{payment.student}</Table.Cell>
-                            <Table.Cell>{payment.course}</Table.Cell>
-                            <Table.Cell>₹{payment.amount}</Table.Cell>
-                            <Table.Cell>{payment.date}</Table.Cell>
-                            <Table.Cell>{payment.method}</Table.Cell>
-                          </Table.Row>
-                        ))}
+                        {dp.map((payment) => {
+                          const date = new Date(payment.paid_date);
+
+                          return (
+                            <Table.Row key={payment.id}>
+                              <Table.Cell>
+                                {payment.Student.full_name}
+                              </Table.Cell>
+                              <Table.Cell>{payment.Course.title}</Table.Cell>
+                              <Table.Cell>
+                                {LKRS.format(payment.paid_amount)}
+                              </Table.Cell>
+                              <Table.Cell>{formatter.format(date)}</Table.Cell>
+                              <Table.Cell>{"Cash"}</Table.Cell>
+                            </Table.Row>
+                          );
+                        })}
                       </Table.Body>
                     </Table.Root>
                   </Card.Body>
@@ -551,6 +509,18 @@ const ReportPage = () => {
                     mb={6}
                   >
                     <Box flex={1}>
+                      <Field.Root>
+                        <Field.Label>Year</Field.Label>
+                        <Input
+                          type="number"
+                          value={selectedYear}
+                          onChange={(e) =>
+                            setSelectedYear(Number(e.target.value))
+                          }
+                        />
+                      </Field.Root>
+                    </Box>
+                    <Box flex={1}>
                       <Select.Root
                         collection={months}
                         value={[selectedMonth]}
@@ -569,7 +539,7 @@ const ReportPage = () => {
                         <Select.Positioner>
                           <Select.Content>
                             {months.items.map((month, index) => (
-                              <Select.Item item={month.id} key={index}>
+                              <Select.Item item={month} key={index}>
                                 {month.month}
                                 <Select.ItemIndicator />
                               </Select.Item>
@@ -632,10 +602,9 @@ const ReportPage = () => {
                     <Flex justify="space-between" align="center">
                       <Heading size="md">Monthly Payment Details</Heading>
                       <Text fontWeight="bold" color={totalPositiveColor}>
-                        Total: Rs
-                        {monthlyPayments.reduce(
-                          (sum, item) => sum + item.amount,
-                          0
+                        Total: &nbsp;
+                        {LKRS.format(
+                          mp.reduce((sum, item) => sum + item.total_amount, 0)
                         )}
                       </Text>
                     </Flex>
@@ -648,18 +617,18 @@ const ReportPage = () => {
                           <Table.ColumnHeader>Course</Table.ColumnHeader>
                           <Table.ColumnHeader>Amount</Table.ColumnHeader>
                           <Table.ColumnHeader>Month</Table.ColumnHeader>
-                          <Table.ColumnHeader>Status</Table.ColumnHeader>
                         </Table.Row>
                       </Table.Header>
                       <Table.Body>
-                        {monthlyPayments.map((payment) => (
-                          <Table.Row key={payment.id}>
-                            <Table.Cell>{payment.student}</Table.Cell>
-                            <Table.Cell>{payment.course}</Table.Cell>
-                            <Table.Cell>₹{payment.amount}</Table.Cell>
-                            <Table.Cell>{payment.month}</Table.Cell>
+                        {mp.map((payment, index) => (
+                          <Table.Row key={index}>
+                            <Table.Cell>{payment.Student.full_name}</Table.Cell>
+                            <Table.Cell>{payment.Course.title}</Table.Cell>
                             <Table.Cell>
-                              {getStatusBadge(payment.status)}
+                              {LKRS.format(payment.total_amount)}
+                            </Table.Cell>
+                            <Table.Cell>
+                              {getMonthName(payment.month)}
                             </Table.Cell>
                           </Table.Row>
                         ))}
@@ -751,10 +720,12 @@ const ReportPage = () => {
                     <Flex justify="space-between" align="center">
                       <Heading size="md">Daily Expense Details</Heading>
                       <Text fontWeight="bold" color={totalNegativeColor}>
-                        Total: Rs
-                        {dailyExpenses.reduce(
-                          (sum, item) => sum + item.amount,
-                          0
+                        Total: &nbsp;
+                        {LKRS.format(
+                          dailyExpences.reduce(
+                            (sum, item) => sum + item.amount,
+                            0
+                          )
                         )}
                       </Text>
                     </Flex>
@@ -766,18 +737,27 @@ const ReportPage = () => {
                           <Table.ColumnHeader>Category</Table.ColumnHeader>
                           <Table.ColumnHeader>Amount</Table.ColumnHeader>
                           <Table.ColumnHeader>Date</Table.ColumnHeader>
-                          <Table.ColumnHeader>Description</Table.ColumnHeader>
+                          <Table.ColumnHeader>Teacher</Table.ColumnHeader>
                         </Table.Row>
                       </Table.Header>
                       <Table.Body>
-                        {dailyExpenses.map((expense, index) => (
-                          <Table.Row key={index}>
-                            <Table.Cell>{expense.category}</Table.Cell>
-                            <Table.Cell>₹{expense.amount}</Table.Cell>
-                            <Table.Cell>{expense.date}</Table.Cell>
-                            <Table.Cell>{expense.description}</Table.Cell>
-                          </Table.Row>
-                        ))}
+                        {dailyExpences.map((expense, index) => {
+                          const date = new Date(expense.date);
+                          return (
+                            <Table.Row key={index}>
+                              <Table.Cell>
+                                {expense.Expencetype.expence_type}
+                              </Table.Cell>
+                              <Table.Cell>
+                                {LKRS.format(expense.amount)}
+                              </Table.Cell>
+                              <Table.Cell>{formatter.format(date)}</Table.Cell>
+                              <Table.Cell>
+                                {expense.Teacher.full_name}
+                              </Table.Cell>
+                            </Table.Row>
+                          );
+                        })}
                       </Table.Body>
                     </Table.Root>
                   </Card.Body>
@@ -830,6 +810,18 @@ const ReportPage = () => {
                         </Select.Positioner>
                       </Select.Root>
                     </Box>
+                    <Box flex={1}>
+                      <Field.Root>
+                        <Field.Label>Year</Field.Label>
+                        <Input
+                          type="number"
+                          value={selectedYear}
+                          onChange={(e) =>
+                            setSelectedYear(Number(e.target.value))
+                          }
+                        />
+                      </Field.Root>
+                    </Box>
                   </Flex>
                   <Button
                     colorPalette="blue"
@@ -856,10 +848,12 @@ const ReportPage = () => {
                     <Flex justify="space-between" align="center">
                       <Heading size="md">Monthly Expense Details</Heading>
                       <Text fontWeight="bold" color={totalNegativeColor}>
-                        Total: Rs
-                        {monthlyExpenses.reduce(
-                          (sum, item) => sum + item.amount,
-                          0
+                        Total:
+                        {LKRS.format(
+                          monthlyExpences.reduce(
+                            (sum, item) => sum + item.amount,
+                            0
+                          )
                         )}
                       </Text>
                     </Flex>
@@ -871,16 +865,22 @@ const ReportPage = () => {
                           <Table.ColumnHeader>Category</Table.ColumnHeader>
                           <Table.ColumnHeader>Amount</Table.ColumnHeader>
                           <Table.ColumnHeader>Month</Table.ColumnHeader>
-                          <Table.ColumnHeader>Description</Table.ColumnHeader>
+                          <Table.ColumnHeader>Teacher</Table.ColumnHeader>
                         </Table.Row>
                       </Table.Header>
                       <Table.Body>
-                        {monthlyExpenses.map((expense) => (
-                          <Table.Row key={expense.id}>
-                            <Table.Cell>{expense.category}</Table.Cell>
-                            <Table.Cell>₹{expense.amount}</Table.Cell>
-                            <Table.Cell>{expense.month}</Table.Cell>
-                            <Table.Cell>{expense.description}</Table.Cell>
+                        {monthlyExpences.map((expense, index) => (
+                          <Table.Row key={index}>
+                            <Table.Cell>
+                              {expense.Expencetype.expence_type}
+                            </Table.Cell>
+                            <Table.Cell>
+                              {LKRS.format(expense.amount)}
+                            </Table.Cell>
+                            <Table.Cell>
+                              {getMonthName(expense.month)}
+                            </Table.Cell>
+                            <Table.Cell>{expense.Teacher.full_name}</Table.Cell>
                           </Table.Row>
                         ))}
                       </Table.Body>

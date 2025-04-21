@@ -3,7 +3,7 @@ import { IListItemProp } from "../config/configAction"
 import { ITeacherProps } from "../course/courseAction";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-type IExpenceType = {
+export type IExpenceType = {
     expence_type: string,
 }
 type IStudentProp = {

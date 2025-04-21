@@ -1,13 +1,38 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getDailyAtandance, getDailyExpences, getDailyPayments, getMonthlyAttandance, getMonthlyExpences, getMonthlyPayments } from "./reportAction";
 import { toaster } from "@/components/ui/toaster";
+import { IExpenceType, IgetExpence, IgetPayment } from "../accounting/accountingAction";
+import { IgetCourseProps, ITeacherProps } from "../course/courseAction";
+import { IstudentIdProps } from "../student/studentAction";
+
+type IStudentProp = {
+    student_id: string,
+    full_name: string,
+}
+
+type IgetMonthlyPayReport = {
+    Course: IgetCourseProps;
+    Student: IStudentProp;
+    course_id: string;
+    student_id: string;
+    month: number;
+    total_amount: number;
+}
+type IgetMonthlyExpReport = {
+    Teacher: ITeacherProps,
+    Expencetype: IExpenceType
+    expence_type: string,
+    teacher_id: string,
+    month: number,
+    amount: number
+}
 
 export type IreportInitialState = {
     loading: boolean;
-    dailyPayments: Array<any>;
-    monthlyPayments: Array<any>;
-    dailyExpences: Array<any>;
-    monthlyExpences: Array<any>;
+    dailyPayments: Array<IgetPayment>;
+    monthlyPayments: Array<IgetMonthlyPayReport>;
+    dailyExpences: Array<IgetExpence>;
+    monthlyExpences: Array<IgetMonthlyExpReport>;
     dailyAttandance: Array<any>;
     monthlyAttandance: Array<any>;
     error: boolean | null;
@@ -130,7 +155,7 @@ export const reportSlice = createSlice({
 
                 const monthlyExpence = action.payload.monthlyexpences
 
-                state.dailyExpences = monthlyExpence;
+                state.monthlyExpences = monthlyExpence;
             }
         ).addCase(
             getMonthlyExpences.rejected, (state, action) => {

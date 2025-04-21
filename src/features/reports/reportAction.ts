@@ -7,7 +7,8 @@ export type IcreateDailyPayments = {
     course_id: string
 }
 export type IcreateMonthlyPayments = {
-    month: String;
+    month: number;
+    year: number
     course_id: string
 }
 export type IcreateDailyExpences = {
@@ -15,7 +16,8 @@ export type IcreateDailyExpences = {
     end_date: string;
 }
 export type IcreateMonthlyExpences = {
-    month: String;
+    month: number;
+    year: number
 }
 export type IcreateDailyAttandance = {
     date: String;
@@ -51,6 +53,7 @@ const handleGetMonthlyPayments = async (values: IcreateMonthlyPayments, { reject
         return response.data;
 
     } catch (err: any) {
+
         return rejectWithValue(err.response.data);
     }
 }
@@ -79,6 +82,7 @@ const handleGetMonthlyExpences = async (values: IcreateMonthlyExpences, { reject
         return response.data;
 
     } catch (err: any) {
+        console.log(err)
         return rejectWithValue(err.response.data);
     }
 }
