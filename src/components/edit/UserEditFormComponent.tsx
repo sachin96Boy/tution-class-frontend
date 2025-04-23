@@ -6,6 +6,9 @@ import React from "react";
 
 import * as Yup from "yup";
 import InputComponent from "../formcontrol/customInput/InputComponent";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store";
+import { updateUser } from "@/features/users/userAction";
 
 type IeditUserInfo = {
   data: ICoporateUserInfo;
@@ -13,6 +16,8 @@ type IeditUserInfo = {
 
 function UserEditFormComponent(props: IeditUserInfo) {
   const { data } = props;
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const initialValues: ICoporateEditProps = {
     user_id: data.user_id,
@@ -28,8 +33,14 @@ function UserEditFormComponent(props: IeditUserInfo) {
   });
 
   const onSubmit = async (values: ICoporateEditProps, actions: any) => {
-    actions.setSubmitting(false);
-    actions.resetForm();
+    try {
+      const res = await dispatch(updateUser(values));
+
+      actions.setSubmitting(false);
+      actions.resetForm();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

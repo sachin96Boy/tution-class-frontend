@@ -12,7 +12,7 @@ type IuserTableBody = {
 };
 
 const UserTableCell = (payDataProps: ICoporateUserInfo) => {
-  const { isVerified, user_role_id, email, userName, user_id, id } =
+  const { isVerified, user_role_id, email, userName, id } =
     payDataProps;
 
   const handleChangeStatus = () => {};

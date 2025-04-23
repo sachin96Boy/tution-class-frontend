@@ -19,7 +19,7 @@ const handleupdateUser = async (values: ICoporateEditProps, { rejectWithValue }:
     try {
 
         const dataObj = {
-            "enc_user_id": values.user_id,
+            "user_id": values.user_id,
             "email": values.email,
             'username': values.userName
         }
@@ -39,7 +39,7 @@ const handlepassword_reset = async (values: ICoporateResetPasswordProps, { rejec
     try {
 
         const dataObj = {
-            "enc_user_id": values.user_id,
+            "user_id": values.user_id,
             "password": values.password
         }
 

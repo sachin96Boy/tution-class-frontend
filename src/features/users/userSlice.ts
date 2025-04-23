@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { toaster } from "@/components/ui/toaster";
 import { ICoporateUserInfo } from "../auth/authSlice";
-import { getAllUsers } from "./userAction";
+import { getAllUsers, reset_password, updateUser } from "./userAction";
 import { registerCoporateUser } from "../auth/authAction";
 
 export type IusersInitialState = {
@@ -72,6 +72,68 @@ export const userSlice = createSlice({
                 const newUser = action.payload.user;
 
                 state.users.push(newUser);
+            }
+        ).addCase(
+            updateUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            }
+        ).addCase(
+            updateUser.fulfilled, (state, action) => {
+                state.loading = false;
+                const user = action.payload.user;
+
+                let findex = state.users.findIndex((adv) => adv.id === user.id);
+
+                if (findex !== -1) {
+                    state.users[findex] = user;
+                }
+
+                toaster.create({
+                    type: 'success',
+                    title: action.payload.message
+                });
+            }
+        ).addCase(
+            updateUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
+        ).addCase(
+            reset_password.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            }
+        ).addCase(
+            reset_password.fulfilled, (state, action) => {
+                state.loading = false;
+                toaster.create({
+                    type: 'success',
+                    title: action.payload.message
+                });
+            }
+        ).addCase(
+            reset_password.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
             }
         )
 
