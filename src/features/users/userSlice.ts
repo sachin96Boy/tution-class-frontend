@@ -27,6 +27,18 @@ export const userSlice = createSlice({
     reducers: {
         userAdded(state, action) {
             state.users.push(action.payload);
+        },
+        applyAdvsearch(state, action) {
+            const searchPhrase = action.payload;
+            if (searchPhrase.trim() != '') {
+                const searchTerm = searchPhrase.toLowerCase();
+
+                const filteredData = state.users.filter(data => {
+                    return data.userName.toLowerCase().includes(searchTerm)
+                })
+
+                state.users = filteredData;
+            }
         }
     },
     extraReducers(builder) {
@@ -66,6 +78,6 @@ export const userSlice = createSlice({
     },
 });
 
-export const { userAdded } = userSlice.actions;
+export const { userAdded, applyAdvsearch } = userSlice.actions;
 
 export default userSlice.reducer

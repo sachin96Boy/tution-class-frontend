@@ -52,6 +52,8 @@ function AdminAccounting() {
     dispatch(getAllStudents(""));
   }, []);
 
+  
+
   return (
     <Flex gap={4} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
       <Tabs.Root

@@ -5,6 +5,7 @@ import UsersTableBody from "@/components/admin/users/UsersTableBody";
 import Spinner from "@/components/spinner/Spinner";
 import { ICoporateUserInfo } from "@/features/auth/authSlice";
 import { getAllUsers } from "@/features/users/userAction";
+import { applyAdvsearch } from "@/features/users/userSlice";
 import { AppDispatch, RootState } from "@/store";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -37,7 +38,9 @@ function AdminUsers() {
     dispatch(getAllUsers(""));
   }, [dispatch]);
 
-  const handleSearch = (value: string) => {};
+  const handleSearch = (value: string) => {
+    dispatch(applyAdvsearch(value));
+  };
 
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
@@ -56,7 +59,14 @@ function AdminUsers() {
         ) : (
           <OverlayTable
             title={"Users Data"}
-            captions={["UserId", "Usernme", "Role", "email", "Status"]}
+            captions={[
+              "UserId",
+              "Usernme",
+              "Role",
+              "email",
+              "Status",
+              "action",
+            ]}
             tableBodyComponent={<UsersTableBody data={items} />}
             data={users}
             currentPage={currentPage}

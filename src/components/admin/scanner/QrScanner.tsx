@@ -16,7 +16,6 @@ function QrScanner(props: IqrScanner) {
   const dispatch = useDispatch<AppDispatch>();
 
   const [result, setResult] = useState("");
-
   const [paused, setPaused] = useState(false);
 
   const handleScannedId = async () => {

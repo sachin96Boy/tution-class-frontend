@@ -14,6 +14,15 @@ export type ICoporateregisterProps = {
     userType: Array<string>,
     password: string
 }
+export type ICoporateEditProps = {
+    user_id: string;
+    userName: string;
+    email: string;
+}
+export type ICoporateResetPasswordProps = {
+    user_id: string;
+    password: string;
+}
 
 
 export type IloginProps = {

@@ -4,9 +4,19 @@ import { IListItemProp } from "@/features/config/configAction";
 import { getAllCourses } from "@/features/course/courseAction";
 import { getAllStudents } from "@/features/student/studentAction";
 import { AppDispatch, RootState } from "@/store";
-import { Button, Card, Center, Flex, Icon, Tabs, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Card,
+  Center,
+  Flex,
+  Icon,
+  Portal,
+  Tabs,
+  Text,
+} from "@chakra-ui/react";
 import { Pen, QrCode } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -50,6 +60,16 @@ function AdminAttandance() {
     setShowScanner(!showScanner);
   };
 
+  const containerRef = useRef(null);
+
+  const HandlePopUp = () => {
+    return (
+      <Portal container={containerRef}>
+        <Box>Portal content</Box>
+      </Portal>
+    );
+  };
+
   const CustomQRCardComponent = () => {
     return (
       <Card.Root maxW={"lg"}>
@@ -59,7 +79,9 @@ function AdminAttandance() {
           </Button>
         </Card.Header>
         <Card.Body>
+          <HandlePopUp />
           <QrScanner visibility={showScanner} />
+          <Box ref={containerRef} />
         </Card.Body>
       </Card.Root>
     );

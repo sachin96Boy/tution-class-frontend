@@ -23,7 +23,32 @@ const initialState: IaccountInitialState = {
 export const accountSlice = createSlice({
     name: 'account',
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        applyAdvsearchPayments(state, action) {
+            const searchPhrase = action.payload;
+            if (searchPhrase.trim() != '') {
+                const searchTerm = searchPhrase.toLowerCase();
+
+                const filteredData = state.payments.filter(data => {
+                    return data.Student.full_name.toLowerCase().includes(searchTerm)
+                })
+
+                state.payments = filteredData;
+            }
+        },
+        applyAdvsearchExpences(state, action) {
+            const searchPhrase = action.payload;
+            if (searchPhrase.trim() != '') {
+                const searchTerm = searchPhrase.toLowerCase();
+
+                const filteredData = state.expences.filter(data => {
+                    return data.Teacher.full_name.toLowerCase().includes(searchTerm)
+                })
+
+                state.expences = filteredData;
+            }
+        },
+    },
     extraReducers(builder) {
         builder.addCase(
             getAllPayments.pending, (state) => {
@@ -144,5 +169,8 @@ export const accountSlice = createSlice({
         )
     },
 });
+
+export const { applyAdvsearchExpences, applyAdvsearchPayments } = accountSlice.actions;
+
 
 export default accountSlice.reducer
