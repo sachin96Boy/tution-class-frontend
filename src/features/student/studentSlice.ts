@@ -3,12 +3,13 @@ import { toaster } from "@/components/ui/toaster";
 
 
 import { IUserInfo } from "../auth/authSlice";
-import { changeStudentStatus, getAdditionalStudentData, getAllStudents, IStudentAdditionalData, updateAdditionalStudentData, updateStudentData } from "./studentAction";
+import { changeStudentStatus, getAdditionalStudentData, getAllStudents, getNicData, INicData, IStudentAdditionalData, updateAdditionalStudentData, updateStudentData } from "./studentAction";
 
 export type IusersInitialState = {
     loading: boolean;
     students: Array<IUserInfo>;
     additionalStudentData: IStudentAdditionalData | null;
+    studentNicData: INicData | null;
     error: boolean | null;
     errorMsg: string;
     success: boolean;
@@ -19,6 +20,7 @@ const initialState: IusersInitialState = {
     loading: false,
     students: [],
     additionalStudentData: null,
+    studentNicData: null,
     error: null,
     errorMsg: '',
     success: false
@@ -177,6 +179,34 @@ export const studentSlice = createSlice({
             }
         ).addCase(
             changeStudentStatus.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
+        ).addCase(
+            getNicData.pending, (state) => {
+                state.loading = true
+                state.error = null
+            }
+        ).addCase(
+            getNicData.fulfilled, (state, action) => {
+                state.loading = false
+                state.error = null
+
+                const nicData = action.payload.studentNicData
+                state.studentNicData = nicData
+
+            }
+        ).addCase(
+            getNicData.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
 

@@ -22,6 +22,7 @@ import {
 import Spinner from "@/components/spinner/Spinner";
 import CarousaComponent from "@/components/carousel/CarousaComponent";
 import { EmblaOptionsType } from "embla-carousel";
+import { Helmet } from "react-helmet";
 
 // Motion components
 const MotionBox = motion.create(Box);
@@ -105,6 +106,12 @@ function HomePage() {
       animate="show"
       variants={container}
     >
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{company[0].name}</title>
+        <meta name="description" content={company[0].email} />
+        <meta name="keywords" content={`s{company[0].code}`}></meta>
+      </Helmet>
       {/* Top Section */}
       <MotionFlex
         flexDirection={["column", "column", "row"]}

@@ -1,6 +1,7 @@
 import axiosInstance from "@/utils/AxiosInstans";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IStudentUserEditProps } from "../auth/authAction";
+import { string } from "yup";
 
 export type IUpdateStudentAdditionalDataProps = {
     enc_student_id: string;
@@ -28,6 +29,15 @@ export type IStudentAdditionalData = {
     address: string;
     mobile1: string;
     mobile2: string;
+}
+
+export type INicData = {
+    id: string;
+    student_id: string;
+    nic_front: string;
+    nic_back: string;
+    nic_selfie: string;
+    is_verified: boolean;
 }
 
 export type IstudentIdProps = {
@@ -131,16 +141,27 @@ const handle_student_change_status = async (values: IstudentIdProps, { rejectWit
 
 const handleGetAdditionalStudentData = async (value: IstudentIdProps, { rejectWithValue }: any) => {
     try {
-
-        const { enc_student_id } = value;
-
         const response = await axiosInstance.post(
             'student/getAdditionalStudentDataById',
-            enc_student_id,
+            value,
         );
 
         return response.data;
     } catch (err: any) {
+
+        return rejectWithValue(err.response.data);
+    }
+}
+const handleGetNicData = async (value: IstudentIdProps, { rejectWithValue }: any) => {
+    try {
+        const response = await axiosInstance.post(
+            'student/getNicDataByStudentId',
+            value,
+        );
+
+        return response.data;
+    } catch (err: any) {
+
         return rejectWithValue(err.response.data);
     }
 }
@@ -150,11 +171,13 @@ const updateStudentData = createAsyncThunk('student/updateStudentData', handleUp
 const changeStudentStatus = createAsyncThunk('student/changeStudentStatus', handle_student_change_status);
 const updateAdditionalStudentData = createAsyncThunk('student/updateAditionalStudentData', handleUpdateAdditionalData);
 const getAdditionalStudentData = createAsyncThunk('student/getAdditionalStudentData', handleGetAdditionalStudentData);
+const getNicData = createAsyncThunk('student/getnicData', handleGetNicData);
 
 export {
     getAllStudents,
     updateAdditionalStudentData,
     getAdditionalStudentData,
     updateStudentData,
-    changeStudentStatus
+    changeStudentStatus,
+    getNicData
 }

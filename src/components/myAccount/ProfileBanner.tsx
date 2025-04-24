@@ -121,30 +121,33 @@ function ProfileBanner({
             </Text>
           </Heading>
           <Flex gap={5}>
-            <Flex align={"center"} gap={1}>
-              {" "}
-              <ShieldCheck style={{ color: "#2ECC71" }} />
-              <Text
-                fontFamily={"body"}
-                color="#2ECC71"
-                fontSize={["16px", "18px"]}
-                fontWeight={"500"}
-              >
-                Verified
-              </Text>
-            </Flex>
-            <Flex align={"center"} gap={1}>
-              {" "}
-              <ShieldQuestion style={{ color: "#F1C40F" }} />
-              <Text
-                fontFamily={"body"}
-                color="#F1C40F"
-                fontSize={["16px", "18px"]}
-                fontWeight={"500"}
-              >
-                Verification Pending
-              </Text>
-            </Flex>
+            {!userInfo?.isVerified ? (
+              <Flex align={"center"} gap={1}>
+                {" "}
+                <ShieldQuestion style={{ color: "#F1C40F" }} />
+                <Text
+                  fontFamily={"body"}
+                  color="#F1C40F"
+                  fontSize={["16px", "18px"]}
+                  fontWeight={"500"}
+                >
+                  Verification Pending
+                </Text>
+              </Flex>
+            ) : (
+              <Flex align={"center"} gap={1}>
+                {" "}
+                <ShieldCheck style={{ color: "#2ECC71" }} />
+                <Text
+                  fontFamily={"body"}
+                  color="#2ECC71"
+                  fontSize={["16px", "18px"]}
+                  fontWeight={"500"}
+                >
+                  Verified
+                </Text>
+              </Flex>
+            )}
           </Flex>
         </Flex>
       </Flex>

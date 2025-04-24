@@ -38,7 +38,7 @@ function Support() {
       width={"full"}
       variant="enclosed"
       fitted
-      defaultValue={"tab-1"}
+      defaultValue={"support"}
       padding={"4"}
     >
       <Tabs.List>
