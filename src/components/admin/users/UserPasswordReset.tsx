@@ -2,9 +2,12 @@ import { Field } from "@/components/ui/field";
 import { PasswordInput } from "@/components/ui/password-input";
 import { ICoporateResetPasswordProps } from "@/features/auth/authAction";
 import { ICoporateUserInfo } from "@/features/auth/authSlice";
+import { reset_password } from "@/features/users/userAction";
+import { AppDispatch } from "@/store";
 import { Button, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import React from "react";
+import { useDispatch } from "react-redux";
 
 import * as Yup from "yup";
 
@@ -14,6 +17,8 @@ type IeditUserInfo = {
 
 function UserPasswordReset(props: IeditUserInfo) {
   const { data } = props;
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const initialValues: ICoporateResetPasswordProps = {
     user_id: data.user_id,
@@ -33,6 +38,8 @@ function UserPasswordReset(props: IeditUserInfo) {
     values: ICoporateResetPasswordProps,
     actions: any
   ) => {
+    const res = await dispatch(reset_password(values));
+
     actions.setSubmitting(false);
     actions.resetForm();
   };

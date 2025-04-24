@@ -6,16 +6,27 @@ import { LockKeyholeOpen, Pencil, RefreshCw, Trash2 } from "lucide-react";
 import AlertDialog from "@/components/alertDialog/AlertDialog";
 import UserEditFormComponent from "@/components/edit/UserEditFormComponent";
 import UserPasswordReset from "./UserPasswordReset";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store";
+import { change_status } from "@/features/users/userAction";
 
 type IuserTableBody = {
   data: Array<ICoporateUserInfo>;
 };
 
 const UserTableCell = (payDataProps: ICoporateUserInfo) => {
-  const { isVerified, user_role_id, email, userName, id } =
+  const { isVerified, user_role_id, email, userName, user_id, id } =
     payDataProps;
 
-  const handleChangeStatus = () => {};
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleChangeStatus = async () => {
+    await dispatch(
+      change_status({
+        user_id: user_id,
+      })
+    );
+  };
 
   return (
     <Table.Row p={2}>

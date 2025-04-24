@@ -49,7 +49,15 @@ function Students() {
         ) : (
           <OverlayTable
             title={"Student Data"}
-            captions={["UserId", "Fullname", "Role", "email", "QR", "Status"]}
+            captions={[
+              "UserId",
+              "Fullname",
+              "Role",
+              "email",
+              "QR",
+              "Status",
+              "Action",
+            ]}
             tableBodyComponent={<StudentsTableBody data={items} />}
             data={students}
             currentPage={currentPage}

@@ -18,8 +18,11 @@ import "react-photo-view/dist/react-photo-view.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+import { Analytics } from "@vercel/analytics/react";
+
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
+    <Analytics />
     <UIProvider>
       <Router>
         <Provider store={store}>

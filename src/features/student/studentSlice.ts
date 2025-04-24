@@ -3,7 +3,7 @@ import { toaster } from "@/components/ui/toaster";
 
 
 import { IUserInfo } from "../auth/authSlice";
-import { getAdditionalStudentData, getAllStudents, IStudentAdditionalData, updateAdditionalStudentData } from "./studentAction";
+import { changeStudentStatus, getAdditionalStudentData, getAllStudents, IStudentAdditionalData, updateAdditionalStudentData, updateStudentData } from "./studentAction";
 
 export type IusersInitialState = {
     loading: boolean;
@@ -101,6 +101,82 @@ export const studentSlice = createSlice({
             }
         ).addCase(
             getAdditionalStudentData.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
+        ).addCase(
+            updateStudentData.pending, (state) => {
+                state.loading = true
+                state.error = null
+            }
+        ).addCase(
+            updateStudentData.fulfilled, (state, action) => {
+                state.loading = false
+                state.error = null
+
+                const updatedStudent = action.payload.student
+
+
+                let findex = state.students.findIndex((adv) => adv.id === updatedStudent.id);
+
+                if (findex !== -1) {
+                    state.students[findex] = updatedStudent;
+                }
+
+                toaster.create({
+                    type: 'success',
+                    title: action.payload.message
+                });
+            }
+        ).addCase(
+            updateStudentData.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
+        ).addCase(
+            changeStudentStatus.pending, (state) => {
+                state.loading = true
+                state.error = null
+            }
+        ).addCase(
+            changeStudentStatus.fulfilled, (state, action) => {
+                state.loading = false
+                state.error = null
+
+                const updatedStudent = action.payload.student
+
+
+                let findex = state.students.findIndex((adv) => adv.id === updatedStudent.id);
+
+                if (findex !== -1) {
+                    state.students[findex] = updatedStudent;
+                }
+
+                toaster.create({
+                    type: 'success',
+                    title: action.payload.message
+                });
+            }
+        ).addCase(
+            changeStudentStatus.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
 

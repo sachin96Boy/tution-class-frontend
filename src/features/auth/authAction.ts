@@ -8,6 +8,11 @@ export type IregisterProps = {
     phone: string,
     password: string
 }
+export type IStudentUserEditProps = {
+    student_id: string;
+    fullName: string;
+    email: string,
+}
 export type ICoporateregisterProps = {
     userName: string;
     email: string,
@@ -23,7 +28,9 @@ export type ICoporateResetPasswordProps = {
     user_id: string;
     password: string;
 }
-
+export type ICoporateRChangeStatusProps = {
+    user_id: string;
+}
 
 export type IloginProps = {
     emailOrMobile: string,

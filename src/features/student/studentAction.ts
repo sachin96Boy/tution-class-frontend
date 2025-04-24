@@ -1,5 +1,6 @@
 import axiosInstance from "@/utils/AxiosInstans";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { IStudentUserEditProps } from "../auth/authAction";
 
 export type IUpdateStudentAdditionalDataProps = {
     enc_student_id: string;
@@ -89,8 +90,46 @@ const handleUpdateAdditionalData = async (value: IUpdateStudentAdditionalDataPro
         return rejectWithValue(err.response.data);
     }
 }
+const handleUpdateStudentData = async (value: IStudentUserEditProps, { rejectWithValue }: any) => {
+    try {
 
-const handleGetAdditionalStudentData = async (value: IstudentIdProps,  { rejectWithValue }: any) => {
+        const { email, fullName, student_id } = value;
+
+        const dataObj = {
+            enc_student_id: student_id,
+            email: email,
+            full_name: fullName
+        }
+
+        const response = await axiosInstance.put(
+            'student/updateStudent',
+            dataObj,
+        );
+
+        return response.data;
+
+
+    } catch (err: any) {
+        return rejectWithValue(err.response.data);
+    }
+}
+
+const handle_student_change_status = async (values: IstudentIdProps, { rejectWithValue }: any) => {
+    try {
+
+        const response = await axiosInstance.post(
+            'student/changeStudentStatus',
+            values
+        );
+
+        return response.data;
+
+    } catch (err: any) {
+        return rejectWithValue(err.response.data);
+    }
+}
+
+const handleGetAdditionalStudentData = async (value: IstudentIdProps, { rejectWithValue }: any) => {
     try {
 
         const { enc_student_id } = value;
@@ -107,11 +146,15 @@ const handleGetAdditionalStudentData = async (value: IstudentIdProps,  { rejectW
 }
 
 const getAllStudents = createAsyncThunk('student/getAllStudents', handleGetAllStudents);
+const updateStudentData = createAsyncThunk('student/updateStudentData', handleUpdateStudentData);
+const changeStudentStatus = createAsyncThunk('student/changeStudentStatus', handle_student_change_status);
 const updateAdditionalStudentData = createAsyncThunk('student/updateAditionalStudentData', handleUpdateAdditionalData);
 const getAdditionalStudentData = createAsyncThunk('student/getAdditionalStudentData', handleGetAdditionalStudentData);
 
 export {
     getAllStudents,
     updateAdditionalStudentData,
-    getAdditionalStudentData
+    getAdditionalStudentData,
+    updateStudentData,
+    changeStudentStatus
 }
