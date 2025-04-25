@@ -53,7 +53,7 @@ function AdminTeachers() {
             currentPage={currentPage}
             handlePageChange={handleChange}
             title={"Teacher Data"}
-            captions={["TeacherId", "Full Name", "description"]}
+            captions={["#", "Full Name", "description", "Action"]}
             tableBodyComponent={<TeacherTableBody data={items} />}
             data={teachers}
             handleSearch={handleSearh}

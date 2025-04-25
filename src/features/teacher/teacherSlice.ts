@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { createTeacher, getAllTeachers, getTeacherById, IteacherGetProps } from "./teacherAction";
+import { createTeacher, getAllTeachers, getTeacherById, IteacherGetProps, updateTeacher } from "./teacherAction";
 import { toaster } from "@/components/ui/toaster";
 
 export type IteachersInitialState = {
@@ -98,10 +98,47 @@ export const teacherSlice = createSlice({
                 const newTeacher = action.payload.teacher;
 
                 state.selectedTeacher = newTeacher;
-                
+
             }
         ).addCase(
             getTeacherById.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
+        ).addCase(
+            updateTeacher.pending, (state) => {
+                state.loading = true
+                state.error = false
+            }
+        ).addCase(
+            updateTeacher.fulfilled, (state, action) => {
+                state.loading = false
+                state.error = null
+
+                const updatedTeacher = action.payload.teacher;
+
+                let findex = state.teachers.findIndex((adv) => adv.id === updatedTeacher.id);
+
+                if (findex !== -1) {
+                    state.teachers[findex] = updatedTeacher;
+                }
+
+                toaster.create({
+                    type: 'success',
+                    title: action.payload.message
+                });
+            }
+        ).addCase(
+            updateTeacher.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
 
