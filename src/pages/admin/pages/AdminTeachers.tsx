@@ -4,12 +4,15 @@ import OverlayTable from "@/components/admin/tables/OverlayTable";
 import TeacherTableBody from "@/components/admin/teacher/TeacherTableBody";
 import Spinner from "@/components/spinner/Spinner";
 import { IteacherGetProps } from "@/features/teacher/teacherAction";
-import { RootState } from "@/store";
+import { applyAdvsearch } from "@/features/teacher/teacherSlice";
+import { AppDispatch, RootState } from "@/store";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function AdminTeachers() {
+  const dispatch = useDispatch<AppDispatch>();
+
   const { loading, teachers } = useSelector(
     (state: RootState) => state.teacher
   );
@@ -32,7 +35,9 @@ function AdminTeachers() {
     });
   }, [teachers]);
 
-  const handleSearh = () => {};
+  const handleSearh = (value: string) => {
+    dispatch(applyAdvsearch(value));
+  };
 
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>

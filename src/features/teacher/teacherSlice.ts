@@ -23,7 +23,20 @@ const initialState: IteachersInitialState = {
 export const teacherSlice = createSlice({
     name: 'teacher',
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        applyAdvsearch(state, action) {
+            const searchPhrase = action.payload;
+            if (searchPhrase.trim() != '') {
+                const searchTerm = searchPhrase.toLowerCase();
+
+                const filteredData = state.teachers.filter(data => {
+                    return data.full_name.toLowerCase().includes(searchTerm)
+                })
+
+                state.teachers = filteredData;
+            }
+        }
+    },
     extraReducers(builder) {
         builder.addCase(
             getAllTeachers.pending, (state) => {
@@ -154,5 +167,8 @@ export const teacherSlice = createSlice({
         )
     },
 });
+
+export const { applyAdvsearch } = teacherSlice.actions;
+
 
 export default teacherSlice.reducer

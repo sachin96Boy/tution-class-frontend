@@ -48,8 +48,8 @@ function AdminDashboard() {
       >
         <OverlayBanner
           backgroundImage={bgImg}
-          title={"Main Advertisment Banner"}
-          description={"Update Main Advertisment on Student Dashboard"}
+          title={"Welcome Back"}
+          description={"Manage your work and Get insights through our Dashboard"}
         />
         <Wrap>
           <NavLink to={"/admin/advertisments"}>
