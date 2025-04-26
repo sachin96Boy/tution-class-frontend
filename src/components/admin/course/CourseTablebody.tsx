@@ -105,16 +105,14 @@ const CourseTableCell = (courseDataProps: IgetCourseProps) => {
       </Table.Cell>
       <Table.Cell pl="0px">
         <Link to={`/admin/courses/data?id=${encodedId}`}>
-          <IconButton
+          <Button
             variant={"ghost"}
             fontSize="sm"
             color="gray.400"
             fontWeight="normal"
           >
-            <Tooltip content="Visit">
-              <LogIn />
-            </Tooltip>
-          </IconButton>
+            Visit <LogIn />
+          </Button>
         </Link>
         <Modalsheet
           buttonText={"Edit Course"}
