@@ -40,6 +40,9 @@ function AdminUsers() {
 
   const handleSearch = (value: string) => {
     dispatch(applyAdvsearch(value));
+    if (value.trim() === "") {
+      dispatch(getAllUsers(""));
+    }
   };
 
   return (

@@ -31,71 +31,9 @@ import {
 } from "lucide-react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
 import AdminDrawer from "../drawer/AdminDrawer";
 
-const navLinks = [
-  {
-    title: "Dashboard",
-    icon: <House />,
-    path: "/admin/dashboard",
-    route: "dashboard",
-  },
-  {
-    title: "Attandance",
-    icon: <CalendarCheck />,
-    path: "/admin/attandance",
-    route: "attandance",
-  },
-  {
-    title: "Accounting",
-    icon: <Banknote />,
-    path: "/admin/accounting",
-    route: "accounting",
-  },
-  {
-    title: "Reports",
-    icon: <ClipboardPlus />,
-    path: "/admin/reports",
-    route: "reports",
-  },
-  {
-    title: "Users",
-    icon: <Users />,
-    path: "/admin/users",
-    route: "users",
-  },
-  {
-    title: "Students",
-    icon: <GraduationCap />,
-    path: "/admin/students",
-    route: "students",
-  },
-  {
-    title: "Teachers",
-    icon: <UserRoundPen />,
-    path: "/admin/teachers",
-    route: "teachers",
-  },
-  {
-    title: "Time Table",
-    icon: <Sheet />,
-    path: "/admin/time-table",
-    route: "time-table",
-  },
-  {
-    title: "Assignments",
-    icon: <BookA />,
-    path: "/admin/assignments",
-    route: "assignments",
-  },
-  {
-    title: "Courses",
-    icon: <BookOpen />,
-    path: "/admin/courses",
-    route: "courses",
-  },
-];
+
 
 export default function Navbar() {
   const dispatch = useDispatch<AppDispatch>();

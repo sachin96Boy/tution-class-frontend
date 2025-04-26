@@ -4,6 +4,7 @@ import OverlayTable from "@/components/admin/tables/OverlayTable";
 import Spinner from "@/components/spinner/Spinner";
 import { IUserInfo } from "@/features/auth/authSlice";
 import { getAllStudents } from "@/features/student/studentAction";
+import { applyAdvsearch } from "@/features/student/studentSlice";
 import { getAllUsers } from "@/features/users/userAction";
 import { AppDispatch, RootState } from "@/store";
 import { Box, Flex } from "@chakra-ui/react";
@@ -39,7 +40,12 @@ function Students() {
     dispatch(getAllStudents(""));
   }, [dispatch]);
 
-  const handleSearch = (value: string) => {};
+  const handleSearch = (value: string) => {
+    dispatch(applyAdvsearch(value));
+    if (value.trim() === "") {
+      dispatch(getAllStudents(""));
+    }
+  };
 
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
@@ -55,6 +61,7 @@ function Students() {
               "Role",
               "email",
               "QR",
+              "Advance",
               "Status",
               "Action",
             ]}

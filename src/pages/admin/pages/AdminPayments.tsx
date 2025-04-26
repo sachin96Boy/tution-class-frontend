@@ -52,6 +52,9 @@ function AdminPayments(props: IAdminPaymentsProps) {
 
   const handleSearch = (value: string) => {
     dispatch(applyAdvsearchPayments(value));
+    if (value.trim() === "") {
+      dispatch(getAllPayments(""));
+    }
   };
 
   return (

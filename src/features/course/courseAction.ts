@@ -92,6 +92,10 @@ export type IstudentCourses = {
 type getCourseDataByIdProps = {
     enc_course_id: string
 }
+type getisCourseRequestedbyIdProps = {
+    enc_course_id: string
+    enc_student_id: string
+}
 export type getCourseDataByTeacherandSubjectProps = {
     teacher_id: IListItemProp
     subject_id: IListItemProp
@@ -103,6 +107,35 @@ const handleGetCourseDataByCourseId = async (values: getCourseDataByIdProps, { r
 
         const response = await axiosInstance.post(
             'course/getCourseDataByCourseId',
+            values
+        );
+        return response.data;
+
+    } catch (err: any) {
+
+        return rejectWithValue(err.response.data);
+    }
+}
+const handleRequestCourseAccess = async (values: getisCourseRequestedbyIdProps, { rejectWithValue }: any) => {
+    try {
+
+        const response = await axiosInstance.post(
+            'course/requestCourseAccess',
+            values
+        );
+
+        return response.data;
+
+    } catch (err: any) {
+
+        return rejectWithValue(err.response.data);
+    }
+}
+const handleCheckAccessedCoursebyCourseId = async (values: getisCourseRequestedbyIdProps, { rejectWithValue }: any) => {
+    try {
+
+        const response = await axiosInstance.post(
+            'course/checkAccessedCoursebyCourseId',
             values
         );
 
@@ -384,6 +417,8 @@ const handleUpdateCourseData = async (values: IUpdateCourseDataProps, { rejectWi
 const getAllCourses = createAsyncThunk('course/getAllCourses', handleGetAllCourses);
 const getStudentCourses = createAsyncThunk('course/getStudentCourses', handleGetStudentCourses);
 const getcoursebyCourseId = createAsyncThunk('course/getCourseByCourseId', handleGetCourseByCourseId);
+const requestCourseAccess = createAsyncThunk('course/requestCourseAccess', handleRequestCourseAccess);
+const checkAccessedCoursebyCourseId = createAsyncThunk('course/checkAccessedCoursebyCourseId', handleCheckAccessedCoursebyCourseId);
 const getcourseDatabyCourseId = createAsyncThunk('course/getCourseDataByCourseId', handleGetCourseDataByCourseId);
 const getStudentcourseDatabyCourseId = createAsyncThunk('course/getStudentCourseDataByCourseId', handleGetStudentCourseDataByCourseId);
 const getcourseDatabyTeacherandSubject = createAsyncThunk('course/getCourseDataByTeacherandSubject', handleGetCourseDataByTeacherandSubject);
@@ -401,6 +436,8 @@ export {
     getStudentCourses,
     getcourseDatabyTeacherandSubject,
     getStudentcourseDatabyCourseId,
+    checkAccessedCoursebyCourseId,
     getcoursebyCourseId,
+    requestCourseAccess,
     updateCourse
 }

@@ -3,6 +3,12 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IStudentUserEditProps } from "../auth/authAction";
 import { string } from "yup";
 
+type IstudentProps = {
+    student_id: string;
+    full_name: string;
+    isVerified: boolean
+}
+
 export type IUpdateStudentAdditionalDataProps = {
     enc_student_id: string;
     school: string;
@@ -29,6 +35,7 @@ export type IStudentAdditionalData = {
     address: string;
     mobile1: string;
     mobile2: string;
+    Student: IstudentProps
 }
 
 export type INicData = {
@@ -139,6 +146,19 @@ const handle_student_change_status = async (values: IstudentIdProps, { rejectWit
     }
 }
 
+const handleGetStudentDataById = async (value: IstudentIdProps, { rejectWithValue }: any) => {
+    try {
+        const response = await axiosInstance.post(
+            'student/getStudentbyId',
+            value,
+        );
+
+        return response.data;
+    } catch (err: any) {
+
+        return rejectWithValue(err.response.data);
+    }
+}
 const handleGetAdditionalStudentData = async (value: IstudentIdProps, { rejectWithValue }: any) => {
     try {
         const response = await axiosInstance.post(
@@ -169,6 +189,7 @@ const handleGetNicData = async (value: IstudentIdProps, { rejectWithValue }: any
 const getAllStudents = createAsyncThunk('student/getAllStudents', handleGetAllStudents);
 const updateStudentData = createAsyncThunk('student/updateStudentData', handleUpdateStudentData);
 const changeStudentStatus = createAsyncThunk('student/changeStudentStatus', handle_student_change_status);
+const getStudentDataById = createAsyncThunk('student/getStudentDatabyId', handleGetStudentDataById);
 const updateAdditionalStudentData = createAsyncThunk('student/updateAditionalStudentData', handleUpdateAdditionalData);
 const getAdditionalStudentData = createAsyncThunk('student/getAdditionalStudentData', handleGetAdditionalStudentData);
 const getNicData = createAsyncThunk('student/getnicData', handleGetNicData);
@@ -179,5 +200,6 @@ export {
     getAdditionalStudentData,
     updateStudentData,
     changeStudentStatus,
+    getStudentDataById,
     getNicData
 }

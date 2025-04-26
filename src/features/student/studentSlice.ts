@@ -3,11 +3,12 @@ import { toaster } from "@/components/ui/toaster";
 
 
 import { IUserInfo } from "../auth/authSlice";
-import { changeStudentStatus, getAdditionalStudentData, getAllStudents, getNicData, INicData, IStudentAdditionalData, updateAdditionalStudentData, updateStudentData } from "./studentAction";
+import { changeStudentStatus, getAdditionalStudentData, getAllStudents, getNicData, getStudentDataById, INicData, IStudentAdditionalData, updateAdditionalStudentData, updateStudentData } from "./studentAction";
 
 export type IusersInitialState = {
     loading: boolean;
     students: Array<IUserInfo>;
+    student: IUserInfo | null;
     additionalStudentData: IStudentAdditionalData | null;
     studentNicData: INicData | null;
     error: boolean | null;
@@ -19,6 +20,7 @@ export type IusersInitialState = {
 const initialState: IusersInitialState = {
     loading: false,
     students: [],
+    student: null,
     additionalStudentData: null,
     studentNicData: null,
     error: null,
@@ -30,7 +32,18 @@ export const studentSlice = createSlice({
     name: 'student',
     initialState: initialState,
     reducers: {
+        applyAdvsearch(state, action) {
+            const searchPhrase = action.payload;
+            if (searchPhrase.trim() != '') {
+                const searchTerm = searchPhrase.toLowerCase();
 
+                const filteredData = state.students.filter(data => {
+                    return data.full_name.toLowerCase().includes(searchTerm)
+                })
+
+                state.students = filteredData;
+            }
+        }
     },
     extraReducers(builder) {
         builder.addCase(
@@ -219,11 +232,40 @@ export const studentSlice = createSlice({
                     title: state.errorMsg
                 });
             }
+        ).addCase(
+            getStudentDataById.pending, (state) => {
+                state.loading = true
+                state.error = null
+            }
+        ).addCase(
+            getStudentDataById.fulfilled, (state, action) => {
+                state.loading = false
+                state.error = null
+
+                const student = action.payload.student
+                state.student = student
+
+            }
+        ).addCase(
+            getStudentDataById.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
         )
 
     },
 });
 
+export const { applyAdvsearch } = studentSlice.actions;
 
 
 export default studentSlice.reducer

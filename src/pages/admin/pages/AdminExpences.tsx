@@ -47,10 +47,13 @@ function AdminExpences(props: IAdminExpencesProps) {
 
   useEffect(() => {
     dispatch(getAllExpences(""));
-  }, []);
+  }, [dispatch]);
 
   const handleSearch = (value: string) => {
-    dispatch(applyAdvsearchExpences(value))
+    dispatch(applyAdvsearchExpences(value));
+    if (value.trim() === "") {
+      dispatch(getAllExpences(""));
+    }
   };
 
   return (

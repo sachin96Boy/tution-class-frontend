@@ -43,7 +43,9 @@ function HomePage() {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const { company } = useSelector((state: RootState) => state.config);
+  const { loading: ld, company } = useSelector(
+    (state: RootState) => state.config
+  );
 
   const { loading, advertisments, companyMainAd } = useSelector(
     (state: RootState) => state.advertisment
@@ -106,12 +108,18 @@ function HomePage() {
       animate="show"
       variants={container}
     >
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>{company[0].name}</title>
-        <meta name="description" content={company[0].email} />
-        <meta name="keywords" content={`s{company[0].code}`}></meta>
-      </Helmet>
+      {ld ? (
+        <Spinner />
+      ) : company && company.length > 0 ? (
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>{company[0].name}</title>
+          <meta name="description" content={company[0].email} />
+          <meta name="keywords" content={`${company[0].code}`}></meta>
+        </Helmet>
+      ) : (
+        <Box />
+      )}
       {/* Top Section */}
       <MotionFlex
         flexDirection={["column", "column", "row"]}

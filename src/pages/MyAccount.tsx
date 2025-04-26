@@ -46,14 +46,10 @@ function MyAccount() {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const { loading: loadf1, userInfo } = useSelector(
-    (state: RootState) => state.auth
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+  const { additionalStudentData, studentNicData } = useSelector(
+    (state: RootState) => state.student
   );
-  const {
-    loading: loadf2,
-    additionalStudentData,
-    studentNicData,
-  } = useSelector((state: RootState) => state.student);
 
   const initialValues: IUpdateStudentAdditionalDataProps = {
     enc_student_id: userInfo ? userInfo.student_id : "",

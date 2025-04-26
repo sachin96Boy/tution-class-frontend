@@ -43,6 +43,9 @@ function AdminAdvertiments() {
 
   const handleSearch = (value: string) => {
     dispatch(applyAdvsearch(value));
+    if (value.trim() === "") {
+      dispatch(getAllAdvertisments(""));
+    }
   };
 
   return (

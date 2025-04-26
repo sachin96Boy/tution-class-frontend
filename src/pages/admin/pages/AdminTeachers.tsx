@@ -3,7 +3,11 @@ import Modalsheet from "@/components/admin/modal/Modalsheet";
 import OverlayTable from "@/components/admin/tables/OverlayTable";
 import TeacherTableBody from "@/components/admin/teacher/TeacherTableBody";
 import Spinner from "@/components/spinner/Spinner";
-import { IteacherGetProps } from "@/features/teacher/teacherAction";
+import { getAllAdvertisments } from "@/features/advertisment/advertismentAction";
+import {
+  getAllTeachers,
+  IteacherGetProps,
+} from "@/features/teacher/teacherAction";
 import { applyAdvsearch } from "@/features/teacher/teacherSlice";
 import { AppDispatch, RootState } from "@/store";
 import { Box, Button, Flex } from "@chakra-ui/react";
@@ -37,6 +41,9 @@ function AdminTeachers() {
 
   const handleSearh = (value: string) => {
     dispatch(applyAdvsearch(value));
+    if (value.trim() === "") {
+      dispatch(getAllTeachers(""));
+    }
   };
 
   return (

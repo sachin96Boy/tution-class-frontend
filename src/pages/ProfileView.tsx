@@ -1,23 +1,20 @@
-import { Flex, Heading, Box, Text, Separator, Avatar } from "@chakra-ui/react";
-import { QrCode } from "@/components/ui/qr-code";
 import Logo from "@/components/Logo";
+import { QrCode } from "@/components/ui/qr-code";
 import { IStudentAdditionalData } from "@/features/student/studentAction";
+import { Avatar, Box, Flex, Heading, Separator, Text } from "@chakra-ui/react";
 import { ShieldCheck, ShieldQuestion, UserRoundPlus } from "lucide-react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
 
 type IprofileViewProps = {
   userInfo: IStudentAdditionalData;
 };
 
 const ProfileView = ({ userInfo }: IprofileViewProps) => {
-  const { userInfo: uf } = useSelector((state: RootState) => state.auth);
-
   return (
     <Box>
       <ProfileBannerView
         profileImage={userInfo?.profile_image ?? ""}
-        fullName={uf?.full_name ?? ""}
+        fullName={userInfo.Student?.full_name ?? ""}
+        verified={userInfo.Student.isVerified}
       />
       <Flex flexDirection={"column"} gap={5} className="details-of-form">
         <Heading as={"h5"} fontSize="25px">
@@ -113,11 +110,14 @@ const ProfileView = ({ userInfo }: IprofileViewProps) => {
 type IprofileBannerPros = {
   profileImage: string;
   fullName: string;
+  verified: boolean;
 };
 
-const ProfileBannerView = ({ profileImage, fullName }: IprofileBannerPros) => {
-  const { userInfo: uf } = useSelector((state: RootState) => state.auth);
-
+const ProfileBannerView = ({
+  profileImage,
+  fullName,
+  verified,
+}: IprofileBannerPros) => {
   const NameArray = fullName.trim().split(" ") ?? ["", ""];
 
   return (
@@ -181,7 +181,7 @@ const ProfileBannerView = ({ profileImage, fullName }: IprofileBannerPros) => {
             </Text>
           </Heading>
           <Flex gap={5}>
-            {!uf?.isVerified ? (
+            {!verified ? (
               <Flex align={"center"} gap={1}>
                 {" "}
                 <ShieldQuestion style={{ color: "#F1C40F" }} />
