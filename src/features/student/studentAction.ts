@@ -185,6 +185,19 @@ const handleGetNicData = async (value: IstudentIdProps, { rejectWithValue }: any
         return rejectWithValue(err.response.data);
     }
 }
+const handleNICStatusChange = async (value: IstudentIdProps, { rejectWithValue }: any) => {
+    try {
+        const response = await axiosInstance.post(
+            'student/nicStatusChange',
+            value,
+        );
+
+        return response.data;
+    } catch (err: any) {
+
+        return rejectWithValue(err.response.data);
+    }
+}
 
 const getAllStudents = createAsyncThunk('student/getAllStudents', handleGetAllStudents);
 const updateStudentData = createAsyncThunk('student/updateStudentData', handleUpdateStudentData);
@@ -193,6 +206,7 @@ const getStudentDataById = createAsyncThunk('student/getStudentDatabyId', handle
 const updateAdditionalStudentData = createAsyncThunk('student/updateAditionalStudentData', handleUpdateAdditionalData);
 const getAdditionalStudentData = createAsyncThunk('student/getAdditionalStudentData', handleGetAdditionalStudentData);
 const getNicData = createAsyncThunk('student/getnicData', handleGetNicData);
+const changeNicStatus = createAsyncThunk('student/changenicStatus', handleNICStatusChange);
 
 export {
     getAllStudents,
@@ -201,5 +215,6 @@ export {
     updateStudentData,
     changeStudentStatus,
     getStudentDataById,
-    getNicData
+    getNicData,
+    changeNicStatus
 }

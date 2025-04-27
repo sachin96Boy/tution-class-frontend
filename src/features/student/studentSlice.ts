@@ -3,7 +3,7 @@ import { toaster } from "@/components/ui/toaster";
 
 
 import { IUserInfo } from "../auth/authSlice";
-import { changeStudentStatus, getAdditionalStudentData, getAllStudents, getNicData, getStudentDataById, INicData, IStudentAdditionalData, updateAdditionalStudentData, updateStudentData } from "./studentAction";
+import { changeNicStatus, changeStudentStatus, getAdditionalStudentData, getAllStudents, getNicData, getStudentDataById, INicData, IStudentAdditionalData, updateAdditionalStudentData, updateStudentData } from "./studentAction";
 
 export type IusersInitialState = {
     loading: boolean;
@@ -242,12 +242,40 @@ export const studentSlice = createSlice({
                 state.loading = false
                 state.error = null
 
+                const nicData = action.payload.nicData
+                state.studentNicData = nicData
+
+            }
+        ).addCase(
+            getStudentDataById.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
+        ).addCase(
+            changeNicStatus.pending, (state) => {
+                state.loading = true
+                state.error = null
+            }
+        ).addCase(
+            changeNicStatus.fulfilled, (state, action) => {
+                state.loading = false
+                state.error = false
+
                 const student = action.payload.student
                 state.student = student
 
             }
         ).addCase(
-            getStudentDataById.rejected, (state, action) => {
+            changeNicStatus.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
 

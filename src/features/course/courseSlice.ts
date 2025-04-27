@@ -1,4 +1,4 @@
-import { checkAccessedCoursebyCourseId, createCourse, createCourseData, getAllCourses, getcoursebyCourseId, getcourseDatabyCourseId, getcourseDatabyTeacherandSubject, getStudentcourseDatabyCourseId, getStudentCourses, IgetCourseDataProps, IgetCourseProps, requestCourseAccess, updateCourse, updateCourseData } from "./courseAction";
+import { changeCourseStatus, checkAccessedCoursebyCourseId, createCourse, createCourseData, getAllCourses, getcoursebyCourseId, getcourseDatabyCourseId, getcourseDatabyTeacherandSubject, getStudentcourseDatabyCourseId, getStudentCourses, IgetCourseDataProps, IgetCourseProps, requestCourseAccess, updateCourse, updateCourseData } from "./courseAction";
 import { createSlice } from "@reduxjs/toolkit";
 import { toaster } from "@/components/ui/toaster";
 
@@ -409,6 +409,46 @@ export const courseSlie = createSlice({
             }
         ).addCase(
             requestCourseAccess.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg.toString()
+                });
+            }
+        ).addCase(
+            changeCourseStatus.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            }
+        ).addCase(
+            changeCourseStatus.fulfilled, (state, action) => {
+                state.loading = false;
+
+
+                const updatedCourse = action.payload.course;
+
+                let findex = state.courses.findIndex((course) => course.id === updatedCourse.id);
+
+                if (findex !== -1) {
+                    state.courses[findex] = updatedCourse;
+                }
+
+                toaster.create({
+                    type: 'success',
+                    title: action.payload.message
+                });
+
+
+            }
+        ).addCase(
+            changeCourseStatus.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
 

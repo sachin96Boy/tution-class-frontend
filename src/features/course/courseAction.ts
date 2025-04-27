@@ -162,6 +162,22 @@ const handleGetCourseByCourseId = async (values: getCourseDataByIdProps, { rejec
         return rejectWithValue(err.response.data);
     }
 }
+const handleChangeCourseStatus = async (values: getCourseDataByIdProps, { rejectWithValue }: any) => {
+    try {
+
+        const response = await axiosInstance.post(
+            'course/cangeCourseStatus',
+            values
+        );
+
+        return response.data;
+
+    } catch (err: any) {
+        console.log(err);
+
+        return rejectWithValue(err.response.data);
+    }
+}
 const handleGetStudentCourseDataByCourseId = async (values: getCourseDataByIdProps, { rejectWithValue }: any) => {
     try {
 
@@ -417,6 +433,7 @@ const handleUpdateCourseData = async (values: IUpdateCourseDataProps, { rejectWi
 const getAllCourses = createAsyncThunk('course/getAllCourses', handleGetAllCourses);
 const getStudentCourses = createAsyncThunk('course/getStudentCourses', handleGetStudentCourses);
 const getcoursebyCourseId = createAsyncThunk('course/getCourseByCourseId', handleGetCourseByCourseId);
+const changeCourseStatus = createAsyncThunk('course/changeCourseStatus', handleChangeCourseStatus);
 const requestCourseAccess = createAsyncThunk('course/requestCourseAccess', handleRequestCourseAccess);
 const checkAccessedCoursebyCourseId = createAsyncThunk('course/checkAccessedCoursebyCourseId', handleCheckAccessedCoursebyCourseId);
 const getcourseDatabyCourseId = createAsyncThunk('course/getCourseDataByCourseId', handleGetCourseDataByCourseId);
@@ -439,5 +456,6 @@ export {
     checkAccessedCoursebyCourseId,
     getcoursebyCourseId,
     requestCourseAccess,
+    changeCourseStatus,
     updateCourse
 }
