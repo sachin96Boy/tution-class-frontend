@@ -82,7 +82,6 @@ const handleGetMonthlyExpences = async (values: IcreateMonthlyExpences, { reject
         return response.data;
 
     } catch (err: any) {
-        console.log(err)
         return rejectWithValue(err.response.data);
     }
 }

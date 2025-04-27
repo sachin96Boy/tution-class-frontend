@@ -97,9 +97,9 @@ function ContactUsForm() {
               labelText="You Message"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              InputValue={formik.values.grade}
-              isTouched={formik.touched.grade}
-              isError={formik.errors.grade}
+              InputValue={formik.values.contentBody}
+              isTouched={formik.touched.contentBody}
+              isError={formik.errors.contentBody}
             />
 
             <Button

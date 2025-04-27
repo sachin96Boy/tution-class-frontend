@@ -5,14 +5,22 @@ import { Form, Formik, FormikHelpers } from "formik";
 
 import { Field } from "../ui/field";
 import { Camera } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { nicUpdate } from "@/features/student/studentAction";
 
-interface NicValues {
+export interface NicValues {
+  student_id: string;
   frontNic: File | any;
   backNic: File | any;
   selfieNic: File | any;
 }
 
 function NicVerification() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+
   const [previewNic, setPreviewNic] = useState<string>();
   const [selectedFileNic, setSelectedFileNic] = useState<any>();
   const [previewNicBack, setPreviewNicBack] = useState<string>();
@@ -24,18 +32,25 @@ function NicVerification() {
   const hiddenInputRefNicSelfie = useRef<HTMLInputElement>(null);
 
   const initialValues2: NicValues = {
-    frontNic: "",
-    backNic: "",
-    selfieNic: "",
+    student_id: userInfo ? userInfo?.student_id : "",
+    frontNic: null,
+    backNic: null,
+    selfieNic: null,
   };
-  const onSubmit2 = (values: NicValues, actions: any) => {
-    actions.setSubmitting(false);
-    setSelectedFileNic(undefined);
-    setSelectedFileNicBack(undefined);
-    setSelectedFileNicSelfie(undefined);
-    setPreviewNic(undefined);
-    setPreviewNicBack(undefined);
-    setPreviewNicSelfie(undefined);
+  const onSubmit2 = async (values: NicValues, actions: any) => {
+    try {
+      await dispatch(nicUpdate(values));
+
+      actions.setSubmitting(false);
+      setSelectedFileNic(undefined);
+      setSelectedFileNicBack(undefined);
+      setSelectedFileNicSelfie(undefined);
+      setPreviewNic(undefined);
+      setPreviewNicBack(undefined);
+      setPreviewNicSelfie(undefined);
+    } catch (err) {
+      console.log(err);
+    }
   };
   const validationSchema2 = yup.object({
     frontNic: yup.mixed().required("Front NIC is required"),

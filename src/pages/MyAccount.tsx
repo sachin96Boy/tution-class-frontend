@@ -36,6 +36,7 @@ import {
 } from "lucide-react";
 import ProfileView from "./ProfileView";
 import NicDocumentsView from "./Nicview";
+import InputTextAreaComponent from "@/components/formcontrol/InputTextAreaComponent";
 
 function MyAccount() {
   const [preview, setPreview] = useState<string>();
@@ -54,14 +55,16 @@ function MyAccount() {
   const initialValues: IUpdateStudentAdditionalDataProps = {
     enc_student_id: userInfo ? userInfo.student_id : "",
     school: additionalStudentData ? additionalStudentData.school : "",
-    examAttempt:  additionalStudentData ? additionalStudentData.exam_attempt : "",
-    examYear:  additionalStudentData ? additionalStudentData.exam_year : "",
-    district:  additionalStudentData ? additionalStudentData.district : "",
-    city:  additionalStudentData ? additionalStudentData.city : "",
-    nic:  additionalStudentData ? additionalStudentData.nic : "",
-    address:  additionalStudentData ? additionalStudentData.address : "",
-    mobileNumber1:  additionalStudentData ? additionalStudentData.mobile1 : "",
-    mobileNumber2:  additionalStudentData ? additionalStudentData.mobile2 : "",
+    examAttempt: additionalStudentData
+      ? additionalStudentData.exam_attempt
+      : "",
+    examYear: additionalStudentData ? additionalStudentData.exam_year : "",
+    district: additionalStudentData ? additionalStudentData.district : "",
+    city: additionalStudentData ? additionalStudentData.city : "",
+    nic: additionalStudentData ? additionalStudentData.nic : "",
+    address: additionalStudentData ? additionalStudentData.address : "",
+    mobileNumber1: additionalStudentData ? additionalStudentData.mobile1 : "",
+    mobileNumber2: additionalStudentData ? additionalStudentData.mobile2 : "",
     profileImage: null,
   };
 
@@ -69,8 +72,6 @@ function MyAccount() {
     values: IUpdateStudentAdditionalDataProps,
     actions: any
   ) => {
-    console.log(values);
-
     const res = await dispatch(updateAdditionalStudentData(values));
 
     actions.setSubmitting(false);
@@ -295,14 +296,14 @@ function MyAccount() {
                         isTouched={formik.touched.city}
                         isError={formik.errors.city}
                       />
-                      <InputComponent
-                        htmlFor={"address"}
-                        labelText={"Address"}
-                        InputType={"text"}
-                        InputValue={formik.values.address}
+
+                      <InputTextAreaComponent
+                        htmlFor="address"
+                        placeHolder="Enter Address"
+                        labelText="Address"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        placeHolder={"Enter Address"}
+                        InputValue={formik.values.address}
                         isTouched={formik.touched.address}
                         isError={formik.errors.address}
                       />

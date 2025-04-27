@@ -284,7 +284,7 @@ const handleCreateCourse = async (values: IcreateCourseProps, { rejectWithValue 
         return response.data;
 
     } catch (err: any) {
-        console.log(err);
+
         return rejectWithValue(err.response.data);
     }
 }
@@ -328,7 +328,7 @@ const handleUpdateCourse = async (values: IUpdateCourseProps, { rejectWithValue 
 
 
     } catch (err: any) {
-        console.log(err);
+
         return rejectWithValue(err.response.data);
     }
 }
@@ -376,7 +376,7 @@ const handleCreateCourseData = async (values: IcreateCourseDataProps, { rejectWi
         return response.data;
 
     } catch (err: any) {
-        console.log(err);
+
         return rejectWithValue(err.response.data);
     }
 }
@@ -425,7 +425,6 @@ const handleUpdateCourseData = async (values: IUpdateCourseDataProps, { rejectWi
         return response.data;
 
     } catch (err: any) {
-        console.log(err);
         return rejectWithValue(err.response.data);
     }
 }

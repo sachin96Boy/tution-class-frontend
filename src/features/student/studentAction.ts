@@ -2,6 +2,7 @@ import axiosInstance from "@/utils/AxiosInstans";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { IStudentUserEditProps } from "../auth/authAction";
 import { string } from "yup";
+import { NicValues } from "@/components/myAccount/NicVerification";
 
 type IstudentProps = {
     student_id: string;
@@ -73,7 +74,7 @@ const handleUpdateAdditionalData = async (value: IUpdateStudentAdditionalDataPro
         const formData = new FormData();
 
         if (profileImage != null) {
-            formData.append("profileImage", profileImage);
+            formData.append("profileImg", profileImage);
 
         }
 
@@ -81,7 +82,7 @@ const handleUpdateAdditionalData = async (value: IUpdateStudentAdditionalDataPro
         formData.append("school", school.trim());
         formData.append("enc_student_id", enc_student_id.trim());
         formData.append("examAttempt", examAttempt.trim());
-        formData.append("examYear", examYear.trim());
+        formData.append("examYear", examYear);
         formData.append("district", district.trim());
         formData.append("city", city.trim());
         formData.append("nic", nic.trim());
@@ -90,7 +91,7 @@ const handleUpdateAdditionalData = async (value: IUpdateStudentAdditionalDataPro
         formData.append("mobileNumber2", mobileNumber2.trim());
 
         const response = await axiosInstance.put(
-            'student/updateAdditionalData',
+            'student/updateAdditionalStudentData',
             formData,
             {
                 headers: {
@@ -104,6 +105,7 @@ const handleUpdateAdditionalData = async (value: IUpdateStudentAdditionalDataPro
 
 
     } catch (err: any) {
+        console.log(err);
         return rejectWithValue(err.response.data);
     }
 }
@@ -198,6 +200,47 @@ const handleNICStatusChange = async (value: IstudentIdProps, { rejectWithValue }
         return rejectWithValue(err.response.data);
     }
 }
+const handleNICupdate = async (values: NicValues, { rejectWithValue }: any) => {
+    try {
+
+        const { student_id, frontNic, backNic, selfieNic } = values;
+
+        const formData = new FormData();
+
+        if (frontNic != null) {
+            formData.append("nic_front", frontNic);
+
+        }
+        if (backNic != null) {
+            formData.append("nic_back", backNic);
+
+        }
+        if (selfieNic != null) {
+            formData.append("nic_selfie", selfieNic);
+
+        }
+
+
+        formData.append("enc_student_id", student_id);
+
+
+
+        const response = await axiosInstance.post(
+            'student/nicUpdate',
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+        );
+
+        return response.data;
+    } catch (err: any) {
+
+        return rejectWithValue(err.response.data);
+    }
+}
 
 const getAllStudents = createAsyncThunk('student/getAllStudents', handleGetAllStudents);
 const updateStudentData = createAsyncThunk('student/updateStudentData', handleUpdateStudentData);
@@ -206,6 +249,7 @@ const getStudentDataById = createAsyncThunk('student/getStudentDatabyId', handle
 const updateAdditionalStudentData = createAsyncThunk('student/updateAditionalStudentData', handleUpdateAdditionalData);
 const getAdditionalStudentData = createAsyncThunk('student/getAdditionalStudentData', handleGetAdditionalStudentData);
 const getNicData = createAsyncThunk('student/getnicData', handleGetNicData);
+const nicUpdate = createAsyncThunk('student/nicUpdate', handleNICupdate);
 const changeNicStatus = createAsyncThunk('student/changenicStatus', handleNICStatusChange);
 
 export {
@@ -216,5 +260,6 @@ export {
     changeStudentStatus,
     getStudentDataById,
     getNicData,
-    changeNicStatus
+    changeNicStatus,
+    nicUpdate
 }

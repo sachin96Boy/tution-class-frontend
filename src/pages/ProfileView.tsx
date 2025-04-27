@@ -34,7 +34,7 @@ const ProfileView = ({ userInfo }: IprofileViewProps) => {
           >
             <Flex
               flexDirection={"column"}
-              align={"center"}
+              align={"start"}
               justify="center"
               gap={1}
               mr={5}
@@ -48,7 +48,7 @@ const ProfileView = ({ userInfo }: IprofileViewProps) => {
             </Flex>
             <Flex
               flexDirection={"column"}
-              align={"center"}
+              align={"start"}
               justify="center"
               gap={1}
               mr={5}

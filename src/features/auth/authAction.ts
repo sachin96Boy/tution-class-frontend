@@ -109,12 +109,12 @@ const handleLoginUser = async (value: IloginProps, { rejectWithValue }: any) => 
             { emailOrMobile, password }
         );
 
-        console.log(response.data);
+
         return response.data
 
 
     } catch (err: any) {
-        console.log(err);
+
         return rejectWithValue(err.response.data);
 
     }

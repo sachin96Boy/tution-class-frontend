@@ -6,7 +6,14 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/features/auth/authSlice";
-import { Headset, LayoutDashboard, LibraryBig, LogOut, User, UserRound } from "lucide-react";
+import {
+  Headset,
+  LayoutDashboard,
+  LibraryBig,
+  LogOut,
+  User,
+  UserRound,
+} from "lucide-react";
 
 function SideBar() {
   const dispatch = useDispatch<AppDispatch>();
@@ -75,7 +82,13 @@ function SideBar() {
                     <UserRound size={"28"} style={{ color: "#ffffffff" }} />
                   </Avatar.Icon>
                 </Avatar.Fallback>
-                <Avatar.Image src={userInfo?.AdditionalStudentDatum.profile_image} />
+                <Avatar.Image
+                  src={
+                    userInfo
+                      ? userInfo?.AdditionalStudentDatum.profile_image
+                      : ""
+                  }
+                />
               </Avatar.Root>
             </Box>
           </Box>
