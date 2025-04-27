@@ -4,10 +4,16 @@ import { IgetCourseProps } from "../course/courseAction";
 import { getCourseDataBasedOnTime, getStudentDatabasedOnScannedId, markAttandance } from "./attandanceAction";
 import { toaster } from "@/components/ui/toaster";
 
+type ICourseFromTimeTable = {
+    course_id: string;
+    title: string;
+    course_img_path: string;
+}
+
 export type IAttandanceInnitialState = {
     loading: boolean;
-    courses: Array<IgetCourseProps>;
-    studennt: IUserInfo | null;
+    courses: Array<ICourseFromTimeTable>;
+    student: IUserInfo | null;
     error: boolean | null;
     errorMsg: string | object;
     success: boolean;
@@ -16,9 +22,9 @@ export type IAttandanceInnitialState = {
 const initialState: IAttandanceInnitialState = {
     loading: false,
     courses: [],
-    studennt: null,
+    student: null,
     error: null,
-    errorMsg: '',
+    errorMsg: {},
     success: false
 }
 
@@ -39,9 +45,9 @@ export const attandanceSlice = createSlice({
                 state.error = null
                 state.success = true;
 
-                const studentData = action.payload.studentData;
+                const studentData = action.payload.student;
 
-                state.studennt = studentData;
+                state.student = studentData;
 
                 toaster.create({
                     type: 'success',
@@ -74,9 +80,14 @@ export const attandanceSlice = createSlice({
                 state.error = null
                 state.success = true;
 
-                const studentData = action.payload.studentData;
+                const courseData = action.payload.courses;
 
-                state.studennt = studentData;
+                const modifiedCourses = courseData.length > 0 ? courseData.map((tItem: any) => {
+                    const inner = tItem.Courses[0];
+                    return inner;
+                }) : []
+
+                state.courses = modifiedCourses;
 
                 toaster.create({
                     type: 'success',
@@ -108,6 +119,9 @@ export const attandanceSlice = createSlice({
                     state.loading = false
                     state.error = null
                     state.success = true;
+
+                    state.student = null;
+                    state.courses = [];
 
                     toaster.create({
                         type: 'success',

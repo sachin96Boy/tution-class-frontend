@@ -49,7 +49,9 @@ function AdminDashboard() {
         <OverlayBanner
           backgroundImage={bgImg}
           title={"Welcome Back"}
-          description={"Manage your work and Get insights through our Dashboard"}
+          description={
+            "Manage your work and Get insights through our Dashboard"
+          }
         />
         <Wrap>
           <NavLink to={"/admin/advertisments"}>
@@ -60,6 +62,11 @@ function AdminDashboard() {
           <NavLink to={"/admin/common"}>
             <Button colorPalette={"blue"} size={"2xl"}>
               Common
+            </Button>
+          </NavLink>
+          <NavLink to={"/admin/common"}>
+            <Button colorPalette={"blue"} size={"2xl"}>
+              Requested Courses
             </Button>
           </NavLink>
         </Wrap>

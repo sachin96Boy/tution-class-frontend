@@ -50,6 +50,15 @@ import {
   getMonthlyPayments,
 } from "@/features/reports/reportAction";
 
+export const LKRS = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "LKR",
+});
+
+export const formatter = new Intl.DateTimeFormat("en-US", {
+  dateStyle: "full",
+});
+
 const ReportPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const currentYear = new Date().getFullYear();
@@ -86,8 +95,6 @@ const ReportPage = () => {
     dailyAttandance,
     monthlyAttandance,
   } = useSelector((state: RootState) => state.report);
-
-  console.log(monthlyExpences);
 
   const getMonthName = (monthNumber: number) => {
     const date = new Date();
@@ -281,15 +288,6 @@ const ReportPage = () => {
       })
     );
   };
-
-  let LKRS = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "LKR",
-  });
-
-  let formatter = new Intl.DateTimeFormat("en-US", {
-    dateStyle: "full",
-  });
 
   return (
     <Box p={6}>

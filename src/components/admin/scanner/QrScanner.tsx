@@ -10,6 +10,10 @@ type IqrScanner = {
   visibility: boolean;
 };
 
+type resData = {
+  data: string;
+};
+
 function QrScanner(props: IqrScanner) {
   const { visibility } = props;
 
@@ -18,25 +22,31 @@ function QrScanner(props: IqrScanner) {
   const [result, setResult] = useState("");
   const [paused, setPaused] = useState(false);
 
-  const handleScannedId = async () => {
+  const handleScannedId = async (props: resData) => {
+    const { data } = props;
     await dispatch(
       getStudentDatabasedOnScannedId({
-        scanned_id: result,
+        scanned_id: data,
       })
     );
   };
 
   const { ref } = useZxing({
     paused,
-    onDecodeResult(result) {
-      setResult(result.getText());
+    async onDecodeResult(result) {
+      const data = result.getText();
       setPaused(!paused);
-      handleScannedId();
+
+      await handleScannedId({
+        data: data,
+      });
     },
     onDecodeError(error) {
+      // setPaused(!paused);
       console.log(error);
     },
     onError(error) {
+      setPaused(!paused);
       console.log(error);
     },
   });

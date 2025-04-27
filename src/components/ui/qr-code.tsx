@@ -12,7 +12,13 @@ export const QrCode = React.forwardRef<HTMLDivElement, QrCodeProps>(
   function QrCode(props, ref) {
     const { children, fill, name, overlay, ...rest } = props;
     return (
-      <ChakraQrCode.Root ref={ref} {...rest}>
+      <ChakraQrCode.Root
+        encoding={{
+          ecc: "H",
+        }}
+        ref={ref}
+        {...rest}
+      >
         <ChakraQrCode.Frame style={{ fill }}>
           <ChakraQrCode.Pattern />
         </ChakraQrCode.Frame>
@@ -21,7 +27,7 @@ export const QrCode = React.forwardRef<HTMLDivElement, QrCodeProps>(
         <ChakraQrCode.DownloadTrigger
           asChild
           fileName={name}
-          mimeType="image/png"
+          mimeType="image/jpeg"
           quality={100}
         >
           <Button variant="outline" size="md" mt="3">

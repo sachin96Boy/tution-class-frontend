@@ -4,6 +4,10 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 export type IgetStudentBasedOnScannedCode = {
     scanned_id: string
 }
+export type IgetcourseDataonTime = {
+    year: number,
+    timestamp: Date
+}
 
 export type IgetCoursesBasedOnTime = {
     year: number;
@@ -31,7 +35,7 @@ const handleGetStudentDatabasedOnScannedId = async (values: IgetStudentBasedOnSc
         return rejectWithValue(err.response.data);
     }
 }
-const handlegetCourseDataBasedOnTime = async (values: IgetStudentBasedOnScannedCode, { rejectWithValue }: any) => {
+const handlegetCourseDataBasedOnTime = async (values: IgetcourseDataonTime, { rejectWithValue }: any) => {
     try {
 
         const response = await axiosInstance.post(
@@ -40,6 +44,7 @@ const handlegetCourseDataBasedOnTime = async (values: IgetStudentBasedOnScannedC
         );
 
         return response.data;
+
 
 
     } catch (err: any) {
@@ -58,6 +63,7 @@ const handleMarkAttandance = async (values: IMarkAttandance, { rejectWithValue }
 
 
     } catch (err: any) {
+        console.log(err);
         return rejectWithValue(err.response.data);
     }
 }
