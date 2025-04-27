@@ -220,7 +220,7 @@ type IprofieFieldProps = {
   value: string;
 };
 
-const ProfileField = ({ label, value }: IprofieFieldProps) => {
+export const ProfileField = ({ label, value }: IprofieFieldProps) => {
   return (
     <Box mb={4}>
       <Text

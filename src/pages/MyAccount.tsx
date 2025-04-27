@@ -53,15 +53,15 @@ function MyAccount() {
 
   const initialValues: IUpdateStudentAdditionalDataProps = {
     enc_student_id: userInfo ? userInfo.student_id : "",
-    school: "",
-    examAttempt: "",
-    examYear: "",
-    district: "",
-    city: "",
-    nic: "",
-    address: "",
-    mobileNumber1: "",
-    mobileNumber2: "",
+    school: additionalStudentData ? additionalStudentData.school : "",
+    examAttempt:  additionalStudentData ? additionalStudentData.exam_attempt : "",
+    examYear:  additionalStudentData ? additionalStudentData.exam_year : "",
+    district:  additionalStudentData ? additionalStudentData.district : "",
+    city:  additionalStudentData ? additionalStudentData.city : "",
+    nic:  additionalStudentData ? additionalStudentData.nic : "",
+    address:  additionalStudentData ? additionalStudentData.address : "",
+    mobileNumber1:  additionalStudentData ? additionalStudentData.mobile1 : "",
+    mobileNumber2:  additionalStudentData ? additionalStudentData.mobile2 : "",
     profileImage: null,
   };
 

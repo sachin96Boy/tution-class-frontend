@@ -16,7 +16,7 @@ function Logo(props: PropTypes) {
   const { company } = useSelector((state: RootState) => state.config);
 
   const logoPath = `${import.meta.env.VITE_BACKEND_STATIC}/logo/${
-    company[0]?.logo
+    company?.logo
   }`;
 
   let { boxSize, linkPath, fitType } = props;
@@ -25,9 +25,9 @@ function Logo(props: PropTypes) {
       <Link to={linkPath}>
         <Image
           boxSize={boxSize}
-          src={company && company.length > 0 ? `${logoPath}` : Header_Logo}
+          src={company ? `${logoPath}` : Header_Logo}
           objectFit={fitType}
-          alt={company.length > 0 ? `${company[0].name}` : "company"}
+          alt={company ? `${company.name}` : "company"}
         />
       </Link>
     </Box>

@@ -1,3 +1,4 @@
+import Spinner from "@/components/spinner/Spinner";
 import { RootState } from "@/store";
 import {
   Box,
@@ -30,16 +31,22 @@ const TeacherDetails = ({
   imageUrl1,
   imageUrl2,
 }: ITeacherDetails) => {
-  const { company } = useSelector((state: RootState) => state.config);
+  const { loading, company } = useSelector((state: RootState) => state.config);
 
   return (
     <Box maxW="6xl" divideY="4px" mx="auto" p={6} gap={6}>
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta name="keywords" content={`${title} ${company[0].name}`}></meta>
-      </Helmet>
+      {loading ? (
+        <Spinner />
+      ) : company ? (
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>{title}</title>
+          <meta name="description" content={description} />
+          <meta name="keywords" content={`${title} ${company.name}`}></meta>
+        </Helmet>
+      ) : (
+        <Box />
+      )}
       <Box>
         {/* Header Section */}
         <Flex direction={{ base: "column", md: "row" }} align="center" mb={10}>

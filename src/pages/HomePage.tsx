@@ -52,7 +52,7 @@ function HomePage() {
   );
 
   const logoPath = `${import.meta.env.VITE_BACKEND_STATIC}/logo/${
-    company[0]?.logo
+    company?.logo
   }`;
 
   const navigate = useNavigate();
@@ -62,10 +62,10 @@ function HomePage() {
   };
 
   useEffect(() => {
-    if (company && company.length > 0) {
+    if (company) {
       dispatch(
         getCompanyMainBanner({
-          enc_company_id: company[0].id,
+          enc_company_id: company.id,
         })
       );
     }
@@ -110,12 +110,12 @@ function HomePage() {
     >
       {ld ? (
         <Spinner />
-      ) : company && company.length > 0 ? (
+      ) : company  ? (
         <Helmet>
           <meta charSet="utf-8" />
-          <title>{company[0].name}</title>
-          <meta name="description" content={company[0].email} />
-          <meta name="keywords" content={`${company[0].code}`}></meta>
+          <title>{company.name}</title>
+          <meta name="description" content={company.email} />
+          <meta name="keywords" content={`${company.code}`}></meta>
         </Helmet>
       ) : (
         <Box />
@@ -142,7 +142,7 @@ function HomePage() {
           transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
           <MotionImage
-            src={company && company.length > 0 ? logoPath : sipsaLogo}
+            src={company ? logoPath : sipsaLogo}
             objectFit="contain"
             w={["200px", "300px", "421px"]}
             h={["100px", "150px", "210px"]}
@@ -262,7 +262,7 @@ function HomePage() {
           variants={item}
         >
           <Text as={"span"} fontFamily="body">
-            {company && company.length > 0 ? company[0].name : ""} Web
+            {company ? company.name : ""} Web
           </Text>{" "}
           අඩඩිය භාවිත කරන ආකාරය හා ඒ් ආශිත තොරතුරු දැනගැනීම සදහා{" "}
           <Text as={"span"} fontFamily="body">
