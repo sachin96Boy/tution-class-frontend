@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
+  Avatar,
+  Badge,
   Box,
   Button,
   Flex,
@@ -37,6 +39,8 @@ import {
 import ProfileView from "./ProfileView";
 import NicDocumentsView from "./Nicview";
 import InputTextAreaComponent from "@/components/formcontrol/InputTextAreaComponent";
+import { getPaymentsByStudentId } from "@/features/accounting/accountingAction";
+import { formatter, LKRS } from "./admin/pages/AdminReports";
 
 function MyAccount() {
   const [preview, setPreview] = useState<string>();
@@ -50,6 +54,9 @@ function MyAccount() {
   const { userInfo } = useSelector((state: RootState) => state.auth);
   const { additionalStudentData, studentNicData } = useSelector(
     (state: RootState) => state.student
+  );
+  const { loading, studentPayments } = useSelector(
+    (state: RootState) => state.account
   );
 
   const initialValues: IUpdateStudentAdditionalDataProps = {
@@ -143,6 +150,15 @@ function MyAccount() {
     if (userInfo != null) {
       dispatch(
         getNicData({
+          enc_student_id: userInfo?.student_id,
+        })
+      );
+    }
+  }, [dispatch]);
+  useEffect(() => {
+    if (userInfo != null) {
+      dispatch(
+        getPaymentsByStudentId({
           enc_student_id: userInfo?.student_id,
         })
       );
@@ -511,6 +527,47 @@ function MyAccount() {
               </Table.ColumnHeader>
             </Table.Row>
           </Table.Header>
+          <Table.Body padding={4}>
+            {studentPayments.map((item, index) => {
+              const date = new Date(item.paid_date);
+              return (
+                <Table.Row key={index}>
+                  <Table.Cell pl="0px">
+                    <Text fontSize="sm" color="gray.400" fontWeight="normal">
+                      {index}
+                    </Text>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Flex gap={2} align={"center"}>
+                      <Avatar.Root shape="full" size="lg">
+                        <Avatar.Fallback name={item.Course.title} />
+                        <Avatar.Image src={item.Course.course_img_path} />
+                      </Avatar.Root>
+                      <Text fontSize="sm" color="gray.400" fontWeight="normal">
+                        {item.Course.title}
+                      </Text>
+                    </Flex>
+                  </Table.Cell>
+                  <Table.Cell pl="0px">
+                    <Text fontSize="sm" color="gray.400" fontWeight="normal">
+                      {formatter.format(date)}
+                    </Text>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Badge
+                      bg={"green.400"}
+                      color={"white"}
+                      fontSize="16px"
+                      p="3px 10px"
+                      borderRadius="8px"
+                    >
+                      {LKRS.format(item.paid_amount)}
+                    </Badge>
+                  </Table.Cell>
+                </Table.Row>
+              );
+            })}
+          </Table.Body>
         </Table.Root>
       </Box>
     </Box>

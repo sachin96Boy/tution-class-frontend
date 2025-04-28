@@ -1,25 +1,16 @@
-import {
-  Button,
-  Icon,
-  Input,
-  Text,
-  useDisclosure,
-  VStack,
-} from "@chakra-ui/react";
+import { Button, Text, useDisclosure, VStack } from "@chakra-ui/react";
 
-import { ErrorMessage, Form, Formik } from "formik";
-import React, { useRef } from "react";
-import { HiEye, HiEyeOff } from "react-icons/hi";
+import { Form, Formik } from "formik";
+import { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
-import { Field } from "../ui/field";
-import { InputGroup } from "../ui/input-group";
-import InputComponent from "./customInput/InputComponent";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/store";
 import { IloginProps, loginUser } from "@/features/auth/authAction";
-import { PasswordInput, PasswordStrengthMeter } from "../ui/password-input";
+import { AppDispatch, RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { Field } from "../ui/field";
+import { PasswordInput } from "../ui/password-input";
+import InputComponent from "./customInput/InputComponent";
 
 function Signinform() {
   const navigate = useNavigate();
@@ -57,7 +48,7 @@ function Signinform() {
           // Check if it's a valid Sri Lankan phone number
           // Sri Lankan phone numbers typically start with 0 or +94 followed by 9 digits
           const phoneRegex =
-            /^(?:\+94|0)(?:7[0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9]|6[0-9]|7[0-9]|8[1-9]|9[0-9])[0-9]{6}$/;
+            /^(?:\+94|0)(?:7[0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9]|6[0-9]|8[1-9]|9[0-9])\d{7}$/;
           const isPhone = phoneRegex.test(value);
 
           return isEmail || isPhone;
