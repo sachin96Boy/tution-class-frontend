@@ -64,7 +64,7 @@ function AdminDashboard() {
               Common
             </Button>
           </NavLink>
-          <NavLink to={"/admin/common"}>
+          <NavLink to={"/admin/requests"}>
             <Button colorPalette={"blue"} size={"2xl"}>
               Requested Courses
             </Button>

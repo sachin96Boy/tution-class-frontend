@@ -14,6 +14,7 @@ import assignmentReducer from './features/assignment/assignmentSlice'
 import statReducer from './features/statistics/statisticsSlice'
 import reportReducer from './features/reports/reportSlice'
 import attandanceReducer from './features/attandance/attandanceSlice'
+import requestReducer from './features/requests/requestSlice'
 
 export const store = configureStore({
   reducer: {
@@ -30,7 +31,8 @@ export const store = configureStore({
     assignment: assignmentReducer,
     stat: statReducer,
     report: reportReducer,
-    attandance: attandanceReducer
+    attandance: attandanceReducer,
+    request: requestReducer
   },
 })
 
