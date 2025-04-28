@@ -41,7 +41,7 @@ function CourseContentView() {
       {loading ? (
         <Spinner />
       ) : isReqData ? (
-        <VStack width={"full"} align={"center"} justify={"center"} gap={2}>
+        <VStack width={"full"} gap={4}>
           <Box>
             <Heading>{isReqData.title}</Heading>
           </Box>
