@@ -1,4 +1,4 @@
-import { changeCourseStatus, checkAccessedCoursebyCourseId, createCourse, createCourseData, getAllCourses, getcoursebyCourseId, getcourseDatabyCourseId, getcourseDatabyTeacherandSubject, getStudentcourseDatabyCourseId, getStudentCourses, IgetCourseDataProps, IgetCourseProps, requestCourseAccess, updateCourse, updateCourseData } from "./courseAction";
+import { changeCourseStatus, checkAccessedCoursebyCourseId, createCourse, createCourseData, getAllCourses, getcoursebyCourseId, getcourseDatabyCourseId, getcourseDatabyTeacherandSubject, getStudentcourseDatabyCourseId, getStudentcourseDatabyCourseIdandDataId, getStudentCourses, IgetCourseDataProps, IgetCourseProps, requestCourseAccess, updateCourse, updateCourseData } from "./courseAction";
 import { createSlice } from "@reduxjs/toolkit";
 import { toaster } from "@/components/ui/toaster";
 
@@ -11,6 +11,7 @@ export type ICourseInitialState = {
     selectedCourse: IgetCourseProps | null; //this is selected course when you go to course overview view
     selectedCourseStatus: string | null; //this is selected course when you go to course overview view
     studentCourseData: Array<any>   //this is monthly course data of selected course
+    isReqData: IgetCourseDataProps | null;
     error: boolean | null;
     errorMsg: object | string;
     success: boolean;
@@ -25,6 +26,7 @@ const initialState: ICourseInitialState = {
     selectedCourse: null,
     selectedCourseStatus: null,
     studentCourseData: [],
+    isReqData: null,
     error: null,
     errorMsg: {},
     success: false
@@ -223,7 +225,16 @@ export const courseSlie = createSlice({
             getStudentCourses.fulfilled, (state, action) => {
                 state.loading = false;
                 state.success = true;
-                state.studentGrantedCourses = action.payload.accessGrantedCourses;
+
+
+                const grantedCourses = action.payload.accessGrantedCourses;
+
+                const arrayOfCourses = grantedCourses.length > 0 ? grantedCourses.map((courseItem: any) => {
+                    const courseItemObj = courseItem.Course;
+                    return courseItemObj;
+                }) : [];
+
+                state.studentGrantedCourses = arrayOfCourses;
             }
         ).addCase(
             getStudentCourses.rejected, (state, action) => {
@@ -449,6 +460,36 @@ export const courseSlie = createSlice({
             }
         ).addCase(
             changeCourseStatus.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg.toString()
+                });
+            }
+        ).addCase(
+            getStudentcourseDatabyCourseIdandDataId.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            }
+        ).addCase(
+            getStudentcourseDatabyCourseIdandDataId.fulfilled, (state, action) => {
+                state.loading = false;
+
+
+                const userReqData = action.payload.courseData;
+
+                state.isReqData = userReqData;
+
+            }
+        ).addCase(
+            getStudentcourseDatabyCourseIdandDataId.rejected, (state, action) => {
                 state.loading = false;
                 state.error = true;
 

@@ -8,6 +8,7 @@ import MyCourses from "./MyCourses";
 import Support from "./Support";
 import TeacherData from "./TeacherData";
 import TeacherList from "./TeacherList";
+import CourseContentView from "./CourseContentView";
 
 function DashBoard() {
   return (
@@ -16,6 +17,10 @@ function DashBoard() {
         <Route element={<DashBoardOutlet />}>
           {/* add different routes that need to be loade for different pages */}
           <Route path="/course/:year/:courseId" element={<CourseDetails />} />
+          <Route
+            path="/player/:courseId/:dataId"
+            element={<CourseContentView />}
+          />
           <Route path="/myAccount" element={<MyAccount />} />
           <Route path="/myCourses" element={<MyCourses />} />
           <Route path="/teacherList" element={<TeacherList />} />

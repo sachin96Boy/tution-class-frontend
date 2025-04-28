@@ -60,8 +60,8 @@ export const requestSlice = createSlice({
                 state.loading = false;
                 state.success = true;
 
-                const updatedRequest = action.payload.requestedCourses;
-
+                const updatedRequest = action.payload.request;
+                console.log(updatedRequest);
                 let findex = state.requests.findIndex((courseData) => courseData.id === updatedRequest.id);
 
                 if (findex !== -1) {

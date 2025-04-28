@@ -1,12 +1,27 @@
-import { IreqGetData } from "@/features/requests/requestAction";
-import { AppDispatch } from "@/store";
-import { Avatar, Badge, Flex, Table, Text } from "@chakra-ui/react";
+import {
+  grantCourseAccess,
+  IreqGetData,
+} from "@/features/requests/requestAction";
+import { AppDispatch, RootState } from "@/store";
+import {
+  Avatar,
+  Badge,
+  Button,
+  Flex,
+  Table,
+  Text,
+  Wrap,
+} from "@chakra-ui/react";
 
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 type IRequestTableBody = {
   data: Array<IreqGetData>;
+};
+
+type Istatus = {
+  datastatus: string;
 };
 
 const RequestTableCell = (RequestDataProps: IreqGetData) => {
@@ -21,11 +36,26 @@ const RequestTableCell = (RequestDataProps: IreqGetData) => {
     student_id,
   } = RequestDataProps;
 
+  const { coporateInfo } = useSelector((state: RootState) => state.auth);
+
+  const [status, setStatus] = useState("PENDING");
+
   const dispatch = useDispatch<AppDispatch>();
 
-  const encodedId = encodeURIComponent(request_id);
+  const handleChangeCourseStatus = async (props: Istatus) => {
+    const { datastatus } = props;
 
-  const handleChangeCourseStatus = async () => {};
+
+    if (coporateInfo != null) {
+      await dispatch(
+        grantCourseAccess({
+          approve_status: datastatus,
+          enc_request_id: request_id,
+          user_id: coporateInfo?.user_id,
+        })
+      );
+    }
+  };
 
   return (
     <Table.Row>
@@ -68,7 +98,32 @@ const RequestTableCell = (RequestDataProps: IreqGetData) => {
         </Badge>
       </Table.Cell>
       <Table.Cell pl="0px">
-        <Text>Action</Text>
+        {is_access_granted ? (
+          <Text>Alredy Accessed</Text>
+        ) : (
+          <Wrap gap={2}>
+            <Button
+              onClick={() => {
+                handleChangeCourseStatus({
+                  datastatus: "approved",
+                });
+              }}
+              colorPalette={"blue"}
+            >
+              Approve
+            </Button>
+            <Button
+              onClick={() => {
+                handleChangeCourseStatus({
+                  datastatus: "rejected",
+                });
+              }}
+              colorPalette={"red"}
+            >
+              Reject
+            </Button>
+          </Wrap>
+        )}
       </Table.Cell>
     </Table.Row>
   );

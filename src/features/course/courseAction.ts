@@ -92,6 +92,11 @@ export type IstudentCourses = {
 type getCourseDataByIdProps = {
     enc_course_id: string
 }
+type getCourseDataBydataIdProps = {
+    enc_student_id: string,
+    enc_course_id: string,
+    data_id: string
+}
 type getisCourseRequestedbyIdProps = {
     enc_course_id: string
     enc_student_id: string
@@ -183,6 +188,20 @@ const handleGetStudentCourseDataByCourseId = async (values: getCourseDataByIdPro
 
         const response = await axiosInstance.post(
             'course/getStudentCourseDataByCourseId',
+            values
+        );
+
+        return response.data;
+
+    } catch (err: any) {
+        return rejectWithValue(err.response.data);
+    }
+}
+const handleGetStudentCourseDataByCourseIdandDataId = async (values: getCourseDataBydataIdProps, { rejectWithValue }: any) => {
+    try {
+
+        const response = await axiosInstance.post(
+            'course/getStudentCourseDataByCourseIdandDataId',
             values
         );
 
@@ -437,6 +456,7 @@ const requestCourseAccess = createAsyncThunk('course/requestCourseAccess', handl
 const checkAccessedCoursebyCourseId = createAsyncThunk('course/checkAccessedCoursebyCourseId', handleCheckAccessedCoursebyCourseId);
 const getcourseDatabyCourseId = createAsyncThunk('course/getCourseDataByCourseId', handleGetCourseDataByCourseId);
 const getStudentcourseDatabyCourseId = createAsyncThunk('course/getStudentCourseDataByCourseId', handleGetStudentCourseDataByCourseId);
+const getStudentcourseDatabyCourseIdandDataId = createAsyncThunk('course/getStudentCourseDataByCourseIdandDataId', handleGetStudentCourseDataByCourseIdandDataId);
 const getcourseDatabyTeacherandSubject = createAsyncThunk('course/getCourseDataByTeacherandSubject', handleGetCourseDataByTeacherandSubject);
 const createCourse = createAsyncThunk('course/createCourse', handleCreateCourse);
 const updateCourse = createAsyncThunk('course/updateCourse', handleUpdateCourse);
@@ -456,5 +476,6 @@ export {
     getcoursebyCourseId,
     requestCourseAccess,
     changeCourseStatus,
-    updateCourse
+    updateCourse,
+    getStudentcourseDatabyCourseIdandDataId
 }
