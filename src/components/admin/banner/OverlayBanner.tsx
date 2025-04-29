@@ -48,36 +48,10 @@ function OverlayBanner(props: IoverlayBanner) {
               {description}
             </Text>
             <Spacer />
-            <Flex align="center" mt={{ sm: "20px", lg: "40px", xl: "90px" }}>
-              <Button
-                color={"wheat"}
-                p="2px"
-                variant="ghost"
-                bg="transparent"
-                mt="12px"
-              >
-                <Text
-                  fontSize="sm"
-                  fontWeight="bold"
-                  _hover={{ me: "4px" }}
-                  transition="all .5s ease"
-                >
-                  Read more
-                </Text>
-                <Icon
-                  w="20px"
-                  h="20px"
-                  fontSize="xl"
-                  transition="all .5s ease"
-                  mx=".3rem"
-                  cursor="pointer"
-                  _hover={{ transform: "translateX(20%)" }}
-                  pt="4px"
-                >
-                  <ArrowRight />
-                </Icon>
-              </Button>
-            </Flex>
+            <Flex
+              align="center"
+              mt={{ sm: "20px", lg: "40px", xl: "90px" }}
+            ></Flex>
           </Flex>
         </Portal>
         <Box

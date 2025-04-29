@@ -41,7 +41,7 @@ const year = new Date().getFullYear()
               <LogoFooter />
             </Box>
             <Text fontSize={"sm"}>
-              © {year} {company[0]?.name}. All rights reserved
+              © {year} {company?.name}. All rights reserved
             </Text>
           </Stack>
           <Stack align={"flex-start"}>

@@ -1,6 +1,9 @@
 import AlertDialog from "@/components/alertDialog/AlertDialog";
 import { Tooltip } from "@/components/ui/tooltip";
-import { IgetCourseProps } from "@/features/course/courseAction";
+import {
+  changeCourseStatus,
+  IgetCourseProps,
+} from "@/features/course/courseAction";
 import {
   Avatar,
   Badge,
@@ -16,8 +19,8 @@ import { Link } from "react-router-dom";
 import Modalsheet from "../modal/Modalsheet";
 import CourseEditFormComponent from "@/components/edit/CourseEditFormComponent";
 import { IListItemProp } from "@/features/config/configAction";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
 
 type ICourseTableBody = {
   data: Array<IgetCourseProps>;
@@ -26,6 +29,8 @@ type ICourseTableBody = {
 const CourseTableCell = (courseDataProps: IgetCourseProps) => {
   const { id, course_id, title, year, status, Teacher, Grade, Subject } =
     courseDataProps;
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const { teachers } = useSelector((state: RootState) => state.teacher);
   const { subjects, grades } = useSelector((state: RootState) => state.common);
@@ -53,6 +58,14 @@ const CourseTableCell = (courseDataProps: IgetCourseProps) => {
   });
 
   const encodedId = encodeURIComponent(course_id);
+
+  const handleChangeCourseStatus = async () => {
+    await dispatch(
+      changeCourseStatus({
+        enc_course_id: course_id,
+      })
+    );
+  };
 
   return (
     <Table.Row>
@@ -89,7 +102,7 @@ const CourseTableCell = (courseDataProps: IgetCourseProps) => {
       </Table.Cell>
       <Table.Cell>
         <Badge
-          bg={"green.400"}
+          bg={status ? "green.400" : "red.600"}
           color={"white"}
           fontSize="16px"
           p="3px 10px"
@@ -105,16 +118,14 @@ const CourseTableCell = (courseDataProps: IgetCourseProps) => {
       </Table.Cell>
       <Table.Cell pl="0px">
         <Link to={`/admin/courses/data?id=${encodedId}`}>
-          <IconButton
+          <Button
             variant={"ghost"}
             fontSize="sm"
             color="gray.400"
             fontWeight="normal"
           >
-            <Tooltip content="Visit">
-              <LogIn />
-            </Tooltip>
-          </IconButton>
+            Visit <LogIn />
+          </Button>
         </Link>
         <Modalsheet
           buttonText={"Edit Course"}
@@ -134,7 +145,11 @@ const CourseTableCell = (courseDataProps: IgetCourseProps) => {
             </Tooltip>
           </IconButton>
         </Modalsheet>
-        <IconButton aria-label="Change Status" variant={"ghost"}>
+        <IconButton
+          onClick={handleChangeCourseStatus}
+          aria-label="Change Status"
+          variant={"ghost"}
+        >
           <Tooltip content="Change Status">
             <RefreshCw />
           </Tooltip>

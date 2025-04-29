@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { createTeacher, getAllTeachers, getTeacherById, IteacherGetProps } from "./teacherAction";
+import { createTeacher, getAllTeachers, getTeacherById, IteacherGetProps, updateTeacher } from "./teacherAction";
 import { toaster } from "@/components/ui/toaster";
 
 export type IteachersInitialState = {
@@ -23,7 +23,20 @@ const initialState: IteachersInitialState = {
 export const teacherSlice = createSlice({
     name: 'teacher',
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        applyAdvsearch(state, action) {
+            const searchPhrase = action.payload;
+            if (searchPhrase.trim() != '') {
+                const searchTerm = searchPhrase.toLowerCase();
+
+                const filteredData = state.teachers.filter(data => {
+                    return data.full_name.toLowerCase().includes(searchTerm)
+                })
+
+                state.teachers = filteredData;
+            }
+        }
+    },
     extraReducers(builder) {
         builder.addCase(
             getAllTeachers.pending, (state) => {
@@ -98,7 +111,7 @@ export const teacherSlice = createSlice({
                 const newTeacher = action.payload.teacher;
 
                 state.selectedTeacher = newTeacher;
-                
+
             }
         ).addCase(
             getTeacherById.rejected, (state, action) => {
@@ -114,8 +127,48 @@ export const teacherSlice = createSlice({
                     title: state.errorMsg
                 });
             }
+        ).addCase(
+            updateTeacher.pending, (state) => {
+                state.loading = true
+                state.error = false
+            }
+        ).addCase(
+            updateTeacher.fulfilled, (state, action) => {
+                state.loading = false
+                state.error = null
+
+                const updatedTeacher = action.payload.teacher;
+
+                let findex = state.teachers.findIndex((adv) => adv.id === updatedTeacher.id);
+
+                if (findex !== -1) {
+                    state.teachers[findex] = updatedTeacher;
+                }
+
+                toaster.create({
+                    type: 'success',
+                    title: action.payload.message
+                });
+            }
+        ).addCase(
+            updateTeacher.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
         )
     },
 });
+
+export const { applyAdvsearch } = teacherSlice.actions;
+
 
 export default teacherSlice.reducer

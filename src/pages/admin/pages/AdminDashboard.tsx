@@ -48,8 +48,10 @@ function AdminDashboard() {
       >
         <OverlayBanner
           backgroundImage={bgImg}
-          title={"Main Advertisment Banner"}
-          description={"Update Main Advertisment on Student Dashboard"}
+          title={"Welcome Back"}
+          description={
+            "Manage your work and Get insights through our Dashboard"
+          }
         />
         <Wrap>
           <NavLink to={"/admin/advertisments"}>
@@ -57,12 +59,14 @@ function AdminDashboard() {
               Advertisments
             </Button>
           </NavLink>
-          <Button colorPalette={"blue"} size={"2xl"}>
-            Company
-          </Button>
           <NavLink to={"/admin/common"}>
             <Button colorPalette={"blue"} size={"2xl"}>
               Common
+            </Button>
+          </NavLink>
+          <NavLink to={"/admin/requests"}>
+            <Button colorPalette={"blue"} size={"2xl"}>
+              Requested Courses
             </Button>
           </NavLink>
         </Wrap>

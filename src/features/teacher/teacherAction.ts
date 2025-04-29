@@ -8,6 +8,14 @@ export type IteacherRegisterProps = {
     introImg1: File | null;
     introImg2: File | null;
 }
+export type IteacherEditFormProps = {
+    teacher_id: string;
+    full_name: string;
+    description: string;
+    profileImg: File | null;
+    introImg1: File | null;
+    introImg2: File | null;
+}
 export type IteacherGetProps = {
     id: string;
     teacher_id: string;
@@ -42,6 +50,7 @@ const handleGetAllTeachers = async ({ rejectWithValue }: any) => {
         const response = await axiosInstance.get(
             'teacher/getAllTeachers'
         );
+
 
         return response.data;
 
@@ -94,15 +103,62 @@ const handleCreteTeacher = async (values: IteacherRegisterProps, { rejectWithVal
         return rejectWithValue(err.response.data);
     }
 }
+const handleUpdateTeacher = async (values: IteacherEditFormProps, { rejectWithValue }: any) => {
+    try {
+
+        const { teacher_id, full_name, description, introImg1, introImg2, profileImg } = values;
+
+        const formData = new FormData();
+
+        if (introImg1 != null) {
+            formData.append("introImg1", introImg1);
+
+        }
+        if (introImg2 != null) {
+            formData.append("introImg2", introImg2);
+
+        }
+        if (profileImg != null) {
+            formData.append("profileImg", profileImg);
+
+        }
+
+
+        formData.append("teacher_id", teacher_id);
+        formData.append("full_name", full_name);
+        formData.append("description", description.trim());
+
+
+
+
+        const response = await axiosInstance.put(
+            'teacher/updateTeacher',
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }
+
+        );
+
+        return response.data;
+
+    } catch (err: any) {
+        return rejectWithValue(err.response.data);
+    }
+}
 
 const getAllTeachers = createAsyncThunk('teacher/getAllTeachers', handleGetAllTeachers);
 const createTeacher = createAsyncThunk('teacher/createTeacher', handleCreteTeacher);
+const updateTeacher = createAsyncThunk('teacher/updateTeacher', handleUpdateTeacher);
 const getTeacherById = createAsyncThunk('teacher/getTeacherById', handleGetTeacherById);
 
 export {
     getAllTeachers,
     createTeacher,
-    getTeacherById
+    getTeacherById,
+    updateTeacher
 }
 
 

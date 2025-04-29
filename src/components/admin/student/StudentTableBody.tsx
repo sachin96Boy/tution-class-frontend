@@ -1,7 +1,24 @@
 import Logo from "@/components/Logo";
 import { QrCode } from "@/components/ui/qr-code";
 import { IUserInfo } from "@/features/auth/authSlice";
-import { Badge, Box, Button, Table, Text } from "@chakra-ui/react";
+import {
+  Badge,
+  Button,
+  Flex,
+  IconButton,
+  Table,
+  Text,
+  Wrap,
+} from "@chakra-ui/react";
+import Modalsheet from "../modal/Modalsheet";
+import { Tooltip } from "@/components/ui/tooltip";
+import { Pencil, RefreshCw, Trash2 } from "lucide-react";
+import AlertDialog from "@/components/alertDialog/AlertDialog";
+import StudentEditFormComponent from "@/components/edit/StudentEditFormComponent";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store";
+import { changeStudentStatus } from "@/features/student/studentAction";
+import { Link } from "react-router-dom";
 
 type IuserTableBody = {
   data: Array<IUserInfo>;
@@ -10,6 +27,18 @@ type IuserTableBody = {
 const UserTableCell = (payDataProps: IUserInfo) => {
   const { isVerified, full_name, pay_role, email, id, student_id } =
     payDataProps;
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const encodedId = encodeURIComponent(student_id);
+
+  const handleChangeStatus = async () => {
+    await dispatch(
+      changeStudentStatus({
+        enc_student_id: student_id,
+      })
+    );
+  };
 
   return (
     <Table.Row p={2}>
@@ -50,6 +79,16 @@ const UserTableCell = (payDataProps: IUserInfo) => {
         </QrCode>
       </Table.Cell>
       <Table.Cell pl="0px">
+        <Wrap colorPalette={"blue"} gap={2}>
+          <Link to={`/admin/students/advance/${encodedId}`}>
+            <Button>Advance Data</Button>
+          </Link>
+          <Link to={`/admin/students/nic/${encodedId}`}>
+            <Button>NIC Data</Button>
+          </Link>
+        </Wrap>
+      </Table.Cell>
+      <Table.Cell pl="0px">
         <Text
           fontSize="md"
           color={isVerified ? "green.700" : "yellow.700"}
@@ -57,6 +96,41 @@ const UserTableCell = (payDataProps: IUserInfo) => {
         >
           {isVerified ? "Verified" : "Pending"}
         </Text>
+      </Table.Cell>
+      <Table.Cell pl="0px">
+        <Wrap align={"center"} gap={2}>
+          <Modalsheet
+            buttonText={"Edit Student"}
+            modalTitle={"Edit Student Data"}
+            formComponent={<StudentEditFormComponent data={payDataProps} />}
+          >
+            <IconButton aria-label="Edit" variant={"ghost"}>
+              <Tooltip content="Edit">
+                <Pencil />
+              </Tooltip>
+            </IconButton>
+          </Modalsheet>
+          <IconButton
+            onClick={handleChangeStatus}
+            aria-label="Change Status"
+            variant={"ghost"}
+          >
+            <Tooltip content="Change Status">
+              <RefreshCw />
+            </Tooltip>
+          </IconButton>
+          <AlertDialog handleDelete={() => {}} id="">
+            <IconButton
+              colorPalette={"red"}
+              aria-label="Edit"
+              variant={"ghost"}
+            >
+              <Tooltip content="Delete">
+                <Trash2 />
+              </Tooltip>
+            </IconButton>
+          </AlertDialog>
+        </Wrap>
       </Table.Cell>
     </Table.Row>
   );
@@ -77,6 +151,7 @@ function StudentsTableBody(props: IuserTableBody) {
             pay_role={item.pay_role}
             student_id={item.student_id}
             isVerified={item.isVerified}
+            AdditionalStudentDatum={item.AdditionalStudentDatum}
           />
         );
       })}

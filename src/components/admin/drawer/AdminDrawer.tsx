@@ -18,6 +18,7 @@ import {
   GraduationCap,
   House,
   MenuIcon,
+  Settings,
   Sheet,
   UserRoundPen,
   Users,
@@ -95,6 +96,12 @@ function AdminDrawer(props: IdrawerProps) {
       icon: <BookOpen />,
       path: "/admin/courses",
       route: "courses",
+    },
+    {
+      title: "Settings",
+      icon: <Settings />,
+      path: "/admin/settings",
+      route: "settings",
     },
   ];
 

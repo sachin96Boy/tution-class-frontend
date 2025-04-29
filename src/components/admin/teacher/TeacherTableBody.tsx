@@ -1,13 +1,33 @@
 import { IteacherGetProps } from "@/features/teacher/teacherAction";
-import { Avatar, Box, Flex, Table, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Flex,
+  IconButton,
+  Table,
+  Text,
+  Wrap,
+} from "@chakra-ui/react";
 import React from "react";
+import Modalsheet from "../modal/Modalsheet";
+import { Tooltip } from "@/components/ui/tooltip";
+import { Pencil, RefreshCw, Trash2 } from "lucide-react";
+import AlertDialog from "@/components/alertDialog/AlertDialog";
+import TeacherEditFormComponent from "@/components/edit/TeacherEditFormComponent";
 
 type ITeacherTableBody = {
   data: Array<IteacherGetProps>;
 };
 
 const TeacherTableCell = (teacherDataProps: IteacherGetProps) => {
-  const { id, full_name, description, profile_img } = teacherDataProps;
+  const {
+    id,
+    full_name,
+    description,
+    profile_img,
+    intro_image1,
+    intro_image2,
+  } = teacherDataProps;
 
   return (
     <Table.Row>
@@ -31,6 +51,32 @@ const TeacherTableCell = (teacherDataProps: IteacherGetProps) => {
         <Text fontSize="sm" color="gray.400" fontWeight="normal" truncate>
           {description}
         </Text>
+      </Table.Cell>
+      <Table.Cell pl="0px">
+        <Wrap align={"center"} gap={2}>
+          <Modalsheet
+            buttonText={"Edit Teacher"}
+            modalTitle={"Edit Teacher Data"}
+            formComponent={<TeacherEditFormComponent data={teacherDataProps} />}
+          >
+            <IconButton aria-label="Edit" variant={"ghost"}>
+              <Tooltip content="Edit">
+                <Pencil />
+              </Tooltip>
+            </IconButton>
+          </Modalsheet>
+          <AlertDialog handleDelete={() => {}} id="">
+            <IconButton
+              colorPalette={"red"}
+              aria-label="Edit"
+              variant={"ghost"}
+            >
+              <Tooltip content="Delete">
+                <Trash2 />
+              </Tooltip>
+            </IconButton>
+          </AlertDialog>
+        </Wrap>
       </Table.Cell>
     </Table.Row>
   );

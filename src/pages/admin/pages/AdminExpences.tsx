@@ -7,6 +7,7 @@ import {
   getAllExpences,
   IgetExpence,
 } from "@/features/accounting/accountingAction";
+import { applyAdvsearchExpences } from "@/features/accounting/accountingSlice";
 import { IListItemProp } from "@/features/config/configAction";
 import { AppDispatch, RootState } from "@/store";
 import { Box, Button, Flex } from "@chakra-ui/react";
@@ -46,9 +47,14 @@ function AdminExpences(props: IAdminExpencesProps) {
 
   useEffect(() => {
     dispatch(getAllExpences(""));
-  }, []);
+  }, [dispatch]);
 
-  const handleSearch = (value: string) => {};
+  const handleSearch = (value: string) => {
+    dispatch(applyAdvsearchExpences(value));
+    if (value.trim() === "") {
+      dispatch(getAllExpences(""));
+    }
+  };
 
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>

@@ -46,7 +46,7 @@ function Signin() {
               my={2}
             >
               By logging into{" "}
-              {company && company.length > 0 ? company[0].name : ""}, you agree
+              {company ? company.name : ""}, you agree
               to our Terms of use and Privacy Policy.
             </Text>
           </Flex>

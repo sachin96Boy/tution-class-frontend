@@ -1,5 +1,18 @@
-import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import { requestCourseAccess } from "@/features/course/courseAction";
+import { AppDispatch, RootState } from "@/store";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  IconButton,
+  Image,
+  Spacer,
+  Text,
+} from "@chakra-ui/react";
+import { ShieldAlert, ShieldCheck, ShieldX } from "lucide-react";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export interface CourseDetailsProps {
   courseId: string;
@@ -12,6 +25,17 @@ export interface CourseDetailsProps {
   subcription: string;
 }
 
+enum Reqstatus {
+  PENDING,
+  APPROVED,
+  REJECTED,
+  NONE,
+}
+
+type IactionView = {
+  status: string | null;
+};
+
 function CourseDetailCard({
   courseId,
   subject,
@@ -22,6 +46,67 @@ function CourseDetailCard({
   courseImg,
   subcription,
 }: CourseDetailsProps) {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { selectedCourse, selectedCourseStatus } = useSelector(
+    (state: RootState) => state.course
+  );
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+
+  const handleAccess = async () => {
+    if (selectedCourse != null && userInfo != null) {
+      await dispatch(
+        requestCourseAccess({
+          enc_course_id: selectedCourse?.course_id,
+          enc_student_id: userInfo?.student_id,
+        })
+      );
+    }
+  };
+
+  const HandleActionView = (props: IactionView) => {
+    const { status } = props;
+
+    let ui = <Box />;
+
+    if (status != null) {
+      const stat = status.toLowerCase();
+      switch (stat) {
+        case "none":
+          ui = (
+            <Button onClick={handleAccess} colorPalette={"blue"}>
+              Request Access
+            </Button>
+          );
+          break;
+
+        case "pending":
+          ui = (
+            <IconButton aria-label="pending" colorPalette={"yellow"}>
+              <ShieldAlert />
+            </IconButton>
+          );
+          break;
+        case "approved":
+          ui = (
+            <IconButton aria-label="approved" colorPalette={"green"}>
+              <ShieldCheck />
+            </IconButton>
+          );
+          break;
+        case "rejected":
+          ui = (
+            <IconButton aria-label="rejected" colorPalette={"red"}>
+              <ShieldX />
+            </IconButton>
+          );
+          break;
+      }
+    }
+
+    return ui;
+  };
+
   return (
     <Box p={4} maxH={"204px"} bgColor="#E6F1FF" rounded={"16px"} w="full">
       <Flex align={"center"} justify="start">
@@ -82,6 +167,10 @@ function CourseDetailCard({
             </Text>
           </Flex>
         </Box>
+        <Spacer />
+        <Flex align={"end"}>
+          <HandleActionView status={selectedCourseStatus} />
+        </Flex>
       </Flex>
     </Box>
   );

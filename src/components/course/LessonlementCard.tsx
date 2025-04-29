@@ -1,3 +1,5 @@
+import { IgetCourseProps } from "@/features/course/courseAction";
+import { CoursePart } from "@/pages/CourseDetails";
 import {
   Box,
   Button,
@@ -9,6 +11,8 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
+import { NavLink } from "react-router-dom";
+
 interface LessonEementCardProps {
   grade: string;
   lessonName: string;
@@ -16,6 +20,7 @@ interface LessonEementCardProps {
   viewResource: string;
   attendNow: string;
   imgSrc: string;
+  CourseContent: CoursePart;
 }
 
 function LessonlementCard({
@@ -25,7 +30,12 @@ function LessonlementCard({
   viewResource,
   attendNow,
   imgSrc,
+  CourseContent,
 }: LessonEementCardProps) {
+
+  const courseId = CourseContent.Course.course_id;
+  const encodedId = encodeURIComponent(courseId);
+
   return (
     <Box
       m={2}
@@ -106,20 +116,22 @@ function LessonlementCard({
 
           {/* Right Section (Attend Now Button) */}
           <Flex align={"center"} justify={"center"} ml={[-2, -2, -2, 0]}>
-            <Button
-              w={["100%", "100%", "75px"]} // Full width on small screens
-              h={"52px"}
-              color={"white"}
-              rounded={"5px"}
-              bg="blackAlpha.800"
-              _hover={{ bg: "blackAlpha.900" }}
-              px={3}
-              onClick={() => window.open(attendNow)}
-            >
-              <Text fontFamily={"body"} fontWeight="600" fontSize={"12px"}>
-                Attend Now
-              </Text>
-            </Button>
+            <NavLink to={`/dashboard/player/${encodedId}/${attendNow}`}>
+              <Button
+                w={["100%", "100%", "75px"]} // Full width on small screens
+                h={"52px"}
+                color={"white"}
+                rounded={"5px"}
+                bg="blackAlpha.800"
+                _hover={{ bg: "blackAlpha.900" }}
+                px={3}
+                // onClick={() => window.open(attendNow)}
+              >
+                <Text fontFamily={"body"} fontWeight="600" fontSize={"12px"}>
+                  Attend Now
+                </Text>
+              </Button>
+            </NavLink>
           </Flex>
         </Flex>
       </Flex>

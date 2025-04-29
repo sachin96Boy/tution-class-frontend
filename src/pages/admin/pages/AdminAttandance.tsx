@@ -1,22 +1,50 @@
 import AttandanceMarkForm from "@/components/admin/forms/AttandanceMarkForm";
 import QrScanner from "@/components/admin/scanner/QrScanner";
+import { toaster } from "@/components/ui/toaster";
+import {
+  getCourseDataBasedOnTime,
+  markAttandance,
+} from "@/features/attandance/attandanceAction";
 import { IListItemProp } from "@/features/config/configAction";
 import { getAllCourses } from "@/features/course/courseAction";
 import { getAllStudents } from "@/features/student/studentAction";
 import { AppDispatch, RootState } from "@/store";
-import { Button, Card, Center, Flex, Icon, Tabs, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  Center,
+  createListCollection,
+  Flex,
+  Icon,
+  Portal,
+  Select,
+  Tabs,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { Pen, QrCode } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
 function AdminAttandance() {
   const [showScanner, setShowScanner] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState("");
 
   const dispatch = useDispatch<AppDispatch>();
 
   const { courses } = useSelector((state: RootState) => state.course);
   const { students } = useSelector((state: RootState) => state.student);
+
+  const {
+    loading,
+    student,
+    error,
+    courses: stCourses,
+    success,
+  } = useSelector((state: RootState) => state.attandance);
 
   let coursesSelectList: Array<IListItemProp> = courses?.map((course) => {
     return {
@@ -33,24 +61,125 @@ function AdminAttandance() {
     };
   });
 
+  const date = new Date();
+  const year = date.getFullYear();
+
+  const timeTableCourses = createListCollection({
+    items: stCourses,
+    itemToValue: (item) => item.course_id,
+    itemToString: (item) => item.title,
+  });
+
   useEffect(() => {
     dispatch(getAllCourses(""));
     dispatch(getAllStudents(""));
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (student != null) {
+      dispatch(
+        getCourseDataBasedOnTime({
+          year: year,
+          timestamp: date,
+        })
+      );
+    }
+  }, [student, dispatch]);
 
   const markVisibility = () => {
     setShowScanner(!showScanner);
   };
 
+  const handleAttandanceMark = async () => {
+    if (selectedCourse == "") {
+      toaster.create({
+        type: "error",
+        title: "Please Select a course",
+      });
+      return;
+    }
+    if (student != null) {
+      await dispatch(
+        markAttandance({
+          course_id: selectedCourse,
+          student_id: student?.student_id,
+          date: date,
+        })
+      );
+    }
+  };
+
+  const HandlePopUp = () => {
+    return (
+      <>
+        {student ? (
+          <Box>
+            <VStack gap={2}>
+              <Box>
+                <Flex gap={2} align={"center"}>
+                  <Avatar.Root shape="full" size="lg">
+                    <Avatar.Fallback name={student.full_name} />
+                    <Avatar.Image
+                      src={student.AdditionalStudentDatum.profile_image}
+                    />
+                  </Avatar.Root>
+                  <Text fontSize="sm" color="gray.400" fontWeight="normal">
+                    {student.full_name}
+                  </Text>
+                </Flex>
+              </Box>
+              <Box>
+                <Select.Root
+                  onValueChange={(obj) => setSelectedCourse(obj.value[0])}
+                  value={[selectedCourse]}
+                  collection={timeTableCourses}
+                >
+                  <Select.HiddenSelect />
+                  <Select.Label>Select Course</Select.Label>
+                  <Select.Control>
+                    <Select.Trigger>
+                      <Select.ValueText placeholder="Select Type" />
+                    </Select.Trigger>
+                    <Select.IndicatorGroup>
+                      <Select.Indicator />
+                    </Select.IndicatorGroup>
+                  </Select.Control>
+                  <Select.Positioner width={"full"}>
+                    <Select.Content>
+                      {timeTableCourses.items.map((item) => (
+                        <Select.Item item={item} key={item.course_id}>
+                          {item.title}
+                          <Select.ItemIndicator />
+                        </Select.Item>
+                      ))}
+                    </Select.Content>
+                  </Select.Positioner>
+                </Select.Root>
+              </Box>
+              <Box>
+                <Button onClick={handleAttandanceMark} colorPalette={"blue"}>
+                  Mark Attandance
+                </Button>
+              </Box>
+            </VStack>
+          </Box>
+        ) : (
+          <Box></Box>
+        )}
+      </>
+    );
+  };
+
   const CustomQRCardComponent = () => {
     return (
-      <Card.Root maxW={"lg"}>
+      <Card.Root>
         <Card.Header>
           <Button colorPalette={"blue"} onClick={markVisibility}>
             {showScanner ? "Hide scanner" : "Show scanner"}
           </Button>
         </Card.Header>
         <Card.Body>
+          <HandlePopUp />
           <QrScanner visibility={showScanner} />
         </Card.Body>
       </Card.Root>
@@ -58,14 +187,7 @@ function AdminAttandance() {
   };
 
   return (
-    <Flex
-      width={"full"}
-      align={"center"}
-      justify={"center"}
-      minH={"100vh"}
-      gap={4}
-      flexDir={"column"}
-    >
+    <Flex width={"full"} gap={4} flexDir={"column"}>
       <Tabs.Root
         fitted
         variant={"subtle"}

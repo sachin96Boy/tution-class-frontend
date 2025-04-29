@@ -3,8 +3,11 @@ import { IListItemProp } from "../config/configAction"
 import { ITeacherProps } from "../course/courseAction";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-type IExpenceType = {
+export type IExpenceType = {
     expence_type: string,
+}
+export type IPaymentsByStudent = {
+    enc_student_id: string,
 }
 type IStudentProp = {
     student_id: string,
@@ -39,7 +42,7 @@ export type ICreateExpence = {
     expence_type: IListItemProp,
     teacher_id: IListItemProp,
     expence_amount: number,
-    date: Date| null
+    date: Date | null
 }
 export type IgetExpence = {
     id: string,
@@ -116,6 +119,23 @@ const handlegetAllPayments = async (values: unknown, { rejectWithValue }: any) =
         return rejectWithValue(err.response.data);
     }
 }
+const handlegetPaymentsbyStudentId = async (values: IPaymentsByStudent, { rejectWithValue }: any) => {
+    try {
+
+        const response = await axiosInstance.post(
+            'account/getPaymentsByStudentId',
+            values
+        );
+
+
+
+        return response.data;
+
+    } catch (err: any) {
+        console.log(err);
+        return rejectWithValue(err.response.data);
+    }
+}
 const handlegetAllExpences = async (values: unknown, { rejectWithValue }: any) => {
     try {
 
@@ -136,13 +156,15 @@ const handlegetAllExpences = async (values: unknown, { rejectWithValue }: any) =
 const createPayment = createAsyncThunk('account/createPayment', handleCreatePayment);
 const createExpence = createAsyncThunk('account/createExpence', handleCreateExpence);
 const getAllPayments = createAsyncThunk('account/getAllPayments', handlegetAllPayments);
+const getPaymentsByStudentId = createAsyncThunk('account/getPaymentsbyStudentId', handlegetPaymentsbyStudentId);
 const getAllExpences = createAsyncThunk('account/getAllExpences', handlegetAllExpences);
 
 export {
     createPayment,
     createExpence,
     getAllPayments,
-    getAllExpences
+    getAllExpences,
+    getPaymentsByStudentId
 }
 
 

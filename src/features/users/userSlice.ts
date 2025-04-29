@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { toaster } from "@/components/ui/toaster";
 import { ICoporateUserInfo } from "../auth/authSlice";
-import { getAllUsers } from "./userAction";
+import { change_status, getAllUsers, reset_password, updateUser } from "./userAction";
 import { registerCoporateUser } from "../auth/authAction";
 
 export type IusersInitialState = {
@@ -27,6 +27,18 @@ export const userSlice = createSlice({
     reducers: {
         userAdded(state, action) {
             state.users.push(action.payload);
+        },
+        applyAdvsearch(state, action) {
+            const searchPhrase = action.payload;
+            if (searchPhrase.trim() != '') {
+                const searchTerm = searchPhrase.toLowerCase();
+
+                const filteredData = state.users.filter(data => {
+                    return data.userName.toLowerCase().includes(searchTerm)
+                })
+
+                state.users = filteredData;
+            }
         }
     },
     extraReducers(builder) {
@@ -61,11 +73,103 @@ export const userSlice = createSlice({
 
                 state.users.push(newUser);
             }
+        ).addCase(
+            updateUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            }
+        ).addCase(
+            updateUser.fulfilled, (state, action) => {
+                state.loading = false;
+                const user = action.payload.user;
+
+                let findex = state.users.findIndex((adv) => adv.id === user.id);
+
+                if (findex !== -1) {
+                    state.users[findex] = user;
+                }
+
+                toaster.create({
+                    type: 'success',
+                    title: action.payload.message
+                });
+            }
+        ).addCase(
+            updateUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
+        ).addCase(
+            reset_password.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            }
+        ).addCase(
+            reset_password.fulfilled, (state, action) => {
+                state.loading = false;
+                toaster.create({
+                    type: 'success',
+                    title: action.payload.message
+                });
+            }
+        ).addCase(
+            reset_password.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
+        ).addCase(
+            change_status.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            }
+        ).addCase(
+            change_status.fulfilled, (state, action) => {
+                state.loading = false;
+                const user = action.payload.user;
+
+                let findex = state.users.findIndex((adv) => adv.id === user.id);
+
+                if (findex !== -1) {
+                    state.users[findex] = user;
+                }
+            }
+        ).addCase(
+            change_status.rejected, (state, action) => {
+                state.loading = false;
+                state.error = true;
+
+                const errorData = (action.payload as any)?.error || action.error.message;
+
+                state.errorMsg = errorData;
+
+                toaster.create({
+                    type: 'error',
+                    title: state.errorMsg
+                });
+            }
         )
 
     },
 });
 
-export const { userAdded } = userSlice.actions;
+export const { userAdded, applyAdvsearch } = userSlice.actions;
 
 export default userSlice.reducer

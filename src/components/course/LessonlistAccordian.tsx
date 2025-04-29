@@ -20,113 +20,9 @@ export interface LessonContent {
   AttendNow: string;
 }
 
-interface LessonDetailsListProps {
-  subject: string;
-  grade: string;
-  year: string;
-  month: string;
-  content: Array<LessonContent>;
-}
 
-const lessonList: Array<LessonDetailsListProps> = [
-  {
-    subject: "Biology",
-    grade: "10",
-    year: "2020",
-    month: "Mar",
-    content: [
-      {
-        week: "Week 1",
-        date: "03/03/2020",
-        lessonName: "Lesson 1",
-        imgSrc: "https://picsum.photos/200",
-        lessonContent: "This is the content of lesson 1",
-        viewResource: "View Resource",
-        AttendNow: "Attand Now",
-      },
-      {
-        week: "Week 2",
-        date: "03/03/2020",
-        lessonName: "Lesson 2",
-        imgSrc: "https://picsum.photos/200",
-        lessonContent: "This is the content of lesson 2",
-        viewResource: "View Resource",
-        AttendNow: "Attand Now",
-      },
-      {
-        week: "Week 3",
-        date: "03/03/2020",
-        lessonName: "Lesson 3",
-        imgSrc: "https://picsum.photos/200",
-        lessonContent: "This is the content of lesson 3",
-        viewResource: "View Resource",
-        AttendNow: "Attand Now",
-      },
-      {
-        week: "Week 4",
-        date: "03/03/2020",
-        lessonName: "Lesson 4",
-        imgSrc: "https://picsum.photos/200",
-        lessonContent: "This is the content of lesson 4",
-        viewResource: "View Resource",
-        AttendNow: "Attand Now",
-      },
-      {
-        week: "Week 5",
-        date: "03/03/2020",
-        lessonName: "Lesson 5",
-        imgSrc: "https://picsum.photos/200",
-        lessonContent: "This is the content of lesson 5",
-        viewResource: "View Resource",
-        AttendNow: "Attand Now",
-      },
-      {
-        week: "Week 6",
-        date: "03/03/2020",
-        lessonName: "Lesson 6",
-        imgSrc: "https://picsum.photos/200",
-        lessonContent: "This is the content of lesson 6",
-        viewResource: "View Resource",
-        AttendNow: "Attand Now",
-      },
-    ],
-  },
-  {
-    subject: "Math",
-    grade: "10",
-    year: "2020",
-    month: "Mar",
-    content: [
-      {
-        week: "Week 1",
-        date: "03/03/2020",
-        lessonName: "Lesson 1",
-        imgSrc: "https://picsum.photos/200",
-        lessonContent: "This is the content of lesson 1",
-        viewResource: "View Resource",
-        AttendNow: "Attand Now",
-      },
-      {
-        week: "Week 2",
-        date: "03/03/2020",
-        lessonName: "Lesson 2",
-        imgSrc: "https://picsum.photos/200",
-        lessonContent: "This is the content of lesson 2",
-        viewResource: "View Resource",
-        AttendNow: "Attand Now",
-      },
-      {
-        week: "Week 3",
-        date: "03/03/2020",
-        lessonName: "Lesson 3",
-        imgSrc: "https://picsum.photos/200",
-        lessonContent: "This is the content of lesson 3",
-        viewResource: "View Resource",
-        AttendNow: "Attand Now",
-      },
-    ],
-  },
-];
+
+
 type IlessionAccordian = {
   year: string;
   lessonList: MonthGroup[];
@@ -200,6 +96,7 @@ function LessonlistAccordian(props: IlessionAccordian) {
                     {lessonContent.data.map((lesson, index) => (
                       <Box key={index} px={2}>
                         <LessonlementCard
+                          CourseContent={lesson}
                           grade={lesson.Course.Grade.grade}
                           date={lesson.course_month}
                           imgSrc={lesson.Course.course_img_path}

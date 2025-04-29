@@ -49,7 +49,7 @@ const ServicesSection = () => {
     <Container maxW="container.xl" py={16}>
       <VStack gap={6} textAlign="center" mb={12}>
         <Text color="blue.600" fontWeight="bold">
-          THE ADVANTAGES OF OUR COMPANY
+          How to Use Different Section of our App
         </Text>
         <Heading as="h2" size="xl" fontWeight="bold">
           Our Professional Services

@@ -1,6 +1,6 @@
-import { Button, Text, VStack } from "@chakra-ui/react";
+import { Button, RatingGroup, Text, VStack } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 
 import * as Yup from "yup";
 import InputComponent from "./customInput/InputComponent";
@@ -9,16 +9,17 @@ import InputTextAreaComponent from "./InputTextAreaComponent";
 type ContactFormProps = {
   fullName: string;
   email: string;
-  grade: string;
+  grade: number;
   isTeacher: boolean;
   contentBody: string;
 };
 
 function ContactUsForm() {
+  const [value, setValue] = useState(3);
   const initialValues: ContactFormProps = {
     fullName: "",
     email: "",
-    grade: "",
+    grade: value,
     isTeacher: false,
     contentBody: "",
   };
@@ -65,7 +66,7 @@ function ContactUsForm() {
               isTouched={formik.touched.email}
               isError={formik.errors.email}
             />
-            <InputComponent
+            {/* <InputComponent
               htmlFor="grade"
               placeHolder="User Grade"
               labelText="User Grade"
@@ -75,16 +76,30 @@ function ContactUsForm() {
               InputValue={formik.values.grade}
               isTouched={formik.touched.grade}
               isError={formik.errors.grade}
-            />
+            /> */}
+            <RatingGroup.Root
+              count={5}
+              gap={2}
+              value={value}
+              size={"lg"}
+              colorPalette={"yellow"}
+              onValueChange={(e) => setValue(e.value)}
+            >
+              <RatingGroup.HiddenInput />
+              <RatingGroup.Label>
+                <Text>Rating</Text>
+              </RatingGroup.Label>
+              <RatingGroup.Control />
+            </RatingGroup.Root>
             <InputTextAreaComponent
               htmlFor="BodyContent"
               placeHolder="Say Something to us"
               labelText="You Message"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              InputValue={formik.values.grade}
-              isTouched={formik.touched.grade}
-              isError={formik.errors.grade}
+              InputValue={formik.values.contentBody}
+              isTouched={formik.touched.contentBody}
+              isError={formik.errors.contentBody}
             />
 
             <Button

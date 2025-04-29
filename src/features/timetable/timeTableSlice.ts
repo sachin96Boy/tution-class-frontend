@@ -22,7 +22,7 @@ export type Itimetabledata = {
 export type ItimetableInitialState = {
     loading: boolean;
     error: boolean | null;
-    errorMsg: string | object | null;
+    errorMsg:  object | null;
     timeTables: Array<Igettimetableyear>;
     timeTableData: Array<Itimetabledata>;
     success: boolean;
@@ -31,7 +31,7 @@ export type ItimetableInitialState = {
 const initialState: ItimetableInitialState = {
     loading: false,
     error: null,
-    errorMsg: null,
+    errorMsg: {},
     timeTables: [],
     timeTableData: [],
     success: false

@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import {
+  checkAccessedCoursebyCourseId,
   getcoursebyCourseId,
   getStudentcourseDatabyCourseId,
   IgetCourseProps,
@@ -41,6 +42,8 @@ export interface MonthGroup {
 function CourseDetails() {
   const params = useParams();
 
+  const { userInfo } = useSelector((state: RootState) => state.auth);
+
   const dispatch = useDispatch<AppDispatch>();
 
   const { year, courseId } = params;
@@ -63,22 +66,19 @@ function CourseDetails() {
       })
     );
   }, [dispatch]);
+  useEffect(() => {
+    if (userInfo != null) {
+      dispatch(
+        checkAccessedCoursebyCourseId({
+          enc_course_id: real_enc_id,
+          enc_student_id: userInfo?.student_id,
+        })
+      );
+    }
+  }, [dispatch, userInfo]);
 
-  const { loading, studentCourseData, selectedCourse } = useSelector(
-    (state: RootState) => state.course
-  );
-
-  const CourseDetails: CourseDetailsProps = {
-    courseId: "1",
-    subject: "Biology",
-    subjectName: "Bialogy for biginers",
-    teacherName: "Saman Thakur",
-    description:
-      "Maecenas interdum odio turpis, eget finibus dui sollicitudin id. Aliquam lorem urna, ullamcorper et massa id, malesuada auctor libero. Sed quis ante rhoncus, iaculis diam at, semper dui. Suspendisse neque dui, laoreet et ligula sed, malesuada mollis eros. Duis id nisl purus. Donec molestie congue mi, eu dignissim felis tincidunt id. Fusce posuere ante vitae dignissim facilisis. Duis vehicula, mauris vestibulum mattis efficitur, purus sem elementum elit, et ultricies augue purus id tellus. Etiam non dignissim magna. Cras feugiat turpis nec mattis maximus. Nullam in ullamcorper sapien. Phasellus elementum elit augue, vehicula egestas felis mollis eu. Donec sed nunc volutpat lacus ornare tempus. Morbi ultrices metus vel nulla lobortis tincidunt. Integer diam lacus, finibus sed tempor sed, rhoncus eget eros. Nam sapien felis, mollis id nunc ac, pretium fermentum leo.",
-    year: "2021",
-    courseImg: "https://picsum.photos/200",
-    subcription: "Free",
-  };
+  const { loading, studentCourseData, selectedCourse, selectedCourseStatus } =
+    useSelector((state: RootState) => state.course);
 
   function groupByMonth(courseParts: CoursePart[]): MonthGroup[] {
     const monthMap = new Map<number, CoursePart[]>();
@@ -105,7 +105,6 @@ function CourseDetails() {
 
   const groupedByMonth = groupByMonth(studentCourseData);
 
-
   const SkelitonComponent = () => {
     return (
       <HStack gap="5">
@@ -125,7 +124,7 @@ function CourseDetails() {
           <SkelitonComponent />
         ) : selectedCourse != null ? (
           <CourseDetailCard
-            courseId={selectedCourse.title}
+            courseId={selectedCourse.course_id}
             subject={selectedCourse.Subject.subject_name}
             subjectName={selectedCourse.Subject.subject_name}
             teacherName={selectedCourse.Teacher.full_name}

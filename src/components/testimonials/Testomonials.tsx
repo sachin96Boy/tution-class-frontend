@@ -84,6 +84,7 @@ const TestimonialAvatar = ({
   return (
     <Flex align={"center"} mt={8} direction={"column"}>
       <Avatar.Root>
+        <Avatar.Fallback />
         <Avatar.Image src={src} mb={2} />
       </Avatar.Root>
       <Stack gap={-1} align={"center"}>
@@ -101,8 +102,7 @@ export default function Testomonials() {
     <Box>
       <Container maxW={"7xl"} py={16} as={Stack} gap={12}>
         <Stack gap={0} align={"center"}>
-          <Heading>Our Clients Speak</Heading>
-          <Text>We have been working with clients around the world</Text>
+          <Heading>Our Students Speak</Heading>
         </Stack>
         <Stack
           direction={{ base: "column", md: "row" }}
@@ -110,50 +110,44 @@ export default function Testomonials() {
         >
           <Testimonial>
             <TestimonialContent>
-              <TestimonialHeading>Efficient Collaborating</TestimonialHeading>
+              <TestimonialHeading>Great Teaching Methods</TestimonialHeading>
               <TestimonialText>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-                neque sed imperdiet nibh lectus feugiat nunc sem.
+                Our Teachers Teaches Us with modern methods and It help me to
+                Learn Quickly and Obtain a Good Result
               </TestimonialText>
             </TestimonialContent>
             <TestimonialAvatar
-              src={
-                "https://images.unsplash.com/photo-1586297135537-94bc9ba060aa?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80"
-              }
-              name={"Jane Cooper"}
-              title={"CEO at ABC Corporation"}
+              src={""}
+              name={"Supun Arunasingha"}
+              title={"AL Student"}
             />
           </Testimonial>
           <Testimonial>
             <TestimonialContent>
-              <TestimonialHeading>Intuitive Design</TestimonialHeading>
+              <TestimonialHeading>Paper Classes</TestimonialHeading>
               <TestimonialText>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-                neque sed imperdiet nibh lectus feugiat nunc sem.
+                We were able to learn more content by attending paper classes
+                and completing Question Papers
               </TestimonialText>
             </TestimonialContent>
             <TestimonialAvatar
-              src={
-                "https://images.unsplash.com/photo-1586297135537-94bc9ba060aa?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80"
-              }
-              name={"Jane Cooper"}
-              title={"CEO at ABC Corporation"}
+              src={""}
+              name={"Ruvini Dissanayaka"}
+              title={"OL Student"}
             />
           </Testimonial>
           <Testimonial>
             <TestimonialContent>
-              <TestimonialHeading>Mindblowing Service</TestimonialHeading>
+              <TestimonialHeading>Clear Notes</TestimonialHeading>
               <TestimonialText>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-                neque sed imperdiet nibh lectus feugiat nunc sem.
+                Our Sir Provide Good Class Notes , We were able to study Well
+                due to proper documents
               </TestimonialText>
             </TestimonialContent>
             <TestimonialAvatar
-              src={
-                "https://images.unsplash.com/photo-1586297135537-94bc9ba060aa?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80"
-              }
-              name={"Jane Cooper"}
-              title={"CEO at ABC Corporation"}
+              src={""}
+              name={"Kavya Banuki"}
+              title={"OL Student"}
             />
           </Testimonial>
         </Stack>

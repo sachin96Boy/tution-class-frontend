@@ -7,6 +7,7 @@ import {
   getAllPayments,
   IgetPayment,
 } from "@/features/accounting/accountingAction";
+import { applyAdvsearchPayments } from "@/features/accounting/accountingSlice";
 import { IListItemProp } from "@/features/config/configAction";
 import { AppDispatch, RootState } from "@/store";
 import { Box, Button, Flex } from "@chakra-ui/react";
@@ -49,7 +50,12 @@ function AdminPayments(props: IAdminPaymentsProps) {
     dispatch(getAllPayments(""));
   }, [dispatch]);
 
-  const handleSearch = (value: string) => {};
+  const handleSearch = (value: string) => {
+    dispatch(applyAdvsearchPayments(value));
+    if (value.trim() === "") {
+      dispatch(getAllPayments(""));
+    }
+  };
 
   return (
     <Flex gap={2} flexDirection="column" pt={{ base: "120px", md: "75px" }}>

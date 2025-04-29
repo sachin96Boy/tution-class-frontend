@@ -30,6 +30,11 @@ function StaticTiles() {
     );
   };
 
+  let lkrs = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "LKR",
+  });
+
   return (
     <>
       {loading ? (
@@ -40,8 +45,8 @@ function StaticTiles() {
             title={"Today's Income"}
             amount={
               dashboard?.todayIncome != null
-                ? `Rs ${dashboard?.todayIncome}`
-                : "Rs 0"
+                ? lkrs.format(Number(dashboard?.todayIncome))
+                : lkrs.format(0)
             }
             percentage={parseInt(dashboard?.todayIncomePresentage ?? "0")}
             icon={
@@ -66,7 +71,7 @@ function StaticTiles() {
           />
           <MiniStatTile
             title={"Total Sales"}
-            amount={`Rs ${dashboard?.todaySales}`}
+            amount={lkrs.format(Number(dashboard?.todaySales))}
             percentage={parseInt(dashboard?.todaySalesPrecentage ?? "0")}
             icon={
               <ShoppingCart

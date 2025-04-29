@@ -8,13 +8,29 @@ export type IregisterProps = {
     phone: string,
     password: string
 }
+export type IStudentUserEditProps = {
+    student_id: string;
+    fullName: string;
+    email: string,
+}
 export type ICoporateregisterProps = {
     userName: string;
     email: string,
     userType: Array<string>,
     password: string
 }
-
+export type ICoporateEditProps = {
+    user_id: string;
+    userName: string;
+    email: string;
+}
+export type ICoporateResetPasswordProps = {
+    user_id: string;
+    password: string;
+}
+export type ICoporateRChangeStatusProps = {
+    user_id: string;
+}
 
 export type IloginProps = {
     emailOrMobile: string,
@@ -77,7 +93,7 @@ const handleRegisterUser = async (value: IregisterProps, { rejectWithValue }: an
         return response.data;
 
     } catch (err: any) {
-
+        console.log(err);
         return rejectWithValue(err.response.data)
 
     }
@@ -93,12 +109,12 @@ const handleLoginUser = async (value: IloginProps, { rejectWithValue }: any) => 
             { emailOrMobile, password }
         );
 
-        console.log(response.data);
+
         return response.data
 
 
     } catch (err: any) {
-        console.log(err);
+
         return rejectWithValue(err.response.data);
 
     }
