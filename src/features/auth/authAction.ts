@@ -93,7 +93,7 @@ const handleRegisterUser = async (value: IregisterProps, { rejectWithValue }: an
         return response.data;
 
     } catch (err: any) {
-
+        console.log(err);
         return rejectWithValue(err.response.data)
 
     }

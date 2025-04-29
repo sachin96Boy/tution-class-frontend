@@ -3,30 +3,24 @@ import {
   Flex,
   Group,
   Heading,
-  Icon,
   Input,
   InputAddon,
   StepsRootProvider,
   Text,
-  useDisclosure,
   useSteps,
   VStack,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
-import React, { useRef, useState } from "react";
 
 import * as Yup from "yup";
 
-
-
+import { IregisterProps, registerUser } from "@/features/auth/authAction";
+import { AppDispatch } from "@/store";
+import { useDispatch } from "react-redux";
 import { Field } from "../ui/field";
-import { InputGroup } from "../ui/input-group";
+import { PasswordInput } from "../ui/password-input";
 import { StepsItem, StepsList } from "../ui/steps";
 import InputComponent from "./customInput/InputComponent";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/store";
-import { IregisterProps, registerUser } from "@/features/auth/authAction";
-import { PasswordInput } from "../ui/password-input";
 
 function RegisterForm() {
   const dispatch = useDispatch<AppDispatch>();
@@ -49,16 +43,18 @@ function RegisterForm() {
   const validationSchema = Yup.object({
     fullName: Yup.string().required("Full Name is required"),
     email: Yup.string().email("Email is invalid").required("Email is required"),
-    mobile: Yup.string().matches(
-      /^(?:\+94|0)(7)(0|1|2|5|6|7|8)\d{7}$/,
-      "Please enter a valid Sri Lankan mobile number"
-    ),
-    otpNumber: Yup.string().required("OTP is required"),
+    phone: Yup.string()
+      .required("mobile Number Required")
+      .matches(
+        /^(?:\+94|0)(?:7[0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9]|6[0-9]|8[1-9]|9[0-9])\d{7}$/,
+        "Please enter a valid Sri Lankan mobile number"
+      ),
     password: Yup.string()
       .required("Password is required")
       .min(8, "Password must be at least 6 characters"),
   });
   const onSubmit = async (values: IregisterProps, actions: any) => {
+    console.log(values);
     const result = await dispatch(registerUser(values));
 
     actions.setSubmitting(false);
@@ -132,14 +128,14 @@ function RegisterForm() {
                     <Field
                       invalid={formik.touched.phone && !!formik.errors.phone}
                       label="Mobile Number"
-                      htmlFor="mobile"
+                      htmlFor="phone"
                       errorText={formik.errors.phone}
                     >
                       <Group attached>
                         <InputAddon>+94</InputAddon>
                         <Input
-                          id="mobile"
-                          type={"number"}
+                          id="phone"
+                          type={"text"}
                           value={formik.values.phone}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
@@ -149,7 +145,7 @@ function RegisterForm() {
                               : "border_color"
                           }
                           borderWidth={"1px"}
-                          placeholder="Mobile Number"
+                          placeholder="0xx xxxxxxx"
                           rounded={"10px"}
                         />
                       </Group>
@@ -175,41 +171,6 @@ function RegisterForm() {
                       helperText="Password must be at least 8 characters long,  contain
                         letters and numbers, and must not contain spaces"
                     >
-                      {/* <InputGroup
-                        endElement={
-                          <Icon
-                            aria-label={
-                              open ? "Mask password" : "Reveal password"
-                            }
-                            onClick={() => onClickReveal()}
-                          >
-                            {open ? (
-                              <HiEye style={{ color: "gray.500" }} />
-                            ) : (
-                              <HiEyeOff style={{ color: "gray.500" }} />
-                            )}
-                          </Icon>
-                        }
-                      >
-                        <Input
-                          id="password"
-                          width={"full"}
-                          colorPalette={"blue"}
-                          ref={inputRef}
-                          type={open ? "text" : "password"}
-                          value={formik.values.password}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          borderColor={
-                            formik.touched.password && formik.errors.password
-                              ? "red"
-                              : "border_color"
-                          }
-                          borderWidth={"1px"}
-                          placeholder="Password"
-                          rounded={"10px"}
-                        />
-                      </InputGroup> */}
                       <PasswordInput
                         rootProps={{
                           width: "full",
