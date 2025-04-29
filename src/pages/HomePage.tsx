@@ -22,7 +22,7 @@ import {
 import Spinner from "@/components/spinner/Spinner";
 import CarousaComponent from "@/components/carousel/CarousaComponent";
 import { EmblaOptionsType } from "embla-carousel";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 // Motion components
 const MotionBox = motion.create(Box);

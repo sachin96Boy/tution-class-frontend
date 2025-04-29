@@ -171,7 +171,7 @@ const handleChangeCourseStatus = async (values: getCourseDataByIdProps, { reject
     try {
 
         const response = await axiosInstance.post(
-            'course/cangeCourseStatus',
+            'course/changeCourseStatus',
             values
         );
 

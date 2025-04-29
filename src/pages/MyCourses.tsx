@@ -30,6 +30,7 @@ import {
   getStudentCourses,
   IgetCourseProps,
 } from "@/features/course/courseAction";
+import { Field } from "@/components/ui/field";
 
 function MyCourses() {
   const [items, setItems] = useState<IgetCourseProps[]>([]);
@@ -114,7 +115,7 @@ function MyCourses() {
         })
       );
     }
-  }, [dispatch, userInfo]);
+  }, [dispatch]);
 
   useEffect(() => {
     setItems(studentSearchedCourses);
@@ -251,42 +252,48 @@ function MyCourses() {
                     dataList={subjectSelectList}
                   />
                 </Flex>
-                <ButtonGroup
-                  mt={[4, 7]}
-                  variant={"outline"}
-                  flexWrap="wrap" /* Allow buttons to wrap on smaller screens */
-                  gap={[2, 3]}
-                  borderWidth={"1px"}
-                  borderColor={"light_bg_blue"}
-                  rounded={"12px"}
+                <Field
+                  invalid={formik.touched.year || !!formik.errors?.year}
+                  htmlFor="year"
+                  errorText={formik.errors.year}
                 >
-                  {yearArray.map((yr) => (
-                    <Button
-                      key={yr}
-                      color={
-                        formik.values.year == yr.toString()
-                          ? "white"
-                          : "#CDCDCD"
-                      }
-                      bgColor={
-                        formik.values.year == yr.toString()
-                          ? "border_focus_color"
-                          : "light_bg_card"
-                      }
-                      border={"1px"}
-                      borderColor={"border_focus_color"}
-                      onClick={() => {
-                        formik.setFieldValue("year", yr);
-                      }}
-                      flex={[
-                        "1 1 45%",
-                        "0 0 auto",
-                      ]} /* Responsive button sizing */
-                    >
-                      {yr}
-                    </Button>
-                  ))}
-                </ButtonGroup>
+                  <ButtonGroup
+                    mt={[4, 7]}
+                    variant={"outline"}
+                    flexWrap="wrap" /* Allow buttons to wrap on smaller screens */
+                    gap={[2, 3]}
+                    borderWidth={"1px"}
+                    borderColor={"light_bg_blue"}
+                    rounded={"12px"}
+                  >
+                    {yearArray.map((yr) => (
+                      <Button
+                        key={yr}
+                        color={
+                          formik.values.year == yr.toString()
+                            ? "white"
+                            : "#CDCDCD"
+                        }
+                        bgColor={
+                          formik.values.year == yr.toString()
+                            ? "border_focus_color"
+                            : "light_bg_card"
+                        }
+                        border={"1px"}
+                        borderColor={"border_focus_color"}
+                        onClick={() => {
+                          formik.setFieldValue("year", yr);
+                        }}
+                        flex={[
+                          "1 1 45%",
+                          "0 0 auto",
+                        ]} /* Responsive button sizing */
+                      >
+                        {yr}
+                      </Button>
+                    ))}
+                  </ButtonGroup>
+                </Field>
                 <Flex
                   flexDirection={["column", "column", "column", "row"]}
                   gap={[2, 3, 4]}

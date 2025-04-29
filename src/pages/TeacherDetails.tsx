@@ -13,7 +13,7 @@ import {
   GridItem,
 } from "@chakra-ui/react";
 
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { useSelector } from "react-redux";
 
 type ITeacherDetails = {
