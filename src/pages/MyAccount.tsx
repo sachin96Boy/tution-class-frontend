@@ -40,7 +40,7 @@ import ProfileView from "./ProfileView";
 import NicDocumentsView from "./Nicview";
 import InputTextAreaComponent from "@/components/formcontrol/InputTextAreaComponent";
 import { getPaymentsByStudentId } from "@/features/accounting/accountingAction";
-import { formatter, LKRS } from "./admin/pages/AdminReports";
+import { formatter, lkrs } from "./admin/pages/AdminReports";
 
 function MyAccount() {
   const [preview, setPreview] = useState<string>();
@@ -561,7 +561,7 @@ function MyAccount() {
                       p="3px 10px"
                       borderRadius="8px"
                     >
-                      {LKRS.format(item.paid_amount)}
+                      {lkrs.format(item.paid_amount)}
                     </Badge>
                   </Table.Cell>
                 </Table.Row>

@@ -24,6 +24,7 @@ export type IcreateDailyAttandance = {
     course_id: string
 }
 export type IcreateMonthlyAttandance = {
+    year: number;
     month: String;
     course_id: string
 }
@@ -106,6 +107,8 @@ const handleGetMonthlyAttandance = async (values: IcreateMonthlyAttandance, { re
             'report/monthlyattandance',
             values,
         );
+
+
 
         return response.data;
 

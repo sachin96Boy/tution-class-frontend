@@ -1,5 +1,5 @@
 import { IgetExpence } from "@/features/accounting/accountingAction";
-import { formatter, LKRS } from "@/pages/admin/pages/AdminReports";
+import { formatter, lkrs } from "@/pages/admin/pages/AdminReports";
 import { Avatar, Badge, Flex, Table, Text } from "@chakra-ui/react";
 import React from "react";
 
@@ -32,7 +32,7 @@ const ExpenceTableCell = (payDataProps: IgetExpence) => {
           p="3px 10px"
           borderRadius="8px"
         >
-          {LKRS.format(amount)}
+          {lkrs.format(amount)}
         </Badge>
       </Table.Cell>
       <Table.Cell pl="0px">

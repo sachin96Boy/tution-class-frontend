@@ -9,6 +9,11 @@ type IStudentProp = {
     student_id: string,
     full_name: string,
 }
+type ICourseProps = {
+    course_id: string,
+    title: string,
+    course_img_path: string,
+}
 
 type IgetMonthlyPayReport = {
     Course: IgetCourseProps;
@@ -26,6 +31,21 @@ type IgetMonthlyExpReport = {
     month: number,
     amount: number
 }
+type IgetDailyAttandanceReport = {
+    Course: ICourseProps,
+    Student: IStudentProp,
+    course_id: string,
+    date: string,
+    id: number,
+    student_id: string
+}
+type IgetMonthlyAttandanceReport = {
+    Course: ICourseProps,
+    Student: IStudentProp,
+    course_id: string,
+    month: number,
+    present: number
+}
 
 export type IreportInitialState = {
     loading: boolean;
@@ -33,8 +53,8 @@ export type IreportInitialState = {
     monthlyPayments: Array<IgetMonthlyPayReport>;
     dailyExpences: Array<IgetExpence>;
     monthlyExpences: Array<IgetMonthlyExpReport>;
-    dailyAttandance: Array<any>;
-    monthlyAttandance: Array<any>;
+    dailyAttandance: Array<IgetDailyAttandanceReport>;
+    monthlyAttandance: Array<IgetMonthlyAttandanceReport>;
     error: boolean | null;
     errorMsg: string | object;
     success: boolean;

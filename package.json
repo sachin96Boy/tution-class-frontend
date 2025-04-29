@@ -49,11 +49,12 @@
     "react-router": "^7.2.0",
     "react-router-dom": "^7.1.5",
     "react-slick": "^0.30.3",
+    "react-to-print": "^3.1.0",
     "react-zxing": "^2.1.0",
     "slick-carousel": "^1.8.1",
-    "swr": "^2.3.3",
     "typescript": "^5.7.3",
     "web-vitals": "^4.2.4",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
     "yup": "^1.6.1"
   },
   "scripts": {

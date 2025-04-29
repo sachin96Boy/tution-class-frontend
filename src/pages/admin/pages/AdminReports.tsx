@@ -1,45 +1,33 @@
-import React, { useEffect, useState } from "react";
 import {
+  Badge,
   Box,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  createListCollection,
+  Field,
   Flex,
   Heading,
-  Text,
-  Select,
-  Button,
+  HStack,
+  Icon,
   Input,
-  InputGroup,
+  Portal,
+  Select,
+  Spinner,
   Table,
   Tabs,
-  Card,
-  CardHeader,
-  CardBody,
-  Icon,
-  Spinner,
-  Badge,
-  HStack,
-  createListCollection,
-  Portal,
-  Field,
+  Text,
 } from "@chakra-ui/react";
+import { useEffect, useRef, useState } from "react";
 
 import { DateRangePicker } from "react-date-range";
 
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
-import {
-  ArrowDownToLine,
-  BanknoteArrowDown,
-  BanknoteArrowUp,
-  Calendar,
-  CalendarCheck2,
-  Printer,
-  Search,
-  Sparkles,
-} from "lucide-react";
+import Logo from "@/components/Logo";
 import { toaster } from "@/components/ui/toaster";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/store";
 import { getAllCourses } from "@/features/course/courseAction";
 import {
   getDailyAtandance,
@@ -49,8 +37,23 @@ import {
   getMonthlyExpences,
   getMonthlyPayments,
 } from "@/features/reports/reportAction";
+import { AppDispatch, RootState } from "@/store";
+import {
+  ArrowDownToLine,
+  BanknoteArrowDown,
+  BanknoteArrowUp,
+  Calendar,
+  CalendarCheck2,
+  Printer,
+  Sparkles,
+} from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 
-export const LKRS = new Intl.NumberFormat("en-US", {
+import { useReactToPrint } from "react-to-print";
+
+import { utils, writeFileXLSX } from "xlsx";
+
+export const lkrs = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "LKR",
 });
@@ -59,12 +62,18 @@ export const formatter = new Intl.DateTimeFormat("en-US", {
   dateStyle: "full",
 });
 
+type ITypes = {
+  type: string;
+  subType: string;
+};
+
 const ReportPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const currentYear = new Date().getFullYear();
 
   const [activeTab, setActiveTab] = useState("payments");
-  const [isLoading, setIsLoading] = useState(false);
+  const [activeSubTab, setActiveSubTab] = useState("daily");
+
   const [dateRange, setDateRange] = useState([
     {
       startDate: new Date(),
@@ -76,6 +85,20 @@ const ReportPage = () => {
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedYear, setSelectedYear] = useState(currentYear);
 
+  const payment_daily_ref = useRef(null);
+  const payment_monthly_ref = useRef(null);
+  const expence_daily_ref = useRef(null);
+  const expence_monthly_ref = useRef(null);
+  const attandance_daily_ref = useRef(null);
+  const attandance_monthly_ref = useRef(null);
+
+  const table_payment_daily_ref = useRef(null);
+  const table_payment_monthly_ref = useRef(null);
+  const table_expence_daily_ref = useRef(null);
+  const table_expence_monthly_ref = useRef(null);
+  const table_attandance_daily_ref = useRef(null);
+  const table_attandance_monthly_ref = useRef(null);
+
   // Color mode values
   const cardBg = "white";
   const borderColor = "gray.200";
@@ -86,6 +109,7 @@ const ReportPage = () => {
   const { courses: corseData } = useSelector(
     (state: RootState) => state.course
   );
+  const { company } = useSelector((state: RootState) => state.config);
   const {
     loading,
     dailyPayments: dp,
@@ -100,6 +124,21 @@ const ReportPage = () => {
     const date = new Date();
     date.setMonth(monthNumber - 1); // Months are 0-indexed in JS (0=Jan, 11=Dec)
     return date.toLocaleString("default", { month: "long" }); // 'long' = full name (e.g., "January")
+  };
+
+  const TableHeader = () => {
+    return (
+      <Flex gap={2} align={"start"} justifyContent={"space-around"}>
+        <Logo boxSize="24" fitType="cover" linkPath={"/"} />
+        <Flex align={"start"} flexDirection={"column"}>
+          <Text>{company?.name}</Text>
+          <Text>{company?.address}</Text>
+          <br />
+          <Text>email:{company?.email}</Text>
+          <Text>VatNo:{company?.vatNo}</Text>
+        </Flex>
+      </Flex>
+    );
   };
 
   useEffect(() => {
@@ -133,92 +172,65 @@ const ReportPage = () => {
     itemToString: (item) => item.month,
   });
 
-  const generateReport = () => {
-    setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      toaster.create({
-        title: "Report generated",
-        description: "Your report data is ready.",
-        type: "success",
-        duration: 3000,
-      });
-    }, 1500);
+  // Create print handlers at the component level
+  const handlePrintDailyPayments = useReactToPrint({
+    contentRef: payment_daily_ref,
+  });
+
+  const handlePrintMonthlyPayments = useReactToPrint({
+    contentRef: payment_monthly_ref,
+  });
+
+  const handlePrintDailyExpenses = useReactToPrint({
+    contentRef: expence_daily_ref,
+  });
+
+  const handlePrintMonthlyExpenses = useReactToPrint({
+    contentRef: expence_monthly_ref,
+  });
+
+  const handlePrintDailyAttendance = useReactToPrint({
+    contentRef: attandance_daily_ref,
+  });
+
+  const handlePrintMonthlyAttendance = useReactToPrint({
+    contentRef: attandance_monthly_ref,
+  });
+
+  const generateReport = (props: ITypes) => {
+    const { type, subType } = props;
+
+    // Determine which print handler to use
+    if (type === "payments" && subType === "daily") {
+      handlePrintDailyPayments();
+    } else if (type === "payments" && subType === "monthly") {
+      handlePrintMonthlyPayments();
+    } else if (type === "expences" && subType === "daily") {
+      handlePrintDailyExpenses();
+    } else if (type === "expences" && subType === "monthly") {
+      handlePrintMonthlyExpenses();
+    } else if (type === "attandance" && subType === "daily") {
+      handlePrintDailyAttendance();
+    } else if (type === "attandance" && subType === "monthly") {
+      handlePrintMonthlyAttendance();
+    }
   };
+  const refForExcel = (props: ITypes) => {
+    const { type, subType } = props;
 
-  const exportReport = (format: string) => {
-    toaster.create({
-      title: `Exporting to ${format}`,
-      description: `Your report will be downloaded as ${format}.`,
-      type: "info",
-      duration: 2000,
-    });
-  };
-
-  const dailyAttendance = [
-    {
-      id: 1,
-      student: "John Doe",
-      course: "Web Development",
-      status: "Present",
-      date: "2023-05-01",
-    },
-    {
-      id: 2,
-      student: "Jane Smith",
-      course: "Web Development",
-      status: "Absent",
-      date: "2023-05-01",
-    },
-    {
-      id: 3,
-      student: "Mike Johnson",
-      course: "Data Science",
-      status: "Present",
-      date: "2023-05-01",
-    },
-  ];
-
-  const monthlyAttendance = [
-    {
-      id: 1,
-      student: "John Doe",
-      course: "Web Development",
-      present: 20,
-      absent: 2,
-      month: "April 2023",
-    },
-    {
-      id: 2,
-      student: "Jane Smith",
-      course: "Web Development",
-      present: 18,
-      absent: 4,
-      month: "April 2023",
-    },
-    {
-      id: 3,
-      student: "Mike Johnson",
-      course: "Data Science",
-      present: 22,
-      absent: 0,
-      month: "April 2023",
-    },
-  ];
-
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "Paid":
-        return <Badge colorPalette="green">Paid</Badge>;
-      case "Partial":
-        return <Badge colorPalette="yellow">Partial</Badge>;
-      case "Present":
-        return <Badge colorPalette="green">Present</Badge>;
-      case "Absent":
-        return <Badge colorPalette="red">Absent</Badge>;
-      default:
-        return <Badge>{status}</Badge>;
+    // Determine which print handler to use
+    if (type === "payments" && subType === "daily") {
+      return table_payment_daily_ref.current;
+    } else if (type === "payments" && subType === "monthly") {
+      return payment_monthly_ref.current;
+    } else if (type === "expences" && subType === "daily") {
+      return expence_daily_ref.current;
+    } else if (type === "expences" && subType === "monthly") {
+      return expence_monthly_ref.current;
+    } else if (type === "attandance" && subType === "daily") {
+      return attandance_daily_ref.current;
+    } else if (type === "attandance" && subType === "monthly") {
+      return attandance_monthly_ref.current;
     }
   };
 
@@ -281,9 +293,18 @@ const ReportPage = () => {
     );
   };
   const generateMonthlyAttandance = async () => {
+    if (selectedMonth == "" || selectedYear > currentYear) {
+      toaster.create({
+        type: "error",
+        title: "Please Select a valid Month or Year",
+      });
+      return;
+    }
+
     await dispatch(
       getMonthlyAttandance({
         course_id: selectedCourse,
+        year: selectedYear,
         month: selectedMonth,
       })
     );
@@ -299,11 +320,29 @@ const ReportPage = () => {
           <Button
             colorPalette="blue"
             variant="outline"
-            onClick={() => exportReport("CSV")}
+            onClick={() => {
+              const data = refForExcel({
+                type: activeTab,
+                subType: activeSubTab,
+              });
+              // generate workbook from table element
+              const wb = utils.table_to_book(data);
+              // write to XLSX
+              writeFileXLSX(wb, "Report to Excel Sheet.xlsx");
+            }}
           >
             <ArrowDownToLine /> Export CSV
           </Button>
-          <Button colorPalette="blue" onClick={() => exportReport("PDF")}>
+
+          <Button
+            colorPalette="blue"
+            onClick={() =>
+              generateReport({
+                type: activeTab,
+                subType: activeSubTab,
+              })
+            }
+          >
             <Printer /> Print
           </Button>
         </HStack>
@@ -335,6 +374,8 @@ const ReportPage = () => {
             variant="outline"
             defaultValue={"daily"}
             colorPalette="blue"
+            value={activeSubTab}
+            onValueChange={(e) => setActiveSubTab(e.value)}
           >
             <Tabs.List>
               <Tabs.Trigger value="daily">Daily Payments</Tabs.Trigger>
@@ -424,7 +465,7 @@ const ReportPage = () => {
                   <Button
                     colorPalette="blue"
                     onClick={generateDailyPaymentData}
-                    loading={isLoading}
+                    loading={loading}
                     loadingText="Generating..."
                   >
                     <Sparkles /> Generate Report
@@ -432,7 +473,7 @@ const ReportPage = () => {
                 </Card.Body>
               </Card.Root>
 
-              {isLoading ? (
+              {loading ? (
                 <Flex justify="center" py={12}>
                   <Spinner size="xl" />
                 </Flex>
@@ -441,20 +482,22 @@ const ReportPage = () => {
                   bg={cardBg}
                   borderWidth="1px"
                   borderColor={borderColor}
+                  ref={payment_daily_ref}
                 >
                   <Card.Header>
+                    <TableHeader />
                     <Flex justify="space-between" align="center">
                       <Heading size="md">Daily Payment Details</Heading>
                       <Text fontWeight="bold" color={totalPositiveColor}>
                         Total : &nbsp;
-                        {LKRS.format(
+                        {lkrs.format(
                           dp.reduce((sum, item) => sum + item.paid_amount, 0)
                         )}
                       </Text>
                     </Flex>
                   </Card.Header>
                   <Card.Body>
-                    <Table.Root variant="outline">
+                    <Table.Root variant="outline" ref={table_payment_daily_ref}>
                       <Table.Header>
                         <Table.Row>
                           <Table.ColumnHeader>Student</Table.ColumnHeader>
@@ -475,7 +518,7 @@ const ReportPage = () => {
                               </Table.Cell>
                               <Table.Cell>{payment.Course.title}</Table.Cell>
                               <Table.Cell>
-                                {LKRS.format(payment.paid_amount)}
+                                {lkrs.format(payment.paid_amount)}
                               </Table.Cell>
                               <Table.Cell>{formatter.format(date)}</Table.Cell>
                               <Table.Cell>{"Cash"}</Table.Cell>
@@ -578,7 +621,7 @@ const ReportPage = () => {
                   <Button
                     colorPalette="blue"
                     onClick={generateMonthlyPaymentData}
-                    loading={isLoading}
+                    loading={loading}
                     loadingText="Generating..."
                   >
                     <Sparkles /> Generate Report
@@ -586,7 +629,7 @@ const ReportPage = () => {
                 </Card.Body>
               </Card.Root>
 
-              {isLoading ? (
+              {loading ? (
                 <Flex justify="center" py={12}>
                   <Spinner size="xl" />
                 </Flex>
@@ -595,20 +638,25 @@ const ReportPage = () => {
                   bg={cardBg}
                   borderWidth="1px"
                   borderColor={borderColor}
+                  ref={payment_monthly_ref}
                 >
                   <Card.Header>
+                    <TableHeader />
                     <Flex justify="space-between" align="center">
                       <Heading size="md">Monthly Payment Details</Heading>
                       <Text fontWeight="bold" color={totalPositiveColor}>
                         Total: &nbsp;
-                        {LKRS.format(
+                        {lkrs.format(
                           mp.reduce((sum, item) => sum + item.total_amount, 0)
                         )}
                       </Text>
                     </Flex>
                   </Card.Header>
                   <Card.Body>
-                    <Table.Root variant="outline">
+                    <Table.Root
+                      variant="outline"
+                      ref={table_payment_monthly_ref}
+                    >
                       <Table.Header>
                         <Table.Row>
                           <Table.ColumnHeader>Student</Table.ColumnHeader>
@@ -623,7 +671,7 @@ const ReportPage = () => {
                             <Table.Cell>{payment.Student.full_name}</Table.Cell>
                             <Table.Cell>{payment.Course.title}</Table.Cell>
                             <Table.Cell>
-                              {LKRS.format(payment.total_amount)}
+                              {lkrs.format(payment.total_amount)}
                             </Table.Cell>
                             <Table.Cell>
                               {getMonthName(payment.month)}
@@ -645,6 +693,8 @@ const ReportPage = () => {
             defaultValue={"daily"}
             variant="outline"
             colorPalette="blue"
+            value={activeSubTab}
+            onValueChange={(e) => setActiveSubTab(e.value)}
           >
             <Tabs.List>
               <Tabs.Trigger value="daily">Daily Expenses</Tabs.Trigger>
@@ -696,7 +746,7 @@ const ReportPage = () => {
                   <Button
                     colorPalette="blue"
                     onClick={generateDailyExpencesData}
-                    loading={isLoading}
+                    loading={loading}
                     loadingText="Generating..."
                   >
                     <Sparkles /> Generate Report
@@ -704,7 +754,7 @@ const ReportPage = () => {
                 </Card.Body>
               </Card.Root>
 
-              {isLoading ? (
+              {loading ? (
                 <Flex justify="center" py={12}>
                   <Spinner size="xl" />
                 </Flex>
@@ -713,13 +763,15 @@ const ReportPage = () => {
                   bg={cardBg}
                   borderWidth="1px"
                   borderColor={borderColor}
+                  ref={expence_daily_ref}
                 >
                   <Card.Header>
+                    <TableHeader />
                     <Flex justify="space-between" align="center">
                       <Heading size="md">Daily Expense Details</Heading>
                       <Text fontWeight="bold" color={totalNegativeColor}>
                         Total: &nbsp;
-                        {LKRS.format(
+                        {lkrs.format(
                           dailyExpences.reduce(
                             (sum, item) => sum + item.amount,
                             0
@@ -729,7 +781,7 @@ const ReportPage = () => {
                     </Flex>
                   </Card.Header>
                   <Card.Body>
-                    <Table.Root variant="outline">
+                    <Table.Root variant="outline" ref={table_expence_daily_ref}>
                       <Table.Header>
                         <Table.Row>
                           <Table.ColumnHeader>Category</Table.ColumnHeader>
@@ -747,7 +799,7 @@ const ReportPage = () => {
                                 {expense.Expencetype.expence_type}
                               </Table.Cell>
                               <Table.Cell>
-                                {LKRS.format(expense.amount)}
+                                {lkrs.format(expense.amount)}
                               </Table.Cell>
                               <Table.Cell>{formatter.format(date)}</Table.Cell>
                               <Table.Cell>
@@ -824,7 +876,7 @@ const ReportPage = () => {
                   <Button
                     colorPalette="blue"
                     onClick={generateMonthlyExpencesData}
-                    loading={isLoading}
+                    loading={loading}
                     loadingText="Generating..."
                   >
                     <Sparkles /> Generate Report
@@ -832,7 +884,7 @@ const ReportPage = () => {
                 </CardBody>
               </Card.Root>
 
-              {isLoading ? (
+              {loading ? (
                 <Flex justify="center" py={12}>
                   <Spinner size="xl" />
                 </Flex>
@@ -841,13 +893,15 @@ const ReportPage = () => {
                   bg={cardBg}
                   borderWidth="1px"
                   borderColor={borderColor}
+                  ref={expence_monthly_ref}
                 >
                   <Card.Header>
+                    <TableHeader />
                     <Flex justify="space-between" align="center">
                       <Heading size="md">Monthly Expense Details</Heading>
                       <Text fontWeight="bold" color={totalNegativeColor}>
                         Total:
-                        {LKRS.format(
+                        {lkrs.format(
                           monthlyExpences.reduce(
                             (sum, item) => sum + item.amount,
                             0
@@ -857,7 +911,10 @@ const ReportPage = () => {
                     </Flex>
                   </Card.Header>
                   <Card.Body>
-                    <Table.Root variant="outline">
+                    <Table.Root
+                      variant="outline"
+                      ref={table_expence_monthly_ref}
+                    >
                       <Table.Header>
                         <Table.Row>
                           <Table.ColumnHeader>Category</Table.ColumnHeader>
@@ -873,7 +930,7 @@ const ReportPage = () => {
                               {expense.Expencetype.expence_type}
                             </Table.Cell>
                             <Table.Cell>
-                              {LKRS.format(expense.amount)}
+                              {lkrs.format(expense.amount)}
                             </Table.Cell>
                             <Table.Cell>
                               {getMonthName(expense.month)}
@@ -896,6 +953,8 @@ const ReportPage = () => {
             defaultValue={"daily"}
             variant="outline"
             colorPalette="blue"
+            value={activeSubTab}
+            onValueChange={(e) => setActiveSubTab(e.value)}
           >
             <Tabs.List>
               <Tabs.Trigger value="daily">Daily Attendance</Tabs.Trigger>
@@ -971,7 +1030,7 @@ const ReportPage = () => {
                   <Button
                     colorPalette="blue"
                     onClick={generateDailyAttandance}
-                    loading={isLoading}
+                    loading={loading}
                     loadingText="Generating..."
                   >
                     <Sparkles /> Generate Report
@@ -979,7 +1038,7 @@ const ReportPage = () => {
                 </Card.Body>
               </Card.Root>
 
-              {isLoading ? (
+              {loading ? (
                 <Flex justify="center" py={12}>
                   <Spinner size="xl" />
                 </Flex>
@@ -988,8 +1047,10 @@ const ReportPage = () => {
                   bg={cardBg}
                   borderWidth="1px"
                   borderColor={borderColor}
+                  ref={attandance_daily_ref}
                 >
                   <Card.Header>
+                    <TableHeader />
                     <Heading size="md">Daily Attendance Details</Heading>
                   </Card.Header>
                   <Card.Body>
@@ -1003,26 +1064,32 @@ const ReportPage = () => {
                         {selectedCourse || "All Courses"}
                       </Text>
                     </Flex>
-                    <Table.Root variant="outline">
+                    <Table.Root
+                      variant="outline"
+                      ref={table_attandance_daily_ref}
+                    >
                       <Table.Header>
                         <Table.Row>
                           <Table.ColumnHeader>Student</Table.ColumnHeader>
                           <Table.ColumnHeader>Course</Table.ColumnHeader>
-                          <Table.ColumnHeader>Status</Table.ColumnHeader>
+
                           <Table.ColumnHeader>Date</Table.ColumnHeader>
                         </Table.Row>
                       </Table.Header>
                       <Table.Body>
-                        {dailyAttendance.map((record) => (
-                          <Table.Row key={record.id}>
-                            <Table.Cell>{record.student}</Table.Cell>
-                            <Table.Cell>{record.course}</Table.Cell>
-                            <Table.Cell>
-                              {getStatusBadge(record.status)}
-                            </Table.Cell>
-                            <Table.Cell>{record.date}</Table.Cell>
-                          </Table.Row>
-                        ))}
+                        {dailyAttandance.map((record) => {
+                          const date = new Date(record.date);
+                          return (
+                            <Table.Row key={record.id}>
+                              <Table.Cell>
+                                {record.Student.full_name}
+                              </Table.Cell>
+                              <Table.Cell>{record.Course.title}</Table.Cell>
+
+                              <Table.Cell>{formatter.format(date)}</Table.Cell>
+                            </Table.Row>
+                          );
+                        })}
                       </Table.Body>
                     </Table.Root>
                   </Card.Body>
@@ -1047,6 +1114,18 @@ const ReportPage = () => {
                     gap={4}
                     mb={6}
                   >
+                    <Box flex={1}>
+                      <Field.Root>
+                        <Field.Label>Year</Field.Label>
+                        <Input
+                          type="number"
+                          value={selectedYear}
+                          onChange={(e) =>
+                            setSelectedYear(Number(e.target.value))
+                          }
+                        />
+                      </Field.Root>
+                    </Box>
                     <Box flex={1}>
                       <Select.Root
                         collection={months}
@@ -1107,7 +1186,7 @@ const ReportPage = () => {
                   <Button
                     colorPalette="blue"
                     onClick={generateMonthlyAttandance}
-                    loading={isLoading}
+                    loading={loading}
                     loadingText="Generating..."
                   >
                     <Sparkles /> Generate Report
@@ -1115,7 +1194,7 @@ const ReportPage = () => {
                 </Card.Body>
               </Card.Root>
 
-              {isLoading ? (
+              {loading ? (
                 <Flex justify="center" py={12}>
                   <Spinner size="xl" />
                 </Flex>
@@ -1124,8 +1203,10 @@ const ReportPage = () => {
                   bg={cardBg}
                   borderWidth="1px"
                   borderColor={borderColor}
+                  ref={attandance_monthly_ref}
                 >
                   <Card.Header>
+                    <TableHeader />
                     <Heading size="md">Monthly Attendance Summary</Heading>
                   </Card.Header>
                   <Card.Body>
@@ -1138,30 +1219,33 @@ const ReportPage = () => {
                         {selectedCourse || "All Courses"}
                       </Text>
                     </Flex>
-                    <Table.Root variant="outline">
+                    <Table.Root
+                      variant="outline"
+                      ref={table_attandance_monthly_ref}
+                    >
                       <Table.Header>
                         <Table.Row>
                           <Table.ColumnHeader>Student</Table.ColumnHeader>
                           <Table.ColumnHeader>Course</Table.ColumnHeader>
                           <Table.ColumnHeader>Present</Table.ColumnHeader>
-                          <Table.ColumnHeader>Absent</Table.ColumnHeader>
                           <Table.ColumnHeader>Attendance %</Table.ColumnHeader>
                           <Table.ColumnHeader>Month</Table.ColumnHeader>
                         </Table.Row>
                       </Table.Header>
                       <Table.Body>
-                        {monthlyAttendance.map((record) => {
-                          const total = record.present + record.absent;
+                        {monthlyAttandance.map((record, index) => {
+                          const total = 4;
                           const percentage =
                             total > 0
                               ? Math.round((record.present / total) * 100)
                               : 0;
                           return (
-                            <Table.Row key={record.id}>
-                              <Table.Cell>{record.student}</Table.Cell>
-                              <Table.Cell>{record.course}</Table.Cell>
+                            <Table.Row key={index}>
+                              <Table.Cell>
+                                {record.Student.full_name}
+                              </Table.Cell>
+                              <Table.Cell>{record.Course.title}</Table.Cell>
                               <Table.Cell>{record.present}</Table.Cell>
-                              <Table.Cell>{record.absent}</Table.Cell>
                               <Table.Cell>
                                 <Badge
                                   colorPalette={
@@ -1175,7 +1259,9 @@ const ReportPage = () => {
                                   {percentage}%
                                 </Badge>
                               </Table.Cell>
-                              <Table.Cell>{record.month}</Table.Cell>
+                              <Table.Cell>
+                                {getMonthName(record.month)}
+                              </Table.Cell>
                             </Table.Row>
                           );
                         })}

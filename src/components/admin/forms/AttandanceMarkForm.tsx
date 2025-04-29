@@ -42,12 +42,12 @@ function AttandanceMarkForm(props: IattandanceMarksForm) {
   };
 
   const validationSchema = Yup.object({
-    studentId: Yup.object().shape({
+    student_id: Yup.object().shape({
       key: Yup.string().required("Student is not valid"),
       value: Yup.string().required("Student name is required"),
       image_path: Yup.mixed().nullable(),
     }),
-    courseId: Yup.object().shape({
+    course_id: Yup.object().shape({
       key: Yup.string().required("Course is not valid"),
       value: Yup.string().required("Course name is required"),
       image_path: Yup.mixed().nullable(),
@@ -60,6 +60,7 @@ function AttandanceMarkForm(props: IattandanceMarksForm) {
 
   const onSubmit = async (values: IinitialState, action: any) => {
     try {
+      console.log(values)
       await dispatch(
         markAttandance({
           course_id: values.course_id.key,
