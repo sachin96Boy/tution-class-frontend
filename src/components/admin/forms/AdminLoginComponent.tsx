@@ -1,7 +1,11 @@
 import React, { useRef } from "react";
 
 import * as Yup from "yup";
-import { IloginProps, IloginPropsAdmin, loginCoporateUser } from "@/features/auth/authAction";
+import {
+  IloginProps,
+  IloginPropsAdmin,
+  loginCoporateUser,
+} from "@/features/auth/authAction";
 import {
   Button,
   Icon,
@@ -14,7 +18,7 @@ import { Form, Formik } from "formik";
 import InputComponent from "../../formcontrol/customInput/InputComponent";
 
 import { Field } from "@/components/ui/field";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { PasswordInput } from "@/components/ui/password-input";
@@ -167,6 +171,24 @@ function AdminLoginComponent() {
                 Corporate Login
               </Text>
             </Button>
+            <Text
+              fontFamily={"body"}
+              color="#AFAFAF"
+              fontSize={"12px"}
+              fontWeight="600"
+            >
+              Student User?{"  "}
+              <Text
+                as={"span"}
+                mx={2}
+                fontFamily={"body"}
+                color="#215DA7"
+                fontSize={"12px"}
+                fontWeight="700"
+              >
+                <Link to={"/login"}>Student login</Link>
+              </Text>
+            </Text>
           </VStack>
         </Form>
       )}

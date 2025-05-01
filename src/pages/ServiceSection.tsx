@@ -20,27 +20,27 @@ import {
 const ServicesSection = () => {
   const services = [
     {
-      title: "Cloud Solution",
+      title: "How To Access a Course",
       icon: Cloudy,
-      description: "Scalable cloud infrastructure for your business needs",
+      description: "Follow this Guide toAccess a Course",
       color: "blue.500",
     },
     {
-      title: "Speed Optimization",
+      title: "How to Update Profile Data",
       icon: CloudCog,
-      description: "Boost your website performance and loading times",
+      description: "Follow this Guide to Update Your Profile",
       color: "green.500",
     },
     {
-      title: "Online Marketing",
+      title: "Update NIC Data",
       icon: FileChartPie,
-      description: "Data-driven marketing strategies for growth",
+      description: "Follow this Guide to Update Your NIC Data",
       color: "purple.500",
     },
     {
-      title: "Website Design",
+      title: "Overview Of the Web App",
       icon: Laptop,
-      description: "Beautiful, responsive websites tailored to your brand",
+      description: "Follow this Guide to Overview the Web App",
       color: "orange.500",
     },
   ];
