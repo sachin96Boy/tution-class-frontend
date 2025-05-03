@@ -97,42 +97,6 @@ function Signinform() {
               htmlFor="password"
               errorText={formik.errors.password}
             >
-              {/* <InputGroup
-                width={"full"}
-                ref={inputRef}
-                endElement={
-                  <Icon
-                    aria-label={open ? "Mask password" : "Reveal password"}
-                    onClick={onClickReveal}
-                  >
-                    {open ? (
-                      <HiEye style={{ color: "gray.500" }} />
-                    ) : (
-                      <HiEyeOff style={{ color: "gray.500" }} />
-                    )}
-                  </Icon>
-                }
-              >
-                <Input
-                  id="password"
-                  colorPalette={"blue"}
-                  css={{ "--focus-color": "colors.primary_color" }}
-                  type={open ? "text" : "password"}
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  borderColor={
-                    formik.touched.password && formik.errors.password
-                      ? "red"
-                      : "#636363"
-                  }
-                  borderWidth={"1px"}
-                  placeholder="Password"
-                  rounded={"10px"}
-                  autoComplete="off"
-                />
-              </InputGroup> */}
-
               <PasswordInput
                 rootProps={{
                   width: "full",
