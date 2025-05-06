@@ -21,7 +21,7 @@ function ForgotPassword() {
       bg={"gray.200"}
     >
       <Center>
-        <Logo boxSize={"36"} linkPath={"/"} fitType={"Contain"} />
+        <Logo boxSize={"36"} linkPath={"/"} fitType={"contain"} />
       </Center>
       <Stack
         gap={4}

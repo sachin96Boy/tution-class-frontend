@@ -1,5 +1,6 @@
 import FileUploadInput from "@/components/formcontrol/customInput/FileUploadInput";
 import InputComponent from "@/components/formcontrol/customInput/InputComponent";
+import InputTextAreaComponent from "@/components/formcontrol/InputTextAreaComponent";
 import {
   createTeacher,
   IteacherRegisterProps,
@@ -105,14 +106,13 @@ function TeacherFormComponent() {
                 isTouched={formik.touched.full_name}
                 isError={formik.errors.full_name}
               />
-              <InputComponent
-                htmlFor={"description"}
-                labelText={"Description"}
-                InputType={"text"}
-                InputValue={formik.values.description}
+              <InputTextAreaComponent
+                htmlFor="description"
+                placeHolder="Enter Description"
+                labelText="Description"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                placeHolder={"Enter Description"}
+                InputValue={formik.values.description}
                 isTouched={formik.touched.description}
                 isError={formik.errors.description}
               />
