@@ -47,8 +47,14 @@ const TeacherTableCell = (teacherDataProps: IteacherGetProps) => {
           </Text>
         </Flex>
       </Table.Cell>
-      <Table.Cell width={"200px"}>
-        <Text fontSize="sm" color="gray.400" fontWeight="normal" truncate>
+      <Table.Cell pl={"0px"}>
+        <Text
+          width={"200px"}
+          fontSize="sm"
+          color="gray.400"
+          fontWeight="normal"
+          truncate
+        >
           {description}
         </Text>
       </Table.Cell>
