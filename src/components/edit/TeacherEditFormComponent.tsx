@@ -17,6 +17,7 @@ import * as Yup from "yup";
 import InputComponent from "../formcontrol/customInput/InputComponent";
 import FileUploadInput from "../formcontrol/customInput/FileUploadInput";
 import { X } from "lucide-react";
+import InputTextAreaComponent from "../formcontrol/InputTextAreaComponent";
 
 function TeacherEditFormComponent(props: IteacherEditProps) {
   const { data } = props;
@@ -135,14 +136,13 @@ function TeacherEditFormComponent(props: IteacherEditProps) {
                 isTouched={formik.touched.full_name}
                 isError={formik.errors.full_name}
               />
-              <InputComponent
-                htmlFor={"description"}
-                labelText={"Description"}
-                InputType={"text"}
-                InputValue={formik.values.description}
+              <InputTextAreaComponent
+                htmlFor="description"
+                placeHolder="Enter Description"
+                labelText="Description"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                placeHolder={"Enter Description"}
+                InputValue={formik.values.description}
                 isTouched={formik.touched.description}
                 isError={formik.errors.description}
               />
