@@ -211,7 +211,7 @@ function MyCourses() {
                 <Flex
                   flexDirection={["column", "column", "column", "row"]}
                   gap={[2, 3, 4]}
-                  w={["full", "full", "auto"]}
+                  w={"full"}
                 >
                   <InputWithSelect
                     htmlFor={"teacher_id"}

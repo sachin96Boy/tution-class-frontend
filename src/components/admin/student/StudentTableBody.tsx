@@ -75,7 +75,7 @@ const UserTableCell = (payDataProps: IUserInfo) => {
           value={student_id}
           size={"md"}
         >
-          <Logo linkPath="/" boxSize="24" fitType="cover" />
+          <Logo linkPath="/" boxSize="10" fitType="cover" />
         </QrCode>
       </Table.Cell>
       <Table.Cell pl="0px">

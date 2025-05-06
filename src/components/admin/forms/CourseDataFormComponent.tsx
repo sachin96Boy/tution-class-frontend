@@ -132,7 +132,7 @@ function CourseDataFormComponent(props: CourseDataFormProps) {
           >
             <VStack gap={4} width={"full"}>
               <InputComponent
-                htmlFor={"titile"}
+                htmlFor={"title"}
                 labelText={"Title"}
                 InputType={"text"}
                 InputValue={formik.values.title}
