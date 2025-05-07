@@ -1,34 +1,37 @@
-import React from "react";
+import { RootState } from "@/store";
+import AdminRoute from "@/utils/AdminRoutes";
+import { Center, Flex, ProgressCircle } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 import AdminLayout from "../layout/AdminLayout";
-import AdminDashboard from "../pages/AdminDashboard";
-import AdminAttandance from "../pages/AdminAttandance";
-import AdminTeachers from "../pages/AdminTeachers";
-import AdminTimeTables from "../pages/AdminTimeTables";
-import AdminCourses from "../pages/AdminCourses";
 import AdminAccounting from "../pages/AdminAccounting";
-import AdminReports from "../pages/AdminReports";
-import AdminUsers from "../pages/AdminUsers";
-import Students from "../pages/Students";
-import Assignments from "../pages/Assignments";
-import AdminRoute from "@/utils/AdminRoutes";
 import AdminAdvertiments from "../pages/AdminAdvertiments";
-import AdminTimeTableData from "../pages/AdminTimeTableData";
+import AdminAttandance from "../pages/AdminAttandance";
 import AdminCommonSection from "../pages/AdminCommonSection";
+import AdminCourses from "../pages/AdminCourses";
 import AdminCoursesData from "../pages/AdminCoursesData";
-import AssignmentData from "../pages/AssignmentData";
+import AdminDashboard from "../pages/AdminDashboard";
+import AdminReports from "../pages/AdminReports";
+import AdminRequests from "../pages/AdminRequests";
 import AdminSetting from "../pages/AdminSetting";
+import AdminTeachers from "../pages/AdminTeachers";
+import AdminTimeTableData from "../pages/AdminTimeTableData";
+import AdminTimeTables from "../pages/AdminTimeTables";
+import AdminUsers from "../pages/AdminUsers";
+import AssignmentData from "../pages/AssignmentData";
+import Assignments from "../pages/Assignments";
 import AdminAdvStudent from "../pages/student/AdminAdvStudent";
 import AdminnicStudent from "../pages/student/AdminnicStudent";
-import AdminRequests from "../pages/AdminRequests";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
-import { Center, Flex, ProgressCircle } from "@chakra-ui/react";
+import Students from "../pages/Students";
 
 function AdminRoutes() {
+
+
   const { loading, error, errorMsg } = useSelector(
     (state: RootState) => state.config
   );
+
+
 
   return (
     <>
