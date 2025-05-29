@@ -51,7 +51,10 @@ function RegisterForm() {
       ),
     password: Yup.string()
       .required("Password is required")
-      .min(8, "Password must be at least 6 characters"),
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#%&])(?=.{8,})/,
+        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+      ),
   });
   const onSubmit = async (values: IregisterProps, actions: any) => {
     console.log(values);
