@@ -51,7 +51,10 @@ function RegisterForm() {
       ),
     password: Yup.string()
       .required("Password is required")
-      .min(8, "Password must be at least 6 characters"),
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#%&])(?=.{8,})/,
+        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+      ),
   });
   const onSubmit = async (values: IregisterProps, actions: any) => {
     console.log(values);
@@ -65,8 +68,12 @@ function RegisterForm() {
   };
 
   return (
-    <Flex flexDir={"column"} align="center" justify={"center"} gap={10}>
+    <Flex flexDir={"column"} gap={10}>
       <Flex
+        align={"center"}
+        justify={"center"}
+        px={4}
+        py={4}
         w={"full"} // Responsive width
         maxW="800px" // Maximum width to ensure it doesn't get too wide on larger screens
       >
@@ -75,6 +82,7 @@ function RegisterForm() {
           height={["150px", "full"]}
           colorScheme="blue"
           value={stepsHooks}
+          px={[8, 0]} // Responsive padding
         >
           <StepsList>
             {steps.map(({ label, description }, index) => (
@@ -95,7 +103,7 @@ function RegisterForm() {
       >
         {(formik) => (
           <Form autoComplete="off" onSubmit={handleThis}>
-            <VStack gap={4} width={"full"} maxW="800px">
+            <VStack gap={4} width={"full"} maxW="800px" px={4} py={4}>
               {stepsHooks.value === 0 && (
                 <>
                   <InputComponent
@@ -124,14 +132,14 @@ function RegisterForm() {
               )}
               {stepsHooks.value === 1 && (
                 <>
-                  <Flex align={"center"} justify="center" spaceX={6}>
+                  <VStack gap={4} width={"full"}>
                     <Field
                       invalid={formik.touched.phone && !!formik.errors.phone}
                       label="Mobile Number"
                       htmlFor="phone"
                       errorText={formik.errors.phone}
                     >
-                      <Group attached>
+                      <Group attached w={"full"}>
                         <InputAddon>+94</InputAddon>
                         <Input
                           id="phone"
@@ -147,20 +155,17 @@ function RegisterForm() {
                           borderWidth={"1px"}
                           placeholder="0xx xxxxxxx"
                           rounded={"10px"}
+                          width={"full"}
+                          autoComplete="off"
                         />
                       </Group>
                     </Field>
-                  </Flex>
+                  </VStack>
                 </>
               )}
               {stepsHooks.value === 2 && (
                 <>
-                  <Flex
-                    flexDirection={"column"}
-                    align={"center"}
-                    justify={"center"}
-                    mx={"5"}
-                  >
+                  <VStack gap={4} width={"full"}>
                     <Field
                       invalid={
                         formik.touched.password && !!formik.errors.password
@@ -194,7 +199,7 @@ function RegisterForm() {
                     </Field>
                     <Button
                       type="button"
-                      width={"full"}
+                      width={["200px", "full", "full"]}
                       border={"10px"}
                       colorScheme="blue"
                       bgGradient={
@@ -213,7 +218,7 @@ function RegisterForm() {
                         Register
                       </Text>
                     </Button>
-                  </Flex>
+                  </VStack>
                 </>
               )}
             </VStack>
@@ -221,13 +226,7 @@ function RegisterForm() {
         )}
       </Formik>
       {stepsHooks.value === steps.length ? (
-        <Flex
-          px={4}
-          py={4}
-          width={["90%", "80%", "70%", "60%"]}
-          maxW="800px"
-          flexDirection="column"
-        >
+        <Flex px={4} py={4} maxW="800px" flexDirection="column">
           <Heading fontSize="xl" textAlign="center">
             Woohoo! All steps completed!
           </Heading>
