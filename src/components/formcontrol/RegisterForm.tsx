@@ -226,13 +226,7 @@ function RegisterForm() {
         )}
       </Formik>
       {stepsHooks.value === steps.length ? (
-        <Flex
-          px={4}
-          py={4}
-          width={["90%", "80%", "70%", "60%"]}
-          maxW="800px"
-          flexDirection="column"
-        >
+        <Flex px={4} py={4} maxW="800px" flexDirection="column">
           <Heading fontSize="xl" textAlign="center">
             Woohoo! All steps completed!
           </Heading>
