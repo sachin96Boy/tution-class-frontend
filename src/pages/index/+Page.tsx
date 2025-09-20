@@ -1,8 +1,7 @@
-import App from "@/App";
-import React from "react";
+import FrontViewPage from "../front_view/FrontViewPage";
 
 function Page() {
-  return <App />;
+  return <FrontViewPage />;
 }
 
 export default Page;
