@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "dependencies": {
-    "@chakra-ui/react": "^3.17.0",
+    "@chakra-ui/react": "^3.27.0",
+    "@dr.pogodin/react-helmet": "^3.0.4",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@fontsource/noto-sans-sinhala": "^5.1.1",
@@ -15,9 +16,9 @@
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.13.4",
-    "@types/react": "^19.0.9",
+    "@types/react": "19.1.13",
     "@types/react-datepicker": "^6.2.0",
-    "@types/react-dom": "^19.0.3",
+    "@types/react-dom": "19.1.9",
     "@types/yup": "^0.32.0",
     "@vercel/analytics": "^1.5.0",
     "@zxing/browser": "^0.1.5",
@@ -37,13 +38,11 @@
     "motion": "^12.6.5",
     "next-themes": "^0.4.6",
     "query-string": "^9.1.1",
-    "react": "^18.3.1",
+    "react": "19.1.1",
     "react-apexcharts": "^1.7.0",
     "react-date-range": "^2.0.1",
     "react-datepicker": "^8.2.1",
-    "react-dom": "^18.3.1",
-    "react-helmet": "^6.1.0",
-    "react-helmet-async": "^2.0.5",
+    "react-dom": "19.1.1",
     "react-icons": "^5.5.0",
     "react-photo-view": "^1.2.7",
     "react-player": "^2.16.0",
@@ -55,14 +54,16 @@
     "react-zxing": "^2.1.0",
     "slick-carousel": "^1.8.1",
     "typescript": "^5.7.3",
+    "vike": "^0.4.240",
+    "vike-react": "^0.6.6",
     "web-vitals": "^4.2.4",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
     "yup": "^1.6.1"
   },
   "scripts": {
-    "start": "vite",
-    "build": "tsc -b && vite build",
-    "serve": "vite preview"
+    "dev": "vike dev",
+    "build": "vike build",
+    "preview": "vike preview"
   },
   "eslintConfig": {
     "extends": [

@@ -20,8 +20,6 @@ import "slick-carousel/slick/slick-theme.css";
 
 import { Analytics } from "@vercel/analytics/react";
 
-import { HelmetProvider } from "react-helmet-async";
-
 createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Analytics />
@@ -29,9 +27,7 @@ createRoot(document.getElementById("root")!).render(
       <Router>
         <Provider store={store}>
           <PhotoProvider maskOpacity={0.5}>
-            <HelmetProvider>
-              <App />
-            </HelmetProvider>
+            <App />
           </PhotoProvider>
         </Provider>
       </Router>
