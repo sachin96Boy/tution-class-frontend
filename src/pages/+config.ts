@@ -1,6 +1,5 @@
-import type { Config } from "vike/types";
 import vikeReact from "vike-react/config";
-import { tr } from "date-fns/locale";
+import type { Config } from "vike/types";
 
 // Default config (can be overridden by pages)
 // https://vike.dev/config
