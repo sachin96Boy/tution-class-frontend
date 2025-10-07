@@ -9,14 +9,12 @@ import {
   VStack,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { navigate } from "vike/client/router";
 
 const Cta = () => {
   const buttonSize = useBreakpointValue<
     "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl"
   >({ base: "md", md: "lg" });
-
-  const navigate = useNavigate();
 
   return (
     <Box bg="blue.50" py={16}>

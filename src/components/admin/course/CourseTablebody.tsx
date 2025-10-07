@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { LogIn, Pencil, RefreshCw, Trash2 } from "lucide-react";
 import React from "react";
-import { Link } from "react-router-dom";
+
 import Modalsheet from "../modal/Modalsheet";
 import CourseEditFormComponent from "@/components/edit/CourseEditFormComponent";
 import { IListItemProp } from "@/features/config/configAction";
@@ -117,7 +117,7 @@ const CourseTableCell = (courseDataProps: IgetCourseProps) => {
         </Text>
       </Table.Cell>
       <Table.Cell pl="0px">
-        <Link to={`/admin/courses/data?id=${encodedId}`}>
+        <a href={`/admin/courses/data?id=${encodedId}`}>
           <Button
             variant={"ghost"}
             fontSize="sm"
@@ -126,7 +126,7 @@ const CourseTableCell = (courseDataProps: IgetCourseProps) => {
           >
             Visit <LogIn />
           </Button>
-        </Link>
+        </a>
         <Modalsheet
           buttonText={"Edit Course"}
           modalTitle={"Edit Course Data"}

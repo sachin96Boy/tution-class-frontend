@@ -1,8 +1,7 @@
-import React from "react";
-import DashBoard from "../../DashBoard";
+import HomePage from "@/pages/HomePage";
 
 function Page() {
-  return <DashBoard />;
+  return <HomePage />;
 }
 
 export default Page;
