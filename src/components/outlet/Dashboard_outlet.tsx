@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import Header from "../header/Header";
 import SideBar from "../sidebar/SideBar";
 
-function DashBoardOutlet() {
+function DashBoardOutlet({ children }: { children: React.ReactNode }) {
   return (
     <Box
       className="PageBody"
@@ -12,7 +12,7 @@ function DashBoardOutlet() {
       flexDirection={"column"}
       w="full"
       h={"100vh"}
-      bg={'gray.50'}
+      bg={"gray.50"}
     >
       <Header />
       <Box
@@ -30,7 +30,7 @@ function DashBoardOutlet() {
           flex="1"
           overflowY={"auto"}
         >
-          <Outlet />
+          {children}
         </Box>
       </Box>
     </Box>

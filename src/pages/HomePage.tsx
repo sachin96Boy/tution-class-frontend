@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { motion } from "framer-motion"; // Import Framer Motion
 import sipsaLogo from "../assets/header/logos/Sipsa_logo.png";
-import { useNavigate } from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import {
@@ -22,7 +22,7 @@ import {
 import Spinner from "@/components/spinner/Spinner";
 import CarousaComponent from "@/components/carousel/CarousaComponent";
 import { EmblaOptionsType } from "embla-carousel";
-import { Helmet } from "react-helmet-async";
+import { navigate } from "vike/client/router";
 
 // Motion components
 const MotionBox = motion.create(Box);
@@ -54,8 +54,6 @@ function HomePage() {
   const logoPath = `${import.meta.env.VITE_BACKEND_STATIC}/logo/${
     company?.logo
   }`;
-
-  const navigate = useNavigate();
 
   const handlenavigtetoSupport = () => {
     navigate("/dashboard/support");
@@ -110,14 +108,16 @@ function HomePage() {
     >
       {ld ? (
         <Spinner />
-      ) : company  ? (
-        <Helmet>
-          <meta charSet="utf-8" />
-          <title>{company.name}</title>
-          <meta name="description" content={company.email} />
-          <meta name="keywords" content={`${company.code}`}></meta>
-        </Helmet>
       ) : (
+        // :
+        // company  ? (
+        //   <Helmet>
+        //     <meta charSet="utf-8" />
+        //     <title>{company.name}</title>
+        //     <meta name="description" content={company.email} />
+        //     <meta name="keywords" content={`${company.code}`}></meta>
+        //   </Helmet>
+        // )
         <Box />
       )}
       {/* Top Section */}

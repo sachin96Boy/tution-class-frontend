@@ -13,7 +13,6 @@ import {
   GridItem,
 } from "@chakra-ui/react";
 
-import { Helmet } from "react-helmet-async";
 import { useSelector } from "react-redux";
 
 type ITeacherDetails = {
@@ -37,14 +36,15 @@ const TeacherDetails = ({
     <Box maxW="6xl" divideY="4px" mx="auto" p={6} gap={6}>
       {loading ? (
         <Spinner />
-      ) : company ? (
-        <Helmet>
-          <meta charSet="utf-8" />
-          <title>{title}</title>
-          <meta name="description" content={description} />
-          <meta name="keywords" content={`${title} ${company.name}`}></meta>
-        </Helmet>
       ) : (
+        // : company ? (
+        // <Helmet>
+        //   <meta charSet="utf-8" />
+        //   <title>{title}</title>
+        //   <meta name="description" content={description} />
+        //   <meta name="keywords" content={`${title} ${company.name}`}></meta>
+        // </Helmet>
+        // )
         <Box />
       )}
       <Box>

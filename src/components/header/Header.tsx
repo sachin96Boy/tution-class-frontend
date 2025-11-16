@@ -1,31 +1,44 @@
 import {
+  Avatar,
   Box,
   Button,
   Flex,
-  Text,
   Icon,
-  Avatar,
   Spacer,
+  Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import Logo from "../Logo";
 
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/store";
 import { logout } from "@/features/auth/authSlice";
-import { CircleX, Headset, LayoutDashboard, LibraryBig, LogOut, Menu, User, UserRound } from "lucide-react";
+import { AppDispatch, RootState } from "@/store";
+import {
+  CircleX,
+  Headset,
+  LayoutDashboard,
+  LibraryBig,
+  LogOut,
+  Menu,
+  User,
+  UserRound,
+} from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { usePageContext } from "vike-react/usePageContext";
+
+import { navigate } from "vike/client/router";
 
 function Header() {
   const { open, onToggle } = useDisclosure(); // Handles mobile menu state
   const dispatch = useDispatch<AppDispatch>();
-  let location = useLocation();
-  const navigate = useNavigate();
+
+  const pageContext = usePageContext();
+
+  const pathName = pageContext.urlPathname;
 
   const checkActive = (route: string) => {
-    return location.pathname === route ? "active" : "";
+    return pathName === route ? "active" : "";
   };
 
   const { token, userInfo } = useSelector((state: RootState) => state.auth);
@@ -105,10 +118,12 @@ function Header() {
             <Avatar.Root size="lg">
               <Avatar.Fallback>
                 <Avatar.Icon>
-                  <UserRound  size={"28"} style={{ color: "#ffffffff" }} />
+                  <UserRound size={"28"} style={{ color: "#ffffffff" }} />
                 </Avatar.Icon>
               </Avatar.Fallback>
-              <Avatar.Image src={userInfo?.AdditionalStudentDatum.profile_image} />
+              <Avatar.Image
+                src={userInfo?.AdditionalStudentDatum.profile_image}
+              />
             </Avatar.Root>
             <Flex direction="column">
               <Text color="#215DA7" fontSize="15px" fontWeight="bold">

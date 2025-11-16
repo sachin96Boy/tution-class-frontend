@@ -8,7 +8,6 @@ import {
   Link as VisitLink,
 } from "@chakra-ui/react";
 import React from "react";
-import { Link } from "react-router-dom";
 
 type IAssignmentTableBody = {
   data: Array<IAssignmentProps>;
@@ -54,7 +53,7 @@ const AssignmentTableCell = (assignnmentProps: IAssignmentProps) => {
         </VisitLink>
       </Table.Cell>
       <Table.Cell pl="0px">
-        <Link to={`/admin/assignments/data?id=${encodedId}`}>
+        <a href={`/admin/assignments/data?id=${encodedId}`}>
           <Button
             variant={"ghost"}
             fontSize="sm"
@@ -63,7 +62,7 @@ const AssignmentTableCell = (assignnmentProps: IAssignmentProps) => {
           >
             Visit
           </Button>
-        </Link>
+        </a>
       </Table.Cell>
     </Table.Row>
   );

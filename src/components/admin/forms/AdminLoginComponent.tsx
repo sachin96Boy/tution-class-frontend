@@ -18,7 +18,7 @@ import { Form, Formik } from "formik";
 import InputComponent from "../../formcontrol/customInput/InputComponent";
 
 import { Field } from "@/components/ui/field";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
 import { PasswordInput } from "@/components/ui/password-input";
@@ -186,7 +186,7 @@ function AdminLoginComponent() {
                 fontSize={"12px"}
                 fontWeight="700"
               >
-                <Link to={"/login"}>Student login</Link>
+                <a href={"/login"}>Student login</a>
               </Text>
             </Text>
           </VStack>

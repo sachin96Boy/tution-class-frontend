@@ -1,4 +1,3 @@
-import DashBoardOutlet from "@/components/outlet/Dashboard_outlet";
 import { RootState } from "@/store";
 import ProtectedRoute from "@/utils/ProtectedRoute";
 import { Center, Flex, ProgressCircle } from "@chakra-ui/react";
@@ -14,13 +13,9 @@ import TeacherData from "./TeacherData";
 import TeacherList from "./TeacherList";
 
 function DashBoard() {
-
-
   const { loading, error, errorMsg } = useSelector(
     (state: RootState) => state.config
   );
-
-
 
   return (
     <>
@@ -40,7 +35,7 @@ function DashBoard() {
       ) : (
         <Routes>
           <Route element={<ProtectedRoute />}>
-            <Route element={<DashBoardOutlet />}>
+            <Route element={<></>}>
               {/* add different routes that need to be loade for different pages */}
               <Route
                 path="/course/:year/:courseId"
