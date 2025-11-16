@@ -13,9 +13,11 @@ import "react-photo-view/dist/react-photo-view.css";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 
-import "@fontsource/noto-sans-sinhala";
-import "@fontsource/roboto";
+import "@fontsource-variable/noto-sans-sinhala";
+import "@fontsource-variable/roboto";
 import LayoutWrapper from "./LayoutWrapper";
+
+import "./Layout.css";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
